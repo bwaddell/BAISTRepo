@@ -23,29 +23,27 @@
 
     <script>
         $(function () {
-            var mychat = $.connection.rateHub;
+            var myRateHub = $.connection.rateHub;
 
-            $('.btnBroadcast').click(function () {
-                
-            });
 
+
+            //myRateHub.hub.start()
             $.connection.hub.start()
-                .done(function () { console.log('Now connected, connnection ID=' + $.connection.hub.id); })
+                .done(function () { console.log('Now connected, connnection ID: ' + $.connection.hub.id); })
                 .fail(function () { console.log('Could not Connect!'); });
 
-            //$('.btnBroadcast').click(function () {
-            //    console.log('button pressed' + message);
-            //    mychat.send($('#message').text());
-            //    $('#messages').append('<li>' + message + '</li>');
-            //});
+            $('#btnBroadcast').click(function () {
+                console.log('Button pressed');
+                myRateHub.server.AddNewMessageToPage('myName', 'myMessage');
+            });
 
-            mychat.client.addNewMessageToPage = function (name, message) {
+
+            myRateHub.client.NewMessageToPage = function (name, message) {
                 //add message to page
-                console.log('client.send: ' + message + ' ' + name);
-                //mychat.send($('#message').text());
+                //console.log('client.send: ' + message + ' ' + name);
                 $('#messages').append('<li>' + message + '</li>');
-
             };
+
         });
     </script>
 
