@@ -4,24 +4,25 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>not Caesura</title>
     <meta charset="utf-8" />
     <script src="Scripts/jquery-3.3.1.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
     <link href="Content/bootstrap.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <asp:ContentPlaceHolder id="head" runat="server">
+
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div class=" jumbotron">
-        <h1>Caesura</h1>
+    <div class="jumbotron text-lg-center">
+        <h1>not Caesura</h1>
+        <p>Text for information</p>
     </div>
     <div class="container">
-        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
-        
-
+        <asp:ContentPlaceHolder id="MainBody" runat="server">
+            <p> no text here</p>
         </asp:ContentPlaceHolder>
     </div>
     </form>
