@@ -15,12 +15,13 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div class="jumbotron">
+    <div class=" jumbotron">
         <h1>Caesura</h1>
     </div>
-    <div>
+    <div class="container">
         <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
         
+
         </asp:ContentPlaceHolder>
     </div>
     </form>
