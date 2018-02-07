@@ -9,6 +9,14 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        RateHub chathub = new RateHub();
+
+        //chathub.Send("test", "String");
+
+        //Context.GetOwinContext()
+
+
+
 
     }
 }
