@@ -1,4 +1,4 @@
 # BAISTRepo
 BAIST Capstone Testing
 
-this is a nice readme :)
+This project was done in collaboration with The Centre of Performance Science
