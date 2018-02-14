@@ -34,7 +34,7 @@ public class RateHub : Hub
 }
 
 
-//public interface iClient
-//{
-//    void addNewMessageToPage(string name, string message);
-//}
+public interface iClient
+{
+    void addNewMessageToPage(string name, string message);
+}

@@ -11,9 +11,14 @@
     <div class="">
         <p>Hello World from Default.aspx</p><br />
 
-        <p>name: <label id="name" runat="server">na</label></p><br />
-        <p>message:  <label id="message" runat="server">na</label></p> <br />
-        <asp:Button ID="btnBroadcast" runat="server" Text="Hit"/>
+        <p>name: 
+            <asp:TextBox ID="tbName" runat="server"></asp:TextBox>
+        </p><br />
+        <p>message:  
+            <asp:TextBox ID="tbMessage" runat="server"></asp:TextBox>
+        </p> <br />
+        <asp:Button ID="btnBroadcast" runat="server" Text="Broadcast" OnClick="btnBroadcast_Click"/>
+        <asp:Button ID="btnJoinGroup" runat="server" Text="Join Group" OnClick="btnJoinGroup_Click"/>
         <ul id="messages">
 
         </ul>
@@ -28,21 +33,39 @@
             
 
 
-            //myRateHub.hub.start()
+            //myRateHub.connection.rateHub.start()
             $.connection.hub.start()
-                .done(function () { console.log('Now connected, connnection ID: ' + $.connection.hub.id); })
+                .done(function () {
+                    console.log('Now connected, connnection ID: ' + $.connection.hub.id);
+                    console.log('Group name: ' + $.connection.hub.group);
+                })
                 .fail(function () { console.log('Could not Connect!'); });
 
+            //this is the trigger event called when: btnBroadcast is clicked 
+            //the method in the hub is called
             $('#MainBody_btnBroadcast').click(function () {
-                console.log('Button pressed');
-                myRateHub.server.newMessageToPage('myName', 'myMessage');
+                console.log('Broadcast Button pressed');
+                var formName = document.getElementById('MainBody_tbName').value;
+                var formMessage = document.getElementById('MainBody_tbMessage').value;
+                myRateHub.server.newMessageToPage(formName, formMessage);
             });
 
+            $('#MainBody_btnJoinGroup').click(function () {
+                console.log('Join Group Button pressed');
+                //var formName = document.getElementById('MainBody_tbName').value;
+                //var formMessage = document.getElementById('MainBody_tbMessage').value;
+                var group = "mygroup";
+                myRateHub.server.joinGroup(group);
+                console.log('Group name: ' + $.connection.hub.group);
+            });
 
+            //this function displays the data to the client page
+            //this event is called when the hub tells the clients to call it.
             myRateHub.client.addNewMessageToPage = function (name, message) {
                 //add message to page
-                console.log('client.send: ' + message + ' ' + name);
-                $('#messages').append('<li>' + message + ' ' + name + '</li>');
+                console.log('client.send: ' + name + ' ' + message);
+                console.log('Group name: ' + $.connection.hub.group);
+                $('#messages').append('<li><b>' + name + ':</b> ' + message + '</li>');
             };
 
         });
