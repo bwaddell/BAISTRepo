@@ -9,22 +9,23 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" Runat="Server">
 
     <div class="">
-        <p>Henlo World from Default.aspx</p><br />
+        <p>Hello World from Default.aspx</p><br />
 
         <p>name: <label id="name" runat="server">na</label></p><br />
         <p>message:  <label id="message" runat="server">na</label></p> <br />
-        <asp:Button ID="btnBroadcast" runat="server" Text="Button" />
+        <asp:Button ID="btnBroadcast" runat="server" Text="Hit"/>
         <ul id="messages">
 
         </ul>
 
     </div>  
+</asp:Content>
 
-
+<asp:Content ID="Content3" ContentPlaceHolderID="Scripts" Runat="Server">
     <script>
         $(function () {
             var myRateHub = $.connection.rateHub;
-
+            
 
 
             //myRateHub.hub.start()
@@ -32,20 +33,19 @@
                 .done(function () { console.log('Now connected, connnection ID: ' + $.connection.hub.id); })
                 .fail(function () { console.log('Could not Connect!'); });
 
-            $('#btnBroadcast').click(function () {
+            $('#MainBody_btnBroadcast').click(function () {
                 console.log('Button pressed');
-                myRateHub.server.AddNewMessageToPage('myName', 'myMessage');
+                myRateHub.server.newMessageToPage('myName', 'myMessage');
             });
 
 
-            myRateHub.client.NewMessageToPage = function (name, message) {
+            myRateHub.client.addNewMessageToPage = function (name, message) {
                 //add message to page
-                //console.log('client.send: ' + message + ' ' + name);
-                $('#messages').append('<li>' + message + '</li>');
+                console.log('client.send: ' + message + ' ' + name);
+                $('#messages').append('<li>' + message + ' ' + name + '</li>');
             };
 
         });
     </script>
-
 </asp:Content>
 

@@ -23,8 +23,15 @@
     <div class="container">
         <asp:ContentPlaceHolder id="MainBody" runat="server">
             <p> no text here</p>
+
         </asp:ContentPlaceHolder>
     </div>
     </form>
+
+
+
+<asp:ContentPlaceHolder id="Scripts" runat="server">
+
+</asp:ContentPlaceHolder>
 </body>
 </html>
