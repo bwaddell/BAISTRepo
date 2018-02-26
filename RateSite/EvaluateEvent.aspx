@@ -4,17 +4,17 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" Runat="Server">
 
-        <div class="btnClass">
-            <asp:Button ID="ButtonUp" runat="server" Text="Up" OnClick="ButtonUp_Click"/>
+        <div class="row btnClass">
+            <asp:ImageButton ID="ButtonUp" class="btn btnClass" ImageUrl="Images/arrowup.png" runat="server" OnClick="ButtonUp_Click" />
         </div>
 
 
-        <div class="RatingClass">
-            <asp:Label ID="LabelRating" runat="server" Text="5"></asp:Label>
+        <div class="row RatingClass">
+            <asp:Label ID="LabelRating" class="RatingClass" runat="server" Text="5"></asp:Label>
         </div>
 
-        <div class="btnClass block">
-            <asp:Button ID="ButtonDown" runat="server" Text="Down" OnClick="ButtonDown_Click" />
+        <div class="row btnClass">
+            <asp:ImageButton ID="ButtonDown" class="btn btnClass" ImageUrl="Images/arrowdown.png" runat="server" OnClick="ButtonDown_Click" />
         </div>
 
 

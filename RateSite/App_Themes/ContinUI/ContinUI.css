@@ -10,14 +10,32 @@
 
 .RatingClass{
     text-align:center;
-    display:block;
+    display:inline-block;
     width:100%;
     height:33%;
+    border:none;
+    font:bold 64px magneto,verdana;
 }
 
 .btnClass{
     text-align:center;
     display:block;
     width:100%;
-    height:33%;
+    height:30%;
+    border:none;
+
+
 }
+
+.btnImage{
+    width:100%;
+    display: block;
+}
+
+/*.downBtn {
+    background: url('Images/arrowdown.png');
+}
+
+.upBtn {
+    background: url('Images/arrowup.png');
+}*/
