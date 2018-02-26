@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>not Caesura</title>
+    <title>ContinUI</title>
     <meta charset="utf-8" />
     <script src="Scripts/jquery-3.3.1.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
@@ -16,10 +16,10 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div class="jumbotron text-lg-center">
-        <h1>not Caesura</h1>
+<%--    <div class="jumbotron text-lg-center">
+        <h1>ContinUI</h1>
         <p>Text for information</p>
-    </div>
+    </div>--%>
     <div class="container">
         <asp:ContentPlaceHolder id="MainBody" runat="server">
             <p> no text here</p>
