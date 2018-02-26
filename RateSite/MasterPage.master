@@ -45,10 +45,12 @@
             </div>
             <!-- /.container-fluid -->
         </nav>
+
+
         <div class="container">
             <asp:ContentPlaceHolder ID="MainBody" runat="server">
-                <p>no text here</p>
 
+                <%--buttons show up here--%>
             </asp:ContentPlaceHolder>
         </div>
     </form>

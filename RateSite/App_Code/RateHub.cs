@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 public class RateHub : Hub
 {
+
     public void Hello()
     {        
         

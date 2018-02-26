@@ -16,6 +16,20 @@ public class Evaluation
     private int EvaluatorIDValue;
     private int EventIDValue;
 
+    public Evaluation()
+    {
+    }
+
+    public Evaluation(int rating, int evaluatorID, int eventID)
+    {
+        //  method sets the timestamp to NOW and all other 
+        //  variables are supplied
+        TimeStampValue = DateTime.Now;
+        RatingValue = rating;
+        EvaluatorIDValue = evaluatorID;
+        EventIDValue = eventID;
+    }
+
     public DateTime TimeStamp
     {
         get { return TimeStampValue; }

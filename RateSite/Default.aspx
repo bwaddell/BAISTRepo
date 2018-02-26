@@ -20,8 +20,11 @@
         <asp:Button ID="btnBroadcast" runat="server" Text="Broadcast" OnClick="btnBroadcast_Click"/>
         <asp:Button ID="btnJoinGroup" runat="server" Text="Join Group" OnClick="btnJoinGroup_Click"/>
         <ul id="messages">
-
+            
         </ul>
+
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server" ></asp:UpdatePanel>
+        <asp:Timer ID="Timer1" runat="server" ></asp:Timer>
 
     </div>  
 </asp:Content>
