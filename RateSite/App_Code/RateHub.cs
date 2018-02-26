@@ -16,7 +16,16 @@ public class RateHub : Hub
     
     public void NewMessageToPage(string name, string message)
     {
-        Clients.All.addNewMessageToPage(name, message);
+
+        var theHubContext = GlobalHost.ConnectionManager.GetHubContext<RateHub>();
+        if (theHubContext != null)
+        {
+            // addNewMessgeToPage is the Javascript function name on the client side
+            theHubContext.Clients.All.addNewMessageToPage(name, message);
+        }
+
+
+        //Clients.All.addNewMessageToPage(name, message);
     }
 
     public Task JoinGroup(string groupName)
@@ -34,7 +43,7 @@ public class RateHub : Hub
 }
 
 
-public interface iClient
-{
-    void addNewMessageToPage(string name, string message);
-}
+//public interface iClient
+//{
+//    void addNewMessageToPage(string name, string message);
+//}

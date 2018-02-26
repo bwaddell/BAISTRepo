@@ -30,8 +30,6 @@
     <script>
         $(function () {
             var myRateHub = $.connection.rateHub;
-            
-
 
             //myRateHub.connection.rateHub.start()
             $.connection.hub.start()
@@ -45,17 +43,18 @@
             //the method in the hub is called
             $('#MainBody_btnBroadcast').click(function () {
                 console.log('Broadcast Button pressed');
-                var formName = document.getElementById('MainBody_tbName').value;
-                var formMessage = document.getElementById('MainBody_tbMessage').value;
-                myRateHub.server.newMessageToPage(formName, formMessage);
+                //var formName = document.getElementById('MainBody_tbName').value;
+                //var formMessage = document.getElementById('MainBody_tbMessage').value;
+                //myRateHub.server.newMessageToPage(formName, formMessage);
             });
+            //the above fucntion has been moved to the broadcast_click function in codebehind
 
             $('#MainBody_btnJoinGroup').click(function () {
                 console.log('Join Group Button pressed');
                 //var formName = document.getElementById('MainBody_tbName').value;
                 //var formMessage = document.getElementById('MainBody_tbMessage').value;
                 var group = "mygroup";
-                myRateHub.server.joinGroup(group);
+                myRateHub.server.joinGroup('mygroup');
                 console.log('Group name: ' + $.connection.hub.group);
             });
 
@@ -64,7 +63,7 @@
             myRateHub.client.addNewMessageToPage = function (name, message) {
                 //add message to page
                 console.log('client.send: ' + name + ' ' + message);
-                console.log('Group name: ' + $.connection.hub.group);
+                console.log('Group name: ' + $.connection.hub.groupID);
                 $('#messages').append('<li><b>' + name + ':</b> ' + message + '</li>');
             };
 
