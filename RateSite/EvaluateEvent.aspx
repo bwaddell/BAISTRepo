@@ -8,7 +8,7 @@
             <asp:ImageButton ID="ButtonUp" class="btn btnClass" ImageUrl="Images/arrowup.png" runat="server" OnClick="ButtonUp_Click" />
         </div>
 
-    <%--wrap in panel?--%>
+    <%--wrap in UpdatePanel?--%>
         <div class="row RatingClass">
             <asp:Label ID="LabelRating" class="RatingClass" runat="server" Text="5"></asp:Label>
         </div>
