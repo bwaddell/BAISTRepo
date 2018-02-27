@@ -6,7 +6,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using System.Threading.Tasks;
 
-public class RateHub : Hub
+public class RateHub : Hub                                                  //// do not use this page anymore for now
 {
 
     public void Hello()

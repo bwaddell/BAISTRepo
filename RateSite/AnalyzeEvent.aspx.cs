@@ -11,4 +11,14 @@ public partial class AnalyzeEvent : System.Web.UI.Page
     {
 
     }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+    }
+
+    protected void Timer1_Tick(object sender, EventArgs e)
+    {
+        Label1.Text = "refereshed at " + DateTime.Now.ToString();
+
+    }
 }
