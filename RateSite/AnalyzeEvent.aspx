@@ -5,12 +5,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server"> INSIDE PANEL
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <%--INSIDE PANEL--%>
         <%--this is where the graph and stuff goes--%>
         <ContentTemplate>
-            <asp:Timer ID="Timer1" runat="server" Interval="5000" OnTick="Timer1_Tick"></asp:Timer>
+            <asp:Timer ID="Timer1" runat="server" Interval="10000" OnTick="Timer1_Tick"></asp:Timer>
             <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-
+            <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
         </ContentTemplate>
 
 
@@ -21,7 +22,7 @@
             <asp:AsyncPostBackTrigger ControlID="Button1" />
         </Triggers>
     </asp:UpdatePanel> END of panel
-
+    <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
     <%--so this button can sit outside of the panel but its trigger is inside the panel^^--%>
             <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
 

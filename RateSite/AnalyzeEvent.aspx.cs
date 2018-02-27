@@ -10,7 +10,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         //PAGE LOAD happens at each panel update 
-
+        Label1.Text += "page load";
 
 
 
