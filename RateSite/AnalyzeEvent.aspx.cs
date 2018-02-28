@@ -9,14 +9,14 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //PAGE LOAD happens at each panel update 
+        
         lbStartTime.Text = "<br /> page load at " + DateTime.Now.ToString();
 
     }
 
     protected void Button1_Click(object sender, EventArgs e)
     {
-        EvalDirector Director = new EvalDirector();
+        CSS Director = new CSS();
         Evaluation eval = new Evaluation(100, 1, 1);
 
         lbCurrentTime.Text += "<br />" + Director.AddEvaluation(eval).ToString();

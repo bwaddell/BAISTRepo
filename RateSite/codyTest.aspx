@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="codyTest.aspx.cs" Inherits="codyTest" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="codyTest.aspx.cs" 
+    Inherits="codyTest" %>
 
 <!DOCTYPE html>
 
@@ -12,9 +13,8 @@
 
             <asp:ScriptManager ID="ScriptManagerForGraph" runat="server"></asp:ScriptManager>
 
-            <%--<asp:Timer ID="TimerForNumRefresh" runat="server" Interval="1000" OnTick="TimerForGraphRefresh_Tick"></asp:Timer>--%>
+            <asp:Timer ID="TimerForNumRefresh" runat="server" Interval="5000" OnTick="TimerForNumRefresh_Tick"></asp:Timer>
 
-            <asp:Button ID="btnUp" runat="server" Text="UP"  OnClick="btnUp_Click"/>
 
             <div class="border">
                 START of panel
@@ -24,18 +24,34 @@
                     <%--INSIDE PANEL--%>
                     <%--this is where the graph and stuff goes--%>
                     <ContentTemplate>
-                        <asp:Label ID="LabelRating" runat="server" Text="1"></asp:Label>
+                        <asp:Label ID="LabelTime" runat="server" Text="time"></asp:Label>
+                        <asp:Label ID="LabelRating" runat="server" Text="LabelRating"></asp:Label>
+                        <%--CHART--%>
+                        <asp:Chart ID="Chart1" runat="server" Height="500px" Width="500px">
+                            <Titles>
+                                <asp:Title ShadowOffset="3" name="Things" />
+                            </Titles>
+                            <Legends>
+                                <asp:Legend Alignment ="Center" Docking="Bottom" 
+                                    IsTextAutoFit="false" Name="Default" LegendStyle="Row" />
+                            </Legends>
+                            <Series>
+                                <asp:Series Name="Series1"></asp:Series>
+                            </Series>
+                            <ChartAreas>
+                                <asp:ChartArea Name="ChartArea1" ></asp:ChartArea>
+                            </ChartAreas>
+                        </asp:Chart>
+
+
                     </ContentTemplate>
 
                     <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="btnUp" />
-                        <asp:AsyncPostBackTrigger ControlID="btnDown" />
-                        <%--<asp:AsyncPostBackTrigger ControlID="TimerForNumRefresh" EventName="Tick" />--%>
+                        <asp:AsyncPostBackTrigger ControlID="TimerForNumRefresh" EventName="Tick" />
                     </Triggers>
                 </asp:UpdatePanel>
                             END of panel
 
-            <asp:Button ID="btnDown" runat="server" Text="Down" OnClick="btnDown_Click"/>
 
             </div>
 

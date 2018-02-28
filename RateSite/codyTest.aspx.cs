@@ -4,42 +4,38 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.DataVisualization.Charting;
 
 public partial class codyTest : System.Web.UI.Page
 {
-    protected void btnUp_Click(object sender, EventArgs e)
+    protected void Page_Load(object sender, EventArgs e)
     {
-        //LabelRating.Text += " +1 ";
 
-        int Rating = int.Parse(LabelRating.Text);
-        Rating = (Rating + 1 > 10) ? Rating = 10 : Rating + 1;
+        DateTime[] x = new DateTime[10] { DateTime.Now.AddMinutes(1),
+            DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3),
+            DateTime.Now.AddMinutes(4),DateTime.Now.AddMinutes(5),
+            DateTime.Now.AddMinutes(6),DateTime.Now.AddMinutes(7),
+            DateTime.Now.AddMinutes(8),DateTime.Now.AddMinutes(9),
+            DateTime.Now.AddMinutes(10) };
+        int[] y = new int[10] { 0, 1, 2, 3, 4, 4, 5, 5, 8, 9 };
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    x[i] = dt.Rows[i][0].ToString();
+        //    y[i] = Convert.ToInt32(dt.Rows[i][1]);
+        //}
 
-        LabelRating.Text = Rating.ToString();
+        Chart1.Series[0].Points.DataBindXY(x, y);
+        Chart1.Series[0].ChartType = SeriesChartType.Line;
 
+        //Chart1.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
 
-
-        Evaluation eval = new Evaluation(Rating, 1, 1);   // test evaluator and event IDs
-
-        EvalDirector RequestDirector = new EvalDirector();
-
-        bool Success = RequestDirector.AddEvaluation(eval);
-        //now send eval to the database with xxx class?
+        Chart1.Legends[0].Enabled = true;
+        
 
     }
 
-    protected void btnDown_Click(object sender, EventArgs e)
+    protected void TimerForNumRefresh_Tick(object sender, EventArgs e)
     {
-        //LabelRating.Text += " -1 ";
 
-        int Rating = int.Parse(LabelRating.Text);
-        Rating = (Rating - 1 < 1) ? Rating = 1 : Rating - 1;
-
-        LabelRating.Text = Rating.ToString();
-
-        Evaluation eval = new Evaluation(Rating, 1, 1);   // test evaluator and event IDs
-
-        EvalDirector RequestDirector = new EvalDirector();
-
-        bool Success = RequestDirector.AddEvaluation(eval);
     }
 }

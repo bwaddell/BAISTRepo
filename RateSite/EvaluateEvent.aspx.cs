@@ -23,7 +23,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
         Evaluation eval = new Evaluation(Rating,1,1);   // test evaluator and event IDs
 
-        EvalDirector RequestDirector = new EvalDirector();
+        CSS RequestDirector = new CSS();
 
         bool Success = RequestDirector.AddEvaluation(eval);
         //now send eval to the database with xxx class?
@@ -38,7 +38,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
         Evaluation eval = new Evaluation(Rating,1,1);   // test evaluator and event IDs
 
-        EvalDirector RequestDirector = new EvalDirector();
+        CSS RequestDirector = new CSS();
 
         bool Success = RequestDirector.AddEvaluation(eval);
     }

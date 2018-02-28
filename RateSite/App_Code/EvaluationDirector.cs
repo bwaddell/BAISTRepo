@@ -7,11 +7,11 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for CController
+/// Summary description for EvaluationDirector
 /// </summary>
-public class CController
+public class EvaluationDirector
 {
-    public CController()
+    public EvaluationDirector()
     {
         //
         // TODO: Add constructor logic here
