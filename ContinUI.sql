@@ -47,6 +47,7 @@ alter table EventDetails
 	add constraint PK_EventDetails primary key (EventID),
 		constraint FK_EventDetails foreign key (FacilitatorID) references Facilitator(FaciitatorID),
 		constraint CK_EventDetails check (EventBegin > EventStart)
+Go
 
 create table Facilitator
 (
@@ -59,6 +60,7 @@ create table Facilitator
 )
 alter table Facilitator
 	add constraint PK_Facilitator primary key (FacilitatorID)
+Go
 
 create table Evaluator
 (
@@ -72,6 +74,7 @@ create table Evaluator
 )
 alter table Evaluator
 	add constraint PK_Evaluator primary key (EvaluatorID) 
+Go
 
 create table EvaluativeData
 (
@@ -85,12 +88,14 @@ alter table EvaluativeData
 		constraint FK_EvaluativeData_Event foreign key (EventID) references EventDetails(EventID),
 		constraint FK_EvaluativeData_Evaluator foreign key (EvaluatorID) references Evaluator(EvaluatorID),
 		constraint CK_EvaluativeData check (Rating > 0)
+GO
 
 create procedure AddEvaluationDataPoint
 (
 	@Event int = null,
 	@Evaluator int = null,
-	@Rating int = null
+	@Rating int = null,
+	@TimeOfData datetime = null
 )
 as
 	declare @ReturnCode as int
@@ -99,23 +104,26 @@ as
 	if(@Event is null)
 		raiserror('AddEvaluationDataPoint - Required Parameter: @Event', 16, 1)
 	else
-		if(@Evaluator is null)
-			raiserror('AddEvaluationDataPoint - Required Parameter: @Evaluator', 16, 1)
-		else
-				if(@Rating is null)
-					raiserror('AddEvaluationDataPoint - Required Parameter: @Rating', 16, 1)
-				else
-					begin
-						insert into EvaluativeData 
-						values (@Event, @Evaluator, getdate(), @Rating)
+	if(@Evaluator is null)
+		raiserror('AddEvaluationDataPoint - Required Parameter: @Evaluator', 16, 1)
+	else
+	if(@Rating is null)
+		raiserror('AddEvaluationDataPoint - Required Parameter: @Rating', 16, 1)
+	else
+	if(@TimeOfData is null)
+		raiserror('AddEvaluationDataPoint - Required Parameter: @TimeOfData', 16, 1)
+	else
+		begin
+			insert into EvaluativeData 
+			values (@Event, @Evaluator, @TimeOfData, @Rating)
 
-						if @@ERROR = 0
-							set @ReturnCode = 0
-						else
-							raiserror('AddEvaluationDataPoint - Insert Error: Query Failed',16,1)
-					end
-				return @ReturnCode
-
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('AddEvaluationDataPoint - Insert Error: Query Failed',16,1)
+		end
+	return @ReturnCode
+GO
 
 create procedure AddEvaluator
 (
@@ -146,7 +154,7 @@ as
 					raiserror('AddEvaluator- Insert Error: Query Failed',16,1)
 				end
 			return @ReturnCode
-
+GO
 
 create procedure CreateFacilitator
 (
@@ -176,6 +184,7 @@ as
 					raiserror('CreateFacilitator - Insert Error: Query Failed',16,1)
 				end
 			return @ReturnCode
+GO
 
 create procedure CreateEvent
 (
@@ -219,3 +228,4 @@ as
 									raiserror('CreateEvent - Insert Error: Query Failed',16,1)
 							end
 						return @ReturnCode				
+GO
