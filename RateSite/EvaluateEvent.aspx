@@ -15,7 +15,7 @@
 
     <div class="row">
         <div class="RatingClass">
-            <asp:Label ID="LabelRating" runat="server" Text="5"></asp:Label>
+            <asp:Label ID="LabelRating" class="ratingLabel" runat="server" Text="5"></asp:Label>
         </div>
     </div>
 

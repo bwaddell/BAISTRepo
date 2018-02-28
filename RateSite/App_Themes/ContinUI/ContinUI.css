@@ -11,16 +11,20 @@
 
 .RatingClass{
     text-align:center;
-    display:block;
-
-    font:bold 16vh magneto,verdana;
+    display:block;  
     margin:auto;
-
     text-align:center;
     max-width:99%;
     height:16vh;
     border:none;
     margin:auto;
+}
+
+.ratingLabel{
+    display:inline-block;
+    vertical-align:middle;
+    float:none;
+    font:bold 16vh magneto,verdana;
 }
 
 .btnClass{

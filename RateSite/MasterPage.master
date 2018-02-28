@@ -13,7 +13,7 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
+<body runat="server" id="masterBody">
     <form id="form1" runat="server">
         <%--    <div class="jumbotron text-lg-center">
         <h1>ContinUI</h1>
