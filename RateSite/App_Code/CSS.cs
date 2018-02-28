@@ -6,11 +6,11 @@ using System.Web;
 
 
 /// <summary>
-/// Summary description for EvalDirector
+/// Summary description for CSS ContinUI Controller Services
 /// </summary>
-public class EvalDirector
+public class CSS
 {
-    public EvalDirector()
+    public CSS()
     {
         //
         // TODO: Add constructor logic here
@@ -25,7 +25,7 @@ public class EvalDirector
     public bool AddEvaluation(Evaluation evaluation) //change name later??
     {
         bool Confirmation = false;
-        CController Controller = new CController();
+        EvaluationDirector Controller = new EvaluationDirector();
 
         Confirmation = Controller.CreateEvaluation(evaluation);
 
