@@ -82,7 +82,7 @@ create table EvaluativeData
 (
 	EventID int not null,
 	EvaluatorID int not null,
-	TimeOfData time not null,
+	TimeOfData datetime not null,
 	Rating int not null
 )
 alter table EvaluativeData
@@ -94,6 +94,8 @@ go
 
 
 
+insert into Evaluator values ('Cody Jacob', GETDATE(), 'M', 'NAIT', 'Edmonton' ,'not allowed to be null? wtf') 
+go
 insert into Facilitator values ('Code', 'Man', 'Teacher', 'NAIT', 'Edmonton') 
 go
 insert into EventDetails values (1, 'Winspear Center', 'Rush', 'Concert', getdate(), '19:00:00', '23:00:00')
@@ -105,7 +107,7 @@ create procedure AddEvaluationDataPoint
 (
 	@Event int = null,
 	@Evaluator int = null,
-	@DataTime time = null,
+	@DataTime datetime = null,
 	@Rating int = null
 )
 as
@@ -135,6 +137,11 @@ as
 					end
 				return @ReturnCode
 go
+
+Declare @today datetime
+set @today = GETDATE()
+execute AddEvaluationDataPoint 1,1,@today,100
+
 
 
 select * from Evaluator
