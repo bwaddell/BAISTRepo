@@ -289,7 +289,7 @@ as
 		raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
 	else
 		begin
-			select ed.EvaluatorID, ed.Rating, ed.TimeOfData
+			select ed.EvaluatorID, ed.Rating
 			from EvaluativeData ed
 			inner join (select EvaluatorID, max(TimeOfData) as LatestData
 						from EvaluativeData) evda  
