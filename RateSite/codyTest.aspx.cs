@@ -5,15 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class AnalyzeEvent : System.Web.UI.Page
+public partial class codyTest : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         //PAGE LOAD happens at each panel update 
-        lbCurrentTime.Text += " page load ";
-
-
-
+        lbStartTime.Text = "<br /> page load at " + DateTime.Now.ToString();
 
     }
 
@@ -27,7 +24,6 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
     protected void TimerForGraphRefresh_Tick(object sender, EventArgs e)
     {
-        lbCurrentTime.Text += "<br /> refereshed at " + DateTime.Now.ToString();
-
+        lbCurrentTime.Text = "<br /> refereshed at " + DateTime.Now.ToString();
     }
 }

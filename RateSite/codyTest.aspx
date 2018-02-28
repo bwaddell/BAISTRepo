@@ -1,15 +1,27 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="AnalyzeEvent.aspx.cs" Inherits="AnalyzeEvent" Theme="ContinUI" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="codyTest.aspx.cs" Inherits="codyTest" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
+<!DOCTYPE html>
 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+    
+
+    <asp:ScriptManager ID="ScriptManagerForGraph" runat="server" ></asp:ScriptManager>
+        
     <asp:Timer ID="TimerForGraphRefresh" runat="server" Interval="10000" OnTick="TimerForGraphRefresh_Tick"></asp:Timer>
-    START of panel
+        
+        
+        START of panel
     <asp:UpdatePanel ID="UpdatePanelGraph" runat="server" UpdateMode="Conditional">
         <%--INSIDE PANEL--%>
         <%--this is where the graph and stuff goes--%>
         <ContentTemplate>
+        <asp:Label ID="lbStartTime" runat="server" Text="Label"></asp:Label>
 
             <asp:Label ID="lbCurrentTime" runat="server" Text="Time "></asp:Label>
             <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
@@ -32,7 +44,12 @@
     <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
 
 
-</asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
-</asp:Content>
 
+
+
+
+
+    </div>
+    </form>
+</body>
+</html>
