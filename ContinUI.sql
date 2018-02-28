@@ -229,3 +229,9 @@ as
 							end
 						return @ReturnCode				
 GO
+
+
+select * from Evaluator
+select * from EventDetails
+select * from Facilitator
+select * from EvaluativeData
