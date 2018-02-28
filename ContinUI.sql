@@ -1,3 +1,37 @@
+
+--===================    Drop and replace table    ===================--
+
+
+-------------DO NOT RUN this ON DATABAIST--------------------
+
+
+USE master
+GO
+DECLARE @dbname sysname
+SET @dbname = 'ContinUI'
+DECLARE @spid int
+SELECT @spid = min(spid) from master.dbo.sysprocesses where dbid = db_id(@dbname)
+WHILE @spid IS NOT NULL
+BEGIN
+EXECUTE ('KILL ' + @spid)
+SELECT @spid = min(spid) from master.dbo.sysprocesses where dbid = db_id(@dbname) AND spid > @spid
+END
+GO
+SET NOCOUNT ON
+GO
+USE master
+GO
+--sp_help 
+IF exists (select * from sysdatabases where name='ContinUI')
+	drop database ContinUI											--ContinUI
+GO
+
+
+create database ContinUI
+go
+use ContinUI
+GO
+
 create table EventDetails
 (
 	EventID int unique identity(1,1) not null,
