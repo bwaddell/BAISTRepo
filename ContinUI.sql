@@ -1,32 +1,18 @@
-
---===================    Drop and replace table    ===================--
-USE master
-GO
-DECLARE @dbname sysname
-SET @dbname = 'ContinUI'
-DECLARE @spid int
-SELECT @spid = min(spid) from master.dbo.sysprocesses where dbid = db_id(@dbname)
-WHILE @spid IS NOT NULL
-BEGIN
-EXECUTE ('KILL ' + @spid)
-SELECT @spid = min(spid) from master.dbo.sysprocesses where dbid = db_id(@dbname) AND spid > @spid
-END
-GO
-SET NOCOUNT ON
-GO
-USE master
-GO
---sp_help 
-IF exists (select * from sysdatabases where name='ContinUI')
-	drop database ContinUI											--ContinUI
-GO
-
-
-create database ContinUI
-go
-use ContinUI
-GO
-
+create table EventDetails
+(
+	EventID int unique identity(1,1) not null,
+	FacilitatorID int not null,
+	Location nvarchar(30) not null,
+	Performer nvarchar(20) not null,
+	NatureOfEvent nvarchar(20) not null,
+	EventDate date not null,
+	EventBegin datetime not null,
+	EventEnd datetime null
+)
+alter table EventDetails
+	add constraint PK_EventDetails primary key (EventID),
+		constraint FK_EventDetails foreign key (FacilitatorID) references Facilitator(FaciitatorID),
+		constraint CK_EventDetails check (EventBegin > EventStart)
 
 create table Facilitator
 (
@@ -39,28 +25,6 @@ create table Facilitator
 )
 alter table Facilitator
 	add constraint PK_Facilitator primary key (FacilitatorID)
-go
-
-create table EventDetails
-(
-	EventID int unique identity(1,1) not null,
-	FacilitatorID int not null,
-	Location nvarchar(30) not null,
-	Performer nvarchar(20) not null,
-	NatureOfEvent nvarchar(20) not null,
-	EventDate date not null,
-	EventBegin datetime not null,
-	EventEnd datetime not null
-)
-go
-alter table EventDetails
-	add constraint PK_EventDetails primary key (EventID),
-		constraint FK_EventDetails foreign key (FacilitatorID) references Facilitator(FacilitatorID),
-		constraint CK_EventDetails check (EventEnd > EventBegin)
-go
-
-
-
 
 create table Evaluator
 (
@@ -72,11 +36,8 @@ create table Evaluator
 	City nvarchar(20) null,
 	VotingCriteria nvarchar(40) not null 
 )
-go
 alter table Evaluator
 	add constraint PK_Evaluator primary key (EvaluatorID) 
-go
-
 
 create table EvaluativeData
 (
@@ -90,24 +51,11 @@ alter table EvaluativeData
 		constraint FK_EvaluativeData_Event foreign key (EventID) references EventDetails(EventID),
 		constraint FK_EvaluativeData_Evaluator foreign key (EvaluatorID) references Evaluator(EvaluatorID),
 		constraint CK_EvaluativeData check (Rating > 0)
-go
-
-
-
-insert into Evaluator values ('Cody Jacob', GETDATE(), 'M', 'NAIT', 'Edmonton' ,'not allowed to be null? wtf') 
-go
-insert into Facilitator values ('Code', 'Man', 'Teacher', 'NAIT', 'Edmonton') 
-go
-insert into EventDetails values (1, 'Winspear Center', 'Rush', 'Concert', getdate(), '19:00:00', '23:00:00')
-go
-
-
 
 create procedure AddEvaluationDataPoint
 (
 	@Event int = null,
 	@Evaluator int = null,
-	@DataTime datetime = null,
 	@Rating int = null
 )
 as
@@ -120,15 +68,12 @@ as
 		if(@Evaluator is null)
 			raiserror('AddEvaluationDataPoint - Required Parameter: @Evaluator', 16, 1)
 		else
-			if(@DataTime is null)
-				raiserror('AddEvaluationDataPoint - Required Parameter: @DataTime', 16, 1)
-			else
 				if(@Rating is null)
 					raiserror('AddEvaluationDataPoint - Required Parameter: @Rating', 16, 1)
 				else
 					begin
 						insert into EvaluativeData 
-						values (@Event, @Evaluator, @DataTime, @Rating)
+						values (@Event, @Evaluator, getdate(), @Rating)
 
 						if @@ERROR = 0
 							set @ReturnCode = 0
@@ -136,16 +81,107 @@ as
 							raiserror('AddEvaluationDataPoint - Insert Error: Query Failed',16,1)
 					end
 				return @ReturnCode
-go
-
-Declare @today datetime
-set @today = GETDATE()
-execute AddEvaluationDataPoint 1,1,@today,100
 
 
+create procedure AddEvaluator
+(
+	@Name nvarchar(60) = null,
+	@DateOfBirth date = null,
+	@Sex varchar(1) = null,
+	@SchoolOrOrganization nvarchar(40) = null,
+	@City nvarchar(20) = null,
+	@VotingCriteria nvarchar(40) = null 
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
 
-select * from Evaluator
-select * from EventDetails
-select * from Facilitator
-select * from EvaluativeData
+	if(@Name is null)
+		raiserror('AddEvaluator - Required Parameter: @Name', 16, 1)
+	else
+		if(@VotingCriteria is null)
+			raiserror('AddEvaluator - Required Parameter: @VotingCriteria', 16, 1)
+		else
+			begin
+				insert into EvaluativeData 
+				values (@Name, @DateOfBirth, @Sex, @SchoolOrOrganization, @City, @VotingCriteria)
 
+				if @@ERROR = 0
+					set @ReturnCode = 0
+				else
+					raiserror('AddEvaluator- Insert Error: Query Failed',16,1)
+				end
+			return @ReturnCode
+
+
+create procedure CreateFacilitator
+(
+	@FirstName nvarchar(20) = null,
+	@LastName nvarchar(20) = null,
+	@Title nvarchar(20) = null,
+	@Organization nvarchar(20) = null,
+	@City nvarchar(20) = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	if(@FirstName is null)
+		raiserror('CreateFacilitator - Required Parameter: @FirstName', 16, 1)
+	else
+		if(@LastName is null)
+			raiserror('CreateFacilitator - Required Parameter: @LastName', 16, 1)
+		else
+			begin
+				insert into Facilitator
+				values (@FirstName, @LastName, @Title, @Organization, @City)
+
+				if @@ERROR = 0
+					set @ReturnCode = 0
+				else
+					raiserror('CreateFacilitator - Insert Error: Query Failed',16,1)
+				end
+			return @ReturnCode
+
+create procedure CreateEvent
+(
+	@Facilitator int = null,
+	@Location nvarchar(30) = null,
+	@Performer nvarchar(20) = null,
+	@NatureOfEvent nvarchar(20) = null,
+	@EventDate date = null,
+	@EventBegin datetime = null,
+	@EventEnd datetime = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	if(@Facilitator is null)
+		raiserror('CreateEvent - Required Parameter: @Facilitator', 16, 1)
+	else
+		if(@Location is null)
+			raiserror('CreateEvent - Required Parameter: @Location', 16, 1)
+		else
+			if(@Performer is null)
+				raiserror('CreateEvent - Required Parameter: @Performer', 16, 1)
+			else	
+				if(@NatureOfEvent is null)
+					raiserror('CreateEvent - Required Parameter: @NatureOfEvent', 16, 1)
+				else
+					if(@EventDate is null)
+						raiserror('CreateEvent - Required Parameter: @EventDate', 16, 1)
+					else
+						if(@EventBegin is null)
+							raiserror('CreateEvent - Required Parameter: @EventBegin', 16, 1)
+						else
+							begin
+								insert into EventDetails
+								values (@Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate, @EventEnd)
+
+								if @@ERROR = 0
+									set @ReturnCode = 0
+								else
+									raiserror('CreateEvent - Insert Error: Query Failed',16,1)
+							end
+						return @ReturnCode				
