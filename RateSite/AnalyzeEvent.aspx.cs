@@ -10,10 +10,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         //PAGE LOAD happens at each panel update 
-        lbCurrentTime.Text += " page load ";
-
-
-
+        lbStartTime.Text = "<br /> page load at " + DateTime.Now.ToString();
 
     }
 
@@ -21,13 +18,13 @@ public partial class AnalyzeEvent : System.Web.UI.Page
     {
         EvalDirector Director = new EvalDirector();
         Evaluation eval = new Evaluation(100, 111, 222);
+
         lbCurrentTime.Text += "<br />" + Director.AddEvaulation(eval).ToString();
     }
 
 
     protected void TimerForGraphRefresh_Tick(object sender, EventArgs e)
     {
-        lbCurrentTime.Text += "<br /> refereshed at " + DateTime.Now.ToString();
-
+        lbCurrentTime.Text = "<br /> refereshed at " + DateTime.Now.ToString();
     }
 }

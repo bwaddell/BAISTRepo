@@ -82,7 +82,7 @@ create table EvaluativeData
 (
 	EventID int not null,
 	EvaluatorID int not null,
-	TimeOfData time not null,
+	TimeOfData datetime not null,
 	Rating int not null
 )
 alter table EvaluativeData
@@ -107,7 +107,7 @@ create procedure AddEvaluationDataPoint
 (
 	@Event int = null,
 	@Evaluator int = null,
-	@DataTime time = null,
+	@DataTime datetime = null,
 	@Rating int = null
 )
 as

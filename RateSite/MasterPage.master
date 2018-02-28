@@ -46,8 +46,9 @@
             <!-- /.container-fluid -->
         </nav>--%>
 
+    <asp:ScriptManager ID="ScriptManagerForGraph" runat="server" ></asp:ScriptManager>
 
-        <div class="container">
+        <div class="container border">
             <asp:ContentPlaceHolder ID="MainBody" runat="server">
 
                 <%--buttons show up here--%>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -30,15 +31,51 @@ public class CController
         bool Success = false;
 
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
-        SqlConnection DataBase = new SqlConnection(webSettings.ConnectionString);
-        //DataBase.Open();
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
 
         //add code for sql stored proc for adding eval data to sql server
 
 
+        SqlCommand CommandGet = new SqlCommand();
+        CommandGet.Connection = DataBaseCon;
+        CommandGet.CommandType = CommandType.StoredProcedure;
+        CommandGet.CommandText = "AddEvaluationDataPoint";
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Event";
+        AddParameter.SqlDbType = SqlDbType.Int;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = eval.EventID;
+        CommandGet.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Evaluator";
+        AddParameter.SqlDbType = SqlDbType.Int;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = eval.EvaluatorID;
+        CommandGet.Parameters.Add(AddParameter);
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@DataTime";
+        AddParameter.SqlDbType = SqlDbType.DateTime;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = eval.TimeStamp;
+        CommandGet.Parameters.Add(AddParameter);
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Rating";
+        AddParameter.SqlDbType = SqlDbType.Int;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = eval.Rating;
+        CommandGet.Parameters.Add(AddParameter);
 
 
-        //DataBase.Close();
+
+        DataBaseCon.Open();
+
+        //execute quary
+
+        DataBaseCon.Close();
         return Success;
 
 
