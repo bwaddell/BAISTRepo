@@ -19,10 +19,13 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
         LabelRating.Text = Rating.ToString();
 
+        
 
         Evaluation eval = new Evaluation(Rating,111,100);   // test evaluator and event IDs
 
+        EvalDirector RequestDirector = new EvalDirector();
 
+        bool Success = RequestDirector.AddEvaluation(eval);
         //now send eval to the database with xxx class?
     }
 
@@ -35,7 +38,9 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
         Evaluation eval = new Evaluation(Rating,111,100);   // test evaluator and event IDs
 
-        
+        EvalDirector RequestDirector = new EvalDirector();
+
+        bool Success = RequestDirector.AddEvaluation(eval);
     }
 
 

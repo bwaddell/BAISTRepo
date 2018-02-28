@@ -6,31 +6,38 @@
     align-content: center;
     background-color:white;
     text-align:center;
+    height:100%;
 }
 
 .RatingClass{
     text-align:center;
-    display:inline-block;
-    width:100%;
-    height:33%;
+    display:block;
+
+    font:bold 16vh magneto,verdana;
+    margin:auto;
+
+    text-align:center;
+    max-width:99%;
+    height:16vh;
     border:none;
-    font:bold 64px magneto,verdana;
+    margin:auto;
 }
 
 .btnClass{
-    text-align:center;
-    display:block;
-    width:100%;
-    height:30%;
-    border:none;
+    display:inline-block;
 
-
+    height:42vh;
 }
 
 .btnImage{
+    max-height:100%;
+    max-width:100%;
+}
+
+/*.btnImage{
     width:100%;
     display: block;
-}
+}*/
 
 /*.downBtn {
     background: url('Images/arrowdown.png');
