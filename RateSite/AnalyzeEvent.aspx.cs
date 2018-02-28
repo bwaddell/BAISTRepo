@@ -17,9 +17,9 @@ public partial class AnalyzeEvent : System.Web.UI.Page
     protected void Button1_Click(object sender, EventArgs e)
     {
         EvalDirector Director = new EvalDirector();
-        Evaluation eval = new Evaluation(100, 111, 222);
+        Evaluation eval = new Evaluation(100, 1, 1);
 
-        lbCurrentTime.Text += "<br />" + Director.AddEvaulation(eval).ToString();
+        lbCurrentTime.Text += "<br />" + Director.AddEvaluation(eval).ToString();
     }
 
 

@@ -22,7 +22,7 @@ public class EvalDirector
     /// Function is called from front end to add evaluation
     /// data to SQL Server
     /// </summary>
-    public bool AddEvaulation(Evaluation evaluation) //change name later??
+    public bool AddEvaluation(Evaluation evaluation) //change name later??
     {
         bool Confirmation = false;
         CController Controller = new CController();

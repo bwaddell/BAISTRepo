@@ -21,7 +21,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
         
 
-        Evaluation eval = new Evaluation(Rating,111,100);   // test evaluator and event IDs
+        Evaluation eval = new Evaluation(Rating,1,1);   // test evaluator and event IDs
 
         EvalDirector RequestDirector = new EvalDirector();
 
@@ -36,7 +36,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
         LabelRating.Text = Rating.ToString();
 
-        Evaluation eval = new Evaluation(Rating,111,100);   // test evaluator and event IDs
+        Evaluation eval = new Evaluation(Rating,1,1);   // test evaluator and event IDs
 
         EvalDirector RequestDirector = new EvalDirector();
 
