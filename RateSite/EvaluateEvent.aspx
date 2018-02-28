@@ -12,12 +12,23 @@
 
     <%--wrap in UpdatePanel?--%>
 
+    <asp:UpdatePanel ID="UpdatePanelGraph" runat="server" UpdateMode="Conditional">
+        <%--INSIDE PANEL--%>
+        <%--this is where the graph and stuff goes--%>
+        <ContentTemplate>
+            <div class="row RatingClass">
+                <asp:Label ID="LabelRating" class="ratingLabel" runat="server" Text="5"></asp:Label>
+            </div>
+        </ContentTemplate>
 
-    <div class="row">
-        <div class="RatingClass">
-            <asp:Label ID="LabelRating" class="ratingLabel" runat="server" Text="5"></asp:Label>
-        </div>
-    </div>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="ButtonUp" />
+            <asp:AsyncPostBackTrigger ControlID="ButtonDown" />
+            <%--<asp:AsyncPostBackTrigger ControlID="TimerForNumRefresh" EventName="Tick" />--%>
+        </Triggers>
+    </asp:UpdatePanel>
+
+
 
     <div class="row">
         <div class="btnClass">
@@ -29,6 +40,5 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
-
 </asp:Content>
 
