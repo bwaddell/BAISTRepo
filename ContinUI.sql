@@ -217,10 +217,10 @@ as
 			insert into EventDetails
 			values (@Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate)
 
-								if @@ERROR = 0
-									set @ReturnCode = 0
-								else
-									raiserror('CreateEvent - Insert Error: Query Failed',16,1)
-							end
-						return @ReturnCode				
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('CreateEvent - Insert Error: Query Failed',16,1)
+			end
+		return @ReturnCode				
 GO
