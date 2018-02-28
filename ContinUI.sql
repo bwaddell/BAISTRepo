@@ -141,19 +141,19 @@ as
 	if(@Name is null)
 		raiserror('AddEvaluator - Required Parameter: @Name', 16, 1)
 	else
-		if(@VotingCriteria is null)
-			raiserror('AddEvaluator - Required Parameter: @VotingCriteria', 16, 1)
-		else
-			begin
-				insert into EvaluativeData 
-				values (@Name, @DateOfBirth, @Sex, @SchoolOrOrganization, @City, @VotingCriteria)
+	if(@VotingCriteria is null)
+		raiserror('AddEvaluator - Required Parameter: @VotingCriteria', 16, 1)
+	else
+		begin
+			insert into EvaluativeData 
+			values (@Name, @DateOfBirth, @Sex, @SchoolOrOrganization, @City, @VotingCriteria)
 
-				if @@ERROR = 0
-					set @ReturnCode = 0
-				else
-					raiserror('AddEvaluator- Insert Error: Query Failed',16,1)
-				end
-			return @ReturnCode
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('AddEvaluator- Insert Error: Query Failed',16,1)
+		end
+	return @ReturnCode
 GO
 
 create procedure CreateFacilitator
@@ -171,19 +171,19 @@ as
 	if(@FirstName is null)
 		raiserror('CreateFacilitator - Required Parameter: @FirstName', 16, 1)
 	else
-		if(@LastName is null)
-			raiserror('CreateFacilitator - Required Parameter: @LastName', 16, 1)
-		else
-			begin
-				insert into Facilitator
-				values (@FirstName, @LastName, @Title, @Organization, @City)
+	if(@LastName is null)
+		raiserror('CreateFacilitator - Required Parameter: @LastName', 16, 1)
+	else
+		begin
+			insert into Facilitator
+			values (@FirstName, @LastName, @Title, @Organization, @City)
 
-				if @@ERROR = 0
-					set @ReturnCode = 0
-				else
-					raiserror('CreateFacilitator - Insert Error: Query Failed',16,1)
-				end
-			return @ReturnCode
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('CreateFacilitator - Insert Error: Query Failed',16,1)
+		end
+	return @ReturnCode
 GO
 
 create procedure CreateEvent
@@ -192,9 +192,7 @@ create procedure CreateEvent
 	@Location nvarchar(30) = null,
 	@Performer nvarchar(20) = null,
 	@NatureOfEvent nvarchar(20) = null,
-	@EventDate date = null,
-	@EventBegin datetime = null,
-	@EventEnd datetime = null
+	@EventDate date = null
 )
 as
 	declare @ReturnCode as int
@@ -203,29 +201,26 @@ as
 	if(@Facilitator is null)
 		raiserror('CreateEvent - Required Parameter: @Facilitator', 16, 1)
 	else
-		if(@Location is null)
-			raiserror('CreateEvent - Required Parameter: @Location', 16, 1)
-		else
-			if(@Performer is null)
-				raiserror('CreateEvent - Required Parameter: @Performer', 16, 1)
-			else	
-				if(@NatureOfEvent is null)
-					raiserror('CreateEvent - Required Parameter: @NatureOfEvent', 16, 1)
-				else
-					if(@EventDate is null)
-						raiserror('CreateEvent - Required Parameter: @EventDate', 16, 1)
-					else
-						if(@EventBegin is null)
-							raiserror('CreateEvent - Required Parameter: @EventBegin', 16, 1)
-						else
-							begin
-								insert into EventDetails
-								values (@Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate, @EventEnd)
+	if(@Location is null)
+		raiserror('CreateEvent - Required Parameter: @Location', 16, 1)
+	else
+	if(@Performer is null)
+		raiserror('CreateEvent - Required Parameter: @Performer', 16, 1)
+	else	
+	if(@NatureOfEvent is null)
+		raiserror('CreateEvent - Required Parameter: @NatureOfEvent', 16, 1)
+	else
+	if(@EventDate is null)
+		raiserror('CreateEvent - Required Parameter: @EventDate', 16, 1)
+	else
+		begin
+			insert into EventDetails
+			values (@Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate)
 
-								if @@ERROR = 0
-									set @ReturnCode = 0
-								else
-									raiserror('CreateEvent - Insert Error: Query Failed',16,1)
-							end
-						return @ReturnCode				
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('CreateEvent - Insert Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
 GO
