@@ -40,7 +40,7 @@ create table EventDetails
 	Performer nvarchar(20) not null,
 	NatureOfEvent nvarchar(20) not null,
 	EventDate date not null,
-	EventBegin datetime not null,
+	EventBegin datetime null,
 	EventEnd datetime null
 )
 alter table EventDetails
@@ -223,4 +223,26 @@ as
 				raiserror('CreateEvent - Insert Error: Query Failed',16,1)
 			end
 		return @ReturnCode				
+GO
+
+
+create procedure UpdateEventStatus
+(
+	@EventStart datetime = null,
+	@EventFinish datetime = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	update EventDetails
+	set EventBegin = @EventStart, EventEnd = @EventFinish
+
+
+	if @@ERROR = 0
+		set @ReturnCode = 0
+	else
+		raiserror('UpdateEventStatus - Update Error: Query Failed',16,1)
+
+	return @ReturnCode
 GO
