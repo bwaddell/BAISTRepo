@@ -90,6 +90,7 @@ alter table EvaluativeData
 		constraint CK_EvaluativeData check (Rating > 0)
 GO
 
+
 create procedure AddEvaluationDataPoint
 (
 	@Event int = null,
@@ -102,16 +103,16 @@ as
 	set @ReturnCode = 1
 
 	if(@Event is null)
-		raiserror('AddEvaluationDataPoint - Required Parameter: @Event', 16, 1)
+		raiserror('AddEvaluationDataPoint - Required Parameter: @Event',16,1)
 	else
 	if(@Evaluator is null)
-		raiserror('AddEvaluationDataPoint - Required Parameter: @Evaluator', 16, 1)
+		raiserror('AddEvaluationDataPoint - Required Parameter: @Evaluator',16,1)
 	else
 	if(@Rating is null)
-		raiserror('AddEvaluationDataPoint - Required Parameter: @Rating', 16, 1)
+		raiserror('AddEvaluationDataPoint - Required Parameter: @Rating',16,1)
 	else
 	if(@TimeOfData is null)
-		raiserror('AddEvaluationDataPoint - Required Parameter: @TimeOfData', 16, 1)
+		raiserror('AddEvaluationDataPoint - Required Parameter: @TimeOfData',16,1)
 	else
 		begin
 			insert into EvaluativeData 
@@ -124,6 +125,7 @@ as
 		end
 	return @ReturnCode
 GO
+
 
 create procedure AddEvaluator
 (
@@ -139,10 +141,10 @@ as
 	set @ReturnCode = 1
 
 	if(@Name is null)
-		raiserror('AddEvaluator - Required Parameter: @Name', 16, 1)
+		raiserror('AddEvaluator - Required Parameter: @Name',16,1)
 	else
 	if(@VotingCriteria is null)
-		raiserror('AddEvaluator - Required Parameter: @VotingCriteria', 16, 1)
+		raiserror('AddEvaluator - Required Parameter: @VotingCriteria',16,1)
 	else
 		begin
 			insert into EvaluativeData 
@@ -155,6 +157,7 @@ as
 		end
 	return @ReturnCode
 GO
+
 
 create procedure CreateFacilitator
 (
@@ -169,10 +172,10 @@ as
 	set @ReturnCode = 1
 
 	if(@FirstName is null)
-		raiserror('CreateFacilitator - Required Parameter: @FirstName', 16, 1)
+		raiserror('CreateFacilitator - Required Parameter: @FirstName',16,1)
 	else
 	if(@LastName is null)
-		raiserror('CreateFacilitator - Required Parameter: @LastName', 16, 1)
+		raiserror('CreateFacilitator - Required Parameter: @LastName',16,1)
 	else
 		begin
 			insert into Facilitator
@@ -185,6 +188,7 @@ as
 		end
 	return @ReturnCode
 GO
+
 
 create procedure CreateEvent
 (
@@ -199,19 +203,19 @@ as
 	set @ReturnCode = 1
 
 	if(@Facilitator is null)
-		raiserror('CreateEvent - Required Parameter: @Facilitator', 16, 1)
+		raiserror('CreateEvent - Required Parameter: @Facilitator',16,1)
 	else
 	if(@Location is null)
-		raiserror('CreateEvent - Required Parameter: @Location', 16, 1)
+		raiserror('CreateEvent - Required Parameter: @Location',16,1)
 	else
 	if(@Performer is null)
-		raiserror('CreateEvent - Required Parameter: @Performer', 16, 1)
+		raiserror('CreateEvent - Required Parameter: @Performer',16,1)
 	else	
 	if(@NatureOfEvent is null)
-		raiserror('CreateEvent - Required Parameter: @NatureOfEvent', 16, 1)
+		raiserror('CreateEvent - Required Parameter: @NatureOfEvent',16,1)
 	else
 	if(@EventDate is null)
-		raiserror('CreateEvent - Required Parameter: @EventDate', 16, 1)
+		raiserror('CreateEvent - Required Parameter: @EventDate',16,1)
 	else
 		begin
 			insert into EventDetails
@@ -245,4 +249,56 @@ as
 		raiserror('UpdateEventStatus - Update Error: Query Failed',16,1)
 
 	return @ReturnCode
+GO
+
+
+create procedure GetHistoricalEvaluationData
+(
+	@Event int = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@Event is null)
+		raiserror('GetHistoricalEvaluationData - Select Error: Query Failed',16,1)
+	else
+		begin
+			select EvaluatorID, Rating, TimeOfData 
+			from EvaluativeData
+			where @Event = EventID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetHistoricalEvaluationData - Select Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
+GO
+
+
+create procedure GetMostRecentEvaluativeData
+(
+	@Event int = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@Event is null)
+		raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
+	else
+		begin
+			select ed.EvaluatorID, ed.Rating, ed.TimeOfData
+			from EvaluativeData ed
+			inner join (select EvaluatorID, max(TimeOfData) as LatestData
+						from EvaluativeData) evda  
+			on @Event = EventID and ed.TimeOfData = evda.LatestData
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
 GO
