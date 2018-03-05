@@ -35,7 +35,7 @@ public class CSS
     public string CreateEventKey(int size)
     {
         string EventKey = "";
-        EvaluationDirector Controller = new EvaluationDirector();
+        EventDirector Controller = new EventDirector();
 
         EventKey = Controller.CreateEventKey(size);
         return EventKey;
