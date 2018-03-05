@@ -10,6 +10,7 @@ public partial class CreateEvent : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         tbEventID.Enabled = false;
+        tbEventDate.Text = DateTime.Today.ToShortDateString();
     }
 
     protected void btnCreateEvent_Click(object sender, EventArgs e)
@@ -27,22 +28,18 @@ public partial class CreateEvent : System.Web.UI.Page
         cEvent.Performer = tbPerformer.Text;
         cEvent.Location = tbLocation.Text;
         cEvent.Description = tbNatureOfPerformance.Text;
-        //cEvent.EventStart = 
-        //cEvent.EventEnd = 
+
         
-
-
-
-
-
-
-
-
-
         success = thing.CreateEvent(cEvent);
 
-
-
+        if (success)
+        {
+            Server.Transfer("AnalyzeEvent.aspx");
+        }
+        else
+        {
+            lbstatus.Text = "Error Generating Event.  Please Try Again.";
+        }
 
 
     }

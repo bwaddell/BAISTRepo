@@ -50,15 +50,17 @@
                 <label>Event Date:</label>
             </div>
             <div class="col-xs-8">
-                <asp:TextBox ID="tbEventDate" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox ID="tbEventDate" runat="server" CssClass="form-control" Readonly="true"></asp:TextBox>
             </div>
         </div>
 
         <div class="row">
-            <div>
+            <div class="col-xs-4">
                 <asp:Button ID="btnCreateEvent" runat="server" Text="Create Event" OnClick="btnCreateEvent_Click" />
             </div>
-
+            <div class="col-xs-8">
+                <asp:label id="lbstatus" runat="server" text=""></asp:label>
+            </div>
         </div>
     </div>
 </asp:Content>
