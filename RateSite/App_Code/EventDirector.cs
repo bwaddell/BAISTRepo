@@ -19,10 +19,14 @@ public class EventDirector
     {
         byte[] KeyArr = new Byte[size];
         RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-        rng.GetBytes(KeyArr);
-        string key = Convert.ToBase64String(KeyArr).ToUpper();
-        key = key.Replace("=", "");
-        key = key.Replace("+", "");
+        string key;
+        do
+        {
+            rng.GetBytes(KeyArr);
+            key = Convert.ToBase64String(KeyArr).ToUpper();
+            key = key.Replace("=", "");
+        } while (key.Contains('/') || key.Contains('+'));
+
         return key;
     }
 }
