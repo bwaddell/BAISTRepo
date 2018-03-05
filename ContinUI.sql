@@ -31,6 +31,19 @@ create database ContinUI
 go
 use ContinUI
 GO
+create table Facilitator
+(
+	FacilitatorID int unique identity(1,1) not null,
+	FirstName nvarchar(20) not null,
+	LastName nvarchar(20) not null,
+	Title nvarchar(20) null,
+	Organization nvarchar(20) null,
+	City nvarchar(20) null	
+)
+alter table Facilitator
+	add constraint PK_Facilitator primary key (FacilitatorID)
+Go
+
 
 create table EventDetails
 (
@@ -44,23 +57,12 @@ create table EventDetails
 	EventEnd datetime null
 )
 alter table EventDetails
-	add constraint PK_EventDetails primary key (EventID),
-		constraint FK_EventDetails foreign key (FacilitatorID) references Facilitator(FaciitatorID),
-		constraint CK_EventDetails check (EventBegin > EventStart)
+	add constraint PK_EventDetails primary key (EventKey),
+		constraint FK_EventDetails foreign key (FacilitatorID) references Facilitator(FacilitatorID),
+		constraint CK_EventDetails check (EventEnd > EventBegin)
 Go
 
-create table Facilitator
-(
-	FacilitatorID int unique identity(1,1) not null,
-	FirstName nvarchar(20) not null,
-	LastName nvarchar(20) not null,
-	Title nvarchar(20) null,
-	Organization nvarchar(20) null,
-	City nvarchar(20) null	
-)
-alter table Facilitator
-	add constraint PK_Facilitator primary key (FacilitatorID)
-Go
+
 
 create table Evaluator
 (
@@ -76,16 +78,17 @@ alter table Evaluator
 	add constraint PK_Evaluator primary key (EvaluatorID) 
 Go
 
+--drop table EvaluativeData
 create table EvaluativeData
 (
-	EventID int not null,
+	EventKey NVarchar(5) not null,
 	EvaluatorID int not null,
 	TimeOfData datetime not null,
 	Rating int not null
 )
 alter table EvaluativeData
-	add constraint PK_EvaluativeData primary key (TimeOfData, EventID, EvaluatorID),
-		constraint FK_EvaluativeData_Event foreign key (EventID) references EventDetails(EventID),
+	add constraint PK_EvaluativeData primary key (TimeOfData, EventKey, EvaluatorID),
+		constraint FK_EvaluativeData_Event foreign key (EventKey) references EventDetails(EventKey),
 		constraint FK_EvaluativeData_Evaluator foreign key (EvaluatorID) references Evaluator(EvaluatorID),
 		constraint CK_EvaluativeData check (Rating > 0)
 GO
@@ -147,7 +150,7 @@ as
 		raiserror('AddEvaluator - Required Parameter: @VotingCriteria',16,1)
 	else
 		begin
-			insert into EvaluativeData 
+			insert into Evaluator 
 			values (@Name, @DateOfBirth, @Sex, @SchoolOrOrganization, @City, @VotingCriteria)
 
 			if @@ERROR = 0
@@ -157,6 +160,7 @@ as
 		end
 	return @ReturnCode
 GO
+--select 
 
 
 create procedure CreateFacilitator
@@ -223,7 +227,7 @@ as
 	else
 		begin
 			insert into EventDetails
-			values (@Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate)
+			values (@EventKey, @Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate,null,null)
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -270,7 +274,7 @@ as
 		begin
 			select EvaluatorID, Rating, TimeOfData 
 			from EvaluativeData
-			where @Event = EventID
+			where @Event = EventKey
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -281,28 +285,29 @@ as
 GO
 
 
-create procedure GetMostRecentEvaluativeData
-(
-	@Event int = null
-)
-as
-	declare @ReturnCode as int
-	set @ReturnCode = 1
+--create procedure GetMostRecentEvaluativeData
+--(
+--	@Event int = null
+--)
+--as
+--	declare @ReturnCode as int
+--	set @ReturnCode = 1
 	
-	if(@Event is null)
-		raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
-	else
-		begin
-			select ed.EvaluatorID, ed.Rating
-			from EvaluativeData ed
-			inner join (select EvaluatorID, max(TimeOfData) as LatestData
-						from EvaluativeData) evda  
-			on @Event = EventID and ed.TimeOfData = evda.LatestData
+--	if(@Event is null)
+--		raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
+--	else
+--		begin
+--			select ed.EvaluatorID, ed.Rating
+--			from EvaluativeData ed
+--			inner join (select ed.EvaluatorID, max(TimeOfData) as LatestData
+--						from EvaluativeData) evda  
+--			on @Event = EventKey and ed.TimeOfData = evda.LatestData
+--			group by ed.EvaluatorID
 
-			if @@ERROR = 0
-				set @ReturnCode = 0
-			else
-				raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
-		end
-	return @ReturnCode				
-GO
+--			if @@ERROR = 0
+--				set @ReturnCode = 0
+--			else
+--				raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
+--		end
+--	return @ReturnCode				
+--GO
