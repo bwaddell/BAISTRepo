@@ -34,7 +34,7 @@ GO
 
 create table EventDetails
 (
-	EventID int unique identity(1,1) not null,
+	EventKey nvarchar(5) not null,
 	FacilitatorID int not null,
 	Location nvarchar(30) not null,
 	Performer nvarchar(20) not null,
@@ -192,6 +192,7 @@ GO
 
 create procedure CreateEvent
 (
+	@EventKey nvarchar(5) = null,
 	@Facilitator int = null,
 	@Location nvarchar(30) = null,
 	@Performer nvarchar(20) = null,
@@ -202,6 +203,9 @@ as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 
+	if(@EventKey is null)
+		raiserror('CreateEvent - Required Parameter: @EventKey',16,1)
+	else
 	if(@Facilitator is null)
 		raiserror('CreateEvent - Required Parameter: @Facilitator',16,1)
 	else
@@ -261,7 +265,7 @@ as
 	set @ReturnCode = 1
 	
 	if(@Event is null)
-		raiserror('GetHistoricalEvaluationData - Select Error: Query Failed',16,1)
+		raiserror('GetHistoricalEvaluationData - Select ErrorRequired Parameter: @Event',16,1)
 	else
 		begin
 			select EvaluatorID, Rating, TimeOfData 

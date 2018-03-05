@@ -105,6 +105,13 @@ public class EvaluationDirector
         CommandAdd.CommandText = "CreateEvent";
 
         SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@EventKey";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = Created.EventID;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@Facilitator";
         AddParameter.SqlDbType = SqlDbType.Int;
         AddParameter.Direction = ParameterDirection.Input;

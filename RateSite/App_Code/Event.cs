@@ -8,7 +8,7 @@ using System.Web;
 /// </summary>
 public class Event
 {
-    private int EventIDValue;
+    private string EventIDValue;
     private int FacilitatorIDValue;
     private List<Evaluator> EvaluatorsList;
     private string LocationValue;
@@ -18,7 +18,7 @@ public class Event
     private DateTime EventStartValue;
     private DateTime EventEndValue;
 
-    public int EventID
+    public string EventID
     {
         get { return EventIDValue; }
         set { EventIDValue = value; }
