@@ -18,10 +18,6 @@ public class EvaluationDirector
         //
     }
 
-
-
-
-
     /// <summary>
     /// Function is called by the Director to store
     /// data to SQL Server
@@ -73,17 +69,15 @@ public class EvaluationDirector
         try
         {
             DataBaseCon.Open();
-            //execute quary
-            numRows = CommandAdd.ExecuteNonQuery();
+            numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
+
             if (numRows == 1)
             {
-                //Number of rows affected is 1, all is good
-                Success = true;
+                Success = true;//if 1, all is good
             }
             else
             {
-                //not good
-                Success = false;
+                Success = false; //otherwise, not good
             }
         }
         catch (Exception ex)
@@ -93,13 +87,81 @@ public class EvaluationDirector
         finally
         {
             DataBaseCon.Close();
-
-
         }
 
+        return Success;      
+    }
+
+    public bool CreateEvent(Event Created)
+    {
+        bool Success = false;
+        int numRows = 0;
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+
+        SqlCommand CommandAdd = new SqlCommand();
+        CommandAdd.Connection = DataBaseCon;
+        CommandAdd.CommandType = CommandType.StoredProcedure;
+        CommandAdd.CommandText = "CreateEvent";
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Facilitator";
+        AddParameter.SqlDbType = SqlDbType.Int;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = Created.FacilitatorID;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Location";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = Created.Location;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Performer";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = Created.Performer;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@NatureOfEvent";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = Created.Description;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@EventDate";
+        AddParameter.SqlDbType = SqlDbType.Date;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = Created.Date;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        try
+        {
+            DataBaseCon.Open();
+            numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
+
+            if (numRows == 1)
+            {                
+                Success = true;//if 1, all is good
+            }
+            else
+            {              
+                Success = false; //otherwise, not good
+            }
+        }
+        catch (Exception ex)
+        {
+            Success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
 
         return Success;
-
-       
     }
 }
