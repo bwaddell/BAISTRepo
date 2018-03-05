@@ -7,12 +7,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
     <asp:Timer ID="TimerForGraphRefresh" runat="server" Interval="10000" OnTick="TimerForGraphRefresh_Tick"></asp:Timer>
-    <br />
-    Event ID:
-    <asp:TextBox ID="tbEventID" runat="server">1</asp:TextBox>
-    <br />
-    Evaluator ID:
-    <asp:TextBox ID="tbEvaluatorID" runat="server">1</asp:TextBox>
+    
+    <label>Event ID:</label>
+    <asp:TextBox ID="tbEventID" runat="server" CssClass="form-control">1</asp:TextBox>
+    
+    <label>Evaluator ID:</label>
+    <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>
 
     <asp:Label ID="lbStartTime" runat="server" Text="StartTime"></asp:Label>
 
