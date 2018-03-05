@@ -11,6 +11,6 @@ public partial class BenTest : System.Web.UI.Page
     {
         CSS RequestDirector = new CSS();
 
-        stuffLbl.Text = RequestDirector.CreateEventKey(4);
+        stuffLbl.Text = RequestDirector.CreateEventKey(3);
     }
 }
