@@ -89,10 +89,7 @@
         </div>
     </div>
 </asp:Content>
-<asp:Content ID="Content4" ContentPlaceHolderID="Scripts" runat="Server">
-</asp:Content>
 
-</asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
 
 
