@@ -32,5 +32,12 @@ public class CSS
         return Confirmation;
     }
 
+    public string CreateEventKey(int size)
+    {
+        string EventKey = "";
+        EventDirector Controller = new EventDirector();
 
+        EventKey = Controller.CreateEventKey(size);
+        return EventKey;
+    }
 }
