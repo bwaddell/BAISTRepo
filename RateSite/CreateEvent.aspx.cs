@@ -16,16 +16,30 @@ public partial class CreateEvent : System.Web.UI.Page
     {
         CSS thing = new CSS();
         Event cEvent = new Event();
-
+        bool success;
         string EventKey;
         EventKey = thing.CreateEventKey(3);
 
         tbEventID.Text = EventKey;
 
+        cEvent.EventID = EventKey;
+        cEvent.FacilitatorID = Convert.ToInt32(tbFacilitatorID.Text);
+        cEvent.Performer = tbPerformer.Text;
+        cEvent.Location = tbLocation.Text;
+        cEvent.Description = tbNatureOfPerformance.Text;
+        //cEvent.EventStart = 
+        //cEvent.EventEnd = 
+        
 
 
 
-        lbMsg.Text = thing.CreateEvent(cEvent).ToString();
+
+
+
+
+
+
+        success = thing.CreateEvent(cEvent);
 
 
 
