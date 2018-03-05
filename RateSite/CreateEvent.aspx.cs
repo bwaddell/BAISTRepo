@@ -15,11 +15,17 @@ public partial class CreateEvent : System.Web.UI.Page
     protected void btnCreateEvent_Click(object sender, EventArgs e)
     {
         CSS thing = new CSS();
+        Event cEvent = new Event();
 
         string EventKey;
         EventKey = thing.CreateEventKey(3);
 
         tbEventID.Text = EventKey;
+
+
+
+
+        lbMsg.Text = thing.CreateEvent(cEvent).ToString();
 
 
 

@@ -40,4 +40,15 @@ public class CSS
         EventKey = Controller.CreateEventKey(size);
         return EventKey;
     }
+
+    public bool CreateEvent(Event CEvent)
+    {
+        bool Confirmation = false;
+        EventDirector Controller = new EventDirector();
+
+        Confirmation = Controller.CreateEvent(CEvent);
+
+        return Confirmation;
+
+    }
 }

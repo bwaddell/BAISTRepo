@@ -34,7 +34,7 @@
         <asp:TextBox ID="tbEventEnd" runat="server" CssClass="form-control"></asp:TextBox>
 
     </div>
-
+    <asp:Label ID="lbMsg" runat="server" Text="Label"></asp:Label>
 
 
 
