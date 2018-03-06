@@ -31,6 +31,16 @@ create database ContinUI
 go
 use ContinUI
 GO
+
+
+
+DataBase: ContinUIDB
+adminName: cody
+password: Jacob$17
+
+
+
+
 create table Facilitator
 (
 	FacilitatorID int unique identity(1,1) not null,
