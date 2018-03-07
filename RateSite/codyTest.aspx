@@ -11,7 +11,7 @@
     <form id="form1" runat="server">
         <div>
 
-            <asp:ScriptManager ID="ScriptManagerForGraph" runat="server"></asp:ScriptManager>
+            <%--<asp:ScriptManager ID="ScriptManagerForGraph" runat="server"></asp:ScriptManager>--%>
 
             <asp:Timer ID="TimerForNumRefresh" runat="server" Interval="5000" OnTick="TimerForNumRefresh_Tick"></asp:Timer>
 

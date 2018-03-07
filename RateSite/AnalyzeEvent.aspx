@@ -3,22 +3,23 @@
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
-    <asp:Timer ID="TimerForGraphRefresh" runat="server" Interval="10000" OnTick="TimerForGraphRefresh_Tick"></asp:Timer>
-    
-    <label>Event ID:</label>
-    <asp:TextBox ID="tbEventID" runat="server" CssClass="form-control">1</asp:TextBox>
-    
-    <label>Evaluator ID:</label>
-    <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>
+    <asp:timer id="TimerForGraphRefresh" runat="server" interval="10000" ontick="TimerForGraphRefresh_Tick"></asp:timer>
 
-    <asp:Label ID="lbStartTime" runat="server" Text="StartTime"></asp:Label>
+    <label>Event ID:</label>
+    <asp:textbox id="tbEventID" runat="server" cssclass="form-control">1</asp:textbox>
+
+    <label>Evaluator ID:</label>
+    <asp:textbox id="tbEvaluatorID" runat="server" cssclass="form-control">1</asp:textbox>
+
+    <asp:label id="lbStartTime" runat="server" text="StartTime"></asp:label>
 
     <div class="border">
         START of panel
-    <asp:UpdatePanel ID="UpdatePanelGraph" runat="server" UpdateMode="Conditional">
+    <asp:updatepanel id="UpdatePanelGraph" runat="server" updatemode="Conditional">
         <%--INSIDE PANEL--%>
         <%--this is where the graph and stuff goes--%>
         <ContentTemplate>
@@ -49,13 +50,13 @@
             <asp:AsyncPostBackTrigger ControlID="Button1" />
             <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh" EventName="Tick" />
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:updatepanel>
         END of panel
     </div>
     OUTSIDE panel
 
     <%--so this button can sit outside of the panel but its trigger is inside the panel^^--%>
-    <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
+    <asp:button id="Button1" runat="server" text="Button" onclick="Button1_Click" />
 
 
 

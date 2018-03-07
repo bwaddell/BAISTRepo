@@ -45,18 +45,18 @@
             </div>
             <!-- /.container-fluid -->
         </nav>--%>
-
-        <asp:ScriptManager ID="ScriptManagerForGraph" runat="server"></asp:ScriptManager>
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
         <div class="container border">
-                <asp:Label ID="lbMsg" runat="server" Text=""></asp:Label>
-
+            <asp:Label ID="lbMsg" runat="server" Text=""></asp:Label>
 
 
             <asp:ContentPlaceHolder ID="MainBody" runat="server">
 
                 <%--Main body content shows up in here--%>
             </asp:ContentPlaceHolder>
+
+
         </div>
     </form>
 

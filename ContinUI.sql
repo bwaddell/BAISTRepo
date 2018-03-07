@@ -3,8 +3,6 @@
 
 
 -------------DO NOT RUN this ON DATABAIST--------------------
-
-
 USE master
 GO
 DECLARE @dbname sysname
@@ -34,13 +32,9 @@ GO
 
 
 
---DataBase: ContinUIDB
---adminName: cody
---password: Jacob$17
 
 
-
-
+--drop table Facilitator
 create table Facilitator
 (
 	FacilitatorID int unique identity(1,1) not null,
@@ -48,13 +42,13 @@ create table Facilitator
 	LastName nvarchar(20) not null,
 	Title nvarchar(20) null,
 	Organization nvarchar(20) null,
-	City nvarchar(20) null	
+	City nvarchar(20) null
 )
 alter table Facilitator
 	add constraint PK_Facilitator primary key (FacilitatorID)
 Go
 
-
+--drop table EventDetails
 create table EventDetails
 (
 	EventKey nvarchar(5) not null,
@@ -73,7 +67,7 @@ alter table EventDetails
 Go
 
 
-
+--drop table Evaluator
 create table Evaluator
 (
 	EvaluatorID int unique identity(1,1) not null,
@@ -104,7 +98,15 @@ alter table EvaluativeData
 GO
 
 
-alter procedure AddEvaluationDataPoint
+
+--****************************************--
+--Stored Procedures---
+--****************************************--
+
+
+--drop procedure AddEvaluationDataPoint
+go
+create procedure AddEvaluationDataPoint
 (
 	@Event nvarchar(5) = null,
 	@Evaluator int = null,
@@ -117,13 +119,10 @@ as
 
 	if(@Event is null)
 		raiserror('AddEvaluationDataPoint - Required Parameter: @Event',16,1)
-	else
 	if(@Evaluator is null)
 		raiserror('AddEvaluationDataPoint - Required Parameter: @Evaluator',16,1)
-	else
 	if(@Rating is null)
 		raiserror('AddEvaluationDataPoint - Required Parameter: @Rating',16,1)
-	else
 	if(@TimeOfData is null)
 		raiserror('AddEvaluationDataPoint - Required Parameter: @TimeOfData',16,1)
 	else
@@ -139,9 +138,11 @@ as
 	return @ReturnCode
 GO
 
-
+--drop procedure AddEvaluator
+go
 create procedure AddEvaluator
 (
+	@EvaluatorID int = null output,
 	@Name nvarchar(60) = null,
 	@DateOfBirth date = null,
 	@Sex varchar(1) = null,
@@ -155,24 +156,36 @@ as
 
 	if(@Name is null)
 		raiserror('AddEvaluator - Required Parameter: @Name',16,1)
-	else
 	if(@VotingCriteria is null)
 		raiserror('AddEvaluator - Required Parameter: @VotingCriteria',16,1)
 	else
 		begin
 			insert into Evaluator 
 			values (@Name, @DateOfBirth, @Sex, @SchoolOrOrganization, @City, @VotingCriteria)
-
+			
+			
 			if @@ERROR = 0
-				set @ReturnCode = 0
+				begin
+					set @ReturnCode = 0
+					select @EvaluatorID = @@IDENTITY
+				end
 			else
 				raiserror('AddEvaluator- Insert Error: Query Failed',16,1)
 		end
 	return @ReturnCode
 GO
---select 
+declare @evalID int
+execute AddEvaluator @evalID output, 'Cody Jacob','08-12-2001','M','NAIT','Edmonton','Vote criteria?'
+execute AddEvaluator @evalID output, 'Ben Waddell','05-10-2001','M','NAIT','Edmonton','Vote criteria?'
+execute AddEvaluator @evalID output, 'Martin Sawicki','04-09-2001','M','NAIT','Edmonton','Vote criteria?'
+select * from Evaluator
+select @evalID
+go
 
 
+
+--drop procedure CreateFacilitator
+go
 create procedure CreateFacilitator
 (
 	@FirstName nvarchar(20) = null,
@@ -187,7 +200,6 @@ as
 
 	if(@FirstName is null)
 		raiserror('CreateFacilitator - Required Parameter: @FirstName',16,1)
-	else
 	if(@LastName is null)
 		raiserror('CreateFacilitator - Required Parameter: @LastName',16,1)
 	else
@@ -207,7 +219,8 @@ GO
 execute CreateFacilitator 'David','Elyk','BOS','NAIT','Edmonton'
 GO
 
-
+--drop procedure CreateEvent
+go
 create procedure CreateEvent
 (
 	@EventKey nvarchar(5) = null,
@@ -223,35 +236,35 @@ as
 
 	if(@EventKey is null)
 		raiserror('CreateEvent - Required Parameter: @EventKey',16,1)
-	else
 	if(@Facilitator is null)
 		raiserror('CreateEvent - Required Parameter: @Facilitator',16,1)
-	else
 	if(@Location is null)
 		raiserror('CreateEvent - Required Parameter: @Location',16,1)
-	else
 	if(@Performer is null)
 		raiserror('CreateEvent - Required Parameter: @Performer',16,1)
-	else	
 	if(@NatureOfEvent is null)
 		raiserror('CreateEvent - Required Parameter: @NatureOfEvent',16,1)
-	else
 	if(@EventDate is null)
 		raiserror('CreateEvent - Required Parameter: @EventDate',16,1)
 	else
 		begin
-			insert into EventDetails
-			values (@EventKey, @Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate,null,null)
+			insert into EventDetails(EventKey,FacilitatorID,Location,Performer,NatureOfEvent,EventDate)
+			values (@EventKey, @Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate)
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
 			else
 				raiserror('CreateEvent - Insert Error: Query Failed',16,1)
 			end
-		return @ReturnCode				
+		return @ReturnCode
 GO
 
+execute CreateEvent 'ABCD',1,'Edmonton NAIT','Bruce Wayne','Sing', '03-03-2018'
+go
 
+
+--drop procedure UpdateEventStatus
+go
 create procedure UpdateEventStatus
 (
 	@EventStart datetime = null,
@@ -274,21 +287,23 @@ as
 GO
 
 
+--drop procedure GetHistoricalEvaluationData
+go
 create procedure GetHistoricalEvaluationData
 (
-	@Event int = null
+	@EventKey nvarchar(5) = null
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 	
-	if(@Event is null)
-		raiserror('GetHistoricalEvaluationData - Select ErrorRequired Parameter: @Event',16,1)
+	if(@EventKey is null)
+		raiserror('GetHistoricalEvaluationData - Required Parameter: @EventKey',16,1)
 	else
 		begin
 			select EvaluatorID, Rating, TimeOfData 
 			from EvaluativeData
-			where @Event = EventKey
+			where @EventKey = EventKey
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -298,24 +313,25 @@ as
 	return @ReturnCode				
 GO
 
-
+--drop procedure GetMostRecentEvaluativeData
+go
 create procedure GetMostRecentEvaluativeData
 (
-	@Event int = null
+	@EventKey nvarchar(5) = null
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 	
-	if(@Event is null)
-		raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
+	if(@EventKey is null)
+		raiserror('GetMostRecentEvaluativeData - Required Parameter: @EventKey',16,1)
 	else
 		begin
 			select ed.EvaluatorID, ed.Rating
 			from EvaluativeData ed
 			inner join (select max(TimeOfData) as LatestData
 						from EvaluativeData) evda  
-			on @Event = EventKey and ed.TimeOfData = evda.LatestData
+			on @EventKey = EventKey and ed.TimeOfData = evda.LatestData
 
 
 			if @@ERROR = 0
@@ -326,12 +342,11 @@ as
 	return @ReturnCode				
 GO
 
-execute GetMostRecentEvaluativeData 1
+execute GetMostRecentEvaluativeData 'C7UT'
 
-select * from EventDetails
-select * from Facilitator
+
+--drop procedure CreateEvaluator
 go
-
 create procedure CreateEvaluator
 (
 	@EvaluatorID INT = null output
@@ -355,6 +370,14 @@ as
 	return @ReturnCode	
 go
 
+declare @evalID INT
+execute CreateEvaluator @evalID output
+select @evalID
+go
+
+
+--drop procedure GetEvent
+go
 create procedure GetEvent
 (
 	@EventKey nvarchar(5) = null
@@ -379,3 +402,7 @@ as
 go
 
 select * from EvaluativeData
+select * from EventDetails
+select * from Evaluator
+select * from Facilitator
+
