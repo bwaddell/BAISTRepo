@@ -27,7 +27,7 @@
                         <asp:Label ID="LabelTime" runat="server" Text="time"></asp:Label>
                         <asp:Label ID="LabelRating" runat="server" Text="LabelRating"></asp:Label>
                         <%--CHART--%>
-                        <asp:Chart ID="Chart1" runat="server" Height="500px" Width="500px">
+                        <%--<asp:Chart ID="Chart1" runat="server" Height="500px" Width="500px">
                             <Titles>
                                 <asp:Title ShadowOffset="3" name="Things" />
                             </Titles>
@@ -41,7 +41,7 @@
                             <ChartAreas>
                                 <asp:ChartArea Name="ChartArea1" ></asp:ChartArea>
                             </ChartAreas>
-                        </asp:Chart>
+                        </asp:Chart>--%>
 
 
                     </ContentTemplate>

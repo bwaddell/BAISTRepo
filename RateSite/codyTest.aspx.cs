@@ -24,12 +24,12 @@ public partial class codyTest : System.Web.UI.Page
         //    y[i] = Convert.ToInt32(dt.Rows[i][1]);
         //}
 
-        Chart1.Series[0].Points.DataBindXY(x, y);
-        Chart1.Series[0].ChartType = SeriesChartType.Line;
+        //Chart1.Series[0].Points.DataBindXY(x, y);
+        //Chart1.Series[0].ChartType = SeriesChartType.Line;
 
-        //Chart1.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
+        ////Chart1.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
 
-        Chart1.Legends[0].Enabled = true;
+        //Chart1.Legends[0].Enabled = true;
         
 
     }
