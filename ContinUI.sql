@@ -330,30 +330,3 @@ execute GetMostRecentEvaluativeData 1
 
 select * from EventDetails
 select * from Facilitator
-
---create procedure GetMostRecentEvaluativeData
---(
---	@Event int = null
---)
---as
---	declare @ReturnCode as int
---	set @ReturnCode = 1
-	
---	if(@Event is null)
---		raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
---	else
---		begin
---			select ed.EvaluatorID, ed.Rating
---			from EvaluativeData ed
---			inner join (select ed.EvaluatorID, max(TimeOfData) as LatestData
---						from EvaluativeData) evda  
---			on @Event = EventKey and ed.TimeOfData = evda.LatestData
---			group by ed.EvaluatorID
-
---			if @@ERROR = 0
---				set @ReturnCode = 0
---			else
---				raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
---		end
---	return @ReturnCode				
---GO
