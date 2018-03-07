@@ -1,42 +1,41 @@
 ﻿body {
-    
 }
 
-#MainBody{
+#MainBody {
     align-content: center;
-    background-color:white;
-    text-align:center;
-    height:100%;
+    background-color: white;
+    text-align: center;
+    height: 100%;
 }
 
-.RatingClass{
-    text-align:center;
-    display:block;  
-    margin:auto;
-    text-align:center;
-    max-width:99%;
-    height:16vh;
-    border:none;
-    margin:auto;
+.RatingClass {
+    text-align: center;
+    display: block;
+    margin: auto;
+    text-align: center;
+    max-width: 99%;
+    height: 16vh;
+    border: none;
+    margin: auto;
 }
 
-.ratingLabel{
-    display:inline-block;
-    vertical-align:middle;
-    float:none;
-    font:bold 14vh magneto,verdana;
+.ratingLabel {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    font: bold 14vh magneto,verdana;
 }
 
-.btnClass{
-    display:inline-block;
-
-    height:42vh;
+.btnClass {
+    display: inline-block;
+    height: 42vh;
 }
 
-.btnImage{
-    max-height:100%;
-    max-width:100%;
+.btnImage {
+    max-height: 100%;
+    max-width: 100%;
 }
+
 
 /*.btnImage{
     width:100%;
@@ -51,6 +50,37 @@
     background: url('Images/arrowup.png');
 }*/
 
-#tbEventKey{
+#tbEventKey {
     text-transform: uppercase;
+}
+
+.homepageBtn {
+    width: 100%;
+
+    text-align: center;
+    display: inline-block;
+    margin: auto;
+    float: none;
+    font: bold 4vh verdana;
+}
+
+.homepageText {
+
+    max-width:100%;
+    width: 100%;
+        margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    display: inline-block;
+    margin: auto;
+    float: none;
+    font: bold 4vh verdana;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: dodgerblue;
+    color: white;
+    font: bold 8vh verdana;
 }

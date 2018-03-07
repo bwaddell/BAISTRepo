@@ -3,24 +3,28 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" Runat="Server">
+    <div class="jumbotron">
+        <h1>ContinUI</h1>
+    </div>
     <div class="row">
-        <div class="btn">
-            <asp:Button ID="CreateButton" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
+        <div class="btn homepageBtn">
+            <asp:Button ID="CreateButton" class="btn-primary homepageBtn" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="homepageText">
+            <asp:TextBox ID="tbEventKey" class="homepageText" runat="server" MaxLength="4"  placeholder="enter the event key"></asp:TextBox>
         </div>
     </div>
     <div class="row">
-        <div>
-            <asp:TextBox ID="tbEventKey" runat="server" MaxLength="4"  placeholder="enter the event key"></asp:TextBox>
+        <div class="btn homepageBtn">
+            <asp:Button ID="JoinButton" class="btn-primary homepageBtn" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
         </div>
     </div>
     <div class="row">
-        <div class="btn">
-            <asp:Button ID="JoinButton" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
-        </div>
-    </div>
-    <div class="row">
-        <div>
-            <asp:label id="statuslbl" runat="server" text=""></asp:label>
+        <div class="homepageText">
+            <asp:label id="statuslbl" class="homepageText" runat="server" text=""></asp:label>
         </div>
     </div>
 </asp:Content>
