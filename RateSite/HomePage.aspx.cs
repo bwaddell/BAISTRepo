@@ -14,7 +14,7 @@ public partial class HomePage : System.Web.UI.Page
 
     protected void CreateButton_Click(object sender, EventArgs e)
     {
-        Server.Transfer("AnalyzeEvent.aspx");
+        Server.Transfer("CreateEvent.aspx");
     }
 
     protected void JoinButton_Click(object sender, EventArgs e)
@@ -30,9 +30,9 @@ public partial class HomePage : System.Web.UI.Page
 
             currentEvent = RequestDirector.GetEvent(currentEvent);
 
-            if (currentEvent.Date != null)
+            if (currentEvent.Date != default(DateTime))
             {
-                if (currentEvent.EventEnd == null)
+                if (currentEvent.EventEnd == default(DateTime))
                 {
                     Session["Event"] = currentEvent;
                     Server.Transfer("EvaluateEvent.aspx");

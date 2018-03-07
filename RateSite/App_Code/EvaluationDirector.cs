@@ -39,7 +39,7 @@ public class EvaluationDirector
 
         SqlParameter AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@Event";
-        AddParameter.SqlDbType = SqlDbType.Int;
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = eval.EventID;
         CommandAdd.Parameters.Add(AddParameter);
@@ -52,7 +52,7 @@ public class EvaluationDirector
         CommandAdd.Parameters.Add(AddParameter);
 
         AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@DataTime";
+        AddParameter.ParameterName = "@TimeOfData";
         AddParameter.SqlDbType = SqlDbType.DateTime;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = eval.TimeStamp;

@@ -104,9 +104,9 @@ alter table EvaluativeData
 GO
 
 
-create procedure AddEvaluationDataPoint
+alter procedure AddEvaluationDataPoint
 (
-	@Event int = null,
+	@Event nvarchar(5) = null,
 	@Evaluator int = null,
 	@Rating int = null,
 	@TimeOfData datetime = null
@@ -377,3 +377,5 @@ as
 			end
 		return @ReturnCode	
 go
+
+select * from EvaluativeData

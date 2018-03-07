@@ -232,7 +232,7 @@ public class EventDirector
         SqlCommand CommandGet = new SqlCommand();
         CommandGet.Connection = DataBaseCon;
         CommandGet.CommandType = CommandType.StoredProcedure;
-        CommandGet.CommandText = "CreateEvent";
+        CommandGet.CommandText = "GetEvent";
 
         SqlParameter GetParameter = new SqlParameter();
         GetParameter.ParameterName = "@EventKey";
