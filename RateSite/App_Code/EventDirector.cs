@@ -13,12 +13,12 @@ using System.Data;
 /// </summary>
 public class EventDirector
 {
-	public EventDirector()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public EventDirector()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
 
     public string CreateEventKey(int size)
     {
@@ -91,17 +91,17 @@ public class EventDirector
 
         //try
         //{
-            DataBaseCon.Open();
-            numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
+        DataBaseCon.Open();
+        numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
 
-            if (numRows == 1)
-            {
-                Success = true;//if 1, all is good
-            }
-            else
-            {
-                Success = false; //otherwise, not good
-            }
+        if (numRows == 1)
+        {
+            Success = true;//if 1, all is good
+        }
+        else
+        {
+            Success = false; //otherwise, not good
+        }
         //}
         //catch (Exception ex)
         //{
@@ -109,7 +109,7 @@ public class EventDirector
         //}
         //finally
         //{
-            DataBaseCon.Close();
+        DataBaseCon.Close();
         //}
 
         return Success;
@@ -117,7 +117,7 @@ public class EventDirector
 
     public bool UpdateEvent(Event updatedEvent)
     {
-        
+
         bool Success = false;
         int numRows = 0;
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
@@ -186,24 +186,24 @@ public class EventDirector
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = updatedEvent.EventEnd;           //help
         CommandAdd.Parameters.Add(AddParameter);
-        
+
 
 
         //try
         //{
-            DataBaseCon.Open();
-            //execute quary
-            numRows = CommandAdd.ExecuteNonQuery();
-            if (numRows == 1)
-            {
-                //Number of rows affected is 1, all is good
-                Success = true;
-            }
-            else
-            {
-                //not good
-                Success = false;
-            }
+        DataBaseCon.Open();
+        //execute quary
+        numRows = CommandAdd.ExecuteNonQuery();
+        if (numRows == 1)
+        {
+            //Number of rows affected is 1, all is good
+            Success = true;
+        }
+        else
+        {
+            //not good
+            Success = false;
+        }
         //}
         //catch (Exception ex)
         //{
@@ -211,7 +211,7 @@ public class EventDirector
         //}
         //finally
         //{
-            DataBaseCon.Close();
+        DataBaseCon.Close();
 
 
         //}
@@ -232,7 +232,7 @@ public class EventDirector
         SqlCommand CommandGet = new SqlCommand();
         CommandGet.Connection = DataBaseCon;
         CommandGet.CommandType = CommandType.StoredProcedure;
-        CommandGet.CommandText = "CreateEvent";
+        CommandGet.CommandText = "GetEvent";
 
         SqlParameter GetParameter = new SqlParameter();
         GetParameter.ParameterName = "@EventKey";
@@ -243,19 +243,25 @@ public class EventDirector
 
         //try
         //{
-            DataBaseCon.Open();
+        DataBaseCon.Open();
 
-            SqlDataReader eventReader = CommandGet.ExecuteReader();
+        SqlDataReader eventReader = CommandGet.ExecuteReader();
 
-            if (eventReader.HasRows)
+        if (eventReader.HasRows)
+        {
+            eventReader.Read();
+
+            foundEvent.Date = (DateTime)eventReader["EventDate"];
+
+            if (eventReader["EventEnd"] != DBNull.Value)
             {
-                eventReader.Read();
-
-                foundEvent.Date = (DateTime)eventReader["EventDate"];
                 foundEvent.EventEnd = (DateTime)eventReader["EventEnd"];
             }
 
-            eventReader.Close();
+
+        }
+
+        eventReader.Close();
         //}
         //catch (Exception ex)
         //{
@@ -263,7 +269,7 @@ public class EventDirector
         //}
         //finally
         //{
-            DataBaseCon.Close();
+        DataBaseCon.Close();
         //}
 
         return foundEvent;
@@ -288,14 +294,14 @@ public class EventDirector
 
         //try
         //{
-            DataBaseCon.Open();
+        DataBaseCon.Open();
 
-            int numRows = CommandAdd.ExecuteNonQuery();
+        int numRows = CommandAdd.ExecuteNonQuery();
 
-            if (numRows >= 1)
-            {
-                newEvaluator.EvaluatorID = Convert.ToInt32(CommandAdd.Parameters["@EvaluatorID"].Value);
-            }
+        if (numRows >= 1)
+        {
+            newEvaluator.EvaluatorID = Convert.ToInt32(CommandAdd.Parameters["@EvaluatorID"].Value);
+        }
         //}
         //catch (Exception)
         //{
@@ -303,7 +309,7 @@ public class EventDirector
         //}
         //finally
         //{
-            DataBaseCon.Close();
+        DataBaseCon.Close();
         //}
 
         return newEvaluator;
