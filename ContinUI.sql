@@ -31,6 +31,16 @@ create database ContinUI
 go
 use ContinUI
 GO
+
+
+
+--DataBase: ContinUIDB
+--adminName: cody
+--password: Jacob$17
+
+
+
+
 create table Facilitator
 (
 	FacilitatorID int unique identity(1,1) not null,
@@ -194,6 +204,10 @@ as
 GO
 
 
+execute CreateFacilitator 'David','Elyk','BOS','NAIT','Edmonton'
+GO
+
+
 create procedure CreateEvent
 (
 	@EventKey nvarchar(5) = null,
@@ -303,6 +317,7 @@ as
 						from EvaluativeData) evda  
 			on @Event = EventKey and ed.TimeOfData = evda.LatestData
 
+
 			if @@ERROR = 0
 				set @ReturnCode = 0
 			else
@@ -310,3 +325,35 @@ as
 		end
 	return @ReturnCode				
 GO
+
+execute GetMostRecentEvaluativeData 1
+
+select * from EventDetails
+select * from Facilitator
+
+--create procedure GetMostRecentEvaluativeData
+--(
+--	@Event int = null
+--)
+--as
+--	declare @ReturnCode as int
+--	set @ReturnCode = 1
+	
+--	if(@Event is null)
+--		raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
+--	else
+--		begin
+--			select ed.EvaluatorID, ed.Rating
+--			from EvaluativeData ed
+--			inner join (select ed.EvaluatorID, max(TimeOfData) as LatestData
+--						from EvaluativeData) evda  
+--			on @Event = EventKey and ed.TimeOfData = evda.LatestData
+--			group by ed.EvaluatorID
+
+--			if @@ERROR = 0
+--				set @ReturnCode = 0
+--			else
+--				raiserror('GetMostRecentEvaluativeData - Select Error: Query Failed',16,1)
+--		end
+--	return @ReturnCode				
+--GO

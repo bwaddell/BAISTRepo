@@ -219,4 +219,93 @@ public class EventDirector
 
         return Success;
     }
+
+    public Event GetEvent(Event currentEvent)
+    {
+        Event foundEvent = new Event();
+        foundEvent.EventID = currentEvent.EventID;
+        int numRows = 0;
+
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+
+        SqlCommand CommandGet = new SqlCommand();
+        CommandGet.Connection = DataBaseCon;
+        CommandGet.CommandType = CommandType.StoredProcedure;
+        CommandGet.CommandText = "CreateEvent";
+
+        SqlParameter GetParameter = new SqlParameter();
+        GetParameter.ParameterName = "@EventKey";
+        GetParameter.SqlDbType = SqlDbType.NVarChar;
+        GetParameter.Direction = ParameterDirection.Input;
+        GetParameter.Value = currentEvent.EventID;
+        CommandGet.Parameters.Add(GetParameter);
+
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlDataReader eventReader = CommandGet.ExecuteReader();
+
+            if (eventReader.HasRows)
+            {
+                eventReader.Read();
+
+                foundEvent.Date = (DateTime)eventReader["EventDate"];
+                foundEvent.EventEnd = (DateTime)eventReader["EventEnd"];
+            }
+
+            eventReader.Close();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+
+        return foundEvent;
+    }
+    public Evaluator CreateEvaluator()
+    {
+        Evaluator newEvaluator = new Evaluator();
+
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+
+        SqlCommand CommandAdd = new SqlCommand();
+        CommandAdd.Connection = DataBaseCon;
+        CommandAdd.CommandType = CommandType.StoredProcedure;
+        CommandAdd.CommandText = "CreateEvaluator";
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@EvaluatorID";
+        AddParameter.SqlDbType = SqlDbType.Int;
+        AddParameter.Direction = ParameterDirection.Output;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        try
+        {
+            DataBaseCon.Open();
+
+            int numRows = CommandAdd.ExecuteNonQuery();
+
+            if (numRows >= 1)
+            {
+                newEvaluator.EvaluatorID = Convert.ToInt32(CommandAdd.Parameters["@EvaluatorID"].Value);
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+
+        return newEvaluator;
+    }
 }

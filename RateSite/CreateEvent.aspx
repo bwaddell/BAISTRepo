@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
-    <div class="form-group border">
+    <div class="form-group">
         <div class="row">
             <div class="col-xs-4">
                 <label>Event ID: </label>
@@ -50,48 +50,21 @@
                 <label>Event Date:</label>
             </div>
             <div class="col-xs-8">
-                <asp:TextBox ID="tbEventDate" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox ID="tbEventDate" runat="server" CssClass="form-control" Readonly="true"></asp:TextBox>
             </div>
-            <%--<div class='col-xs-8'>
-
-                <input type='text' class="form-control" id='datetimepicker' />
-
-
-            </div>
-            <script type="text/javascript">
-                $(function () {
-                    $('#datetimepicker').datetimepicker();
-                });
-            </script>--%>
         </div>
 
         <div class="row">
             <div class="col-xs-4">
-                <label>Event Begin:</label>
-            </div>
-            <div class="col-xs-8">
-                <asp:TextBox ID="tbEventBegin" runat="server" CssClass="form-control"></asp:TextBox>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <label>Event End:</label>
-            </div>
-            <div class="col-xs-8">
-                <asp:TextBox ID="tbEventEnd" runat="server" CssClass="form-control"></asp:TextBox>
-            </div>
-        </div
-        <div class="row">
-            <div>
                 <asp:Button ID="btnCreateEvent" runat="server" Text="Create Event" OnClick="btnCreateEvent_Click" />
             </div>
-            
+            <div class="col-xs-8">
+                <asp:label id="lbstatus" runat="server" text=""></asp:label>
+            </div>
         </div>
     </div>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
-
-
 </asp:Content>
 

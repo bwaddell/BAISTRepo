@@ -51,4 +51,22 @@ public class CSS
         return Confirmation;
 
     }
+    public Event GetEvent(Event currentEvent)
+    {
+        Event foundEvent = new Event();
+        EventDirector Controller = new EventDirector();
+
+        foundEvent = Controller.GetEvent(currentEvent);
+
+        return foundEvent;
+    }
+    public Evaluator CreateEvaluator()
+    { 
+        Evaluator newEvaluator = new Evaluator();
+        EventDirector Controller = new EventDirector();
+
+        newEvaluator = Controller.CreateEvaluator();
+
+        return newEvaluator;
+    }
 }
