@@ -89,8 +89,8 @@ public class EventDirector
         AddParameter.Value = Created.Date;
         CommandAdd.Parameters.Add(AddParameter);
 
-        try
-        {
+        //try
+        //{
             DataBaseCon.Open();
             numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
 
@@ -102,15 +102,15 @@ public class EventDirector
             {
                 Success = false; //otherwise, not good
             }
-        }
-        catch (Exception ex)
-        {
-            Success = false;
-        }
-        finally
-        {
+        //}
+        //catch (Exception ex)
+        //{
+        //    Success = false;
+        //}
+        //finally
+        //{
             DataBaseCon.Close();
-        }
+        //}
 
         return Success;
     }
