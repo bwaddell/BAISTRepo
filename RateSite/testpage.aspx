@@ -9,7 +9,8 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
+    This page is used for database sql things
+
     </div>
     </form>
 </body>
