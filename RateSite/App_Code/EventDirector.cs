@@ -268,4 +268,44 @@ public class EventDirector
 
         return foundEvent;
     }
+    public Evaluator CreateEvaluator()
+    {
+        Evaluator newEvaluator = new Evaluator();
+
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+
+        SqlCommand CommandAdd = new SqlCommand();
+        CommandAdd.Connection = DataBaseCon;
+        CommandAdd.CommandType = CommandType.StoredProcedure;
+        CommandAdd.CommandText = "CreateEvaluator";
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@EvaluatorID";
+        AddParameter.SqlDbType = SqlDbType.Int;
+        AddParameter.Direction = ParameterDirection.Output;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        try
+        {
+            DataBaseCon.Open();
+
+            int numRows = CommandAdd.ExecuteNonQuery();
+
+            if (numRows >= 1)
+            {
+                newEvaluator.EvaluatorID = Convert.ToInt32(CommandAdd.Parameters["@EvaluatorID"].Value);
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+
+        return newEvaluator;
+    }
 }
