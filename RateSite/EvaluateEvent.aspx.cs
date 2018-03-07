@@ -9,18 +9,18 @@ public partial class EvaluateEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        CSS RequestDirector = new CSS();
-        Evaluator activeEvaluator = new Evaluator();
-        activeEvaluator = RequestDirector.CreateEvaluator();
+        //CSS RequestDirector = new CSS();
+        //Evaluator activeEvaluator = new Evaluator();
+        //activeEvaluator = RequestDirector.CreateEvaluator();
 
-        if (activeEvaluator.EvaluatorID != null)
-        {
-            Session["Evaluator"] = activeEvaluator;       
-        }
-        else
-        {
-            Server.Transfer("HomePage.aspx");
-        }
+        //if (activeEvaluator.EvaluatorID != null)
+        //{
+        //    Session["Evaluator"] = activeEvaluator;       
+        //}
+        //else
+        //{
+        //    Server.Transfer("HomePage.aspx");
+        //}
 
     }
 

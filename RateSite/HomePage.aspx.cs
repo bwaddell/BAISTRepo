@@ -34,8 +34,22 @@ public partial class HomePage : System.Web.UI.Page
             {
                 if (currentEvent.EventEnd == default(DateTime))
                 {
-                    Session["Event"] = currentEvent;
-                    Server.Transfer("EvaluateEvent.aspx");
+                    Evaluator activeEvaluator = new Evaluator();
+                    
+
+                    activeEvaluator = RequestDirector.CreateEvaluator();
+
+                    if (activeEvaluator.EvaluatorID != default(int))
+                    {
+                        Session["Event"] = currentEvent;
+                        Session["Evaluator"] = activeEvaluator;
+                        Server.Transfer("EvaluateEvent.aspx");
+                    }
+                    else
+                    {
+                        tbEventKey.Text = "";
+                        statuslbl.Text = "Error Joining Event";
+                    }                             
                 }
                 else
                 {
