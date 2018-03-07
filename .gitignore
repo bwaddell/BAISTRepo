@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /ContinUI Server Side.sql
+/ContinUI Web-BAIST server.sql
