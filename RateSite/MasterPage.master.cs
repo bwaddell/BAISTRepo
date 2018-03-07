@@ -13,7 +13,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
         if (Session["Evaluator"] != null)
         {
             lbMsg.Text = "Your Evaluator ID is: " + ((Evaluator)Session["Evaluator"]).EvaluatorID.ToString();
-            lbMsg.Text += "<br />Your Event ID is: " + ((Event)Session["Event"]).EventID + "< br />";
+            lbMsg.Text += "<br />Your Event ID is: " + ((Event)Session["Event"]).EventID + "<br />";
 
 
         }
