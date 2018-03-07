@@ -36,10 +36,10 @@ public partial class CreateEvent : System.Web.UI.Page
         {
             Server.Transfer("AnalyzeEvent.aspx");
         }
-        else
-        {
-            lbstatus.Text = "Error Generating Event.  Please Try Again.";
-        }
+        //else
+        //{
+        //    lbstatus.Text = "Error Generating Event.  Please Try Again.";
+        //}
 
 
     }

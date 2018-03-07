@@ -89,8 +89,8 @@ public class EventDirector
         AddParameter.Value = Created.Date;
         CommandAdd.Parameters.Add(AddParameter);
 
-        try
-        {
+        //try
+        //{
             DataBaseCon.Open();
             numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
 
@@ -102,15 +102,15 @@ public class EventDirector
             {
                 Success = false; //otherwise, not good
             }
-        }
-        catch (Exception ex)
-        {
-            Success = false;
-        }
-        finally
-        {
+        //}
+        //catch (Exception ex)
+        //{
+        //    Success = false;
+        //}
+        //finally
+        //{
             DataBaseCon.Close();
-        }
+        //}
 
         return Success;
     }
@@ -189,8 +189,8 @@ public class EventDirector
         
 
 
-        try
-        {
+        //try
+        //{
             DataBaseCon.Open();
             //execute quary
             numRows = CommandAdd.ExecuteNonQuery();
@@ -204,17 +204,17 @@ public class EventDirector
                 //not good
                 Success = false;
             }
-        }
-        catch (Exception ex)
-        {
-            Success = false;
-        }
-        finally
-        {
+        //}
+        //catch (Exception ex)
+        //{
+        //    Success = false;
+        //}
+        //finally
+        //{
             DataBaseCon.Close();
 
 
-        }
+        //}
 
 
         return Success;
@@ -241,8 +241,8 @@ public class EventDirector
         GetParameter.Value = currentEvent.EventID;
         CommandGet.Parameters.Add(GetParameter);
 
-        try
-        {
+        //try
+        //{
             DataBaseCon.Open();
 
             SqlDataReader eventReader = CommandGet.ExecuteReader();
@@ -256,15 +256,15 @@ public class EventDirector
             }
 
             eventReader.Close();
-        }
-        catch (Exception ex)
-        {
+        //}
+        //catch (Exception ex)
+        //{
 
-        }
-        finally
-        {
+        //}
+        //finally
+        //{
             DataBaseCon.Close();
-        }
+        //}
 
         return foundEvent;
     }
@@ -286,8 +286,8 @@ public class EventDirector
         AddParameter.Direction = ParameterDirection.Output;
         CommandAdd.Parameters.Add(AddParameter);
 
-        try
-        {
+        //try
+        //{
             DataBaseCon.Open();
 
             int numRows = CommandAdd.ExecuteNonQuery();
@@ -296,15 +296,15 @@ public class EventDirector
             {
                 newEvaluator.EvaluatorID = Convert.ToInt32(CommandAdd.Parameters["@EvaluatorID"].Value);
             }
-        }
-        catch (Exception)
-        {
+        //}
+        //catch (Exception)
+        //{
 
-        }
-        finally
-        {
+        //}
+        //finally
+        //{
             DataBaseCon.Close();
-        }
+        //}
 
         return newEvaluator;
     }
