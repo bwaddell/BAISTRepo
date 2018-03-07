@@ -28,6 +28,7 @@ public partial class CreateEvent : System.Web.UI.Page
         cEvent.Performer = tbPerformer.Text;
         cEvent.Location = tbLocation.Text;
         cEvent.Description = tbNatureOfPerformance.Text;
+        cEvent.Date = DateTime.Today;
 
         
         success = thing.CreateEvent(cEvent);
