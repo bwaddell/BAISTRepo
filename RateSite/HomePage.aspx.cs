@@ -26,7 +26,7 @@ public partial class HomePage : System.Web.UI.Page
             CSS RequestDirector = new CSS();
             Event currentEvent = new Event();
 
-            currentEvent.EventID = tbEventKey.Text;
+            currentEvent.EventID = tbEventKey.Text.ToUpper();
 
             currentEvent = RequestDirector.GetEvent(currentEvent);
 
@@ -34,6 +34,7 @@ public partial class HomePage : System.Web.UI.Page
             {
                 if (currentEvent.EventEnd == null)
                 {
+                    Session["Event"] = currentEvent;
                     Server.Transfer("EvaluateEvent.aspx");
                 }
                 else

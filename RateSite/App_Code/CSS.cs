@@ -60,4 +60,13 @@ public class CSS
 
         return foundEvent;
     }
+    public Evaluator CreateEvaluator()
+    { 
+        Evaluator newEvaluator = new Evaluator();
+        EventDirector Controller = new EventDirector();
+
+        newEvaluator = Controller.CreateEvaluator();
+
+        return newEvaluator;
+    }
 }

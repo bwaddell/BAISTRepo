@@ -9,6 +9,18 @@ public partial class EvaluateEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        CSS RequestDirector = new CSS();
+        Evaluator activeEvaluator = new Evaluator();
+        activeEvaluator = RequestDirector.CreateEvaluator();
+
+        if (activeEvaluator.EvaluatorID != null)
+        {
+            Session["Evaluator"] = activeEvaluator;       
+        }
+        else
+        {
+            Server.Transfer("HomePage.aspx");
+        }
 
     }
 
@@ -21,7 +33,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
 
 
-        Evaluation eval = new Evaluation(Rating,1,1);   // test evaluator and event IDs
+        Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, int.Parse(((Event)Session["Event"]).EventID));   // test evaluator and event IDs
 
         CSS RequestDirector = new CSS();
 
@@ -36,7 +48,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
         LabelRating.Text = Rating.ToString();
 
-        Evaluation eval = new Evaluation(Rating,1,1);   // test evaluator and event IDs
+        Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, int.Parse(((Event)Session["Event"]).EventID));   // test evaluator and event IDs
 
         CSS RequestDirector = new CSS();
 

@@ -330,6 +330,30 @@ execute GetMostRecentEvaluativeData 1
 
 select * from EventDetails
 select * from Facilitator
+go
+
+create procedure CreateEvaluator
+(
+	@EvaluatorID INT = null output
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	begin
+		insert into Evaluator(Name,VotingCriteria)
+		values('TemporaryName','QualityOfPerformance')
+
+		if @@ERROR = 0
+			begin
+				set @ReturnCode = 0
+				select @EvaluatorID = @@IDENTITY
+			end
+		else
+			raiserror('CreateEvaluator - insert Error: Query Failed',16,1)
+		end
+	return @ReturnCode	
+go
 
 create procedure GetEvent
 (
@@ -351,5 +375,5 @@ as
 			else
 				raiserror('GetEvent - Select Error: Query Failed',16,1)
 			end
-		return @ReturnCode				
-GO
+		return @ReturnCode	
+go
