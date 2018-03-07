@@ -14,6 +14,8 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         if (!IsPostBack)
             lbStartTime.Text = "<br /> Page Loaded at: " + DateTime.Now.ToString();
 
+        tbEventID.Text = ((Event)Session["Event"]).EventID;
+
         CSS Director = new CSS();
         Evaluation eval = new Evaluation();
 
