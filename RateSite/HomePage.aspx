@@ -18,6 +18,11 @@
             <asp:Button ID="JoinButton" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
         </div>
     </div>
+    <div class="row">
+        <div>
+            <asp:label id="statuslbl" runat="server" text=""></asp:label>
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" Runat="Server">
 </asp:Content>

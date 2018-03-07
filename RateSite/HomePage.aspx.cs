@@ -19,6 +19,31 @@ public partial class HomePage : System.Web.UI.Page
 
     protected void JoinButton_Click(object sender, EventArgs e)
     {
-        
+        if(tbEventKey.Text.Length == 4)
+        {
+            statuslbl.Text = "";
+
+            CSS RequestDirector = new CSS();
+            Event currentEvent = new Event();
+
+            currentEvent.EventID = tbEventKey.Text;
+
+            currentEvent = RequestDirector.GetEvent(currentEvent);
+
+            if (currentEvent.EventEnd != null)
+            {
+                Server.Transfer("EvaluateEvent.aspx");
+            }
+            else
+            {
+                tbEventKey.Text = "";
+                statuslbl.Text = "Event Key Does Not Exist";
+            }
+        }
+        else
+        {
+            tbEventKey.Text = "";
+            statuslbl.Text = "Invalid Event ID";
+        }
     }
 }
