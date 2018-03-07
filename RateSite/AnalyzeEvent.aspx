@@ -7,7 +7,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
-    <asp:timer id="TimerForGraphRefresh" runat="server" interval="10000" ontick="TimerForGraphRefresh_Tick"></asp:timer>
+    <asp:timer id="TimerForGraphRefresh" runat="server" interval="1000" ontick="TimerForGraphRefresh_Tick"></asp:timer>
 
     <label>Event ID:</label>
     <asp:textbox id="tbEventID" runat="server" cssclass="form-control">1</asp:textbox>
@@ -23,6 +23,10 @@
         <%--INSIDE PANEL--%>
         <%--this is where the graph and stuff goes--%>
         <ContentTemplate>
+
+            <label>Current Average Rating:</label>
+            <asp:Label ID="Ratinglbl" runat="server" Text="0"></asp:Label>
+            <br/>
 
             <%--CHART--%>
             <asp:Chart ID="Chart1" runat="server" Height="500px" Width="500px">

@@ -92,5 +92,48 @@ public class EvaluationDirector
         return Success;      
     }
 
+    public List<Evaluation> GetCurrentEventData(Event currentEvent)
+    {
+        List<Evaluation> evals = new List<Evaluation>();
 
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+
+        SqlCommand CommandGet = new SqlCommand();
+        CommandGet.Connection = DataBaseCon;
+        CommandGet.CommandType = CommandType.StoredProcedure;
+        CommandGet.CommandText = "GetMostRecentEvaluativeData";
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@EventKey";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = currentEvent.EventID;
+        CommandGet.Parameters.Add(AddParameter);
+
+        DataBaseCon.Open();
+        SqlDataReader eventReader = CommandGet.ExecuteReader();
+        
+
+        if (eventReader.HasRows)
+        {
+            Evaluation eval;
+
+            while (eventReader.Read())
+            {
+                eval = new Evaluation();
+
+                eval.EvaluatorID = (int)eventReader["EvaluatorID"];
+                eval.EventID = currentEvent.EventID;
+                eval.Rating = (int)eventReader["Rating"];
+                eval.TimeStamp = (DateTime)eventReader["TimeOfData"];
+
+                evals.Add(eval);
+            }
+        }
+        eventReader.Close();
+        DataBaseCon.Close();
+
+        return evals;
+    }
 }

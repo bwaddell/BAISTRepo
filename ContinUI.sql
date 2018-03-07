@@ -313,9 +313,11 @@ as
 	return @ReturnCode				
 GO
 
+exec GetHistoricalEvaluationData 'ABCD'
+
 --drop procedure GetMostRecentEvaluativeData
 go
-create procedure GetMostRecentEvaluativeData
+alter procedure GetMostRecentEvaluativeData
 (
 	@EventKey nvarchar(5) = null
 )
@@ -327,11 +329,11 @@ as
 		raiserror('GetMostRecentEvaluativeData - Required Parameter: @EventKey',16,1)
 	else
 		begin
-			select ed.EvaluatorID, ed.Rating
+			select ed.EvaluatorID, ed.Rating, ed.TimeOfData
 			from EvaluativeData ed
-			inner join (select max(TimeOfData) as LatestData
-						from EvaluativeData) evda  
-			on @EventKey = EventKey and ed.TimeOfData = evda.LatestData
+			left join EvaluativeData ev
+			on ed.EvaluatorID = ev.EvaluatorID and ed.TimeOfData < ev.TimeOfData
+			where ed.EventKey = @EventKey and ev.EvaluatorID is null
 
 
 			if @@ERROR = 0
@@ -342,8 +344,7 @@ as
 	return @ReturnCode				
 GO
 
-execute GetMostRecentEvaluativeData 'C7UT'
-
+execute GetMostRecentEvaluativeData 'ABCD'
 
 --drop procedure CreateEvaluator
 go
