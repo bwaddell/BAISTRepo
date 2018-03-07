@@ -34,9 +34,9 @@ GO
 
 
 
-DataBase: ContinUIDB
-adminName: cody
-password: Jacob$17
+--DataBase: ContinUIDB
+--adminName: cody
+--password: Jacob$17
 
 
 
