@@ -46,12 +46,16 @@
             <!-- /.container-fluid -->
         </nav>--%>
 
-    <asp:ScriptManager ID="ScriptManagerForGraph" runat="server" ></asp:ScriptManager>
+        <asp:ScriptManager ID="ScriptManagerForGraph" runat="server"></asp:ScriptManager>
 
         <div class="container border">
+                <asp:Label ID="lbMsg" runat="server" Text=""></asp:Label>
+
+
+
             <asp:ContentPlaceHolder ID="MainBody" runat="server">
 
-                <%--buttons show up here--%>
+                <%--Main body content shows up in here--%>
             </asp:ContentPlaceHolder>
         </div>
     </form>
