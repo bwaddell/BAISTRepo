@@ -30,9 +30,17 @@ public partial class HomePage : System.Web.UI.Page
 
             currentEvent = RequestDirector.GetEvent(currentEvent);
 
-            if (currentEvent.EventEnd != null)
+            if (currentEvent.Date != null)
             {
-                Server.Transfer("EvaluateEvent.aspx");
+                if (currentEvent.EventEnd == null)
+                {
+                    Server.Transfer("EvaluateEvent.aspx");
+                }
+                else
+                {
+                    tbEventKey.Text = "";
+                    statuslbl.Text = "Event has ended";
+                }
             }
             else
             {
