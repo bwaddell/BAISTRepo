@@ -36,8 +36,8 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         }
 
 
-        Chart1.Series[0].Points.DataBindXY(x, y);
-        Chart1.Series[0].ChartType = SeriesChartType.Line;
+        //Chart1.Series[0].Points.DataBindXY(x, y);
+        //Chart1.Series[0].ChartType = SeriesChartType.Line;
         
 
         //Chart1.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
