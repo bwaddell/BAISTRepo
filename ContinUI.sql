@@ -317,7 +317,7 @@ exec GetHistoricalEvaluationData 'ABCD'
 
 --drop procedure GetMostRecentEvaluativeData
 go
-create procedure GetMostRecentEvaluativeData
+alter procedure GetMostRecentEvaluativeData
 (
 	@EventKey nvarchar(5) = null
 )
@@ -332,7 +332,7 @@ as
 			select ed.EvaluatorID, ed.Rating, ed.TimeOfData
 			from EvaluativeData ed
 			left join EvaluativeData ev
-			on ed.EvaluatorID = ev.EvaluatorID and ed.TimeOfData > ev.TimeOfData
+			on ed.EvaluatorID = ev.EvaluatorID and ed.TimeOfData < ev.TimeOfData
 			where ed.EventKey = @EventKey and ev.EvaluatorID is null
 
 

@@ -15,6 +15,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
             lbStartTime.Text = "<br /> Page Loaded at: " + DateTime.Now.ToString();
 
         tbEventID.Text = ((Event)Session["Event"]).EventID;
+        //tbEventID.Text = "ABCD";
 
         CSS Director = new CSS();
         Evaluation eval = new Evaluation();
@@ -54,5 +55,17 @@ public partial class AnalyzeEvent : System.Web.UI.Page
     protected void TimerForGraphRefresh_Tick(object sender, EventArgs e)
     {
         lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToString();
+
+        CSS RequestDirector = new CSS();
+
+        List<Evaluation> currentEvals = new List<Evaluation>();
+
+        //Event test = new Event();
+        //test.EventID = "ABCD";
+
+        currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
+        //currentEvals = RequestDirector.GetCurrentEventData(test);
+
+        Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
     }
 }

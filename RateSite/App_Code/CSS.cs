@@ -69,4 +69,12 @@ public class CSS
 
         return newEvaluator;
     }
+    public List<Evaluation> GetCurrentEventData(Event currentEvent)
+    {
+        List<Evaluation> evals = new List<Evaluation>();
+        EvaluationDirector Controller = new EvaluationDirector();
+
+        evals = Controller.GetCurrentEventData(currentEvent);
+        return evals;
+    }
 }
