@@ -378,4 +378,5 @@ as
 		return @ReturnCode	
 go
 
+select * from EventDetails
 select * from EvaluativeData
