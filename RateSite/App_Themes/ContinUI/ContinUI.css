@@ -50,3 +50,7 @@
 .upBtn {
     background: url('Images/arrowup.png');
 }*/
+
+#tbEventKey{
+    text-transform: uppercase;
+}
