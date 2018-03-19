@@ -21,7 +21,7 @@ USE master
 GO
 --sp_help 
 IF exists (select * from sysdatabases where name='ContinUI')
-	drop database ContinUI											--ContinUI
+	drop database ContinUI			
 GO
 
 
@@ -31,13 +31,14 @@ use ContinUI
 GO
 
 
-
-
-
---drop table Facilitator
+drop table Facilitator
 create table Facilitator
 (
 	FacilitatorID int unique identity(1,1) not null,
+	EMail nvarchar(20) not null,
+	Password nvarchar(20) not null,
+	Salt nvarchar(10) not null,
+	Roles nvarchar(30) not null,
 	FirstName nvarchar(20) not null,
 	LastName nvarchar(20) not null,
 	Title nvarchar(20) null,
@@ -48,7 +49,7 @@ alter table Facilitator
 	add constraint PK_Facilitator primary key (FacilitatorID)
 Go
 
---drop table EventDetails
+drop table EventDetails
 create table EventDetails
 (
 	EventKey nvarchar(5) not null,
@@ -67,7 +68,7 @@ alter table EventDetails
 Go
 
 
---drop table Evaluator
+drop table Evaluator
 create table Evaluator
 (
 	EvaluatorID int unique identity(1,1) not null,
@@ -82,7 +83,7 @@ alter table Evaluator
 	add constraint PK_Evaluator primary key (EvaluatorID) 
 Go
 
---drop table EvaluativeData
+drop table EvaluativeData
 create table EvaluativeData
 (
 	EventKey NVarchar(5) not null,
@@ -184,12 +185,16 @@ go
 
 
 
---drop procedure CreateFacilitator
+drop procedure CreateFacilitator
 go
 create procedure CreateFacilitator
 (
 	@FirstName nvarchar(20) = null,
 	@LastName nvarchar(20) = null,
+	@EMail nvarchar(20) = null,
+	@Role nvarchar(30) = null,
+	@Password nvarchar(20) = null,
+	@Salt nvarchar(10) = null,
 	@Title nvarchar(20) = null,
 	@Organization nvarchar(20) = null,
 	@City nvarchar(20) = null
@@ -202,10 +207,18 @@ as
 		raiserror('CreateFacilitator - Required Parameter: @FirstName',16,1)
 	if(@LastName is null)
 		raiserror('CreateFacilitator - Required Parameter: @LastName',16,1)
+	if(@EMail is null)
+		raiserror('CreateFacilitator - Required Parameter: @EMail',16,1)
+	if(@Password is null)
+		raiserror('CreateFacilitator - Required Parameter: @Password',16,1)
+	if(@Salt is null)
+		raiserror('CreateFacilitator - Required Parameter: @Salt',16,1)
+	if(@Role is null)
+		raiserror('CreateFacilitator - Required Parameter: @Role',16,1)
 	else
 		begin
-			insert into Facilitator
-			values (@FirstName, @LastName, @Title, @Organization, @City)
+			insert into Facilitator(EMail, Password, Salt, Roles, FirstName, LastName, Title, Organization, City)
+			values (@EMail, @Password, @Salt, @Role, @FirstName, @LastName, @Title, @Organization, @City)
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -213,10 +226,6 @@ as
 				raiserror('CreateFacilitator - Insert Error: Query Failed',16,1)
 		end
 	return @ReturnCode
-GO
-
-
-execute CreateFacilitator 'David','Elyk','BOS','NAIT','Edmonton'
 GO
 
 --drop procedure CreateEvent
@@ -286,6 +295,57 @@ as
 	return @ReturnCode
 GO
 
+--drop procedure GetFacilitatorInfo
+go
+create procedure GetFacilitatorInfo
+(
+	@email nvarchar(20) = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@email is null)
+		raiserror('GetHistoricalEvaluationData - Required Parameter: @email',16,1)
+	else
+		begin
+			select * from Facilitator
+			where EMail = @email
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('UpdateEventStatus - Update Error: Query Failed',16,1)
+		end
+	return @ReturnCode
+GO
+
+
+--drop procedure CreateEvaluator
+go
+create procedure CreateEvaluator
+(
+	@EvaluatorID INT = null output
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	begin
+		insert into Evaluator(Name,VotingCriteria)
+		values('TemporaryName','QualityOfPerformance')
+
+		if @@ERROR = 0
+			begin
+				set @ReturnCode = 0
+				select @EvaluatorID = @@IDENTITY
+			end
+		else
+			raiserror('CreateEvaluator - insert Error: Query Failed',16,1)
+		end
+	return @ReturnCode	
+go
+
 
 --drop procedure GetHistoricalEvaluationData
 go
@@ -312,8 +372,6 @@ as
 		end
 	return @ReturnCode				
 GO
-
-exec GetHistoricalEvaluationData 'ABCD'
 
 --drop procedure GetMostRecentEvaluativeData
 go
@@ -344,39 +402,6 @@ as
 	return @ReturnCode				
 GO
 
-execute GetMostRecentEvaluativeData 'ABCD'
-
---drop procedure CreateEvaluator
-go
-create procedure CreateEvaluator
-(
-	@EvaluatorID INT = null output
-)
-as
-	declare @ReturnCode as int
-	set @ReturnCode = 1
-
-	begin
-		insert into Evaluator(Name,VotingCriteria)
-		values('TemporaryName','QualityOfPerformance')
-
-		if @@ERROR = 0
-			begin
-				set @ReturnCode = 0
-				select @EvaluatorID = @@IDENTITY
-			end
-		else
-			raiserror('CreateEvaluator - insert Error: Query Failed',16,1)
-		end
-	return @ReturnCode	
-go
-
-declare @evalID INT
-execute CreateEvaluator @evalID output
-select @evalID
-go
-
-
 --drop procedure GetEvent
 go
 create procedure GetEvent
@@ -402,8 +427,18 @@ as
 		return @ReturnCode	
 go
 
+execute CreateFacilitator 'David','Elyk','BOS','NAIT','Edmonton'
+GO
+
+exec GetHistoricalEvaluationData 'ABCD'
+execute GetMostRecentEvaluativeData 'ABCD'
+
+declare @evalID INT
+execute CreateEvaluator @evalID output
+select @evalID
+go
+
 select * from EvaluativeData
 select * from EventDetails
 select * from Evaluator
 select * from Facilitator
-
