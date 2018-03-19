@@ -77,4 +77,14 @@ public class CSS
         evals = Controller.GetCurrentEventData(currentEvent);
         return evals;
     }
+
+    public Facilitator GetFacilitatorByEmail(string email)
+    {
+        Facilitator pullFacilitator = new Facilitator();
+        FacilitatorDirector Controller = new FacilitatorDirector();
+
+        pullFacilitator = Controller.GetFacilitatorByEmail(email);
+
+        return pullFacilitator;
+    }
 }
