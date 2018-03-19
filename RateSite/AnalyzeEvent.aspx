@@ -21,7 +21,7 @@
 
     <div class="border row">
         <div class="col-lg">
-            <asp:UpdatePanel ID="UpdatePanelChart" runat="server" UpdateMode="Conditional">
+            <asp:UpdatePanel ID="UpdatePanelTable" runat="server" UpdateMode="Conditional">
                 <%--INSIDE PANEL--%>
                 <%--this is where the graph and stuff goes--%>
                 <ContentTemplate>
@@ -37,14 +37,14 @@
                             <asp:TableHeaderCell>TimeStamp</asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                         <asp:TableRow>
-                            <%--Dynamic Data will be inserted here--%>
+                            <%--Dynamic table Data will be inserted here--%>
                         </asp:TableRow>
                     </asp:Table>
                     <asp:Label ID="lbUpdateTime" runat="server" Text="Update Time: "></asp:Label>
                 </ContentTemplate>
                 <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="btnChart" />
-                    <asp:AsyncPostBackTrigger ControlID="TimerForChartRefresh" 
+                    <asp:AsyncPostBackTrigger ControlID="btnTable" />
+                    <asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh" 
                         EventName="Tick" />
                 </Triggers>
             </asp:UpdatePanel>
@@ -57,58 +57,56 @@
 
 
                     <label>My Graph of data</label>
-                    <div id="RatingChart">
-                        <!-- Plotly chart will be drawn inside this DIV -->
-
-
+                    <div id="RatingGraph">
+                        <!-- Plotly Graph will be drawn inside this DIV -->
                     </div>
+
                     <asp:Label ID="lbUpdateTimeInGraph" runat="server" Text="Update Time: "></asp:Label>
 
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnGraph" />
-                    <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"
-                        EventName="Tick" />
+<%--                    <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"
+                        EventName="Tick" />--%>
                 </Triggers>
             </asp:UpdatePanel>
         </div>
     </div>
 
 
-    <%--so this button can sit outside of the panel but its trigger is inside the panel^^--%>
     <div class="row ">
-        <asp:Button ID="btnChart" runat="server" Text="Update Chart"
-            OnClick="btnChart_Click" />
+        <asp:Button ID="btnTable" runat="server" Text="Update Table"
+            OnClick="btnTable_Click" />
         <asp:Button ID="btnGraph" runat="server" Text="Update Graph"
             OnClick="btnGraph_Click" />
     </div>
 
-    <asp:Timer ID="TimerForChartRefresh" runat="server"
-        Interval="2000" OnTick="btnChart_Click">
+    <asp:Timer ID="TimerForTableRefresh" runat="server"
+        Interval="2000" OnTick="btnTable_Click">
     </asp:Timer>
-    <asp:Timer ID="TimerForGraphRefresh" runat="server"
+<%--    <asp:Timer ID="TimerForGraphRefresh" runat="server"
         Interval="10000" OnTick="btnGraph_Click">
-    </asp:Timer>
+    </asp:Timer>--%>
 </asp:Content>
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
     <script>
         var trace1 = {
-            x: [1, 2, 3, 4],
-            y: [10, 15, 13, 17],
+            x: [1, 2, 3, 4, 5],
+            y: [10, 15, 13, 17, 22],
             mode: 'markers'
         };
 
         var trace2 = {
-            x: [2, 3, 4, 5],
-            y: [16, 5, 11, 9],
+            x: [2, 3, 4, 5, 6],
+            y: [16, 5, 11, 9, 20],
             mode: 'lines'
         };
 
         var trace3 = {
-            x: [1, 2, 3, 4],
-            y: [12, 9, 15, 12],
+            x: [1, 2, 3, 4, 5],
+            y: [12, 9, 15, 12, 34],
             mode: 'lines+markers'
         };
 
@@ -118,7 +116,7 @@
             title: 'Line and Scatter Plot'
         };
 
-        Plotly.newPlot('RatingChart', data, layout);
+        Plotly.newPlot('RatingTable', data, layout);
 
     </script>
 </asp:Content>
