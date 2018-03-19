@@ -11,6 +11,7 @@
     <link href="Content/bootstrap.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <asp:ContentPlaceHolder ID="head" runat="server">
+
     </asp:ContentPlaceHolder>
 </head>
 <body runat="server" id="masterBody">
@@ -46,7 +47,7 @@
             <!-- /.container-fluid -->
         </nav>--%>
 
-        <asp:ScriptManager ID="ScriptManagerForGraph" runat="server"></asp:ScriptManager>
+        <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
 
         <div class="container">
                 <asp:Label ID="lbMsg" runat="server" Text=""></asp:Label>

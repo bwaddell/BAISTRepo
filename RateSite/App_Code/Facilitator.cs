@@ -9,21 +9,26 @@ using System.Web;
 public class Facilitator
 {
     private int FacilitatorIDValue;
-    private string NameValue;
+    private string FirstNameValue;
+    private string LastNameValue;
     private string TitleValue;
     private string OrganizationValue;
     private string CityValue;
     private string CountryValue;
+    private string EmailValue;
+    private string PasswordValue;
+    private string SaltValue;
+    private string RolesValue;
 
     public int FacilitatorID
     {
         get { return FacilitatorIDValue; }
         set { FacilitatorIDValue = value; }
     }
-    public string Name
+    public string FirstName
     {
-        get { return NameValue; }
-        set { NameValue = value; }
+        get { return FirstNameValue; }
+        set { FirstNameValue = value; }
     }
     public string Title
     {
@@ -44,5 +49,70 @@ public class Facilitator
     {
         get { return CountryValue; }
         set { CountryValue = value; }
+    }
+
+    public string Password
+    {
+        get
+        {
+            return PasswordValue;
+        }
+
+        set
+        {
+            PasswordValue = value;
+        }
+    }
+
+    public string Salt
+    {
+        get
+        {
+            return SaltValue;
+        }
+
+        set
+        {
+            SaltValue = value;
+        }
+    }
+
+    public string Roles
+    {
+        get
+        {
+            return RolesValue;
+        }
+
+        set
+        {
+            RolesValue = value;
+        }
+    }
+
+    public string Email
+    {
+        get
+        {
+            return EmailValue;
+        }
+
+        set
+        {
+            EmailValue = value;
+        }
+    }
+
+    public string LastName
+    {
+        get
+        {
+            return LastNameValue;
+        }
+
+        set
+        {
+            LastNameValue = value;
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.DataVisualization.Charting;
 
 
+
 public partial class AnalyzeEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -14,24 +15,17 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         if (!IsPostBack)
             lbStartTime.Text = "<br /> Page Loaded at: " + DateTime.Now.ToString();
 
-        tbEventID.Text = ((Event)Session["Event"]).EventID;
-        //tbEventID.Text = "ABCD";
+        //tbEventID.Text = ((Event)Session["Event"]).EventID;
+        tbEventID.Text = "ABCD";
 
         CSS Director = new CSS();
         Evaluation eval = new Evaluation();
 
-
-
-
-    }
-
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-
     }
 
 
-    protected void TimerForGraphRefresh_Tick(object sender, EventArgs e)
+
+    protected void btnChart_Click(object sender, EventArgs e)
     {
         lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToString();
 
@@ -39,11 +33,12 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
         List<Evaluation> currentEvals = new List<Evaluation>();
 
-        //Event test = new Event();
-        //test.EventID = "ABCD";
+        Event test = new Event();
+        test.EventID = "ABCD";
 
-        currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
-        //currentEvals = RequestDirector.GetCurrentEventData(test);
+        //currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
+        currentEvals = RequestDirector.GetCurrentEventData(test);
+
 
         foreach (Evaluation ev in currentEvals)
         {
@@ -60,14 +55,25 @@ public partial class AnalyzeEvent : System.Web.UI.Page
             tCell = new TableCell();
             tCell.Text = ev.TimeStamp.ToString();
             tRow.Cells.Add(tCell);
-            
 
             Table1.Rows.Add(tRow);
-
         }
 
-
-
         Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+
+
+
+
     }
+
+
+    protected void btnGraph_Click(object sender, EventArgs e)
+    {
+        lbUpdateTimeInGraph.Text = "Update Time: " + DateTime.Now.ToString();
+
+        //add code to update the graph
+
+        
+    }
+
 }
