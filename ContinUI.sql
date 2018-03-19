@@ -31,13 +31,14 @@ use ContinUI
 GO
 
 
+
 drop table Facilitator
 create table Facilitator
 (
 	FacilitatorID int unique identity(1,1) not null,
-	EMail nvarchar(30) not null,
+	EMail nvarchar(40) not null,
 	Password nvarchar(64) not null,
-	Salt nvarchar(8) not null,
+	Salt nvarchar(10) not null,
 	Roles nvarchar(60) not null,
 	FirstName nvarchar(20) not null,
 	LastName nvarchar(20) not null,
@@ -183,16 +184,17 @@ select * from Evaluator
 select @evalID
 go
 
+
 drop procedure CreateFacilitator
 go
-alter procedure CreateFacilitator
+create procedure CreateFacilitator
 (
 	@FirstName nvarchar(20) = null,
 	@LastName nvarchar(20) = null,
 	@EMail nvarchar(40) = null,
 	@Role nvarchar(60) = null,
 	@Password nvarchar(64) = null,
-	@Salt nvarchar(8) = null,
+	@Salt nvarchar(10) = null,
 	@Title nvarchar(20) = null,
 	@Organization nvarchar(40) = null,
 	@City nvarchar(40) = null

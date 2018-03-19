@@ -26,7 +26,7 @@ public class FacilitatorDirector
 
         try
         {
-            ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["ClubBAISTConnect"];
+            ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
             SqlConnection ClubBAISTData = new SqlConnection();
             ClubBAISTData.ConnectionString = webSettings.ConnectionString;
             ClubBAISTData.Open();
