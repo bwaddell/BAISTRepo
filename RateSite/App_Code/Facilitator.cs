@@ -14,6 +14,9 @@ public class Facilitator
     private string OrganizationValue;
     private string CityValue;
     private string CountryValue;
+    private string PasswordValue;
+    private string SaltValue;
+    private string RolesValue;
 
     public int FacilitatorID
     {
@@ -44,5 +47,44 @@ public class Facilitator
     {
         get { return CountryValue; }
         set { CountryValue = value; }
+    }
+
+    public string Password
+    {
+        get
+        {
+            return PasswordValue;
+        }
+
+        set
+        {
+            PasswordValue = value;
+        }
+    }
+
+    public string Salt
+    {
+        get
+        {
+            return SaltValue;
+        }
+
+        set
+        {
+            SaltValue = value;
+        }
+    }
+
+    public string Roles
+    {
+        get
+        {
+            return RolesValue;
+        }
+
+        set
+        {
+            RolesValue = value;
+        }
     }
 }
