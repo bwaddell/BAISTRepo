@@ -6,60 +6,57 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
-    <asp:timer id="TimerForGraphRefresh" runat="server" interval="1000" ontick="TimerForGraphRefresh_Tick"></asp:timer>
+    <asp:Timer ID="TimerForGraphRefresh" runat="server" Interval="1000" OnTick="TimerForGraphRefresh_Tick"></asp:Timer>
 
     <label>Event ID:</label>
-    <asp:textbox id="tbEventID" runat="server" cssclass="form-control">1</asp:textbox>
+    <asp:TextBox ID="tbEventID" runat="server" CssClass="form-control">1</asp:TextBox>
 
     <label>Evaluator ID:</label>
-    <asp:textbox id="tbEvaluatorID" runat="server" cssclass="form-control">1</asp:textbox>
+    <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>
 
-    <asp:label id="lbStartTime" runat="server" text="StartTime"></asp:label>
+    <asp:Label ID="lbStartTime" runat="server" Text="StartTime"></asp:Label>
 
     <div class="border">
-        START of panel
-    <asp:updatepanel id="UpdatePanelGraph" runat="server" updatemode="Conditional">
-        <%--INSIDE PANEL--%>
-        <%--this is where the graph and stuff goes--%>
-        <ContentTemplate>
 
-            <label>Current Average Rating:</label>
-            <asp:Label ID="Ratinglbl" runat="server" Text="0"></asp:Label>
-            <br/>
+        <asp:UpdatePanel ID="UpdatePanelGraph" runat="server" UpdateMode="Conditional">
+            <%--INSIDE PANEL--%>
+            <%--this is where the graph and stuff goes--%>
+            <ContentTemplate>
 
-            <%--CHART--%>
-            <%--<asp:Chart ID="Chart1" runat="server" Height="500px" Width="500px">
-                <Titles>
-                    <asp:Title ShadowOffset="3" Name="Things" />
-                </Titles>
-                <Legends>
-                    <asp:Legend Alignment="Center" Docking="Bottom"
-                        IsTextAutoFit="false" Name="Default" LegendStyle="Row" />
-                </Legends>
-                <Series>
-                    <asp:Series Name="Series1"></asp:Series>
-                </Series>
-                <ChartAreas>
-                    <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
-                </ChartAreas>
-            </asp:Chart>--%>
-
-            <asp:Label ID="lbUpdateTime" runat="server" Text="Update Time: "></asp:Label>
-
-        </ContentTemplate>
+                <label>Current Average Rating:</label>
+                <asp:Label ID="Ratinglbl" runat="server" Text="0"></asp:Label>
+                <br />
 
 
-        <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="Button1" />
-            <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh" EventName="Tick" />
-        </Triggers>
-    </asp:updatepanel>
-        END of panel
+                <asp:Table ID="Table1" runat="server" CssClass="table">
+                                <asp:TableHeaderRow>
+                                    <asp:TableHeaderCell>EvaluatorID</asp:TableHeaderCell>
+                                    <asp:TableHeaderCell>Rating</asp:TableHeaderCell>
+                                    <asp:TableHeaderCell>TimeStamp</asp:TableHeaderCell>
+                                </asp:TableHeaderRow>
+                                <asp:TableRow>
+                                    <%--Dynamic Data will be inserted here--%>
+                                </asp:TableRow>
+
+                            </asp:Table>
+
+
+                <asp:Label ID="lbUpdateTime" runat="server" Text="Update Time: "></asp:Label>
+
+            
+            
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="Button1" />
+                <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh" EventName="Tick" />
+            </Triggers>
+        </asp:UpdatePanel>
+
     </div>
-    OUTSIDE panel
+
 
     <%--so this button can sit outside of the panel but its trigger is inside the panel^^--%>
-    <asp:button id="Button1" runat="server" text="Button" onclick="Button1_Click" />
+    <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
 
 
 

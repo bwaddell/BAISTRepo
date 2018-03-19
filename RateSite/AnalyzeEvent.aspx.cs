@@ -21,28 +21,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         Evaluation eval = new Evaluation();
 
 
-        //tbEventID.Text
-        //Director.GetEvaluationData()
 
-        Random rnd = new Random();
-
-        DateTime[] x = new DateTime[20];
-        int[] y = new int[20]; //{ 0, 1, 2, 3, 4, 4, 5, 5, 8, 9 };
-
-        for (int i = 0; i < 20; i++)
-        {
-            x[i] = DateTime.UtcNow.AddDays(i);
-            y[i] = rnd.Next(1, 10);
-        }
-
-
-        //Chart1.Series[0].Points.DataBindXY(x, y);
-        //Chart1.Series[0].ChartType = SeriesChartType.Line;
-        
-
-        //Chart1.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
-
-        //Chart1.Legends[0].Enabled = true;
 
     }
 
@@ -65,6 +44,29 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
         currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
         //currentEvals = RequestDirector.GetCurrentEventData(test);
+
+        foreach (Evaluation ev in currentEvals)
+        {
+            TableRow tRow = new TableRow();
+            TableCell tCell = new TableCell();
+
+            tCell.Text = ev.EvaluatorID.ToString();
+            tRow.Cells.Add(tCell);
+
+            tCell = new TableCell();
+            tCell.Text = ev.Rating.ToString();
+            tRow.Cells.Add(tCell);
+
+            tCell = new TableCell();
+            tCell.Text = ev.TimeStamp.ToString();
+            tRow.Cells.Add(tCell);
+            
+
+            Table1.Rows.Add(tRow);
+
+        }
+
+
 
         Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
     }
