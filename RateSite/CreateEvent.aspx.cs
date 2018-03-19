@@ -10,6 +10,8 @@ public partial class CreateEvent : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
+        CSS requester = new CSS();
+        
 
         lbAccount.Text = cp.Identity.Name;
 

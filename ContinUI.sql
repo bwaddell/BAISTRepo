@@ -185,7 +185,7 @@ select @evalID
 go
 
 
-drop procedure CreateFacilitator
+--drop procedure CreateFacilitator
 go
 create procedure CreateFacilitator
 (
@@ -227,6 +227,8 @@ as
 		end
 	return @ReturnCode
 GO
+execute CreateFacilitator 'John','Doe','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','Title','Orig','Edmonton'
+
 
 --drop procedure CreateEvent
 go
@@ -375,7 +377,7 @@ GO
 
 --drop procedure GetMostRecentEvaluativeData
 go
-alter procedure GetMostRecentEvaluativeData
+create procedure GetMostRecentEvaluativeData
 (
 	@EventKey nvarchar(5) = null
 )
@@ -427,11 +429,10 @@ as
 		return @ReturnCode	
 go
 
-execute CreateFacilitator 'David','Elyk','BOS','NAIT','Edmonton'
-GO
+
 
 exec GetHistoricalEvaluationData 'ABCD'
-execute GetMostRecentEvaluativeData 'ABCD'
+
 
 declare @evalID INT
 execute CreateEvaluator @evalID output
