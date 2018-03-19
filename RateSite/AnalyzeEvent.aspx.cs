@@ -73,7 +73,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
         //add code to update the graph
 
-
+        
     }
 
 }
