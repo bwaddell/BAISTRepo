@@ -13,7 +13,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
-            lbStartTime.Text = "<br /> Page Loaded at: " + DateTime.Now.ToString();
+            lbStartTime.Text = "<br /> Page Loaded at: " + DateTime.Now.ToLocalTime().ToString();
 
         //tbEventID.Text = ((Event)Session["Event"]).EventID;
         tbEventID.Text = "ABCD";
@@ -25,9 +25,9 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
 
 
-    protected void btnChart_Click(object sender, EventArgs e)
+    protected void btnTable_Click(object sender, EventArgs e)
     {
-        lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToString();
+        lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
 
         CSS RequestDirector = new CSS();
 
@@ -69,9 +69,12 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
     protected void btnGraph_Click(object sender, EventArgs e)
     {
-        lbUpdateTimeInGraph.Text = "Update Time: " + DateTime.Now.ToString();
+        lbUpdateTimeInGraph.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
 
         //add code to update the graph
+        //how?
+        //with a web call web method?
+        //help
 
         
     }
