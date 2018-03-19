@@ -9,39 +9,42 @@ public partial class CreateEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        tbEventID.Enabled = false;
+        CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
+
+        lbAccount.Text = cp.Identity.Name;
+
         tbEventDate.Text = DateTime.Today.ToShortDateString();
+
+
     }
 
     protected void btnCreateEvent_Click(object sender, EventArgs e)
     {
-        CSS thing = new CSS();
+        CSS requester = new CSS();
         Event cEvent = new Event();
         bool success;
         string EventKey;
-        EventKey = thing.CreateEventKey(3);
+        EventKey = requester.CreateEventKey(3);
 
-        tbEventID.Text = EventKey;
+        CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
+
+        //tbEventID.Text = EventKey;
 
         cEvent.EventID = EventKey;
-        cEvent.FacilitatorID = Convert.ToInt32(tbFacilitatorID.Text);
+        cEvent.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
         cEvent.Performer = tbPerformer.Text;
         cEvent.Location = tbLocation.Text;
         cEvent.Description = tbNatureOfPerformance.Text;
-        cEvent.Date = DateTime.Today;
+        cEvent.Date = DateTime.Parse(tbEventDate.Text);
 
         
-        success = thing.CreateEvent(cEvent);
+        success = requester.CreateEvent(cEvent);
 
         if (success)
         {
             Session["Event"] = cEvent;
             Server.Transfer("AnalyzeEvent.aspx");
         }
-        //else
-        //{
-        //    lbstatus.Text = "Error Generating Event.  Please Try Again.";
-        //}
 
 
     }

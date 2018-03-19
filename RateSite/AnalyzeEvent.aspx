@@ -116,7 +116,7 @@
             title: 'Line and Scatter Plot'
         };
 
-        Plotly.newPlot('RatingTable', data, layout);
+        Plotly.newPlot('RatingGraph', data, layout);
 
     </script>
 </asp:Content>
