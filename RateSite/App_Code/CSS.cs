@@ -97,4 +97,40 @@ public class CSS
 
         return Confirmation;
     }
+
+    public bool CreateFacilitator(Facilitator newFacilitator)
+    {
+        bool confirmation;
+        FacilitatorDirector Controller = new FacilitatorDirector();
+
+        confirmation = Controller.CreateFacilitator(newFacilitator);
+        return confirmation;
+    }
+    public string CreateSalt(int size)
+    {
+        string Salt;
+        SecurityManager Controller = new SecurityManager();
+
+        Salt = Controller.CreateSalt(size);
+
+        return Salt;
+    }
+    public string CreatePasswordHash(string pwd, string salt)
+    {
+        string pwdHash = "";
+        SecurityManager Controller = new SecurityManager();
+
+        pwdHash = Controller.CreatePasswordHash(pwd, salt);
+
+        return pwdHash;
+    }
+    public string GetHashSHA245(string inputString)
+    {
+        string hash = "";
+        SecurityManager Controller = new SecurityManager();
+
+        hash = Controller.GetHashSHA245(inputString);
+
+        return hash;
+    }
 }

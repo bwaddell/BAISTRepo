@@ -35,15 +35,15 @@ drop table Facilitator
 create table Facilitator
 (
 	FacilitatorID int unique identity(1,1) not null,
-	EMail nvarchar(20) not null,
-	Password nvarchar(20) not null,
-	Salt nvarchar(10) not null,
-	Roles nvarchar(30) not null,
+	EMail nvarchar(30) not null,
+	Password nvarchar(64) not null,
+	Salt nvarchar(8) not null,
+	Roles nvarchar(60) not null,
 	FirstName nvarchar(20) not null,
 	LastName nvarchar(20) not null,
 	Title nvarchar(20) null,
-	Organization nvarchar(20) null,
-	City nvarchar(20) null
+	Organization nvarchar(40) null,
+	City nvarchar(40) null
 )
 alter table Facilitator
 	add constraint PK_Facilitator primary key (FacilitatorID)
@@ -183,21 +183,19 @@ select * from Evaluator
 select @evalID
 go
 
-
-
 drop procedure CreateFacilitator
 go
-create procedure CreateFacilitator
+alter procedure CreateFacilitator
 (
 	@FirstName nvarchar(20) = null,
 	@LastName nvarchar(20) = null,
-	@EMail nvarchar(20) = null,
-	@Role nvarchar(30) = null,
-	@Password nvarchar(20) = null,
-	@Salt nvarchar(10) = null,
+	@EMail nvarchar(40) = null,
+	@Role nvarchar(60) = null,
+	@Password nvarchar(64) = null,
+	@Salt nvarchar(8) = null,
 	@Title nvarchar(20) = null,
-	@Organization nvarchar(20) = null,
-	@City nvarchar(20) = null
+	@Organization nvarchar(40) = null,
+	@City nvarchar(40) = null
 )
 as
 	declare @ReturnCode as int

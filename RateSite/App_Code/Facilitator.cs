@@ -13,8 +13,7 @@ public class Facilitator
     private string LastNameValue;
     private string TitleValue;
     private string OrganizationValue;
-    private string CityValue;
-    private string CountryValue;
+    private string LocationValue;
     private string EmailValue;
     private string PasswordValue;
     private string SaltValue;
@@ -40,15 +39,10 @@ public class Facilitator
         get { return OrganizationValue; }
         set { OrganizationValue = value; }
     }
-    public string City
+    public string Location
     {
-        get { return CityValue; }
-        set { CityValue = value; }
-    }
-    public string Country
-    {
-        get { return CountryValue; }
-        set { CountryValue = value; }
+        get { return LocationValue; }
+        set { LocationValue = value; }
     }
 
     public string Password
