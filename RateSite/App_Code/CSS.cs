@@ -87,4 +87,14 @@ public class CSS
 
         return pullFacilitator;
     }
+
+    public bool IsAuthenticated(string email, string password)
+    {
+        bool Confirmation;
+        SecurityManager Controller = new SecurityManager();
+
+        Confirmation = Controller.IsAuthenticated(email, password);
+
+        return Confirmation;
+    }
 }

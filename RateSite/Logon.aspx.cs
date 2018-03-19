@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Web.Security;
 
 public partial class Logon : System.Web.UI.Page
 {
@@ -15,14 +17,16 @@ public partial class Logon : System.Web.UI.Page
     protected void ButtonLogin_Click(object sender, EventArgs e)
     {
 
-        BCS RequestManager = new BCS();
+        CSS RequestManager = new CSS();
 
-        if (RequestManager.IsAuthenticated(EmailTextBox.Text, PasswordTextBox.Text))
+        if (RequestManager.IsAuthenticated(EmailTxt.Text, PasswordTxt.Text))
         {
-            string roles = RequestManager.GetRoles(EmailTextBox.Text);
+            Facilitator pullFacilitator = RequestManager.GetFacilitatorByEmail(EmailTxt.Text);
 
-            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, RequestManager.GetUserByEmail(EmailTextBox.Text).MemberID.ToString(), DateTime.Now,
-                            DateTime.Now.AddMinutes(60), RememberCheckBox.Checked, roles);
+            string roles = pullFacilitator.Roles;
+
+            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, RequestManager.GetFacilitatorByEmail(EmailTxt.Text).FacilitatorID.ToString(), DateTime.Now,
+                            DateTime.Now.AddMinutes(60), RememberChk.Checked, roles);
 
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
 
@@ -30,11 +34,11 @@ public partial class Logon : System.Web.UI.Page
 
             Response.Cookies.Add(authCookie);
 
-            Response.Redirect(FormsAuthentication.GetRedirectUrl(EmailTextBox.Text, RememberCheckBox.Checked));
+            Response.Redirect(FormsAuthentication.GetRedirectUrl(EmailTxt.Text, RememberChk.Checked));
         }
         else
         {
-            MsgLabel.Text = "Your email or password is incorrect";
+            MsgLbl.Text = "Your email or password is incorrect";
         }
     }
 }

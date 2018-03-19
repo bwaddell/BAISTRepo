@@ -23,6 +23,14 @@
     </div>
     <div class="row">
         <div class="col-md-6">
+            Remember Me?:
+        </div>
+        <div class="col-md-6">
+            <asp:CheckBox ID="RememberChk" runat="server" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
             <asp:Button ID="ButtonLogin" runat="server" Text="Log In" onclick="ButtonLogin_Click"/>
         </div>
         <div class="col-md-6">

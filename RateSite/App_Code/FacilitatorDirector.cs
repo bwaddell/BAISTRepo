@@ -62,6 +62,7 @@ public class FacilitatorDirector
                 pullFacilitator.Title = facilitatorDataReader["Title"].ToString();
                 pullFacilitator.Organization = facilitatorDataReader["Organization"].ToString();
                 pullFacilitator.City = facilitatorDataReader["City"].ToString();
+                pullFacilitator.Roles = facilitatorDataReader["Roles"].ToString();
             }
 
             facilitatorDataReader.Close();
