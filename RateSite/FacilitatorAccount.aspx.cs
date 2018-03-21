@@ -33,7 +33,9 @@ public partial class FacilitatorAccount : System.Web.UI.Page
             eventItem = new ListItem();
 
             eventItem.Text = ev.Date.ToShortDateString() + ": " + ev.Description;
-            eventItem.
+            eventItem.Value = ev.EventID;
+
+            EventListBox.Items.Add(eventItem);
         }
     }
 }
