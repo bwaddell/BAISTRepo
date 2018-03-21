@@ -21,74 +21,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         //tbEventID.Text = ((Event)Session["Event"]).EventID;
         tbEventID.Text = "ABCD";
 
-        CSS Director = new CSS();
-        Evaluation eval = new Evaluation();
-
-        Highcharts chart = new Highcharts("chart")
-        //{
-        //    Type = ChartTypes.Spline,
-        //    BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#f1f2f7'")),
-        //    ZoomType = ZoomTypes.X
-        //};
-
         
-
-                        .SetTitle(new Title
-                        {
-                            Text = "myHighChart"
-                        })
-                        
-                        .SetLegend(new Legend
-                        {
-                            Enabled = true
-                    //BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#ffffff'"))
-                        })
-                        .SetXAxis(new XAxis
-                        {
-                            Type = AxisTypes.Datetime,
-                            DateTimeLabelFormats = new DateTimeLabel
-                            {
-                                Month = "%e. %b",
-                                Year = "%b"
-                            },
-                            Labels = new XAxisLabels
-                            {
-                                StaggerLines = 2
-                            }
-                        })
-                        .SetTooltip(new Tooltip
-                        {
-                            Shared = true,
-                            Shadow = true
-                        })
-                        .SetYAxis(new YAxis
-                        {
-                            Title = new YAxisTitle
-                            {
-                                Text = ""
-                            }
-                        })
-
-                        .SetSeries(new[]
-                            {
-                        new Series{
-                            Name = "Parameter1",
-                            Type = ChartTypes.Line,
-                            Data = new Data(new object[] { "3200", "1300", "1400", "1600", "1800", "2000", "2200", "2300", "2400", "2500", "2600", "3200" }),
-                            Color = System.Drawing.Color.FromName("'#4CB7A5'")
-                        },
-
-                        new Series{
-                            Name = "high",
-                            Type = ChartTypes.Line,
-                            Data = new Data(new object[] { 1100, 1500, 1200, 1800, 2000, 2100, 2300, 2500,2600, 2700, 2800, 2900 }),
-                            Color = System.Drawing.Color.FromName("'#ff6c60'")
-                        },
-                            });
-
-
-        //litChart.text = chart.ToHtmlString();
-        ltrChart.Text = chart.ToHtmlString();   
 
 }
 
@@ -158,6 +91,10 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         //chart.SetTitle(new DotNet.Highcharts.Options.Title { Text = "myTitle" });
 
 
+
+
+
+        
 
 
 
