@@ -476,9 +476,12 @@ as
 		return @ReturnCode	
 go
 
+
+
 --drop procedure UpdateFacilitatorInfo
-create procedure UpdateFacilitatorInfo
+alter procedure UpdateFacilitatorInfo
 (
+	@ID int = null,
 	@Mail nvarchar(40) = null,
 	@Password nvarchar(64) = null,
 	@Salt nvarchar(10) = null,
@@ -493,6 +496,8 @@ as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 
+	if(@ID is null)
+		raiserror('UpdateFacilitatorInfo - Required Parameter: @ID',16,1)
 	if(@Mail is null)
 		raiserror('UpdateFacilitatorInfo - Required Parameter: @Mail',16,1)
 	if(@Password is null)
@@ -511,6 +516,7 @@ as
 			set EMail = @Mail, Password = @Password, Salt = @Salt, Roles = @Roles,
 				FirstName = @FirstName, LastName = @LastName, Title = @Title,
 				Organization = @Organization, City = @City
+			where FacilitatorID = @ID
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -520,8 +526,11 @@ as
 		return @ReturnCode	
 go
 
+exec UpdateFacilitatorInfo 1, 'admin@gmail.com', '3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4', 'D/ydVF8=', 'Facilitator|', 'Adward', 'Min', 'Dr', 'BAIST', 'Edmonton, AB, Canada'
+
 exec GetHistoricalEvaluationData 'ABCD'
 
+select * from Facilitator 
 
 declare @evalID INT
 execute CreateEvaluator @evalID output

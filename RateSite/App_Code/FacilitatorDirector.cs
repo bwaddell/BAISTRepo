@@ -284,4 +284,106 @@ public class FacilitatorDirector
 
         return FacEvents;
     }
+
+    public bool UpdateFacilitator(Facilitator newFacilitator)
+    {
+        bool Success = false;
+        int numRows = 0;
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+
+        SqlCommand CommandAdd = new SqlCommand();
+        CommandAdd.Connection = DataBaseCon;
+        CommandAdd.CommandType = CommandType.StoredProcedure;
+        CommandAdd.CommandText = "UpdateFacilitatorInfo";
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@FirstName";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.FirstName;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@ID";
+        AddParameter.SqlDbType = SqlDbType.Int;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.FacilitatorID;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@LastName";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.LastName;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Mail";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.Email;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Roles";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.Roles;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Password";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.Password;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Salt";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.Salt;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Title";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.Title;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Organization";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.Organization;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@City";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = newFacilitator.Location;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        //try
+        //{
+        DataBaseCon.Open();
+        numRows = CommandAdd.ExecuteNonQuery();
+
+        if (numRows == 1)
+        {
+            Success = true;
+        }
+        else
+        {
+            Success = false;
+        }
+
+        DataBaseCon.Close();
+
+
+        return Success;
+    }
 }
