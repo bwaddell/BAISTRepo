@@ -167,4 +167,121 @@ public class FacilitatorDirector
 
         return Success;
     }
+
+    public Facilitator GetFacilitator(int id)
+    {
+        Facilitator pullFacilitator = new Facilitator();
+
+        try
+        {
+            ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+            SqlConnection ClubBAISTData = new SqlConnection();
+            ClubBAISTData.ConnectionString = webSettings.ConnectionString;
+            ClubBAISTData.Open();
+
+            SqlCommand CommandGet = new SqlCommand
+            {
+                Connection = ClubBAISTData,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "GetFacilitator"
+            };
+
+            SqlParameter AddParamater = new SqlParameter
+            {
+                ParameterName = "@facilitatorID",
+                SqlDbType = SqlDbType.Int,
+                Direction = ParameterDirection.Input,
+                Value = id
+            };
+            CommandGet.Parameters.Add(AddParamater);
+
+            SqlDataReader facilitatorDataReader = CommandGet.ExecuteReader();
+
+            if (facilitatorDataReader.HasRows)
+            {
+                facilitatorDataReader.Read();
+
+                pullFacilitator.Email = facilitatorDataReader["EMail"].ToString();
+                pullFacilitator.FacilitatorID = id;
+                pullFacilitator.Password = facilitatorDataReader["Password"].ToString();
+                pullFacilitator.Salt = facilitatorDataReader["Salt"].ToString();
+                pullFacilitator.FirstName = facilitatorDataReader["FirstName"].ToString();
+                pullFacilitator.LastName = facilitatorDataReader["LastName"].ToString();
+                pullFacilitator.Title = facilitatorDataReader["Title"].ToString();
+                pullFacilitator.Organization = facilitatorDataReader["Organization"].ToString();
+                pullFacilitator.Location = facilitatorDataReader["City"].ToString();
+                pullFacilitator.Roles = facilitatorDataReader["Roles"].ToString();
+            }
+
+            facilitatorDataReader.Close();
+            ClubBAISTData.Close();
+        }
+        catch (Exception) { }
+
+        return pullFacilitator;
+    }
+
+    public List<Event> GetFacilitatorEvents(int id)
+    {
+        List<Event> FacEvents = new List<Event>();
+
+        try
+        {
+            ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+            SqlConnection ClubBAISTData = new SqlConnection();
+            ClubBAISTData.ConnectionString = webSettings.ConnectionString;
+            ClubBAISTData.Open();
+
+            SqlCommand CommandGet = new SqlCommand
+            {
+                Connection = ClubBAISTData,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "GetFacilitatorEvents"
+            };
+
+            SqlParameter AddParamater = new SqlParameter
+            {
+                ParameterName = "@facilitatorID",
+                SqlDbType = SqlDbType.Int,
+                Direction = ParameterDirection.Input,
+                Value = id
+            };
+            CommandGet.Parameters.Add(AddParamater);
+
+            SqlDataReader facilitatorDataReader = CommandGet.ExecuteReader();
+
+            if (facilitatorDataReader.HasRows)
+            {
+                Event facEvent;
+
+                while (facilitatorDataReader.Read())
+                {
+                    facEvent = new Event();
+
+                    facEvent.EventID = facilitatorDataReader["EventKey"].ToString();
+                    facEvent.FacilitatorID = id;
+                    facEvent.Location = facilitatorDataReader["Location"].ToString();
+                    facEvent.Performer = facilitatorDataReader["Performer"].ToString();
+                    facEvent.Description = facilitatorDataReader["NatureOfEvent"].ToString();
+                    facEvent.Date = (DateTime)(facilitatorDataReader["EventDate"]);
+
+                    if (facilitatorDataReader["EventBegin"] != DBNull.Value)
+                        facEvent.EventStart = (DateTime)(facilitatorDataReader["EventBegin"]);
+
+
+                    if (facilitatorDataReader["EventEnd"] != DBNull.Value)
+                        facEvent.EventEnd = (DateTime)(facilitatorDataReader["EventEnd"]);
+
+
+                    FacEvents.Add(facEvent);
+                }
+            }
+
+            facilitatorDataReader.Close();
+            ClubBAISTData.Close();
+        }
+        catch (Exception) { }
+
+        return FacEvents;
+    }
 }

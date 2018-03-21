@@ -322,6 +322,53 @@ as
 	return @ReturnCode
 GO
 
+create procedure GetFacilitator
+(
+	@facilitatorID INT = NULL
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@facilitatorID is null)
+		raiserror('GetFacilitator - Required Parameter: @faciltatorID',16,1)
+	else
+		begin
+			select * from Facilitator
+			where FacilitatorID = @facilitatorID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetFacilitator - Update Error: Query Failed',16,1)
+		end
+	return @ReturnCode
+GO
+
+create procedure GetFacilitatorEvents
+(
+	@facilitatorID INT = NULL
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@facilitatorID is null)
+		raiserror('GetFacilitatorEvents - Required Parameter: @faciltatorID',16,1)
+	else
+		begin
+			select * from EventDetails
+			where FacilitatorID = @facilitatorID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetFacilitatorEvents - Update Error: Query Failed',16,1)
+		end
+	return @ReturnCode
+GO
+
+
 
 --drop procedure CreateEvaluator
 go
@@ -429,7 +476,49 @@ as
 		return @ReturnCode	
 go
 
+--drop procedure UpdateFacilitatorInfo
+create procedure UpdateFacilitatorInfo
+(
+	@Mail nvarchar(40) = null,
+	@Password nvarchar(64) = null,
+	@Salt nvarchar(10) = null,
+	@Roles nvarchar(60) = null,
+	@FirstName nvarchar(20) = null,
+	@LastName nvarchar(20) = null,
+	@Title nvarchar(20) = null,
+	@Organization nvarchar(40) = null,
+	@City nvarchar(40) = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
 
+	if(@Mail is null)
+		raiserror('UpdateFacilitatorInfo - Required Parameter: @Mail',16,1)
+	if(@Password is null)
+		raiserror('UpdateFacilitatorInfo - Required Parameter: @Password',16,1)
+	if(@Salt is null)
+		raiserror('UpdateFacilitatorInfo - Required Parameter: @Salt',16,1)
+	if(@Roles is null)
+		raiserror('UpdateFacilitatorInfo - Required Parameter: @Roles',16,1)
+	if(@FirstName is null)
+		raiserror('UpdateFacilitatorInfo - Required Parameter: @FirstName',16,1)
+	if(@LastName is null)
+		raiserror('UpdateFacilitatorInfo - Required Parameter: @LastName',16,1)
+	else
+		begin
+			update Facilitator
+			set EMail = @Mail, Password = @Password, Salt = @Salt, Roles = @Roles,
+				FirstName = @FirstName, LastName = @LastName, Title = @Title,
+				Organization = @Organization, City = @City
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('UpdateFacilitatorInfo - Update Error: Query Failed',16,1)
+			end
+		return @ReturnCode	
+go
 
 exec GetHistoricalEvaluationData 'ABCD'
 
