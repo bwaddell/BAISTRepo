@@ -526,11 +526,7 @@ as
 		return @ReturnCode	
 go
 
-exec UpdateFacilitatorInfo 1, 'admin@gmail.com', '3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4', 'D/ydVF8=', 'Facilitator|', 'Adward', 'Min', 'Dr', 'BAIST', 'Edmonton, AB, Canada'
 
-exec GetHistoricalEvaluationData 'ABCD'
-
-select * from Facilitator 
 
 declare @evalID INT
 execute CreateEvaluator @evalID output
