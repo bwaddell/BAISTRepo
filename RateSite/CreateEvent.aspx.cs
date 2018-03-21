@@ -11,11 +11,12 @@ public partial class CreateEvent : System.Web.UI.Page
     {
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
         CSS requester = new CSS();
-        
+        Facilitator fac = new Facilitator();
 
-        lbAccount.Text = cp.Identity.Name;
 
-        //requester.GetFacilitator
+        fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
+
+        lbAccount.Text = "Hi, " + fac.FirstName + fac.LastName;
 
 
         tbEventDate.Text = DateTime.Today.ToShortDateString();

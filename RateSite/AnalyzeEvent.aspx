@@ -4,7 +4,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <!-- Latest compiled and minified plotly.js JavaScript -->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <%--highchart scripts--%>
+    <script src="Scripts/jquery-3.3.1.min.js"></script>
+    <script src="Scripts/Highcharts-4.0.1/js/highcharts.js"></script>
 
 
 </asp:Content>
@@ -44,29 +47,32 @@
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnTable" />
-                    <asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh" 
+                    <asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh"
                         EventName="Tick" />
                 </Triggers>
             </asp:UpdatePanel>
         </div>
 
 
-        <div class="col-lg">
-            <asp:UpdatePanel ID="UpdatePanelGraph" runat="server" UpdateMode="Conditional">
+
+        <div class="col-lg border">
+            <asp:UpdatePanel ID="upHighchart" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
 
 
-                    <label>My Graph of data</label>
-                    <div id="RatingGraph">
-                        <!-- Plotly Graph will be drawn inside this DIV -->
+                    <label>HighChart Graph of data</label>
+
+                    <div>
+                        <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
+                        <%--High chart literal, this is where the chart will be placed--%>
                     </div>
 
-                    <asp:Label ID="lbUpdateTimeInGraph" runat="server" Text="Update Time: "></asp:Label>
+                    <asp:Label ID="lbHighChartUpdateTime" runat="server" Text="Update Time: "></asp:Label>
 
                 </ContentTemplate>
                 <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="btnGraph" />
-<%--                    <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"
+                    <asp:AsyncPostBackTrigger ControlID="btnHighChart" />
+                    <%--                    <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"
                         EventName="Tick" />--%>
                 </Triggers>
             </asp:UpdatePanel>
@@ -77,46 +83,28 @@
     <div class="row ">
         <asp:Button ID="btnTable" runat="server" Text="Update Table"
             OnClick="btnTable_Click" />
-        <asp:Button ID="btnGraph" runat="server" Text="Update Graph"
-            OnClick="btnGraph_Click" />
+
+        <asp:Button ID="btnHighChart" runat="server" Text="Update HighChart"
+            OnClick="btnHighChart_Click" />
     </div>
 
     <asp:Timer ID="TimerForTableRefresh" runat="server"
         Interval="2000" OnTick="btnTable_Click">
     </asp:Timer>
-<%--    <asp:Timer ID="TimerForGraphRefresh" runat="server"
-        Interval="10000" OnTick="btnGraph_Click">
-    </asp:Timer>--%>
+
+
+
 </asp:Content>
+
+
+
+
+
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
     <script>
-        var trace1 = {
-            x: [1, 2, 3, 4, 5],
-            y: [10, 15, 13, 17, 22],
-            mode: 'markers'
-        };
 
-        var trace2 = {
-            x: [2, 3, 4, 5, 6],
-            y: [16, 5, 11, 9, 20],
-            mode: 'lines'
-        };
-
-        var trace3 = {
-            x: [1, 2, 3, 4, 5],
-            y: [12, 9, 15, 12, 34],
-            mode: 'lines+markers'
-        };
-
-        var data = [trace1, trace2, trace3];
-
-        var layout = {
-            title: 'Line and Scatter Plot'
-        };
-
-        Plotly.newPlot('RatingGraph', data, layout);
 
     </script>
 </asp:Content>
