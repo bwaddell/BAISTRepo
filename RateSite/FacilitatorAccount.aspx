@@ -47,7 +47,7 @@
         </div>
 
         <div class="col-md-6 text-right">
-            <asp:Button ID="UpdateBtn" runat="server" Text="Update Information" OnClick="UpdateBtn_Click" />
+            <asp:Button ID="UpdateBtn" runat="server" Text="Update Information" OnClick="UpdateBtn_Click" CausesValidation="false" />
         </div>
         <div class="col-md-6">
             <asp:Label ID="Msglbl" runat="server" Text=""></asp:Label>
@@ -59,16 +59,25 @@
             <asp:Label ID="Label1" runat="server" Text="Update Password"></asp:Label>
         </div>
         <div class="col-md-6 text-right">
+            Old Password:
+        </div>
+        <div class="col-md-6">
+            <asp:TextBox ID="oldPasswordtxt" runat="server" TextMode="Password"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidatorOldPassword" runat="server" ErrorMessage="Current Password is Required" ControlToValidate="oldPasswordtxt" Display="Dynamic"></asp:RequiredFieldValidator>
+        </div>
+        <div class="col-md-6 text-right">
             New Password:
         </div>
         <div class="col-md-6">
             <asp:TextBox ID="Passwordtxt" runat="server" TextMode="Password"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidatorNewPassword" runat="server" ErrorMessage="New Password is Required" ControlToValidate="Passwordtxt" Display="Dynamic"></asp:RequiredFieldValidator>
         </div>
         <div class="col-md-6 text-right">
             Verify Password:
         </div>
         <div class="col-md-6">
             <asp:TextBox ID="Passwordtxt2" runat="server" TextMode="Password"></asp:TextBox>
+            <asp:CompareValidator ID="CompareValidatorpswd" runat="server" ErrorMessage="Password Fields must be Identical" ControlToCompare="Passwordtxt" ControlToValidate="Passwordtxt2" Operator="Equal" Display="Dynamic"></asp:CompareValidator>
         </div>
         <div class="col-md-6 text-right">
             <asp:Button ID="UpdatePasswordBtn" runat="server" Text="Change Password" OnClick="UpdatePasswordBtn_Click" />
@@ -83,7 +92,7 @@
             <asp:ListBox ID="EventListBox" runat="server"></asp:ListBox>
         </div>
         <div class="">
-            <asp:Button ID="ViewEventbtn" runat="server" Text="View Event" OnClick="ViewEventbtn_Click" />
+            <asp:Button ID="ViewEventbtn" runat="server" Text="View Event" OnClick="ViewEventbtn_Click" CausesValidation="false" />
         </div>
     </div>
 </asp:Content>

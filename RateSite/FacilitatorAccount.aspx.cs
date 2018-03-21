@@ -61,13 +61,34 @@ public partial class FacilitatorAccount : System.Web.UI.Page
         if (selectedEvent.Date != default(DateTime))
         {
             Session["Event"] = selectedEvent;
-            Server.Transfer("AnalyzeEvent.aspx");
+            Server.Transfer("ViewEvent.aspx");
         }
     }
 
     protected void UpdatePasswordBtn_Click(object sender, EventArgs e)
     {
+        CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
+        CSS requestDirector = new CSS();
 
+        Facilitator activeFac = new Facilitator();
+
+        activeFac.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
+
+        activeFac = requestDirector.GetFacilitator(activeFac.FacilitatorID);
+
+        if (activeFac.Password == requestDirector.CreatePasswordHash(oldPasswordtxt.Text, activeFac.Salt))
+        {
+            activeFac.Password = requestDirector.CreatePasswordHash(Passwordtxt.Text, activeFac.Salt);
+
+            if (requestDirector.UpdateFacilitator(activeFac))
+            {
+                Pswdlbl.Text = "Account Password Updated";
+            }
+            else
+            {
+                Pswdlbl.Text = "Account Password Update Failed";
+            }
+        }
     }
 
     protected void UpdateBtn_Click(object sender, EventArgs e)
