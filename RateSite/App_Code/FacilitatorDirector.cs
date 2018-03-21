@@ -258,14 +258,20 @@ public class FacilitatorDirector
                 {
                     facEvent = new Event();
 
-                    facEvent.EventID = facilitatorDataReader["EventEky"].ToString();
+                    facEvent.EventID = facilitatorDataReader["EventKey"].ToString();
                     facEvent.FacilitatorID = id;
                     facEvent.Location = facilitatorDataReader["Location"].ToString();
                     facEvent.Performer = facilitatorDataReader["Performer"].ToString();
                     facEvent.Description = facilitatorDataReader["NatureOfEvent"].ToString();
-                    facEvent.Date = Convert.ToDateTime(facilitatorDataReader["EventDate"]);
-                    facEvent.EventStart = Convert.ToDateTime(facilitatorDataReader["EventBegin"]);
-                    facEvent.EventEnd = Convert.ToDateTime(facilitatorDataReader["EventEnd"]);
+                    facEvent.Date = (DateTime)(facilitatorDataReader["EventDate"]);
+
+                    if (facilitatorDataReader["EventBegin"] != DBNull.Value)
+                        facEvent.EventStart = (DateTime)(facilitatorDataReader["EventBegin"]);
+
+
+                    if (facilitatorDataReader["EventEnd"] != DBNull.Value)
+                        facEvent.EventEnd = (DateTime)(facilitatorDataReader["EventEnd"]);
+
 
                     FacEvents.Add(facEvent);
                 }
