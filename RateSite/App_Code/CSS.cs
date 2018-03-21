@@ -150,4 +150,12 @@ public class CSS
         facEvents = Controller.GetFacilitatorEvents(id);
         return facEvents;
     }
+    public bool UpdateFacilitator(Facilitator newFacilitator)
+    {
+        bool Confirmation;
+        FacilitatorDirector Controller = new FacilitatorDirector();
+
+        Confirmation = Controller.UpdateFacilitator(newFacilitator);
+        return Confirmation;
+    }
 }
