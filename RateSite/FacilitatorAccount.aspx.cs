@@ -18,6 +18,11 @@ public partial class FacilitatorAccount : System.Web.UI.Page
 
         activeFac = requestDirector.GetFacilitator(activeFac.FacilitatorID);
 
+        Namelbl.Text = "Hello " + activeFac.Title + " " + activeFac.FirstName + " " + activeFac.LastName;
+
+        FNametxt.Text = activeFac.FirstName;
+        LNametxt.Text = activeFac.LastName;
+        Titletxt.Text = activeFac.Title;
         Orgtxt.Text = activeFac.Organization;
         Loctxt.Text = activeFac.Location;
         Emailtxt.Text = activeFac.Email;
@@ -27,15 +32,42 @@ public partial class FacilitatorAccount : System.Web.UI.Page
         facEvents = requestDirector.GetFacilitatorEvents(activeFac.FacilitatorID);
 
         ListItem eventItem;
+        EventListBox.Items.Clear();
 
         foreach  (Event ev in facEvents)
         {
             eventItem = new ListItem();
 
-            eventItem.Text = ev.Date.ToShortDateString() + ": " + ev.Description;
+            eventItem.Text = ev.Date.ToShortDateString() + ": " + ev.Performer + " : " + ev.Description;
             eventItem.Value = ev.EventID;
 
             EventListBox.Items.Add(eventItem);
         }
+    }
+
+    protected void ViewEventbtn_Click(object sender, EventArgs e)
+    {
+        CSS RequestDirector = new CSS();
+
+        Event selectedEvent = new Event();
+        selectedEvent.EventID = EventListBox.SelectedValue;
+
+        selectedEvent = RequestDirector.GetEvent(selectedEvent);
+
+        if (selectedEvent.Date != default(DateTime))
+        {
+            Session["Event"] = selectedEvent;
+            Server.Transfer("AnalyzeEvent.aspx");
+        }
+    }
+
+    protected void UpdatePasswordBtn_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void UpdateBtn_Click(object sender, EventArgs e)
+    {
+
     }
 }
