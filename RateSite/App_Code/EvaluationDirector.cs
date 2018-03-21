@@ -113,7 +113,6 @@ public class EvaluationDirector
 
         DataBaseCon.Open();
         SqlDataReader eventReader = CommandGet.ExecuteReader();
-        
 
         if (eventReader.HasRows)
         {
@@ -135,5 +134,49 @@ public class EvaluationDirector
         DataBaseCon.Close();
 
         return evals;
+    }
+
+    public List<Evaluation> GetAllEventData(string EventID)
+    {
+        List<Evaluation> eventData = new List<Evaluation>();
+
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+
+        SqlCommand CommandGet = new SqlCommand();
+        CommandGet.Connection = DataBaseCon;
+        CommandGet.CommandType = CommandType.StoredProcedure;
+        CommandGet.CommandText = "GetAllEventData";
+
+        SqlParameter AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@EventKey";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = EventID;
+        CommandGet.Parameters.Add(AddParameter);
+
+        DataBaseCon.Open();
+        SqlDataReader eventReader = CommandGet.ExecuteReader();
+
+        if (eventReader.HasRows)
+        {
+            Evaluation eval;
+
+            while (eventReader.Read())
+            {
+                eval = new Evaluation();
+
+                eval.EvaluatorID = (int)eventReader["EvaluatorID"];
+                eval.EventID = EventID;
+                eval.Rating = (int)eventReader["Rating"];
+                eval.TimeStamp = (DateTime)eventReader["TimeOfData"];
+
+                eventData.Add(eval);
+            }
+        }
+        eventReader.Close();
+        DataBaseCon.Close();
+
+        return eventData;
     }
 }
