@@ -451,6 +451,30 @@ as
 	return @ReturnCode				
 GO
 
+--drop procedure GetAllEventData
+create procedure GetAllEventData
+(
+	@EventKey nvarchar(5) = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	if(@EventKey is null)
+		raiserror('GetAllEventData - Required Parameter: @EventKey',16,1)
+	else
+		begin
+			select * from EvaluativeData
+			where EventKey = @EventKey
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetAllEventData - Select Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
+GO
+
 --drop procedure GetEvent
 go
 create procedure GetEvent
