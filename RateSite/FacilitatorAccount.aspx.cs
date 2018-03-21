@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Security;
 
 public partial class FacilitatorAccount : System.Web.UI.Page
 {
@@ -145,5 +146,11 @@ public partial class FacilitatorAccount : System.Web.UI.Page
                 Msglbl.Text = "Account Information Update Failed";
             }
         }       
+    }
+
+    protected void ButtonLogout_Click(object sender, EventArgs e)
+    {
+        FormsAuthentication.SignOut();
+        Response.Redirect("Logon.aspx", true);
     }
 }

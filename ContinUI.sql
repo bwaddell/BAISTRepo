@@ -451,6 +451,30 @@ as
 	return @ReturnCode				
 GO
 
+--drop procedure GetAllEventData
+create procedure GetAllEventData
+(
+	@EventKey nvarchar(5) = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	if(@EventKey is null)
+		raiserror('GetAllEventData - Required Parameter: @EventKey',16,1)
+	else
+		begin
+			select * from EvaluativeData
+			where EventKey = @EventKey
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetAllEventData - Select Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
+GO
+
 --drop procedure GetEvent
 go
 create procedure GetEvent
@@ -526,11 +550,7 @@ as
 		return @ReturnCode	
 go
 
-exec UpdateFacilitatorInfo 1, 'admin@gmail.com', '3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4', 'D/ydVF8=', 'Facilitator|', 'Adward', 'Min', 'Dr', 'BAIST', 'Edmonton, AB, Canada'
 
-exec GetHistoricalEvaluationData 'ABCD'
-
-select * from Facilitator 
 
 declare @evalID INT
 execute CreateEvaluator @evalID output

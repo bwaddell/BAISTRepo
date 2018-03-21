@@ -95,6 +95,12 @@
             <asp:Button ID="ViewEventbtn" runat="server" Text="View Event" OnClick="ViewEventbtn_Click" CausesValidation="false" />
         </div>
     </div>
+
+    <div class="row">
+        <div>
+            <asp:Button ID="ButtonLogout" runat="server" Text="Log Out" OnClick="ButtonLogout_Click" CausesValidation="false" />
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" Runat="Server">
 </asp:Content>
