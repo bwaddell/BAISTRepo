@@ -13,38 +13,36 @@ public partial class ViewEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
-
-
+        
         CSS Director = new CSS();
-        List<Evaluation> currentEvals = new List<Evaluation>();
+        List<Evaluation> EventData = new List<Evaluation>();
 
         Event test = new Event();
-        test.EventID = "ABCD";
+        //test.EventID = "ABCD";
 
-        //currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
-        currentEvals = Director.GetCurrentEventData(test);
-
-        //object[] oblist = currentEvals.Cast<object>().ToArray();
+        
+        EventData = Director.GetEventData("abcd");
 
 
+        List<Evaluator> evaluators = new List<Evaluator>(); //list of evaluators for the event
+        List<Evaluation> evaluations = new List<Evaluation>(); //list of evaluations for each event
+        List<object> points = new List<object>();
 
-        Point[] oblist = new Point[currentEvals.Count];
-        //object[,] datapoint;
+        List<object> evaluatorEvaluations = new List<object>();
 
-        for (int i = 0; i < currentEvals.Count; i++)
+
+        for (int i = 0; i < EventData.Count; i++)
         {
-            Point myPoint = new Point()
+            Evaluator tempEval = new Evaluator();
+
+            //if (evaluators.Contains( )      //check if the list of evaluators contains this one
+
+            points.Add(new
             {
-                X = currentEvals[i].TimeStamp.Minute,
-                Y = currentEvals[i].Rating
-            };
+                X = EventData[i].TimeStamp,
+                Y = EventData[i].Rating
+            });
 
-
-            //datapoint = new object[currentEvals[i].EvaluatorID, currentEvals[i].Rating];
-            //oblist[i] = new object[i, i];
-
-            oblist[i] = myPoint;
         }
 
 
@@ -53,14 +51,14 @@ public partial class ViewEvent : System.Web.UI.Page
         Series mySeries = new Series
         {
 
-            Name = "DateTime",
+            Name = "Evaluator",
             Type = ChartTypes.Line,
-            Data = new Data(oblist),
+            Data = new Data(points.ToArray()),
             Color = System.Drawing.Color.FromName("'#4CB7A5'")
 
         };
-
         
+               
 
 
         Highcharts chart = new Highcharts("chart")
@@ -70,17 +68,20 @@ public partial class ViewEvent : System.Web.UI.Page
                         //    ZoomType = ZoomTypes.X
                         //};
                         ;
-
+        
 
         chart.SetTitle(new Title
         {
-            Text = "myHighChart"
+            Text = "Evaluation Data"
         });
-
+        chart.SetOptions(new GlobalOptions
+        {
+            Global = new Global { UseUTC = false }
+        });
         chart.SetLegend(new Legend
         {
-            Enabled = true
-            //BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#ffffff'"))
+            Enabled = true,
+            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#ffffff'"))
         });
 
         chart.SetTooltip(new Tooltip
@@ -93,10 +94,13 @@ public partial class ViewEvent : System.Web.UI.Page
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
             {
-
-                Month = "%e. %b",
-                Year = "%b"
+                Minute = "%l%M<br>%p"
             },
+            //{
+                
+            //    Month = "%e. %b",
+            //    Year = "%b"
+            //},
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
@@ -111,7 +115,10 @@ public partial class ViewEvent : System.Web.UI.Page
         });
         chart.SetSeries( new[] { mySeries });
 
-        //litChart.text = chart.ToHtmlString();
+        
+
+        //write the chart to the div(literal) on web page
+        //the rest is automatic
         ltrChart.Text = chart.ToHtmlString();
 
 

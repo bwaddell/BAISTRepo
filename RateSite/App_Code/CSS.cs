@@ -80,11 +80,16 @@ public class CSS
 
     public List<Evaluation> GetEventData(string EventKey)
     {
-        List<Evaluation> evals = new List<Evaluation>();
+        //List<Evaluator> evaluators = new List<Evaluator>();
+        List<Evaluation> evaluations = new List<Evaluation>();
         EvaluationDirector Controller = new EvaluationDirector();
 
-        evals = Controller.GetAllEventData(EventKey);
-        return evals;
+        evaluations = Controller.GetAllEventData(EventKey);    
+
+
+
+
+        return evaluations;
     }
 
     public Facilitator GetFacilitatorByEmail(string email)
