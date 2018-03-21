@@ -15,6 +15,9 @@ public partial class CreateEvent : System.Web.UI.Page
 
         lbAccount.Text = cp.Identity.Name;
 
+        //requester.GetFacilitator
+
+
         tbEventDate.Text = DateTime.Today.ToShortDateString();
 
 
