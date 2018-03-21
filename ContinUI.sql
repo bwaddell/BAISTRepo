@@ -322,6 +322,53 @@ as
 	return @ReturnCode
 GO
 
+create procedure GetFacilitator
+(
+	@facilitatorID INT = NULL
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@facilitatorID is null)
+		raiserror('GetFacilitator - Required Parameter: @faciltatorID',16,1)
+	else
+		begin
+			select * from Facilitator
+			where FacilitatorID = @facilitatorID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetFacilitator - Update Error: Query Failed',16,1)
+		end
+	return @ReturnCode
+GO
+
+create procedure GetFacilitatorEvents
+(
+	@facilitatorID INT = NULL
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@facilitatorID is null)
+		raiserror('GetFacilitatorEvents - Required Parameter: @faciltatorID',16,1)
+	else
+		begin
+			select * from EventDetails
+			where FacilitatorID = @facilitatorID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetFacilitatorEvents - Update Error: Query Failed',16,1)
+		end
+	return @ReturnCode
+GO
+
+
 
 --drop procedure CreateEvaluator
 go

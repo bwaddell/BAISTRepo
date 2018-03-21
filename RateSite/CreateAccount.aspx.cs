@@ -23,6 +23,7 @@ public partial class CreateAccount : System.Web.UI.Page
         {
             newFac.FirstName = FirstNameTxt.Text;
             newFac.LastName = LastNameTxt.Text;
+            newFac.Title = TitleTxt.Text;
             newFac.Email = EmailTxt.Text;
             newFac.Organization = OrgTxt.Text;
             newFac.Location = LocTxt.Text;

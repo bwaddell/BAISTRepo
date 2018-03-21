@@ -133,4 +133,21 @@ public class CSS
 
         return hash;
     }
+
+    public Facilitator GetFacilitator(int id)
+    {
+        Facilitator newFac = new Facilitator();
+        FacilitatorDirector Controller = new FacilitatorDirector();
+
+        newFac = Controller.GetFacilitator(id);
+        return newFac;
+    }
+    public List<Event> GetFacilitatorEvents(int id)
+    {
+        List<Event> facEvents = new List<Event>();
+        FacilitatorDirector Controller = new FacilitatorDirector();
+
+        facEvents = Controller.GetFacilitatorEvents(id);
+        return facEvents;
+    }
 }
