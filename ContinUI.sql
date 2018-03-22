@@ -452,6 +452,7 @@ as
 GO
 
 --drop procedure GetAllEventData
+go
 create procedure GetAllEventData
 (
 	@EventKey nvarchar(5) = null
@@ -465,7 +466,7 @@ as
 	else
 		begin
 			select * from EvaluativeData
-			where EventKey = @EventKey
+			where EventKey = @EventKey and EvaluatorID = '11'						--temp added
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -474,6 +475,9 @@ as
 		end
 	return @ReturnCode				
 GO
+
+execute GetAllEventData 'abcd'
+
 
 --drop procedure GetEvent
 go
