@@ -56,22 +56,22 @@
 
 
         <div class="col-lg border">
-            <asp:UpdatePanel ID="upHighchart" runat="server" UpdateMode="Conditional">
+            <asp:UpdatePanel ID="upChart" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
 
 
-                    <label>HighChart Graph of data</label>
+                    <label>Plotly? Graph of data</label>
 
                     <div>
                         <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
                         <%--High chart literal, this is where the chart will be placed--%>
                     </div>
 
-                    <asp:Label ID="lbHighChartUpdateTime" runat="server" Text="Update Time: "></asp:Label>
+                    <asp:Label ID="lbChartUpdateTime" runat="server" Text="Update Time: "></asp:Label>
 
                 </ContentTemplate>
                 <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="btnHighChart" />
+                    <asp:AsyncPostBackTrigger ControlID="btnChart" />
                     <%--                    <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"
                         EventName="Tick" />--%>
                 </Triggers>
@@ -84,8 +84,8 @@
         <asp:Button ID="btnTable" runat="server" Text="Update Table"
             OnClick="btnTable_Click" />
 
-        <asp:Button ID="btnHighChart" runat="server" Text="Update HighChart"
-            OnClick="btnHighChart_Click" />
+        <asp:Button ID="btnChart" runat="server" Text="Update Chart"
+            OnClick="btnChart_Click" />
     </div>
 
     <asp:Timer ID="TimerForTableRefresh" runat="server"

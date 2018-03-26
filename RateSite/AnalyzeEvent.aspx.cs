@@ -71,9 +71,9 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
 
 
-    protected void btnHighChart_Click(object sender, EventArgs e)
+    protected void btnChart_Click(object sender, EventArgs e)
     {
-        lbHighChartUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
+        lbChartUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
 
 
 

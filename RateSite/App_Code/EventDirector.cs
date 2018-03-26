@@ -283,6 +283,7 @@ public class EventDirector
 
         return foundEvent;
     }
+
     public Evaluator CreateEvaluator()
     {
         Evaluator newEvaluator = new Evaluator();

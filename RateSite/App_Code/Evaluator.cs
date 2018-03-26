@@ -16,7 +16,7 @@ public class Evaluator
     private string CityValue;
     private string CountryValue;
     private string CriteriaValue;
-    //private List<Evaluation> EvaluatorData;
+    private List<Evaluation> EvaluatorDataValue;
 
     public int EvaluatorID
     {
@@ -59,16 +59,18 @@ public class Evaluator
         set { CriteriaValue = value; }
     }
 
-    //public List<Evaluation> EvaluatorEvaluations
-    //{
-    //    get
-    //    {
-    //        return EvaluatorData;
-    //    }
+    public List<Evaluation> EvaluatorEvaluations
+    {
+        get
+        {
+            return EvaluatorDataValue;
+        }
 
-    //    set
-    //    {
-    //        EvaluatorData = value;
-    //    }
-    //}
+        set
+        {
+            EvaluatorDataValue = value;
+        }
+    }
+
+
 }
