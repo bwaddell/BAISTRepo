@@ -181,11 +181,12 @@ public class EvaluationDirector
     }
 
 
-    public Event GetAllEventDataIncEvals(string EventID)
+    public List<Evaluation> GetEvaluationsForEventEvaluator(string EventID, int EvaluatorID)
     {
-        List<Evaluation> eventData = new List<Evaluation>();
-        
-        //list of Evaluators
+        //Evaluator EvaluData = new Evaluator();
+
+        //list of Evaluations
+        List<Evaluation> liOfEvaluations = new List<Evaluation>();
 
 
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
@@ -194,7 +195,7 @@ public class EvaluationDirector
         SqlCommand CommandGet = new SqlCommand();
         CommandGet.Connection = DataBaseCon;
         CommandGet.CommandType = CommandType.StoredProcedure;
-        CommandGet.CommandText = "GetAllEventData";
+        CommandGet.CommandText = "GetEvaluationsForEventEvaluator";
 
         SqlParameter AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventKey";
@@ -203,28 +204,41 @@ public class EvaluationDirector
         AddParameter.Value = EventID;
         CommandGet.Parameters.Add(AddParameter);
 
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@EvaluatorID";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = EventID;
+        CommandGet.Parameters.Add(AddParameter);
+
         DataBaseCon.Open();
-        SqlDataReader eventReader = CommandGet.ExecuteReader();
 
-        if (eventReader.HasRows)
-        {
-            Evaluation eval;
+        DataSet myDataSet = new DataSet();
+        myDataSet.DataSetName = "GetEvaluations";
+        myDataSet.Tables.Add("Evaluations");
 
-            while (eventReader.Read())
-            {
-                eval = new Evaluation();
+        SqlDataAdapter myDataAdapter = new SqlDataAdapter();
+        myDataAdapter.SelectCommand = CommandGet;
+        myDataAdapter.Fill(myDataSet, "Evaluations");
 
-                eval.EvaluatorID = (int)eventReader["EvaluatorID"];
-                eval.EventID = EventID;
-                eval.Rating = (int)eventReader["Rating"];
-                eval.TimeStamp = (DateTime)eventReader["TimeOfData"];
-
-                eventData.Add(eval);
-            }
-        }
-        eventReader.Close();
         DataBaseCon.Close();
 
-        return eventData;
+        DataTable myDataTable = new DataTable();
+        myDataTable = myDataSet.Tables["Evaluations"];
+
+
+        foreach (DataRow dataRow in myDataTable.Rows)
+        {
+            Evaluation evaluation = new Evaluation();
+
+            evaluation.EventID = dataRow["EventKey"].ToString();
+            evaluation.EvaluatorID = Convert.ToInt32(dataRow["EvaluatorID"]);
+            evaluation.TimeStamp = DateTime.Parse(dataRow["TimeOfData"].ToString());
+            evaluation.Rating = Convert.ToInt32(dataRow["Rating"]);
+            liOfEvaluations.Add(evaluation);
+
+        }
+
+        return liOfEvaluations;
     }
 }

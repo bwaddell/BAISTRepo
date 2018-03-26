@@ -220,10 +220,11 @@ public class EventDirector
         return Success;
     }
 
-    public Event GetEvent(Event currentEvent)
+
+    public Event GetEvent(string eventID)
     {
-        Event foundEvent = new Event();
-        foundEvent.EventID = currentEvent.EventID;
+        Event foundEvent;
+        foundEvent = new Event();
         int numRows = 0;
 
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
@@ -238,7 +239,7 @@ public class EventDirector
         GetParameter.ParameterName = "@EventKey";
         GetParameter.SqlDbType = SqlDbType.NVarChar;
         GetParameter.Direction = ParameterDirection.Input;
-        GetParameter.Value = currentEvent.EventID;
+        GetParameter.Value = eventID;
         CommandGet.Parameters.Add(GetParameter);
 
         //try
@@ -250,10 +251,10 @@ public class EventDirector
         if (eventReader.HasRows)
         {
             eventReader.Read();
-
+            
+            foundEvent.EventID = eventID;
             foundEvent.Date = (DateTime)eventReader["EventDate"];
             foundEvent.Description = eventReader["NatureOfEvent"].ToString();
-            foundEvent.EventID = currentEvent.EventID;
             foundEvent.FacilitatorID = Convert.ToInt32(eventReader["FacilitatorID"]);
             foundEvent.Performer = eventReader["Performer"].ToString();
 
@@ -266,6 +267,22 @@ public class EventDirector
             {
                 foundEvent.EventEnd = (DateTime)eventReader["EventEnd"];
             }
+
+
+            //call get evaluators for event
+
+            foundEvent.Evaluators = GetEvaluatorsForEvent(foundEvent.EventID);
+
+
+
+            //foreach evaluator in Event -> get Evaluation data
+            foreach (Evaluator evaluators in foundEvent.Evaluators)
+            {
+                //GetEvaluationForEventEvaluator(EventID,EvaluatorID);
+            }
+
+
+
 
 
         }
@@ -283,6 +300,73 @@ public class EventDirector
 
         return foundEvent;
     }
+
+
+    public List<Evaluator> GetEvaluatorsForEvent(string eventID)              //Evaluator Director???
+    {
+        List<Evaluator> listOfEvaluators = new List<Evaluator>();
+        //foundEvent.EventID = eventID;
+        int numRows = 0;
+        EvaluationDirector evalD = new EvaluationDirector();
+
+
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+
+        SqlCommand CommandGet = new SqlCommand();
+        CommandGet.Connection = DataBaseCon;
+        CommandGet.CommandType = CommandType.StoredProcedure;
+        CommandGet.CommandText = "GetEvaluatorsForEvent";
+
+        SqlParameter GetParameter = new SqlParameter();
+        GetParameter.ParameterName = "@EventKey";
+        GetParameter.SqlDbType = SqlDbType.NVarChar;
+        GetParameter.Direction = ParameterDirection.Input;
+        GetParameter.Value = eventID;
+        CommandGet.Parameters.Add(GetParameter);
+
+
+        DataBaseCon.Open();
+
+        DataSet myDataSet = new DataSet();
+        myDataSet.DataSetName = "GetEvaluators";
+        myDataSet.Tables.Add("Evaluators");
+
+        SqlDataAdapter myDataAdapter = new SqlDataAdapter();
+        myDataAdapter.SelectCommand = CommandGet;
+        myDataAdapter.Fill(myDataSet, "Evaluators");
+
+        DataBaseCon.Close();
+
+        DataTable myDataTable = new DataTable();
+        myDataTable = myDataSet.Tables["Evaluations"];
+
+
+        foreach (DataRow dataRow in myDataTable.Rows)
+        {
+            Evaluator evaluator = new Evaluator();
+
+            evaluator.EvaluatorID = Convert.ToInt32(dataRow["EvaluatorID"]);
+            evaluator.Name = dataRow["Name"].ToString();
+            evaluator.DateOfBirth = DateTime.Parse(dataRow["DateOfBirth"].ToString());
+            evaluator.Sex = dataRow["Sex"].ToString();
+            evaluator.School = dataRow["SchoolOrOrganization"].ToString();
+            evaluator.City = dataRow["City"].ToString();
+            evaluator.Criteria = dataRow["VotingCriteria"].ToString();
+            listOfEvaluators.Add(evaluator);
+
+            //call GetEvaluationsForEventEvaluator
+            evaluator.EvaluatorEvaluations = 
+                evalD.GetEvaluationsForEventEvaluator(eventID, evaluator.EvaluatorID);
+
+        }
+
+        return listOfEvaluators;
+
+    }
+
+
+    
 
     public Evaluator CreateEvaluator()
     {
@@ -324,4 +408,7 @@ public class EventDirector
 
         return newEvaluator;
     }
+
+
+
 }

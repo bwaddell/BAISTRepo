@@ -51,28 +51,16 @@ public class CSS
         return Confirmation;
 
     }
-    public Event GetEvent(Event currentEvent)
+    public Event GetEvent(Event currentEvent)               //this one
     {
         //redo this method to return the WHOLE Event
-        Event foundEvent = new Event();
+        Event fEvent = new Event();
         EventDirector Controller = new EventDirector();
 
-        foundEvent = Controller.GetEvent(currentEvent);
-
-
-        //foreach evaluator in Event -> get Evaluation data
-        foreach (Evaluator evaluators in foundEvent.Evaluators)
-        {
-            //GetEvaluationForEventEvaluator(EventID,EvaluatorID);
-        }
-
-        
-
-
-        return foundEvent;
-
-
+        fEvent = Controller.GetEvent(currentEvent.EventID);
+        return fEvent;
     }
+
     public Evaluator CreateEvaluator()
     { 
         Evaluator newEvaluator = new Evaluator();
@@ -99,8 +87,7 @@ public class CSS
 
         evaluations = Controller.GetAllEventData(EventKey);    
 
-
-
+        
 
         return evaluations;
     }
