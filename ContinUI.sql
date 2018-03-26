@@ -434,10 +434,10 @@ as
 		 raiserror('GetEventEvaluators - Required Parameter: @EventKey',16,1)
 	else
 		begin
-			select * from Evaluator
-			inner join EvaluativeData ev on 
-			Evaluator.EvaluatorID = ev.EvaluatorID
-			where ev.EventKey = @EventKey
+			select distinct Evaluator.EvaluatorID,Name, DateOfBirth,Sex,SchoolOrOrganization,City,VotingCriteria from Evaluator
+			inner join EvaluativeData ed on 
+			Evaluator.EvaluatorID = ed.EvaluatorID
+			where ed.EventKey = @EventKey
 			
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -446,7 +446,7 @@ as
 		end
 	return @ReturnCode				
 GO
-
+exec GetEventEvaluators 'abcd'
 
 --drop procedure GetHistoricalEvaluationData
 go
@@ -520,7 +520,7 @@ as
 		raiserror('GetEvaluatorEventData - Required Parameter: @EvaluatorID',16,1)
 	else
 		begin
-			select Rating, TimeOfData from EvaluativeData
+			select * from EvaluativeData
 			where @EventKey = EventKey and @EvaluatorID = EvaluatorID
 
 			if @@ERROR = 0
@@ -530,6 +530,9 @@ as
 		end
 	return @ReturnCode				
 GO
+
+exec GetEvaluatorEventData 'abcd',8
+go
 
 --drop procedure GetAllEventData
 go

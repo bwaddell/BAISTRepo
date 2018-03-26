@@ -316,7 +316,7 @@ public class EventDirector
         SqlCommand CommandGet = new SqlCommand();
         CommandGet.Connection = DataBaseCon;
         CommandGet.CommandType = CommandType.StoredProcedure;
-        CommandGet.CommandText = "GetEvaluatorsForEvent";
+        CommandGet.CommandText = "GetEventEvaluators";
 
         SqlParameter GetParameter = new SqlParameter();
         GetParameter.ParameterName = "@EventKey";
@@ -337,9 +337,11 @@ public class EventDirector
         myDataAdapter.Fill(myDataSet, "Evaluators");
 
         DataBaseCon.Close();
-
+         
         DataTable myDataTable = new DataTable();
-        myDataTable = myDataSet.Tables["Evaluations"];
+        myDataTable = myDataSet.Tables["Evaluators"];
+
+        int numrows = myDataTable.Rows.Count;
 
 
         foreach (DataRow dataRow in myDataTable.Rows)
@@ -347,12 +349,33 @@ public class EventDirector
             Evaluator evaluator = new Evaluator();
 
             evaluator.EvaluatorID = Convert.ToInt32(dataRow["EvaluatorID"]);
-            evaluator.Name = dataRow["Name"].ToString();
-            evaluator.DateOfBirth = DateTime.Parse(dataRow["DateOfBirth"].ToString());
-            evaluator.Sex = dataRow["Sex"].ToString();
-            evaluator.School = dataRow["SchoolOrOrganization"].ToString();
-            evaluator.City = dataRow["City"].ToString();
-            evaluator.Criteria = dataRow["VotingCriteria"].ToString();
+
+            if (dataRow["Name"] != DBNull.Value)
+            {
+                evaluator.Name = dataRow["Name"].ToString();
+            }
+            if (dataRow["DateOfBirth"] != DBNull.Value)
+            {
+                evaluator.DateOfBirth = DateTime.Parse(dataRow["DateOfBirth"].ToString());
+            }
+            if (dataRow["Sex"] != DBNull.Value)
+            {
+                evaluator.Sex = dataRow["Sex"].ToString();
+            }
+            if (dataRow["SchoolOrOrganization"] != DBNull.Value)
+            {
+                evaluator.School = dataRow["SchoolOrOrganization"].ToString();
+            }
+            if (dataRow["City"] != DBNull.Value)
+            {
+                evaluator.City = dataRow["City"].ToString();
+            }
+            if (dataRow["VotingCriteria"] != DBNull.Value)
+            {
+                evaluator.Criteria = dataRow["VotingCriteria"].ToString();
+            }
+
+
             listOfEvaluators.Add(evaluator);
 
             //call GetEvaluationsForEventEvaluator

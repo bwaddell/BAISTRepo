@@ -17,15 +17,19 @@ public partial class ViewEvent : System.Web.UI.Page
         CSS Director = new CSS();
         List<Evaluation> EventData = new List<Evaluation>();
 
-        Event test = new Event();
-        //test.EventID = "ABCD";
+        Event theEvent = new Event();
+
+        theEvent.EventID = "ABCD";
+
+        //Get ALL event Data!!!
+        theEvent = Director.GetEvent(theEvent);
 
         
-        EventData = Director.GetEventData("abcd");
+        //EventData = Director.GetEventData("abcd");
 
 
-        List<Evaluator> evaluators = new List<Evaluator>(); //list of evaluators for the event
-        List<Evaluation> evaluations = new List<Evaluation>(); //list of evaluations for each event
+        //List<Evaluator> evaluators = new List<Evaluator>(); //list of evaluators for the event
+        //List<Evaluation> evaluations = new List<Evaluation>(); //list of evaluations for each event
         List<object> points = new List<object>();
 
         List<object> evaluatorEvaluations = new List<object>();

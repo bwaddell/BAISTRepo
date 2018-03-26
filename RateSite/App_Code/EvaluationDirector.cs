@@ -195,7 +195,7 @@ public class EvaluationDirector
         SqlCommand CommandGet = new SqlCommand();
         CommandGet.Connection = DataBaseCon;
         CommandGet.CommandType = CommandType.StoredProcedure;
-        CommandGet.CommandText = "GetEvaluationsForEventEvaluator";
+        CommandGet.CommandText = "GetEvaluatorEventData";
 
         SqlParameter AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventKey";
@@ -206,9 +206,9 @@ public class EvaluationDirector
 
         AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EvaluatorID";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.SqlDbType = SqlDbType.Int;
         AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = EventID;
+        AddParameter.Value = EvaluatorID;
         CommandGet.Parameters.Add(AddParameter);
 
         DataBaseCon.Open();
