@@ -15,63 +15,63 @@ public partial class ViewEvent : System.Web.UI.Page
     {
         
         CSS Director = new CSS();
-        List<Evaluation> EventData = new List<Evaluation>();
+       // List<Evaluation> EventData = new List<Evaluation>();
 
         Event theEvent = new Event();
 
         theEvent.EventID = "ABCD";
 
         //Get ALL event Data!!!
+
         theEvent = Director.GetEvent(theEvent);
-
-        
-        //EventData = Director.GetEventData("abcd");
+        int numOfEvaluators = theEvent.Evaluators.Count;
 
 
-        //List<Evaluator> evaluators = new List<Evaluator>(); //list of evaluators for the event
-        //List<Evaluation> evaluations = new List<Evaluation>(); //list of evaluations for each event
+        List<Series> liOfSeries = new List<Series>();
+
+
         List<object> points = new List<object>();
+        Random rand = new Random();
+        //rand.Next(999);
 
-        List<object> evaluatorEvaluations = new List<object>();
 
-
-        for (int i = 0; i < EventData.Count; i++)
+        foreach (Evaluator evalu in theEvent.Evaluators)
         {
-            Evaluator tempEval = new Evaluator();
+            points.Clear();
 
-            //if (evaluators.Contains( )      //check if the list of evaluators contains this one
-
-            points.Add(new
+            foreach (Evaluation evaluation in evalu.EvaluatorEvaluations)
             {
-                X = EventData[i].TimeStamp,
-                Y = EventData[i].Rating
-            });
+                points.Add(new
+                {
+                    X = evaluation.TimeStamp,
+                    Y = evaluation.Rating
+                });
+            }
+
+            //add the points to the series
+            Series ser = new Series();
+            ser.Name = String.Format("Evaluator ({0})", evalu.EvaluatorID);
+            ser.Type = ChartTypes.Line;
+            ser.Data = new Data(points.ToArray());
+            ser.Color = System.Drawing.Color.
+                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
+
+            liOfSeries.Add(ser);
 
         }
 
 
 
-        //one H line on graph
-        Series mySeries = new Series
-        {
-
-            Name = "Evaluator",
-            Type = ChartTypes.Line,
-            Data = new Data(points.ToArray()),
-            Color = System.Drawing.Color.FromName("'#4CB7A5'")
-
-        };
-        
-               
 
 
-        Highcharts chart = new Highcharts("chart")
+
+        Highcharts chart = new Highcharts("chart");
                         //{
                         //    Type = ChartTypes.Spline,
                         //    BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#f1f2f7'")),
                         //    ZoomType = ZoomTypes.X
                         //};
-                        ;
+                        //;
         
 
         chart.SetTitle(new Title
@@ -85,7 +85,7 @@ public partial class ViewEvent : System.Web.UI.Page
         chart.SetLegend(new Legend
         {
             Enabled = true,
-            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#ffffff'"))
+            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#aaaaff'"))
         });
 
         chart.SetTooltip(new Tooltip
@@ -117,7 +117,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 Text = "Rating"
             }
         });
-        chart.SetSeries( new[] { mySeries });
+        chart.SetSeries( liOfSeries.ToArray() );
 
         
 

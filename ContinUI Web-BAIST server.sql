@@ -389,3 +389,12 @@ grant execute on GetEvent to aspnet
 grant execute on GetHistoricalEvaluationData to aspnet
 grant execute on GetMostRecentEvaluativeData to aspnet
 grant execute on UpdateEventStatus to aspnet
+
+
+sp_help
+
+
+
+
+
+where EventKey ='VPOA'

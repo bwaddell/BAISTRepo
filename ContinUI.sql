@@ -32,7 +32,7 @@ GO
 
 
 
-drop table Facilitator
+--drop table Facilitator
 create table Facilitator
 (
 	FacilitatorID int unique identity(1,1) not null,
@@ -50,7 +50,7 @@ alter table Facilitator
 	add constraint PK_Facilitator primary key (FacilitatorID)
 Go
 
-drop table EventDetails
+--drop table EventDetails
 create table EventDetails
 (
 	EventKey nvarchar(5) not null,
@@ -69,7 +69,7 @@ alter table EventDetails
 Go
 
 
-drop table Evaluator
+--drop table Evaluator
 create table Evaluator
 (
 	EvaluatorID int unique identity(1,1) not null,
@@ -84,7 +84,7 @@ alter table Evaluator
 	add constraint PK_Evaluator primary key (EvaluatorID) 
 Go
 
-drop table EvaluativeData
+--drop table EvaluativeData
 create table EvaluativeData
 (
 	EventKey NVarchar(5) not null,
@@ -270,7 +270,7 @@ as
 		return @ReturnCode
 GO
 
-execute CreateEvent 'ABCD',1,'Edmonton NAIT','Bruce Wayne','Sing', '03-03-2018'
+execute CreateEvent 'VPOA',1,'Edmonton NAIT','Bruce Wayne','Sing', '03-03-2018'
 go
 
 
@@ -587,7 +587,7 @@ go
 
 
 --drop procedure UpdateFacilitatorInfo
-alter procedure UpdateFacilitatorInfo
+create procedure UpdateFacilitatorInfo
 (
 	@ID int = null,
 	@Mail nvarchar(40) = null,
@@ -645,3 +645,10 @@ select * from EvaluativeData
 select * from EventDetails
 select * from Evaluator
 select * from Facilitator
+
+sp_help
+
+
+insert into EvaluativeData (EventKey,EvaluatorID,TimeOfData,Rating)
+select * from [VPOA Event Data]
+
