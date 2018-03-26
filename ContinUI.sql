@@ -395,6 +395,58 @@ as
 	return @ReturnCode	
 go
 
+--drop procedure GetEvaluator
+go
+create procedure GetEvaluator
+(
+	@EvaluatorID int = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	if(@EvaluatorID is null)
+		 raiserror('GetEvaluator - Required Parameter: @EvaluatorID',16,1)
+	else
+		begin
+			select * from Evaluator
+			where EvaluatorID = @EvaluatorID 
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetEvaluator - Select Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
+GO
+
+--drop procedure GetEventEvaluators
+go
+create procedure GetEventEvaluators
+(
+	@EventKey nvarchar(5)
+)
+as
+	declare @returnCode as int
+	set @ReturnCode = 1
+	
+	if(@EventKey is null)
+		 raiserror('GetEventEvaluators - Required Parameter: @EventKey',16,1)
+	else
+		begin
+			select * from Evaluator
+			inner join EvaluativeData ev on 
+			Evaluator.EvaluatorID = ev.EvaluatorID
+			where ev.EventKey = @EventKey
+			
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetEventEvaluators - Select Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
+GO
+
 
 --drop procedure GetHistoricalEvaluationData
 go
@@ -451,6 +503,34 @@ as
 	return @ReturnCode				
 GO
 
+--drop procedure GetEvaluatorEventData
+go
+create procedure GetEvaluatorEventData
+(
+	@EventKey nvarchar(5) = null,
+	@EvaluatorID int = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@EventKey is null)
+		raiserror('GetEvaluatorEventData - Required Parameter: @EventKey',16,1)
+	if(@EvaluatorID is null)
+		raiserror('GetEvaluatorEventData - Required Parameter: @EvaluatorID',16,1)
+	else
+		begin
+			select Rating, TimeOfData from EvaluativeData
+			where @EventKey = EventKey and @EvaluatorID = EvaluatorID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetEvaluatorEventData - Select Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
+GO
+
 --drop procedure GetAllEventData
 go
 create procedure GetAllEventData
@@ -475,9 +555,6 @@ as
 		end
 	return @ReturnCode				
 GO
-
-execute GetAllEventData 'abcd'
-
 
 --drop procedure GetEvent
 go
@@ -554,7 +631,7 @@ as
 		return @ReturnCode	
 go
 
-
+execute GetAllEventData 'abcd'
 
 declare @evalID INT
 execute CreateEvaluator @evalID output
