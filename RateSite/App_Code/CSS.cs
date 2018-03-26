@@ -66,13 +66,9 @@ public class CSS
             //GetEvaluationForEventEvaluator(EventID,EvaluatorID);
         }
 
-        
-
-
         return foundEvent;
-
-
     }
+
     public Evaluator CreateEvaluator()
     { 
         Evaluator newEvaluator = new Evaluator();
@@ -82,6 +78,7 @@ public class CSS
 
         return newEvaluator;
     }
+
     public List<Evaluation> GetCurrentEventData(Event currentEvent)
     {
         List<Evaluation> evals = new List<Evaluation>();
@@ -98,9 +95,6 @@ public class CSS
         EvaluationDirector Controller = new EvaluationDirector();
 
         evaluations = Controller.GetAllEventData(EventKey);    
-
-
-
 
         return evaluations;
     }
