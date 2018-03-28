@@ -19,7 +19,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
             lbStartTime.Text = "<br /> Page Loaded at: " + DateTime.Now.ToLocalTime().ToString();
 
         //tbEventID.Text = ((Event)Session["Event"]).EventID;
-        tbEventID.Text = "ABCD";
+        tbEventID.Text = "aaaa";
 
         
 
@@ -36,7 +36,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         List<Evaluation> currentEvals = new List<Evaluation>();
 
         Event test = new Event();
-        test.EventID = "ABCD";
+        test.EventID = "aaaa";
 
         //currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
         currentEvals = RequestDirector.GetCurrentEventData(test);

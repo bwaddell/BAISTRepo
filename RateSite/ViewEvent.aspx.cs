@@ -19,7 +19,7 @@ public partial class ViewEvent : System.Web.UI.Page
 
         Event theEvent = new Event();
 
-        theEvent.EventID = "ABCD";
+        theEvent.EventID = "aaaa";
 
         //Get ALL event Data!!!
 
@@ -64,7 +64,7 @@ public partial class ViewEvent : System.Web.UI.Page
 
 
 
-
+        //-----------------------------------------------------------------------------
         Highcharts chart = new Highcharts("chart");
                         //{
                         //    Type = ChartTypes.Spline,

@@ -263,10 +263,10 @@ public class EventDirector
                 foundEvent.EventStart = (DateTime)eventReader["EventBegin"];
             }
 
-            if (eventReader["EventEnd"] != DBNull.Value)
-            {
-                foundEvent.EventEnd = (DateTime)eventReader["EventEnd"];
-            }
+            //if (eventReader["EventEnd"] != DBNull.Value)
+            //{
+            //    foundEvent.EventEnd = (DateTime)eventReader["EventEnd"];
+            //}
 
 
             //call get evaluators for event

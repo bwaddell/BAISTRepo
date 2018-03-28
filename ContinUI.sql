@@ -32,6 +32,7 @@ GO
 
 
 
+
 --drop table Facilitator
 create table Facilitator
 (
@@ -651,4 +652,6 @@ sp_help
 
 insert into EvaluativeData (EventKey,EvaluatorID,TimeOfData,Rating)
 select * from [VPOA Event Data]
+
+
 
