@@ -57,6 +57,8 @@
 
         <div class="col-lg border">
             <asp:UpdatePanel ID="upChart" runat="server" UpdateMode="Conditional">
+
+
                 <ContentTemplate>
 
 
@@ -71,7 +73,7 @@
 
                 </ContentTemplate>
                 <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="btnChart" />
+                  <%--  <asp:AsyncPostBackTrigger ControlID="btnChart" />--%>
                     <%--                    <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"
                         EventName="Tick" />--%>
                 </Triggers>
@@ -89,7 +91,7 @@
     </div>
 
     <asp:Timer ID="TimerForTableRefresh" runat="server"
-        Interval="2000" OnTick="btnTable_Click">
+        Interval="1000" OnTick="btnTable_Click">
     </asp:Timer>
 
 
