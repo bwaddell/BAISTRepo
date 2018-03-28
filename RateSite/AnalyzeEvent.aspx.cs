@@ -21,9 +21,9 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         //tbEventID.Text = ((Event)Session["Event"]).EventID;
         tbEventID.Text = "AAAA";
 
-        ScriptManager.GetCurrent(this).RegisterPostBackControl(TimerForTableRefresh);
+        //ScriptManager.GetCurrent(this).RegisterPostBackControl(TimerForTableRefresh);
         Event ActiveEvent = new Event();
-        ActiveEvent.EventID = "DFZZ";
+        ActiveEvent.EventID = "AAAA";
 
         buildChart(ActiveEvent);
 
@@ -40,7 +40,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         List<Evaluation> currentEvals = new List<Evaluation>();
 
         Event test = new Event();
-        test.EventID = "DFZZ";
+        test.EventID = "AAAA";
 
         //currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
         currentEvals = RequestDirector.GetCurrentEventData(test);

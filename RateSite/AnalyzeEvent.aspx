@@ -73,7 +73,7 @@
 
                 </ContentTemplate>
                 <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="btnChart" />
+                  <%--  <asp:AsyncPostBackTrigger ControlID="btnChart" />--%>
                     <%--                    <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"
                         EventName="Tick" />--%>
                 </Triggers>
