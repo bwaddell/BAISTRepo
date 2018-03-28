@@ -46,14 +46,30 @@ public partial class ViewEvent : System.Web.UI.Page
         Event.EventID = "aaaa";
         Event = Director.GetEvent(Event);
         Facilitator = Director.GetFacilitator(1);
+       
 
         csvcontent.AppendLine("First Name,Last Name,Title,Organization,Location,Email");
         csvcontent.AppendLine(Facilitator.FirstName + "," + Facilitator.LastName + "," + Facilitator.Title + "," + Facilitator.Organization + "," + Facilitator.Location + "," + Facilitator.Email);
         csvcontent.AppendLine("\n");
 
-        csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
-        csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + "," + Event.EventEnd.ToLongTimeString());
-        csvcontent.AppendLine("\n");
+        if(Event.EventStart == null)
+        {
+            csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
+            csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + ",Not Set," + Event.EventEnd.ToLongTimeString());
+            csvcontent.AppendLine("\n");
+        }
+        else if(Event.EventEnd == null)
+        {
+            csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
+            csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + "," + Event.EventEnd.ToLongTimeString());
+            csvcontent.AppendLine("\n");
+        }
+        else
+        {
+            csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
+            csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + ",Not Set");
+            csvcontent.AppendLine("\n");
+        }
 
         foreach (Evaluator User in Event.Evaluators)
         {
