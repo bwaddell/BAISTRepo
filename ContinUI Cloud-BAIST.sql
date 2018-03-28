@@ -1,4 +1,17 @@
-use [ContinUI-DB]
+
+--Azure database-----
+--DataBase: ContinUIDB
+--adminName: cody
+--password: Jacob$17
+
+--WEBBAIST server
+--database: ContinUI-DB
+--login is windows auth
+
+
+
+-- create login for the web server to access data base server
+use ContinUIDB
 sp_help
 
 drop table EvaluativeData
@@ -52,17 +65,14 @@ grant execute on GetMostRecentEvaluativeData to aspnet
 grant execute on UpdateEventStatus to aspnet
 grant execute on UpdateFacilitatorInfo to aspnet
 
-sp_help
-
-
-
-use [ContinUI-DB]
-GO
 
 
 --****************************************--
 --Tables---
 --****************************************--
+
+use ContinUIDB
+GO
 
 
 
@@ -710,78 +720,83 @@ go
 
 declare @date datetime
 set @date = GETDATE()
-exec AddEvaluationDataPoint 'aaaa',7,10,@date
+exec AddEvaluationDataPoint 'aaaa',1,10,@date
 set @date = DATEADD(second,10,@date)
-exec AddEvaluationDataPoint 'aaaa',7,9,@date
+exec AddEvaluationDataPoint 'aaaa',1,9,@date
 set @date = DATEADD(second,15,@date)
-exec AddEvaluationDataPoint 'aaaa',7,8,@date
+exec AddEvaluationDataPoint 'aaaa',1,8,@date
 set @date = DATEADD(second,20,@date)
-exec AddEvaluationDataPoint 'aaaa',7,7,@date
+exec AddEvaluationDataPoint 'aaaa',1,7,@date
 set @date = DATEADD(second,30,@date)
-exec AddEvaluationDataPoint 'aaaa',7,8,@date
+exec AddEvaluationDataPoint 'aaaa',1,8,@date
 set @date = DATEADD(second,50,@date)
-exec AddEvaluationDataPoint 'aaaa',7,7,@date
+exec AddEvaluationDataPoint 'aaaa',1,7,@date
 set @date = DATEADD(second,100,@date)
-exec AddEvaluationDataPoint 'aaaa',7,6,@date
+exec AddEvaluationDataPoint 'aaaa',1,6,@date
 set @date = DATEADD(second,130,@date)
-exec AddEvaluationDataPoint 'aaaa',7,5,@date
+exec AddEvaluationDataPoint 'aaaa',1,5,@date
 set @date = DATEADD(second,150,@date)
-exec AddEvaluationDataPoint 'aaaa',7,4,@date
+exec AddEvaluationDataPoint 'aaaa',1,4,@date
 set @date = DATEADD(second,170,@date)
-exec AddEvaluationDataPoint 'aaaa',7,3,@date
+exec AddEvaluationDataPoint 'aaaa',1,3,@date
 set @date = DATEADD(second,200,@date)
-exec AddEvaluationDataPoint 'aaaa',7,4,@date
+exec AddEvaluationDataPoint 'aaaa',1,4,@date
 set @date = DATEADD(second,250,@date)
-exec AddEvaluationDataPoint 'aaaa',7,5,@date
+exec AddEvaluationDataPoint 'aaaa',1,5,@date
 
-
-exec AddEvaluationDataPoint 'aaaa',8,9,@date
+set @date = GETDATE()
+exec AddEvaluationDataPoint 'aaaa',2,9,@date
 set @date = DATEADD(second,12,@date)
-exec AddEvaluationDataPoint 'aaaa',8,8,@date
+exec AddEvaluationDataPoint 'aaaa',2,8,@date
 set @date = DATEADD(second,16,@date)
-exec AddEvaluationDataPoint 'aaaa',8,9,@date
+exec AddEvaluationDataPoint 'aaaa',2,9,@date
 set @date = DATEADD(second,22,@date)
-exec AddEvaluationDataPoint 'aaaa',8,8,@date
+exec AddEvaluationDataPoint 'aaaa',2,8,@date
 set @date = DATEADD(second,32,@date)
-exec AddEvaluationDataPoint 'aaaa',8,7,@date
+exec AddEvaluationDataPoint 'aaaa',2,7,@date
 set @date = DATEADD(second,52,@date)
-exec AddEvaluationDataPoint 'aaaa',8,6,@date
+exec AddEvaluationDataPoint 'aaaa',2,6,@date
 set @date = DATEADD(second,102,@date)
-exec AddEvaluationDataPoint 'aaaa',8,5,@date
+exec AddEvaluationDataPoint 'aaaa',2,5,@date
 set @date = DATEADD(second,132,@date)
-exec AddEvaluationDataPoint 'aaaa',8,4,@date
+exec AddEvaluationDataPoint 'aaaa',2,4,@date
 set @date = DATEADD(second,152,@date)
-exec AddEvaluationDataPoint 'aaaa',8,2,@date
+exec AddEvaluationDataPoint 'aaaa',2,2,@date
 set @date = DATEADD(second,172,@date)
-exec AddEvaluationDataPoint 'aaaa',8,1,@date
+exec AddEvaluationDataPoint 'aaaa',2,1,@date
 set @date = DATEADD(second,202,@date)
-exec AddEvaluationDataPoint 'aaaa',8,2,@date
+exec AddEvaluationDataPoint 'aaaa',2,2,@date
 set @date = DATEADD(second,252,@date)
-exec AddEvaluationDataPoint 'aaaa',8,3,@date
+exec AddEvaluationDataPoint 'aaaa',2,3,@date
 
-exec AddEvaluationDataPoint 'aaaa',9,5,@date
+set @date = GETDATE()
+exec AddEvaluationDataPoint 'aaaa',3,5,@date
 set @date = DATEADD(second,15,@date)
-exec AddEvaluationDataPoint 'aaaa',9,3,@date
+exec AddEvaluationDataPoint 'aaaa',3,3,@date
 set @date = DATEADD(second,17,@date)
-exec AddEvaluationDataPoint 'aaaa',9,2,@date
+exec AddEvaluationDataPoint 'aaaa',3,2,@date
 set @date = DATEADD(second,25,@date)
-exec AddEvaluationDataPoint 'aaaa',9,1,@date
+exec AddEvaluationDataPoint 'aaaa',3,1,@date
 set @date = DATEADD(second,36,@date)
-exec AddEvaluationDataPoint 'aaaa',9,2,@date
+exec AddEvaluationDataPoint 'aaaa',3,2,@date
 set @date = DATEADD(second,58,@date)
-exec AddEvaluationDataPoint 'aaaa',9,3,@date
+exec AddEvaluationDataPoint 'aaaa',3,3,@date
 set @date = DATEADD(second,106,@date)
-exec AddEvaluationDataPoint 'aaaa',9,4,@date
+exec AddEvaluationDataPoint 'aaaa',3,4,@date
 set @date = DATEADD(second,136,@date)
-exec AddEvaluationDataPoint 'aaaa',9,5,@date
+exec AddEvaluationDataPoint 'aaaa',3,5,@date
 set @date = DATEADD(second,156,@date)
-exec AddEvaluationDataPoint 'aaaa',9,4,@date
+exec AddEvaluationDataPoint 'aaaa',3,4,@date
 set @date = DATEADD(second,176,@date)
-exec AddEvaluationDataPoint 'aaaa',9,5,@date
+exec AddEvaluationDataPoint 'aaaa',3,5,@date
 set @date = DATEADD(second,206,@date)
-exec AddEvaluationDataPoint 'aaaa',9,6,@date
+exec AddEvaluationDataPoint 'aaaa',3,6,@date
 set @date = DATEADD(second,256,@date)
-exec AddEvaluationDataPoint 'aaaa',9,7,@date
+exec AddEvaluationDataPoint 'aaaa',3,7,@date
 
 
 go
+
+
+delete from EvaluativeData
+where EvaluatorID = 4
