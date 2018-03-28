@@ -52,7 +52,7 @@ public partial class ViewEvent : System.Web.UI.Page
         csvcontent.AppendLine("\n");
 
         csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
-        csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToShortTimeString() + "," + Event.EventEnd.ToShortTimeString());
+        csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + "," + Event.EventEnd.ToLongTimeString());
         csvcontent.AppendLine("\n");
 
         foreach (Evaluator User in Event.Evaluators)
@@ -64,14 +64,14 @@ public partial class ViewEvent : System.Web.UI.Page
             for (int i = 0; i < Evaluations.Count; i++)
             {
                 if (i == Evaluations.Count - 1)
-                    insert += Evaluations[i].TimeStamp.ToString();
+                    insert += Evaluations[i].TimeStamp.ToLongTimeString();
                 else
-                    insert += Evaluations[i].TimeStamp.ToString() + ",";
+                    insert += Evaluations[i].TimeStamp.ToLongTimeString() + ",";
             }
 
             csvcontent.AppendLine(insert);
 
-            insert = User.EvaluatorID.ToString() + ",";
+            insert = "ID: " + User.EvaluatorID.ToString() + ",";
 
             for (int i = 0; i < Evaluations.Count; i++)
             {
