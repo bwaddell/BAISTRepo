@@ -3,7 +3,6 @@
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <!-- Latest compiled and minified plotly.js JavaScript -->
 
     <%--highchart scripts--%>
     <script src="Scripts/jquery-3.3.1.min.js"></script>
@@ -44,7 +43,8 @@
                         </asp:TableRow>
                     </asp:Table>
                     <asp:Label ID="lbUpdateTime" runat="server" Text="Update Time: "></asp:Label>
-                </ContentTemplate>
+
+               </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnTable" />
                     <asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh"
@@ -56,7 +56,7 @@
 
 
         <div class="col-lg border">
-            <asp:UpdatePanel ID="upChart" runat="server" UpdateMode="Conditional">
+            <asp:UpdatePanel ID="upChart" runat="server" UpdateMode="Conditional" >
 
 
                 <ContentTemplate>
@@ -73,9 +73,8 @@
 
                 </ContentTemplate>
                 <Triggers>
-                  <%--  <asp:AsyncPostBackTrigger ControlID="btnChart" />--%>
-                    <%--                    <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"
-                        EventName="Tick" />--%>
+                    <%--<asp:AsyncPostBackTrigger ControlID="btnChart" />--%>
+                        <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"/>
                 </Triggers>
             </asp:UpdatePanel>
         </div>
@@ -93,7 +92,9 @@
     <asp:Timer ID="TimerForTableRefresh" runat="server"
         Interval="1000" OnTick="btnTable_Click">
     </asp:Timer>
-
+    <asp:Timer ID="TimerForGraphRefresh" runat="server"
+        Interval="2000" OnTick="TableRefresh_Tick">
+    </asp:Timer>
 
 
 </asp:Content>
@@ -105,9 +106,9 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
-    <script>
+    <script type="text/javascript">
 
-
-    </script>
+</script>
+   
 </asp:Content>
 
