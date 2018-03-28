@@ -22,15 +22,18 @@ public partial class ViewEvent : System.Web.UI.Page
         theEvent.EventID = "aaaa";
 
         //Get ALL event Data!!!
-
         theEvent = Director.GetEvent(theEvent);
-        int numOfEvaluators = theEvent.Evaluators.Count;
+        //int numOfEvaluators = theEvent.Evaluators.Count;
 
         Highcharts chart = Director.CreateChart(theEvent);
 
         //write the chart to the div(literal) on web page
         //the rest is automatic
         ltrChart.Text = chart.ToHtmlString();
+
+
+
+
 
     }
 

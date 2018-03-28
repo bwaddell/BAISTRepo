@@ -258,15 +258,15 @@ public class EventDirector
             foundEvent.FacilitatorID = Convert.ToInt32(eventReader["FacilitatorID"]);
             foundEvent.Performer = eventReader["Performer"].ToString();
 
-            //if (eventReader["EventBegin"] != DBNull.Value)
-            //{
-            //    foundEvent.EventStart = (DateTime)eventReader["EventBegin"];
-            //}
+            if (eventReader["EventBegin"] != DBNull.Value)
+            {
+                foundEvent.EventStart = (DateTime)eventReader["EventBegin"];
+            }
 
-            //if (eventReader["EventEnd"] != DBNull.Value)
-            //{
-            //    foundEvent.EventEnd = (DateTime)eventReader["EventEnd"];
-            //}
+            if (eventReader["EventEnd"] != DBNull.Value)
+            {
+                foundEvent.EventEnd = (DateTime)eventReader["EventEnd"];
+            }
 
 
             //call get evaluators for event
