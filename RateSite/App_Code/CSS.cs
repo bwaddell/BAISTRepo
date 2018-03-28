@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DotNet.Highcharts;
 
 using System.Linq;
 using System.Web;
@@ -182,5 +183,15 @@ public class CSS
 
         Confirmation = Controller.UpdateFacilitator(newFacilitator);
         return Confirmation;
+    }
+
+
+    public Highcharts CreateChart(Event evnt)
+    {
+        CSSChart chartmaker = new CSSChart();
+        Highcharts chart = chartmaker.MakeChart(evnt);
+
+        return chart;
+
     }
 }
