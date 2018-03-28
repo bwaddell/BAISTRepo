@@ -29,6 +29,9 @@
         <div>
             <asp:Literal ID="mathChart" runat="server"></asp:Literal>
         </div>
+        <div>
+            <asp:Button ID="Export" runat="server" Text="Export Event Data" OnClick="Export_Click" />
+        </div>
     </div>
 
 

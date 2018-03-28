@@ -157,6 +157,7 @@ public class CSS
         newFac = Controller.GetFacilitator(id);
         return newFac;
     }
+
     public List<Event> GetFacilitatorEvents(int id)
     {
         List<Event> facEvents = new List<Event>();
@@ -165,6 +166,16 @@ public class CSS
         facEvents = Controller.GetFacilitatorEvents(id);
         return facEvents;
     }
+
+    public List<Evaluation> GetEvaluatorEvaluations(string EventID, int EvaluatorID)
+    {
+        List<Evaluation> EvaluatorEvents = new List<Evaluation>();
+        EvaluationDirector Controller = new EvaluationDirector();
+
+        EvaluatorEvents = Controller.GetEvaluationsForEventEvaluator(EventID, EvaluatorID);
+        return EvaluatorEvents;
+    }
+
     public bool UpdateFacilitator(Facilitator newFacilitator)
     {
         bool Confirmation;

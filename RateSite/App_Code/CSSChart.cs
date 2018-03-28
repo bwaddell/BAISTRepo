@@ -12,11 +12,14 @@ using DotNet.Highcharts.Enums;
 /// </summary>
 public class CSSChart
 {
+    private Random rand;
+
     public CSSChart()
     {
         //
         // TODO: Add constructor logic here
         //
+        rand = new Random();
     }
 
 
@@ -25,13 +28,11 @@ public class CSSChart
     {
         List<Series> liOfSeries = new List<Series>();
         List<object> points = new List<object>();
-        Random rand = new Random();
 
-
+        //foreach evaluator in event foreach evaluation in evaluator add point. [TimeStamp,Rating]
         foreach (Evaluator evalu in theEvent.Evaluators)
         {
             points.Clear();
-
             foreach (Evaluation evaluation in evalu.EvaluatorEvaluations)
             {
                 points.Add(new
@@ -53,9 +54,19 @@ public class CSSChart
 
 
         //-----------------------------------------------------------------------------
+        Highcharts chart = makeChartInfo(liOfSeries, ChartTypes.Scatter);
+
+        return chart;
+    }
+
+
+
+
+    private Highcharts makeChartInfo(List<Series> liOfSeries, ChartTypes chartType)
+    {
         Highcharts chart = new Highcharts("chart").InitChart(new Chart
         {
-            Type = ChartTypes.Line,
+            Type = chartType,
             BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#f1f2f7'")),
             ZoomType = ZoomTypes.X,
             ClassName = "char"
@@ -70,8 +81,8 @@ public class CSSChart
         });
         chart.SetPlotOptions(new PlotOptions
         {
-            Column = new PlotOptionsColumn { Animation = new Animation(false) },
-            Line = new PlotOptionsLine { Animation = new Animation(false) }
+            //Column = new PlotOptionsColumn { Animation = new Animation(false) },
+            //Line = new PlotOptionsLine { Animation = new Animation(false) }
 
         });
         chart.SetExporting(new Exporting
@@ -125,7 +136,6 @@ public class CSSChart
             //ShowDuration = 0,
             //HideDuration = 0          //idk if these did anything?
         });
-
         return chart;
     }
 
