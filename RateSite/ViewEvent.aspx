@@ -25,6 +25,9 @@
             <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
             <%--High chart literal, this is where the chart will be placed--%>
         </div>
+        <div>
+            <asp:Button ID="Export" runat="server" Text="Export Event Data" OnClick="Export_Click" />
+        </div>
     </div>
 
 
