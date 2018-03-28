@@ -33,7 +33,11 @@ public partial class ViewEvent : System.Web.UI.Page
         //write the chart to the div(literal) on web page
         //the rest is automatic
         ltrChart.Text = chart.ToHtmlString();
+
+        Highcharts mChart = Director.MakeMathChart(theEvent);
+        mathChart.Text = mChart.ToHtmlString();
     }
+
 
     protected void Export_Click(object sender, EventArgs e)
     {
@@ -52,9 +56,7 @@ public partial class ViewEvent : System.Web.UI.Page
         csvcontent.AppendLine(Facilitator.FirstName + "," + Facilitator.LastName + "," + Facilitator.Title + "," + Facilitator.Organization + "," + Facilitator.Location + "," + Facilitator.Email);
         csvcontent.AppendLine("\n");
 
-        Highcharts mChart = Director.MakeMathChart(theEvent);
-         mathChart.Text = mChart.ToHtmlString();
-    }
+        
         if(Event.EventStart == null)
         {
             csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
