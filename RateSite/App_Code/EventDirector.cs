@@ -257,6 +257,7 @@ public class EventDirector
             foundEvent.Description = eventReader["NatureOfEvent"].ToString();
             foundEvent.FacilitatorID = Convert.ToInt32(eventReader["FacilitatorID"]);
             foundEvent.Performer = eventReader["Performer"].ToString();
+            foundEvent.Location = eventReader["Location"].ToString();
 
             if (eventReader["EventBegin"] != DBNull.Value)
             {
