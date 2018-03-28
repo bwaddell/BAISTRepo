@@ -616,7 +616,7 @@ as
 		raiserror('GetEvent - Required Parameter: @EventKey',16,1)
 	else
 		begin
-			select EventKey, FacilitatorID, Location, Performer,NatureOfEvent, EventDate,EventBegin from EventDetails
+			select EventKey, FacilitatorID, Location, Performer,NatureOfEvent, EventDate, EventBegin, EventEnd from EventDetails
 			where EventKey = @EventKey
 
 			if @@ERROR = 0
@@ -633,7 +633,7 @@ go
 create procedure UpdateFacilitatorInfo
 (
 	@ID int = null,
-	@Mail nvarchar(40) = null,
+	@Email nvarchar(40) = null,
 	@Password nvarchar(64) = null,
 	@Salt nvarchar(10) = null,
 	@Roles nvarchar(60) = null,
@@ -706,8 +706,10 @@ go
 execute CreateFacilitator 'admin','User','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SA','NAIT BAIST','Edmonton'
 go
 
-execute UpdateFacilitatorInfo 1, 'FName','LName','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SysAdmin','NAIT BAIST','Edmonton'
+execute UpdateFacilitatorInfo 1, 'admin@gmail.com','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','admin','FName','LName','SysAdmin','NAIT BAIST','Edmonton'
 go
+
+select * from EventDetails
 
 
 declare @date date

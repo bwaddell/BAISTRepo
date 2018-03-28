@@ -26,7 +26,7 @@ public partial class ViewEvent : System.Web.UI.Page
         //Get ALL event Data!!!
 
         theEvent = Director.GetEvent(theEvent);
-        int numOfEvaluators = theEvent.Evaluators.Count;
+        //int numOfEvaluators = theEvent.Evaluators.Count;
 
         Highcharts chart = Director.CreateChart(theEvent);
 
