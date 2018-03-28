@@ -21,19 +21,23 @@
 
         <label>HighChart Graph of data</label>
 
-        <div>
+        <div class="row">
             <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
             <%--High chart literal, this is where the chart will be placed--%>
         </div>
 
-        <div>
+        
+        
+    </div>
+    <div class="col-lg border">
+        <div class="row">
             <asp:Literal ID="mathChart" runat="server"></asp:Literal>
         </div>
-        <div>
+
+    </div>
+    <div class="row">
             <asp:Button ID="Export" runat="server" Text="Export Event Data" OnClick="Export_Click" />
         </div>
-    </div>
-
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">

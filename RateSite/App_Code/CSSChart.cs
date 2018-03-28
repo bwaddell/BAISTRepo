@@ -218,16 +218,16 @@ public class CSSChart
 
 
         //-----------------------------------------------------------------------------
-        Highcharts chart = new Highcharts("chart").InitChart(new Chart
+        Highcharts chart = new Highcharts("mChart").InitChart(new Chart
         {
-            Type = ChartTypes.Line,
+            Type = ChartTypes.Spline,
             BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#f1f2f7'")),
             ZoomType = ZoomTypes.X,
             ClassName = "char"
         });
         chart.SetTitle(new Title
         {
-            Text = "Evaluation Data"
+            Text = "Calculated Data"
         });
         chart.SetOptions(new GlobalOptions
         {
@@ -235,8 +235,8 @@ public class CSSChart
         });
         chart.SetPlotOptions(new PlotOptions
         {
-            Column = new PlotOptionsColumn { Animation = new Animation(false) },
-            Line = new PlotOptionsLine { Animation = new Animation(false) }
+            //Column = new PlotOptionsColumn { Animation = new Animation(false) },
+            //Line = new PlotOptionsLine { Animation = new Animation(false) }
 
         });
         chart.SetExporting(new Exporting
@@ -246,8 +246,7 @@ public class CSSChart
         chart.SetLegend(new Legend
         {
             Enabled = true,
-            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.
-                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256)))
+            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#aaaaaa'"))
         });
 
         chart.SetNavigation(new Navigation
@@ -262,16 +261,15 @@ public class CSSChart
         });
         chart.SetXAxis(new XAxis
         {
+            Title = new XAxisTitle
+            {
+                Text = "Evaluators"
+            },
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
             {
-                Minute = "%l%M<br>%p"
+                Minute = "%l:%M %p"
             },
-            //{
-
-            //    Month = "%e. %b",
-            //    Year = "%b"
-            //},
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
@@ -281,8 +279,10 @@ public class CSSChart
         {
             Title = new YAxisTitle
             {
-                Text = "Rating"
-            }
+                Text = "The Rating"
+            },
+            Max = 10
+
         });
         chart.SetSeries(liOfSeries.ToArray());
         chart.SetLoading(new Loading
@@ -290,7 +290,6 @@ public class CSSChart
             //ShowDuration = 0,
             //HideDuration = 0          //idk if these did anything?
         });
-
         return chart;
     }
     public List<int> getRatingsAtTimestamp(DateTime Timestamp, Event theEvent)
