@@ -5,9 +5,11 @@
 
     <%--highchart scripts--%>
     <script src="Scripts/jquery-3.3.1.min.js"></script>
+    <%--<script src="Scripts/Highcharts-4.0.1/js/highcharts-all.js"></script>--%>
     <script src="Scripts/Highcharts-4.0.1/js/highcharts.js"></script>
-
-
+    <script src="Scripts/Highcharts-4.0.1/js/modules/exporting.js"></script>
+    <script src="Scripts/Highcharts-4.0.1/js/modules/data.js"></script>
+    <script src="Scripts/Highcharts-4.0.1/js/modules/canvas-tools.js"></script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">

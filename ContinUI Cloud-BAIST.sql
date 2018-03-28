@@ -706,6 +706,10 @@ go
 execute CreateFacilitator 'admin','User','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SA','NAIT BAIST','Edmonton'
 go
 
+execute UpdateFacilitatorInfo 1, 'FName','LName','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SysAdmin','NAIT BAIST','Edmonton'
+go
+
+
 declare @date date
 set @date = GETDATE()
 execute CreateEvent 'aaaa',1,'Edmonton NAIT','Bruce Wayne','Singing in the Rain', @date
@@ -720,6 +724,8 @@ go
 
 declare @date datetime
 set @date = GETDATE()
+set @date = DATEADD(hour,-6,@date)
+
 exec AddEvaluationDataPoint 'aaaa',1,10,@date
 set @date = DATEADD(second,10,@date)
 exec AddEvaluationDataPoint 'aaaa',1,9,@date
@@ -743,8 +749,34 @@ set @date = DATEADD(second,200,@date)
 exec AddEvaluationDataPoint 'aaaa',1,4,@date
 set @date = DATEADD(second,250,@date)
 exec AddEvaluationDataPoint 'aaaa',1,5,@date
+set @date = DATEADD(second,260,@date)
+exec AddEvaluationDataPoint 'aaaa',1,6,@date
+set @date = DATEADD(second,270,@date)
+exec AddEvaluationDataPoint 'aaaa',1,7,@date
+set @date = DATEADD(second,300,@date)
+exec AddEvaluationDataPoint 'aaaa',1,8,@date
+set @date = DATEADD(second,400,@date)
+exec AddEvaluationDataPoint 'aaaa',1,7,@date
+set @date = DATEADD(second,450,@date)
+exec AddEvaluationDataPoint 'aaaa',1,8,@date
+set @date = DATEADD(second,500,@date)
+exec AddEvaluationDataPoint 'aaaa',1,7,@date
+set @date = DATEADD(second,520,@date)
+exec AddEvaluationDataPoint 'aaaa',1,6,@date
+set @date = DATEADD(second,530,@date)
+exec AddEvaluationDataPoint 'aaaa',1,5,@date
+set @date = DATEADD(second,550,@date)
+exec AddEvaluationDataPoint 'aaaa',1,4,@date
+set @date = DATEADD(second,600,@date)
+exec AddEvaluationDataPoint 'aaaa',1,3,@date
+set @date = DATEADD(second,700,@date)
+exec AddEvaluationDataPoint 'aaaa',1,4,@date
+set @date = DATEADD(second,720,@date)
+exec AddEvaluationDataPoint 'aaaa',1,5,@date
 
 set @date = GETDATE()
+set @date = DATEADD(hour,-6,@date)
+
 exec AddEvaluationDataPoint 'aaaa',2,9,@date
 set @date = DATEADD(second,12,@date)
 exec AddEvaluationDataPoint 'aaaa',2,8,@date
@@ -768,8 +800,34 @@ set @date = DATEADD(second,202,@date)
 exec AddEvaluationDataPoint 'aaaa',2,2,@date
 set @date = DATEADD(second,252,@date)
 exec AddEvaluationDataPoint 'aaaa',2,3,@date
+set @date = DATEADD(second,250,@date)
+exec AddEvaluationDataPoint 'aaaa',2,4,@date
+set @date = DATEADD(second,12,@date)
+exec AddEvaluationDataPoint 'aaaa',2,5,@date
+set @date = DATEADD(second,16,@date)
+exec AddEvaluationDataPoint 'aaaa',2,6,@date
+set @date = DATEADD(second,22,@date)
+exec AddEvaluationDataPoint 'aaaa',2,7,@date
+set @date = DATEADD(second,32,@date)
+exec AddEvaluationDataPoint 'aaaa',2,6,@date
+set @date = DATEADD(second,52,@date)
+exec AddEvaluationDataPoint 'aaaa',2,5,@date
+set @date = DATEADD(second,102,@date)
+exec AddEvaluationDataPoint 'aaaa',2,5,@date
+set @date = DATEADD(second,132,@date)
+exec AddEvaluationDataPoint 'aaaa',2,4,@date
+set @date = DATEADD(second,152,@date)
+exec AddEvaluationDataPoint 'aaaa',2,2,@date
+set @date = DATEADD(second,172,@date)
+exec AddEvaluationDataPoint 'aaaa',2,1,@date
+set @date = DATEADD(second,202,@date)
+exec AddEvaluationDataPoint 'aaaa',2,2,@date
+set @date = DATEADD(second,252,@date)
+exec AddEvaluationDataPoint 'aaaa',2,3,@date
 
 set @date = GETDATE()
+set @date = DATEADD(hour,-6,@date)
+
 exec AddEvaluationDataPoint 'aaaa',3,5,@date
 set @date = DATEADD(second,15,@date)
 exec AddEvaluationDataPoint 'aaaa',3,3,@date
@@ -793,10 +851,38 @@ set @date = DATEADD(second,206,@date)
 exec AddEvaluationDataPoint 'aaaa',3,6,@date
 set @date = DATEADD(second,256,@date)
 exec AddEvaluationDataPoint 'aaaa',3,7,@date
-
+set @date = DATEADD(second,256,@date)
+exec AddEvaluationDataPoint 'aaaa',3,6,@date
+set @date = DATEADD(second,15,@date)
+exec AddEvaluationDataPoint 'aaaa',3,5,@date
+set @date = DATEADD(second,17,@date)
+exec AddEvaluationDataPoint 'aaaa',3,4,@date
+set @date = DATEADD(second,25,@date)
+exec AddEvaluationDataPoint 'aaaa',3,3,@date
+set @date = DATEADD(second,36,@date)
+exec AddEvaluationDataPoint 'aaaa',3,2,@date
+set @date = DATEADD(second,58,@date)
+exec AddEvaluationDataPoint 'aaaa',3,3,@date
+set @date = DATEADD(second,106,@date)
+exec AddEvaluationDataPoint 'aaaa',3,4,@date
+set @date = DATEADD(second,136,@date)
+exec AddEvaluationDataPoint 'aaaa',3,5,@date
+set @date = DATEADD(second,156,@date)
+exec AddEvaluationDataPoint 'aaaa',3,4,@date
+set @date = DATEADD(second,176,@date)
+exec AddEvaluationDataPoint 'aaaa',3,5,@date
+set @date = DATEADD(second,206,@date)
+exec AddEvaluationDataPoint 'aaaa',3,6,@date
+set @date = DATEADD(second,256,@date)
+exec AddEvaluationDataPoint 'aaaa',3,7,@date
 
 go
 
 
 delete from EvaluativeData
 where EvaluatorID = 4
+
+select * from EvaluativeData
+select * from Facilitator
+
+
