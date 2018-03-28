@@ -54,7 +54,7 @@ public class CSSChart
 
 
         //-----------------------------------------------------------------------------
-        Highcharts chart = makeChartInfo(liOfSeries, ChartTypes.Scatter);
+        Highcharts chart = makeChartInfo(liOfSeries, ChartTypes.Spline);
 
         return chart;
     }
@@ -92,8 +92,7 @@ public class CSSChart
         chart.SetLegend(new Legend
         {
             Enabled = true,
-            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.
-                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256)))
+            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#aaaaaa'"))
         });
 
         chart.SetNavigation(new Navigation
@@ -108,16 +107,15 @@ public class CSSChart
         });
         chart.SetXAxis(new XAxis
         {
+            Title = new XAxisTitle
+            {
+                Text = "Evaluators"
+            },
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
             {
-                Minute = "%l%M<br>%p"
+                Minute = "%l:%M %p"
             },
-            //{
-
-            //    Month = "%e. %b",
-            //    Year = "%b"
-            //},
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
@@ -127,8 +125,10 @@ public class CSSChart
         {
             Title = new YAxisTitle
             {
-                Text = "Rating"
-            }
+                Text = "The Rating"
+            },
+            Max = 10
+
         });
         chart.SetSeries(liOfSeries.ToArray());
         chart.SetLoading(new Loading
