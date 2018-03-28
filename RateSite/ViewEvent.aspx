@@ -25,6 +25,10 @@
             <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
             <%--High chart literal, this is where the chart will be placed--%>
         </div>
+
+        <div>
+            <asp:Literal ID="mathChart" runat="server"></asp:Literal>
+        </div>
     </div>
 
 

@@ -32,6 +32,8 @@ public partial class ViewEvent : System.Web.UI.Page
         //the rest is automatic
         ltrChart.Text = chart.ToHtmlString();
 
+        Highcharts mChart = Director.MakeMathChart(theEvent);
+         mathChart.Text = mChart.ToHtmlString();
     }
 
 }

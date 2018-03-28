@@ -183,4 +183,11 @@ public class CSS
         return chart;
 
     }
+    public Highcharts MakeMathChart(Event theEvent)
+    {
+        CSSChart chartmaker = new CSSChart();
+        Highcharts chart = chartmaker.MakeMathChart(theEvent);
+
+        return chart;
+    }
 }
