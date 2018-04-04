@@ -5,10 +5,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" Runat="Server">
     <div class="jumbotron">
         <h1>ContinUI</h1>
+        <p>The Continuous Rating Site</p>
     </div>
     <div class="row">
         <div class="btn homepageBtn">
-            <asp:Button ID="CreateButton" class="btn-primary homepageBtn" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
+            <asp:Button ID="CreateButton" class="homepageBtn" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
         </div>
     </div>
     <br/>
@@ -19,7 +20,7 @@
     </div>
     <div class="row">
         <div class="btn homepageBtn">
-            <asp:Button ID="JoinButton" class="btn-primary homepageBtn" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
+            <asp:Button ID="JoinButton" class="homepageBtn" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
         </div>
     </div>
     <div class="row">
