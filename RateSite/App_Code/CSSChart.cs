@@ -47,7 +47,7 @@ public class CSSChart
             //ser.Type = ChartTypes.Spline;
             ser.Data = new Data(points.ToArray());
             ser.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
+                FromArgb(200, rand.Next(256), rand.Next(256), rand.Next(256));
             liOfSeries.Add(ser);
         }
 
@@ -92,12 +92,12 @@ public class CSSChart
         chart.SetLegend(new Legend
         {
             Enabled = true,
-            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#aaaaaa'"))
+            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#cccccc'"))
         });
 
         chart.SetNavigation(new Navigation
         {
-            ButtonOptions = new NavigationButtonOptions { SymbolStroke = System.Drawing.Color.FromArgb(5, 40, 200) }
+            //ButtonOptions = new NavigationButtonOptions { SymbolStroke = System.Drawing.Color.FromArgb(5, 40, 200) }
 
         });
         chart.SetTooltip(new Tooltip
@@ -109,7 +109,7 @@ public class CSSChart
         {
             Title = new XAxisTitle
             {
-                Text = "TimeStamp"
+                Text = "Time Stamp"
             },
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
@@ -125,7 +125,7 @@ public class CSSChart
         {
             Title = new YAxisTitle
             {
-                Text = "The Rating"
+                Text = "Rating"
             },
             Max = 10
 
@@ -204,11 +204,11 @@ public class CSSChart
         serMedian.Data = new Data(medianPoints.ToArray());
 
         serMean.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
+                FromArgb(150, rand.Next(150,256), rand.Next(25), rand.Next(25));
         serMode.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
+                FromArgb(150, rand.Next(25), rand.Next(150, 256), rand.Next(25));
         serMedian.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
+                FromArgb(150, rand.Next(25), rand.Next(25), rand.Next(150, 256));
 
         liOfSeries.Add(serMean);
         liOfSeries.Add(serMode);
@@ -246,12 +246,12 @@ public class CSSChart
         chart.SetLegend(new Legend
         {
             Enabled = true,
-            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#aaaaaa'"))
+            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#cccccc'"))
         });
 
         chart.SetNavigation(new Navigation
         {
-            ButtonOptions = new NavigationButtonOptions { SymbolStroke = System.Drawing.Color.FromArgb(5, 40, 200) }
+            //ButtonOptions = new NavigationButtonOptions { SymbolStroke = System.Drawing.Color.FromArgb(5, 40, 200) }
 
         });
         chart.SetTooltip(new Tooltip
@@ -263,7 +263,7 @@ public class CSSChart
         {
             Title = new XAxisTitle
             {
-                Text = "TimeStamp"
+                Text = "Time Stamp"
             },
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
@@ -279,7 +279,7 @@ public class CSSChart
         {
             Title = new YAxisTitle
             {
-                Text = "The Rating"
+                Text = "Rating"
             },
             Max = 10
 

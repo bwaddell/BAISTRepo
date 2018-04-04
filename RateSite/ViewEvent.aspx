@@ -17,8 +17,6 @@
 
     <div class="col-lg border">
 
-
-
         <label>HighChart Graph of data</label>
 
         <div class="row">
