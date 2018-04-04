@@ -626,7 +626,7 @@ as
 			end
 		return @ReturnCode	
 go
-
+--exec GetEvent 'aaaa'
 
 --drop procedure UpdateFacilitatorInfo
 go
