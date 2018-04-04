@@ -14,6 +14,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
+        <asp:ScriptManager ID="ConScriptManager" runat="server"></asp:ScriptManager>
 
     <div class="col-lg border">
 

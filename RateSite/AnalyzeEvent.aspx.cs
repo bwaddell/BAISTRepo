@@ -38,7 +38,17 @@ public partial class AnalyzeEvent : System.Web.UI.Page
             //build and display chart
             CSS Director = new CSS();
             ActiveEvent = Director.GetEvent(ActiveEvent);
-            DrawChart(ActiveEvent);
+            Highcharts chart = Director.CreateChart(ActiveEvent);
+
+            ClientScript.RegisterStartupScript(GetType(), "mychartKey", chart.ToHtmlString(), false);
+            //ScriptManager.RegisterClientScriptBlock(ltrChart, ltrChart.GetType() , "chartKey", chart.ToHtmlString(), false);
+            //ltrChart.Text = chart.ToHtmlString();
+
+
+        }
+        else
+        {
+
         }
 
     }
@@ -95,18 +105,36 @@ public partial class AnalyzeEvent : System.Web.UI.Page
     {
         lbChartUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
 
-        CSS Director = new CSS();
         Event ActiveEvent = new Event();
+        //get Event ID from....?
+        ActiveEvent.EventID = "AAAA";
 
         //build and display chart
-        ActiveEvent.EventID = "AAAA";
-        ActiveEvent = Director.GetEvent(ActiveEvent);
-        DrawChart(ActiveEvent);
+        
+        //CSS Director = new CSS();
+        //ActiveEvent = Director.GetEvent(ActiveEvent);
+        //Highcharts chart = Director.CreateChart(ActiveEvent);
+        //ltrChart.Text = chart.ToHtmlString();
+
+
+
+
 
     }
 
 
 
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        //Page.ClientScript.RegisterStartupScript(this.GetType(), "CaLL", "Function()", true);
+        //ConScriptManager
+
+        //string script = "chart.series[0].addPoint([Date.parse('03/28/2018 16:00:00'), 1],true);";
+        //string script = "alert('hello World')";
+        string script = "function myFunc() {            var series = chart.series[0],                shift = series.data.length > 20, // shift if the series is longer than 20                point = [Date.parse('03/28/2018 16:00:00'), 3];        // add the point        chart.series[0].addPoint(point, true, shift);        //chart.series[0].addPoint([Date.parse('03/28/2018 16:00:00'), 1], false, false, true);    }";
+        ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "mytext", script, true);
+        
+    }
 
 
     private void DrawChart(Event ActiveEvent)
@@ -114,6 +142,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         List<Series> liOfSeries = new List<Series>();
         List<object> points = new List<object>();
         Random rand = new Random();
+        ltrChart.Text = "";
 
         foreach (Evaluator evalu in ActiveEvent.Evaluators)
         {
@@ -127,16 +156,19 @@ public partial class AnalyzeEvent : System.Web.UI.Page
                     Y = evaluation.Rating
                 });
             }
+            
 
             //add the points to the series
             Series ser = new Series();
-            ser.Name = String.Format("Evaluator ({0})", evalu.EvaluatorID);
+            ser.Name = String.Format("{1} ({0})", evalu.EvaluatorID, evalu.Name);
             ser.Type = ChartTypes.Line;
             ser.Data = new Data(points.ToArray());
             ser.Color = System.Drawing.Color.
                 FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
 
             liOfSeries.Add(ser);
+
+            
         }
 
         Highcharts chart = new Highcharts("chart");
@@ -147,6 +179,14 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         //};
         //;
 
+        //chart.AddJavascripFunction("ChartEventsLoad",
+        //                              @"// set up the updating of the chart each second
+        //                               var series = this.series[0];
+        //                               setInterval(function() {
+        //                                  var x = (new Date()).getTime(), // current time
+        //                                     y = Math.random();
+        //                                  series.addPoint([x, y], true, true);
+        //                               }, 1000);");
 
         chart.SetTitle(new Title
         {
@@ -198,6 +238,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         //the rest is automatic
         ltrChart.Text = chart.ToHtmlString();
     }
+
 
 
 }

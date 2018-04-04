@@ -1,10 +1,15 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="codyTest.aspx.cs" 
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="codyTest.aspx.cs"
     Inherits="codyTest" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+        <script src="Scripts/jquery-3.3.1.min.js"></script>
+    <script src="Scripts/Highcharts-4.0.1/js/highcharts.js"></script>
+
+
+
     <title></title>
 </head>
 <body>
@@ -13,52 +18,34 @@
 
             <%--<asp:ScriptManager ID="ScriptManagerForGraph" runat="server"></asp:ScriptManager>--%>
 
-            <asp:Timer ID="TimerForNumRefresh" runat="server" Interval="5000" OnTick="TimerForNumRefresh_Tick"></asp:Timer>
+            <button onclick="myFunc()">myFunc</button>
 
 
-            <div class="border">
-                START of panel
+                    <label>Highcharts Chart data</label>
 
-
-                <asp:UpdatePanel ID="UpdatePanelGraph" runat="server" UpdateMode="Conditional">
-                    <%--INSIDE PANEL--%>
-                    <%--this is where the graph and stuff goes--%>
-                    <ContentTemplate>
-                        <asp:Label ID="LabelTime" runat="server" Text="time"></asp:Label>
-                        <asp:Label ID="LabelRating" runat="server" Text="LabelRating"></asp:Label>
-                        <%--CHART--%>
-                        <%--<asp:Chart ID="Chart1" runat="server" Height="500px" Width="500px">
-                            <Titles>
-                                <asp:Title ShadowOffset="3" name="Things" />
-                            </Titles>
-                            <Legends>
-                                <asp:Legend Alignment ="Center" Docking="Bottom" 
-                                    IsTextAutoFit="false" Name="Default" LegendStyle="Row" />
-                            </Legends>
-                            <Series>
-                                <asp:Series Name="Series1"></asp:Series>
-                            </Series>
-                            <ChartAreas>
-                                <asp:ChartArea Name="ChartArea1" ></asp:ChartArea>
-                            </ChartAreas>
-                        </asp:Chart>--%>
-
-
-                    </ContentTemplate>
-
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="TimerForNumRefresh" EventName="Tick" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                            END of panel
-
-
+            <div id="myChart">
+                <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
+                <%--High chart literal, this is where the chart will be placed--%>
             </div>
-
-            <%--so this button can sit outside of the panel but its trigger is inside the panel^^--%>
-            <asp:Button ID="Button1" runat="server" Text="Other Button" />
+            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
 
 
+
+
+            <script type="text/javascript">
+
+                function myFunc() {
+                    var series = chart.series[0],
+                        shift = series.data.length > 40, // shift if the series is longer than 20
+                        point = [Date.parse('03/28/2018 16:00:00'), 3];
+                    // add the point
+                    //chart.series[0].clear();
+                    chart.series[0].addPoint(point, true, shift);
+                    //chart.series[0].addPoint([Date.parse('03/28/2018 16:00:00'), 1], true);
+                }
+
+
+            </script>
 
 
 

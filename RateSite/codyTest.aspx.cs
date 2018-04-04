@@ -4,38 +4,143 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.DataVisualization.Charting;
+using DotNet.Highcharts;
+using DotNet.Highcharts.Options;
+using DotNet.Highcharts.Helpers;
+using DotNet.Highcharts.Enums;
 
 public partial class codyTest : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        DateTime[] x = new DateTime[10] { DateTime.Now.AddMinutes(1),
-            DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3),
-            DateTime.Now.AddMinutes(4),DateTime.Now.AddMinutes(5),
-            DateTime.Now.AddMinutes(6),DateTime.Now.AddMinutes(7),
-            DateTime.Now.AddMinutes(8),DateTime.Now.AddMinutes(9),
-            DateTime.Now.AddMinutes(10) };
-        int[] y = new int[10] { 0, 1, 2, 3, 4, 4, 5, 5, 8, 9 };
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    x[i] = dt.Rows[i][0].ToString();
-        //    y[i] = Convert.ToInt32(dt.Rows[i][1]);
-        //}
+        if (!IsPostBack)
+        {
+            Label1.Text = "!IsPostBack";
 
-        //Chart1.Series[0].Points.DataBindXY(x, y);
-        //Chart1.Series[0].ChartType = SeriesChartType.Line;
+            Event ActiveEvent = new Event();
 
-        ////Chart1.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
+            //get Event ID from....?
+            ActiveEvent.EventID = "AAAA";
 
-        //Chart1.Legends[0].Enabled = true;
-        
+            //build and display chart
+            CSS Director = new CSS();
+            ActiveEvent = Director.GetEvent(ActiveEvent);
+            Highcharts chart = Director.CreateChart(ActiveEvent);
 
+            ScriptManager.RegisterClientScriptBlock(ltrChart, Page.GetType(), "chartKey", chart.ToHtmlString(), false);
+            //ltrChart.Text = chart.ToHtmlString();
+        }
+        else
+        {
+            Label1.Text = "IsPostBack";
+        }
     }
 
-    protected void TimerForNumRefresh_Tick(object sender, EventArgs e)
+
+    private void DrawChart(Event ActiveEvent)
     {
+        List<Series> liOfSeries = new List<Series>();
+        List<object> points = new List<object>();
+        Random rand = new Random();
+        ltrChart.Text = "";
 
+        foreach (Evaluator evalu in ActiveEvent.Evaluators)
+        {
+            points.Clear();
+
+            foreach (Evaluation evaluation in evalu.EvaluatorEvaluations)
+            {
+                points.Add(new
+                {
+                    X = evaluation.TimeStamp,
+                    Y = evaluation.Rating
+                });
+            }
+
+
+            //add the points to the series
+            Series ser = new Series();
+            ser.Name = String.Format("{1} ({0})", evalu.EvaluatorID, evalu.Name);
+            ser.Type = ChartTypes.Line;
+            ser.Data = new Data(points.ToArray());
+            ser.Color = System.Drawing.Color.
+                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
+
+            liOfSeries.Add(ser);
+
+
+        }
+
+        Highcharts chart = new Highcharts("chart");
+        //{
+        //    Type = ChartTypes.Spline,
+        //    BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#f1f2f7'")),
+        //    ZoomType = ZoomTypes.X
+        //};
+        //;
+
+        //chart.AddJavascripFunction("ChartEventsLoad",
+        //                              @"// set up the updating of the chart each second
+        //                               var series = this.series[0];
+        //                               setInterval(function() {
+        //                                  var x = (new Date()).getTime(), // current time
+        //                                     y = Math.random();
+        //                                  series.addPoint([x, y], true, true);
+        //                               }, 1000);");
+        
+        chart.SetTitle(new Title
+        {
+            Text = "Evaluation Data"
+        });
+        chart.SetOptions(new GlobalOptions
+        {
+            Global = new Global { UseUTC = false }
+        });
+        chart.SetLegend(new Legend
+        {
+            Enabled = true,
+            BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#aaaaff'"))
+        });
+
+        chart.SetTooltip(new Tooltip
+        {
+            Shared = true,
+            Shadow = true
+        });
+        chart.SetXAxis(new XAxis
+        {
+            Type = AxisTypes.Datetime,
+            DateTimeLabelFormats = new DateTimeLabel
+            {
+                Minute = "%l%M<br>%p"
+            },
+            //{
+
+            //    Month = "%e. %b",
+            //    Year = "%b"
+            //},
+            Labels = new XAxisLabels
+            {
+                StaggerLines = 2
+            }
+        });
+        chart.SetYAxis(new YAxis
+        {
+            Title = new YAxisTitle
+            {
+                Text = "Rating"
+            }
+        });
+        chart.SetSeries(liOfSeries.ToArray());
+
+
+        //write the chart to the div(literal) on web page
+        //the rest is automatic
+        ltrChart.Text = chart.ToHtmlString();
     }
+
+
+
+
 }

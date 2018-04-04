@@ -69,7 +69,6 @@
                 <!-- /.container-fluid -->
             </nav>
         </div>
-        <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
 
         <div class="container">
             <asp:Label ID="lbMsg" runat="server" Text=""></asp:Label>

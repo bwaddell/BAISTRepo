@@ -11,6 +11,7 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
+    <asp:ScriptManager ID="ConScriptManager" runat="server" EnablePageMethods="true"></asp:ScriptManager>
 
 
     <label>Event ID:</label>
@@ -27,7 +28,13 @@
 
         <asp:Button ID="btnChart" runat="server" Text="Update Chart"
             OnClick="btnChart_Click" />
+
+        <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
+
     </div>
+
+
+
 
     <div class="border row">
         <div class="col-lg">
@@ -69,13 +76,14 @@
 
 
                     <label>Highcharts Chart data</label>
-
                     <div>
                         <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
                         <%--High chart literal, this is where the chart will be placed--%>
                     </div>
 
+
                     <asp:Label ID="lbChartUpdateTime" runat="server" Text="Update Time: "></asp:Label>
+                    <button onclick="myFunc()">myFunc</button>
 
                 </ContentTemplate>
                 <Triggers>
@@ -89,10 +97,11 @@
 
 
 
-<%--    <asp:Timer ID="TimerForTableRefresh" runat="server"
+
+    <%--    <asp:Timer ID="TimerForTableRefresh" runat="server"
         Interval="1000" OnTick="btnTable_Click">
     </asp:Timer>--%>
-    <%--    <asp:Timer ID="TimerForChartRefresh" runat="server"
+    <%--<asp:Timer ID="TimerForChartRefresh" runat="server"
         Interval="2000" OnTick="btnChart_Click">
     </asp:Timer>--%>
 </asp:Content>
@@ -105,6 +114,17 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
     <script type="text/javascript">
+
+        function myFunc() {
+            var series = chart.series[0],
+                shift = series.data.length > 40, // shift if the series is longer than 20
+                point = [Date.parse('03/28/2018 17:00:00'), 3];
+            // add the point
+            //chart.series[0].clear();
+            chart.series[0].addPoint(point, true, shift);
+            //chart.series[0].addPoint([Date.parse('03/28/2018 16:00:00'), 1], true);
+        }
+
 
     </script>
 
