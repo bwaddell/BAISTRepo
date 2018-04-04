@@ -109,7 +109,7 @@ public class CSSChart
         {
             Title = new XAxisTitle
             {
-                Text = "Evaluators"
+                Text = "TimeStamp"
             },
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
@@ -169,7 +169,7 @@ public class CSSChart
 
         List<int> ratings;
 
-        for (DateTime i = firstRating; i < lastRating; i = i.AddSeconds(10))
+        for (DateTime i = firstRating; i < lastRating; i = i.AddSeconds(60))
         {
             ratings = new List<int>();
             ratings = getRatingsAtTimestamp(i, theEvent);
@@ -178,13 +178,13 @@ public class CSSChart
             {
                 meanPoints.Add(new
                 {
-                    X = i,
+                    X = (i - firstRating).TotalSeconds,
                     Y = ratings.Average(x => x)
                 });
 
                 modePoints.Add(new
                 {
-                    X = i,
+                    X = (i - firstRating).TotalSeconds,
                     Y = ratings.GroupBy(v => v)
                             .OrderByDescending(g => g.Count())
                             .First()
@@ -193,7 +193,7 @@ public class CSSChart
 
                 medianPoints.Add(new
                 {
-                    X = i,
+                    X = (i - firstRating).TotalSeconds,
                     Y = GetMedian(ratings)
                 });
             }
@@ -263,7 +263,7 @@ public class CSSChart
         {
             Title = new XAxisTitle
             {
-                Text = "Evaluators"
+                Text = "TimeStamp"
             },
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
@@ -319,7 +319,7 @@ public class CSSChart
 
         return ratings;
     }
-    public int GetMedian(List<int> ints)
+    public double GetMedian(List<int> ints)
     {
         double median;
 
@@ -327,6 +327,6 @@ public class CSSChart
 
         median = (ints.Count % 2 != 0) ? ints[ints.Count / 2] : (ints[ints.Count / 2] + ints[ints.Count / 2 + 1] / 2);
 
-        return (int)(Math.Round(median));
+        return Math.Round(median);
     }
 }
