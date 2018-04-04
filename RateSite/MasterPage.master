@@ -37,17 +37,32 @@
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
                             <li><a href="HomePage.aspx">Home</a></li>
-                            <li><a href="FacilitatorAccount.aspx">View Account</a></li>
-                            <li><a href="CreateAccount.aspx"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-                            <li><a href="Logon.aspx"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+                            
+                            <li>
+                                <asp:LinkButton ID="ButtonViewAccount" runat="server" Text="View Account" OnClick="ButtonViewAccount_Click" Visible="false" CausesValidation="false" />
 
+                            </li>
                         </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <asp:LinkButton ID="ButtonCreateAccount" runat="server" Text="Create Account" OnClick="ButtonCreateAccount_Click" Visible="false" CausesValidation="false" />
 
+                            </li>
+                            <li>
+                                <asp:LinkButton ID="ButtonLogIn" runat="server" CausesValidation="false" Visible="false" OnClick="ButtonLogIn_Click">
+                                    <span class="glyphicon glyphicon-log-in"></span>Login
+                                </asp:LinkButton>
+                            </li>
+                            <li>
+                                <asp:LinkButton ID="ButtonSignOut" runat="server" OnClick="ButtonSignOut_Click" CausesValidation="false" Visible="false">
+                                    <span class="glyphicon glyphicon-user"></span>Sign Out
+                                </asp:LinkButton>
+                            </li>
+                        </ul>
                     </div>
-
 
                     <!-- /.navbar-collapse -->
                 </div>
