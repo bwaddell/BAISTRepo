@@ -20,21 +20,26 @@ public partial class AnalyzeEvent : System.Web.UI.Page
             lbStartTime.Text = "<br /> Page Loaded at: " + DateTime.Now.ToLocalTime().ToString();
 
             //tbEventID.Text = ((Event)Session["Event"]).EventID;
-            tbEventID.Text = "AAAA";
+            //tbEventID.Text = "AAAA";
 
-            //ScriptManager.GetCurrent(this).RegisterPostBackControl(TimerForGraphRefresh);
+            ////ScriptManager.GetCurrent(this).RegisterPostBackControl(TimerForGraphRefresh);
+            //Event ActiveEvent = new Event();
+            //ActiveEvent.EventID = "AAAA";
+
+            //Highcharts chart = createChart(ActiveEvent);
+            //chart.SetSeries(updateChart(ActiveEvent).ToArray());
+            //ltrChart.Text = chart.ToHtmlString();
+
             Event ActiveEvent = new Event();
+
+            //get Event ID from....?
             ActiveEvent.EventID = "AAAA";
 
-            Highcharts chart = createChart(ActiveEvent);
-            chart.SetSeries(updateChart(ActiveEvent).ToArray());
-            ltrChart.Text = chart.ToHtmlString();
-
-
+            //build and display chart
+            CSS Director = new CSS();
+            ActiveEvent = Director.GetEvent(ActiveEvent);
+            DrawChart(ActiveEvent);
         }
-
-
-
 
     }
 
@@ -84,38 +89,30 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
     }
 
-    protected void TableRefresh_Tick(object sender, EventArgs e)
-    {
-
-
-    }
 
 
     protected void btnChart_Click(object sender, EventArgs e)
     {
         lbChartUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
 
-        Event test = new Event();
-        test.EventID = "AAAA";
+        CSS Director = new CSS();
+        Event ActiveEvent = new Event();
 
         //build and display chart
-        buildChart(test);
-
-
-        
-
+        ActiveEvent.EventID = "AAAA";
+        ActiveEvent = Director.GetEvent(ActiveEvent);
+        DrawChart(ActiveEvent);
 
     }
 
-    public void buildChart(Event ActiveEvent)
+
+
+
+
+    private void DrawChart(Event ActiveEvent)
     {
-        CSS Director = new CSS();
-
-        ActiveEvent = Director.GetEvent(ActiveEvent);
-
         List<Series> liOfSeries = new List<Series>();
         List<object> points = new List<object>();
-
         Random rand = new Random();
 
         foreach (Evaluator evalu in ActiveEvent.Evaluators)
@@ -140,71 +137,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
                 FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
 
             liOfSeries.Add(ser);
-
-
-            Highcharts chart = new Highcharts("chart");
-            //{
-            //    Type = ChartTypes.Spline,
-            //    BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#f1f2f7'")),
-            //    ZoomType = ZoomTypes.X
-            //};
-            //;
-
-
-            chart.SetTitle(new Title
-            {
-                Text = "Evaluation Data"
-            });
-            chart.SetOptions(new GlobalOptions
-            {
-                Global = new Global { UseUTC = false }
-            });
-            chart.SetLegend(new Legend
-            {
-                Enabled = true,
-                BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#aaaaff'"))
-            });
-
-            chart.SetTooltip(new Tooltip
-            {
-                Shared = true,
-                Shadow = true
-            });
-            chart.SetXAxis(new XAxis
-            {
-                Type = AxisTypes.Datetime,
-                DateTimeLabelFormats = new DateTimeLabel
-                {
-                    Minute = "%l%M<br>%p"
-                },
-                //{
-
-                //    Month = "%e. %b",
-                //    Year = "%b"
-                //},
-                Labels = new XAxisLabels
-                {
-                    StaggerLines = 2
-                }
-            });
-            chart.SetYAxis(new YAxis
-            {
-                Title = new YAxisTitle
-                {
-                    Text = "Rating"
-                }
-            });
-            chart.SetSeries(liOfSeries.ToArray());
-
-
-
-            //write the chart to the div(literal) on web page
-            //the rest is automatic
-            ltrChart.Text = chart.ToHtmlString();
         }
-    }
-    public Highcharts createChart(Event ActiveEvent)
-    {
 
         Highcharts chart = new Highcharts("chart");
         //{
@@ -258,51 +191,13 @@ public partial class AnalyzeEvent : System.Web.UI.Page
                 Text = "Rating"
             }
         });
-        chart.SetLoading(new Loading
-        {
-            ShowDuration = 0,
-            HideDuration = 0
-        });
+        chart.SetSeries(liOfSeries.ToArray());
 
 
-        return chart;
+        //write the chart to the div(literal) on web page
+        //the rest is automatic
+        ltrChart.Text = chart.ToHtmlString();
     }
-    public List<Series> updateChart(Event ActiveEvent)
-    {
-        CSS Director = new CSS();
 
-        ActiveEvent = Director.GetEvent(ActiveEvent);
-
-        List<Series> liOfSeries = new List<Series>();
-        List<object> points = new List<object>();
-        Random rand = new Random();
-
-        foreach (Evaluator evalu in ActiveEvent.Evaluators)
-        {
-            points.Clear();
-
-            foreach (Evaluation evaluation in evalu.EvaluatorEvaluations)
-            {
-                points.Add(new
-                {
-                    X = evaluation.TimeStamp,
-                    Y = evaluation.Rating
-                });
-            }
-
-            //add the points to the series
-            Series ser = new Series();
-            ser.Name = String.Format("Evaluator ({0})", evalu.EvaluatorID);
-            ser.Type = ChartTypes.Line;
-            ser.Data = new Data(points.ToArray());
-            ser.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(256), rand.Next(256), rand.Next(256));
-
-            liOfSeries.Add(ser);
-        }
-
-        return liOfSeries;
-       
-    }
 
 }

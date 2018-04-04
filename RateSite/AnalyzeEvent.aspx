@@ -20,7 +20,7 @@
     <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>
 
     <asp:Label ID="lbStartTime" runat="server" Text="StartTime"></asp:Label>
-    
+
     <div class="row ">
         <asp:Button ID="btnTable" runat="server" Text="Update Table"
             OnClick="btnTable_Click" />
@@ -52,7 +52,7 @@
                     </asp:Table>
                     <asp:Label ID="lbUpdateTime" runat="server" Text="Update Time: "></asp:Label>
 
-               </ContentTemplate>
+                </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnTable" />
                     <%--<asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh"
@@ -64,11 +64,11 @@
 
 
         <div class="col-lg border">
-            <asp:UpdatePanel ID="upChart" runat="server" UpdateMode="Conditional" >
+            <asp:UpdatePanel ID="upChart" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
 
 
-                    <label>HighCharts Chart data</label>
+                    <label>Highcharts Chart data</label>
 
                     <div>
                         <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
@@ -80,7 +80,7 @@
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnChart" />
-                        <%--<asp:AsyncPostBackTrigger ControlID="TimerForChartRefresh"/>--%>
+                    <%--<asp:AsyncPostBackTrigger ControlID="TimerForChartRefresh"/>--%>
                 </Triggers>
             </asp:UpdatePanel>
         </div>
@@ -89,14 +89,12 @@
 
 
 
-    <asp:Timer ID="TimerForTableRefresh" runat="server"
+<%--    <asp:Timer ID="TimerForTableRefresh" runat="server"
         Interval="1000" OnTick="btnTable_Click">
-    </asp:Timer>
-<%--    <asp:Timer ID="TimerForChartRefresh" runat="server"
+    </asp:Timer>--%>
+    <%--    <asp:Timer ID="TimerForChartRefresh" runat="server"
         Interval="2000" OnTick="btnChart_Click">
     </asp:Timer>--%>
-
-
 </asp:Content>
 
 
@@ -108,7 +106,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
     <script type="text/javascript">
 
-</script>
-   
+    </script>
+
 </asp:Content>
 
