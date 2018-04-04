@@ -20,10 +20,18 @@
     <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>
 
     <asp:Label ID="lbStartTime" runat="server" Text="StartTime"></asp:Label>
+    
+    <div class="row ">
+        <asp:Button ID="btnTable" runat="server" Text="Update Table"
+            OnClick="btnTable_Click" />
+
+        <asp:Button ID="btnChart" runat="server" Text="Update Chart"
+            OnClick="btnChart_Click" />
+    </div>
 
     <div class="border row">
         <div class="col-lg">
-            <asp:UpdatePanel ID="UpdatePanelTable" runat="server" UpdateMode="Conditional">
+            <asp:UpdatePanel ID="upTable" runat="server" UpdateMode="Conditional">
                 <%--INSIDE PANEL--%>
                 <%--this is where the graph and stuff goes--%>
                 <ContentTemplate>
@@ -47,8 +55,8 @@
                </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnTable" />
-                    <asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh"
-                        EventName="Tick" />
+                    <%--<asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh"
+                        EventName="Tick" />--%>
                 </Triggers>
             </asp:UpdatePanel>
         </div>
@@ -57,12 +65,10 @@
 
         <div class="col-lg border">
             <asp:UpdatePanel ID="upChart" runat="server" UpdateMode="Conditional" >
-
-
                 <ContentTemplate>
 
 
-                    <label>Plotly? Graph of data</label>
+                    <label>HighCharts Chart data</label>
 
                     <div>
                         <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
@@ -73,28 +79,22 @@
 
                 </ContentTemplate>
                 <Triggers>
-                    <%--<asp:AsyncPostBackTrigger ControlID="btnChart" />--%>
-                        <asp:AsyncPostBackTrigger ControlID="TimerForGraphRefresh"/>
+                    <asp:AsyncPostBackTrigger ControlID="btnChart" />
+                        <%--<asp:AsyncPostBackTrigger ControlID="TimerForChartRefresh"/>--%>
                 </Triggers>
             </asp:UpdatePanel>
         </div>
     </div>
 
 
-    <div class="row ">
-        <asp:Button ID="btnTable" runat="server" Text="Update Table"
-            OnClick="btnTable_Click" />
 
-        <asp:Button ID="btnChart" runat="server" Text="Update Chart"
-            OnClick="btnChart_Click" />
-    </div>
 
     <asp:Timer ID="TimerForTableRefresh" runat="server"
         Interval="1000" OnTick="btnTable_Click">
     </asp:Timer>
-    <asp:Timer ID="TimerForGraphRefresh" runat="server"
-        Interval="2000" OnTick="TableRefresh_Tick">
-    </asp:Timer>
+<%--    <asp:Timer ID="TimerForChartRefresh" runat="server"
+        Interval="2000" OnTick="btnChart_Click">
+    </asp:Timer>--%>
 
 
 </asp:Content>

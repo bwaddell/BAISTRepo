@@ -47,7 +47,7 @@ public class CSSChart
             //ser.Type = ChartTypes.Spline;
             ser.Data = new Data(points.ToArray());
             ser.Color = System.Drawing.Color.
-                FromArgb(200, rand.Next(256), rand.Next(256), rand.Next(256));
+                FromArgb(200, rand.Next(50, 200), rand.Next(50, 200), rand.Next(50, 200));
             liOfSeries.Add(ser);
         }
 
@@ -285,6 +285,9 @@ public class CSSChart
 
         });
         chart.SetSeries(liOfSeries.ToArray());
+
+        //chart.SetSeries(
+
         chart.SetLoading(new Loading
         {
             //ShowDuration = 0,

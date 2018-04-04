@@ -86,11 +86,7 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
     protected void TableRefresh_Tick(object sender, EventArgs e)
     {
-        Event test = new Event();
-        test.EventID = "AAAA";
 
-        //update the chart
-        buildChart(test);
 
     }
 
@@ -101,7 +97,12 @@ public partial class AnalyzeEvent : System.Web.UI.Page
 
         Event test = new Event();
         test.EventID = "AAAA";
+
+        //build and display chart
         buildChart(test);
+
+
+        
 
 
     }
@@ -257,7 +258,12 @@ public partial class AnalyzeEvent : System.Web.UI.Page
                 Text = "Rating"
             }
         });
-        
+        chart.SetLoading(new Loading
+        {
+            ShowDuration = 0,
+            HideDuration = 0
+        });
+
 
         return chart;
     }
@@ -298,4 +304,5 @@ public partial class AnalyzeEvent : System.Web.UI.Page
         return liOfSeries;
        
     }
+
 }
