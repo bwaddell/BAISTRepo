@@ -37,6 +37,7 @@ public class CSSChart
             {
                 points.Add(new
                 {
+                    //X = evaluation.TimeStamp - theEvent.EventStart,
                     X = evaluation.TimeStamp,
                     Y = evaluation.Rating
                 });
@@ -169,7 +170,7 @@ public class CSSChart
 
         double diffInSeconds = (lastRating - firstRating).TotalSeconds;
 
-        int secsBetweenPoints = (int)(diffInSeconds / 10.0);
+        int secsBetweenPoints = (int)(diffInSeconds / 50.0);
 
         List<int> ratings;
 
@@ -182,13 +183,13 @@ public class CSSChart
             {
                 meanPoints.Add(new
                 {
-                    X = (i - firstRating).TotalSeconds,
+                    X = (i - firstRating).TotalMilliseconds,
                     Y = ratings.Average(x => x)
                 });
 
                 modePoints.Add(new
                 {
-                    X = (i - firstRating).TotalSeconds,
+                    X = (i - firstRating).TotalMilliseconds,
                     Y = ratings.GroupBy(v => v)
                             .OrderByDescending(g => g.Count())
                             .First()
@@ -197,7 +198,7 @@ public class CSSChart
 
                 medianPoints.Add(new
                 {
-                    X = (i - firstRating).TotalSeconds,
+                    X = (i - firstRating).TotalMilliseconds,
                     Y = GetMedian(ratings)
                 });
             }
