@@ -25,9 +25,17 @@ public partial class ViewEvent : System.Web.UI.Page
             //theEvent.EventID = "aaaa";
             theEvent.EventID = ((Event)Session["Event"]).EventID;
 
+            
+
             //Get ALL event Data!!!
 
             theEvent = Director.GetEvent(theEvent);
+
+            tbEventID.Text = theEvent.EventID.ToString();
+            tbPerformer.Text = theEvent.Performer;
+            tbLocation.Text = theEvent.Location;
+            tbDate.Text = theEvent.Date.ToLongDateString();
+            tbDesc.Text = theEvent.Description;
             //int numOfEvaluators = theEvent.Evaluators.Count;
 
             //Highcharts chart = Director.CreateChart(theEvent);

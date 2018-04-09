@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
-
+    <asp:ScriptManager ID="ConScriptManager" runat="server"></asp:ScriptManager>
     <div class="row">
         <div class="btnClass">
             <asp:ImageButton ID="ButtonUp" class="btn btn-block img-responsive btnImage" ImageUrl="Images/arrowup.png" runat="server" OnClick="ButtonUp_Click" />

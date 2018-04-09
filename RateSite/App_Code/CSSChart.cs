@@ -169,7 +169,7 @@ public class CSSChart
 
         double diffInSeconds = (lastRating - firstRating).TotalSeconds;
 
-        int secsBetweenPoints = (int)(diffInSeconds / 100.0);
+        int secsBetweenPoints = (int)(diffInSeconds / 10.0);
 
         List<int> ratings;
 

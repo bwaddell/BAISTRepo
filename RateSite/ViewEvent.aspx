@@ -15,14 +15,29 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
     <asp:ScriptManager ID="ConScriptManager" runat="server"></asp:ScriptManager>
-
+    <br />
+    <br />
+    <br />
     <label>Event ID:</label>
-    <asp:TextBox ID="tbEventID" runat="server" CssClass="form-control">1</asp:TextBox>
+    <asp:TextBox ID="tbEventID" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+    <label>Performer:</label>
+    <asp:TextBox ID="tbPerformer" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+    <label>Nature of Event:</label>
+    <asp:TextBox ID="tbDesc" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+    <label>Location:</label>
+    <asp:TextBox ID="tbLocation" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+    <label>Date:</label>
+    <asp:TextBox ID="tbDate" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
 
-    <label>Evaluator ID:</label>
-    <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>
+    <%--<label>Evaluator ID:</label>
+    <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>--%>
 
     <asp:Label ID="lbStartTime" runat="server" Text="StartTime"></asp:Label>
+
+    <div class="row">
+        <asp:Button ID="ButtonStart" runat="server" Text="Begin Event" />
+        <asp:Button ID="ButtonEnd" runat="server" Text="End Event" Enabled="false"/>
+    </div>
 
     <div class="row ">
         <asp:Button ID="btnTable" runat="server" Text="Update Table"
