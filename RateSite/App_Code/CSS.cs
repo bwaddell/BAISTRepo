@@ -185,6 +185,15 @@ public class CSS
         return Confirmation;
     }
 
+    public bool UpdateEventStatus(Event evnt)
+    {
+        bool Confirmation;
+        EventDirector Controller = new EventDirector();
+
+        Confirmation = Controller.UpdateEvent(evnt);
+        return Confirmation;
+    }
+
 
     public Highcharts CreateChart(Event evnt)
     {

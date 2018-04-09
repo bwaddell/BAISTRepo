@@ -35,8 +35,8 @@
     <asp:Label ID="lbStartTime" runat="server" Text="StartTime"></asp:Label>
 
     <div class="row">
-        <asp:Button ID="ButtonStart" runat="server" Text="Begin Event" />
-        <asp:Button ID="ButtonEnd" runat="server" Text="End Event" Enabled="false"/>
+        <asp:Button ID="ButtonStart" runat="server" Text="Begin Event" OnClick="ButtonStart_Click"/>
+        <asp:Button ID="ButtonEnd" runat="server" Text="End Event" Enabled="false" OnClick="ButtonEnd_Click"/>
     </div>
 
     <div class="row ">

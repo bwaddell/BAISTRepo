@@ -204,4 +204,32 @@ public partial class ViewEvent : System.Web.UI.Page
 
        
     }
+
+    protected void ButtonStart_Click(object sender, EventArgs e)
+    {
+        CSS Manager = new CSS();
+        bool confirmation = false;
+        Event updateMe = new Event();
+
+        updateMe.EventID = ((Event)Session["Event"]).EventID;
+
+        updateMe = Manager.GetEvent(updateMe);
+
+        updateMe.EventStart = DateTime.Now;
+        confirmation = Manager.UpdateEventStatus(updateMe);
+    }
+
+    protected void ButtonEnd_Click(object sender, EventArgs e)
+    {
+        CSS Manager = new CSS();
+        bool confirmation = false;
+        Event updateMe = new Event();
+
+        updateMe.EventID = ((Event)Session["Event"]).EventID;
+
+        updateMe = Manager.GetEvent(updateMe);
+
+        updateMe.EventEnd = DateTime.Now;
+        confirmation = Manager.UpdateEventStatus(updateMe);
+    }
 }
