@@ -30,6 +30,7 @@ drop proc GetEvaluatorEventData
 drop proc GetEvent
 drop proc GetEventEvaluators
 drop proc GetFacilitator
+drop proc GetFacilitatorInfo
 drop proc GetFacilitatorEvents
 drop proc GetHistoricalEvaluationData
 drop proc GetMostRecentEvaluativeData
@@ -649,8 +650,8 @@ as
 
 	if(@ID is null)
 		raiserror('UpdateFacilitatorInfo - Required Parameter: @ID',16,1)
-	if(@Mail is null)
-		raiserror('UpdateFacilitatorInfo - Required Parameter: @Mail',16,1)
+	if(@Email is null)
+		raiserror('UpdateFacilitatorInfo - Required Parameter: @Email',16,1)
 	if(@Password is null)
 		raiserror('UpdateFacilitatorInfo - Required Parameter: @Password',16,1)
 	if(@Salt is null)
@@ -664,7 +665,7 @@ as
 	else
 		begin
 			update Facilitator
-			set EMail = @Mail, Password = @Password, Salt = @Salt, Roles = @Roles,
+			set EMail = @Email, Password = @Password, Salt = @Salt, Roles = @Roles,
 				FirstName = @FirstName, LastName = @LastName, Title = @Title,
 				Organization = @Organization, City = @City
 			where FacilitatorID = @ID
@@ -709,13 +710,15 @@ go
 execute UpdateFacilitatorInfo 1, 'admin@gmail.com','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','admin','FName','LName','SysAdmin','NAIT BAIST','Edmonton'
 go
 
+
+
+insert into EventDetails values( 'aaaa',1,'Edmonton NAIT','Bruce Wayne','Singing in the Rain', '2018-04-09', null,null)
 select * from EventDetails
-
-
-declare @date date
-set @date = GETDATE()
-execute CreateEvent 'aaaa',1,'Edmonton NAIT','Bruce Wayne','Singing in the Rain', @date
-go
+--declare @date date
+--set @date = GETDATE()
+--select @date
+--execute CreateEvent 'aaaa',1,'Edmonton NAIT','Bruce Wayne','Singing in the Rain', @date
+--go
 
 
 --update start time of event to NOW
