@@ -25,7 +25,6 @@ public partial class ViewEvent : System.Web.UI.Page
             //theEvent.EventID = "aaaa";
             theEvent.EventID = ((Event)Session["Event"]).EventID;
 
-            
 
             //Get ALL event Data!!!
 
@@ -47,9 +46,9 @@ public partial class ViewEvent : System.Web.UI.Page
             //Highcharts mChart = Director.MakeMathChart(theEvent);
             //mathChart.Text = mChart.ToHtmlString();
 
-            if (theEvent.EventStart != null)
+            if (theEvent.EventStart.Date != Convert.ToDateTime("1740-01-01"))
                 ButtonStart.Visible = false;
-            if (theEvent.EventEnd != null)
+            if (theEvent.EventEnd != Convert.ToDateTime("1740-01-01"))
                 ButtonEnd.Visible = false;
         }
         
@@ -212,7 +211,7 @@ public partial class ViewEvent : System.Web.UI.Page
         bool confirmation = false;
         Event updateMe = new Event();
 
-        updateMe.EventID = ((Event)Session["Event"]).EventID;
+        updateMe.EventID = tbEventID.Text;
 
         updateMe = Manager.GetEvent(updateMe);
 
@@ -229,7 +228,7 @@ public partial class ViewEvent : System.Web.UI.Page
         bool confirmation = false;
         Event updateMe = new Event();
 
-        updateMe.EventID = ((Event)Session["Event"]).EventID;
+        updateMe.EventID = tbEventID.Text;
 
         updateMe = Manager.GetEvent(updateMe);
 

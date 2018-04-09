@@ -132,7 +132,7 @@ public class EventDirector
         CommandAdd.CommandText = "UpdateEventStatus";
 
         SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EventID";
+        AddParameter.ParameterName = "@EventKey";
         AddParameter.SqlDbType = SqlDbType.VarChar;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = updatedEvent.EventID;
@@ -175,14 +175,14 @@ public class EventDirector
 
         AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventStart";
-        AddParameter.SqlDbType = SqlDbType.Date;
+        AddParameter.SqlDbType = SqlDbType.DateTime;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = updatedEvent.EventStart;           //help
         CommandAdd.Parameters.Add(AddParameter);
 
         AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventFinish";
-        AddParameter.SqlDbType = SqlDbType.Date;
+        AddParameter.SqlDbType = SqlDbType.DateTime;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = updatedEvent.EventEnd;           //help
         CommandAdd.Parameters.Add(AddParameter);
