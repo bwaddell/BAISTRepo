@@ -47,9 +47,10 @@ public partial class ViewEvent : System.Web.UI.Page
             //Highcharts mChart = Director.MakeMathChart(theEvent);
             //mathChart.Text = mChart.ToHtmlString();
 
-
-
-
+            if (theEvent.EventStart != null)
+                ButtonStart.Visible = false;
+            if (theEvent.EventEnd != null)
+                ButtonEnd.Visible = false;
         }
         
     }
@@ -217,6 +218,9 @@ public partial class ViewEvent : System.Web.UI.Page
 
         updateMe.EventStart = DateTime.Now;
         confirmation = Manager.UpdateEventStatus(updateMe);
+
+        if(confirmation)
+            ButtonStart.Visible = false;
     }
 
     protected void ButtonEnd_Click(object sender, EventArgs e)
@@ -231,5 +235,8 @@ public partial class ViewEvent : System.Web.UI.Page
 
         updateMe.EventEnd = DateTime.Now;
         confirmation = Manager.UpdateEventStatus(updateMe);
+
+        if (confirmation)        
+            ButtonEnd.Visible = false;             
     }
 }
