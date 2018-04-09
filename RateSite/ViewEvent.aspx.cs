@@ -15,27 +15,43 @@ public partial class ViewEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            CSS Director = new CSS();
+            // List<Evaluation> EventData = new List<Evaluation>();
 
-        CSS Director = new CSS();
-        // List<Evaluation> EventData = new List<Evaluation>();
+            Event theEvent = new Event();
 
-        Event theEvent = new Event();
+            //theEvent.EventID = "aaaa";
+            theEvent.EventID = ((Event)Session["Event"]).EventID;
 
-        theEvent.EventID = "aaaa";
 
-        //Get ALL event Data!!!
+            //Get ALL event Data!!!
 
-        theEvent = Director.GetEvent(theEvent);
-        //int numOfEvaluators = theEvent.Evaluators.Count;
+            theEvent = Director.GetEvent(theEvent);
 
-        Highcharts chart = Director.CreateChart(theEvent);
+            tbEventID.Text = theEvent.EventID.ToString();
+            tbPerformer.Text = theEvent.Performer;
+            tbLocation.Text = theEvent.Location;
+            tbDate.Text = theEvent.Date.ToLongDateString();
+            tbDesc.Text = theEvent.Description;
+            //int numOfEvaluators = theEvent.Evaluators.Count;
 
-        //write the chart to the div(literal) on web page
-        //the rest is automatic
-        ltrChart.Text = chart.ToHtmlString();
+            //Highcharts chart = Director.CreateChart(theEvent);
 
-        Highcharts mChart = Director.MakeMathChart(theEvent);
-        mathChart.Text = mChart.ToHtmlString();
+            //write the chart to the div(literal) on web page
+            //the rest is automatic
+            //ltrChart.Text = chart.ToHtmlString();
+
+            //Highcharts mChart = Director.MakeMathChart(theEvent);
+            //mathChart.Text = mChart.ToHtmlString();
+
+            if (theEvent.EventStart.Date != Convert.ToDateTime("1740-01-01"))
+                ButtonStart.Visible = false;
+            if (theEvent.EventEnd != Convert.ToDateTime("1740-01-01"))
+                ButtonEnd.Visible = false;
+        }
+        
     }
 
 
@@ -47,7 +63,8 @@ public partial class ViewEvent : System.Web.UI.Page
         List<Evaluation> Evaluations = new List<Evaluation>();
         StringBuilder csvcontent = new StringBuilder();
 
-        Event.EventID = "aaaa";
+        //Event.EventID = "aaaa";
+        Event.EventID = ((Event)Session["Event"]).EventID;
         Event = Director.GetEvent(Event);
         Facilitator = Director.GetFacilitator(1);
        
@@ -111,5 +128,114 @@ public partial class ViewEvent : System.Web.UI.Page
         Response.AddHeader("Content-Disposition", "attachment;filename=myfilename.csv");
         Response.Write(csvcontent.ToString());
         Response.End();
+    }
+
+    protected void btnTable_Click(object sender, EventArgs e)
+    {
+        lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
+
+        CSS RequestDirector = new CSS();
+
+        List<Evaluation> currentEvals = new List<Evaluation>();
+
+        Event test = new Event();
+        //test.EventID = "AAAA";
+        test.EventID = ((Event)Session["Event"]).EventID;
+
+        //currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
+        currentEvals = RequestDirector.GetCurrentEventData(test);
+
+
+        foreach (Evaluation ev in currentEvals)
+        {
+            TableRow tRow = new TableRow();
+            TableCell tCell = new TableCell();
+
+            tCell.Text = ev.EvaluatorID.ToString();
+            tRow.Cells.Add(tCell);
+
+            tCell = new TableCell();
+            tCell.Text = ev.Rating.ToString();
+            tRow.Cells.Add(tCell);
+
+            tCell = new TableCell();
+            tCell.Text = ev.TimeStamp.ToString();
+            tRow.Cells.Add(tCell);
+
+            Table1.Rows.Add(tRow);
+        }
+
+        Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+
+
+
+        //lbChartUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
+
+    }
+
+    protected void btnChart_Click(object sender, EventArgs e)
+    {
+        CSS Director = new CSS();
+        // List<Evaluation> EventData = new List<Evaluation>();
+
+        Event theEvent = new Event();
+
+        //theEvent.EventID = "aaaa";
+        theEvent.EventID = ((Event)Session["Event"]).EventID;
+
+        //Get ALL event Data!!!
+
+        theEvent = Director.GetEvent(theEvent);
+        //int numOfEvaluators = theEvent.Evaluators.Count;
+
+        if (theEvent.Evaluators.Count > 0)
+        {
+            Highcharts chart = Director.CreateChart(theEvent);
+
+            //write the chart to the div(literal) on web page
+            //the rest is automatic
+            ltrChart.Text = chart.ToHtmlString();
+
+
+
+            Highcharts mChart = Director.MakeMathChart(theEvent);
+            mathChart.Text = mChart.ToHtmlString();
+        }
+
+       
+    }
+
+    protected void ButtonStart_Click(object sender, EventArgs e)
+    {
+        CSS Manager = new CSS();
+        bool confirmation = false;
+        Event updateMe = new Event();
+
+        updateMe.EventID = tbEventID.Text;
+
+        updateMe = Manager.GetEvent(updateMe);
+
+        updateMe.EventStart = DateTime.Now;
+        confirmation = Manager.UpdateEventStatus(updateMe);
+
+        if(confirmation)
+            ButtonStart.Visible = false;
+    }
+
+    protected void ButtonEnd_Click(object sender, EventArgs e)
+    {
+        CSS Manager = new CSS();
+        bool confirmation = false;
+        Event updateMe = new Event();
+
+        updateMe.EventID = tbEventID.Text;
+
+        updateMe = Manager.GetEvent(updateMe);
+
+        updateMe.EventEnd = DateTime.Now;
+        confirmation = Manager.UpdateEventStatus(updateMe);
+
+        if (confirmation)        
+            ButtonEnd.Visible = false;             
     }
 }

@@ -168,9 +168,13 @@ public class CSSChart
         DateTime firstRating = allEvaluations.OrderBy(x => x.TimeStamp).FirstOrDefault().TimeStamp;
         DateTime lastRating = allEvaluations.OrderByDescending(x => x.TimeStamp).FirstOrDefault().TimeStamp;
 
+        double diffInSeconds = (lastRating - firstRating).TotalSeconds;
+
+        int secsBetweenPoints = (int)(diffInSeconds / 10.0);
+
         List<int> ratings;
 
-        for (DateTime i = firstRating; i < lastRating; i = i.AddSeconds(60))
+        for (DateTime i = firstRating; i < lastRating; i = i.AddSeconds(secsBetweenPoints))
         {
             ratings = new List<int>();
             ratings = getRatingsAtTimestamp(i, theEvent);
