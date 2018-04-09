@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using DotNet.Highcharts;
-
+using DotNet.Highcharts.Options;
+using DotNet.Highcharts.Helpers;
+using DotNet.Highcharts.Enums;
 using System.Linq;
 using System.Web;
 
@@ -210,4 +212,12 @@ public class CSS
 
         return chart;
     }
+
+    //public List<Series> ConvertEventToSeriesList(Event theEvent)
+    //{
+    //    CSSChart chartmaker = new CSSChart();
+    //    List<Series> liOfSeries = chartmaker.ConvertEventToSeriesList(theEvent);
+
+    //    return liOfSeries;
+    //}
 }

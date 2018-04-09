@@ -103,8 +103,8 @@ create table EventDetails
 	Performer nvarchar(20) not null,
 	NatureOfEvent nvarchar(20) not null,
 	EventDate date not null,
-	EventBegin datetime null,
-	EventEnd datetime null
+	EventBegin datetime default '12:00:00 1740-01-01',
+	EventEnd datetime default '12:00:00 1740-01-01'
 )
 alter table EventDetails
 	add constraint PK_EventDetails primary key (EventKey),
