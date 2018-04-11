@@ -47,9 +47,17 @@ public partial class ViewEvent : System.Web.UI.Page
             //mathChart.Text = mChart.ToHtmlString();
 
             if (theEvent.EventStart.Date != checkAgainst.Date)
+            {
                 ButtonStart.Visible = false;
+                TimerForTableRefresh.Enabled = true;
+            }
             if (theEvent.EventEnd != checkAgainst.Date)
+            {
                 ButtonEnd.Visible = false;
+                TimerForTableRefresh.Enabled = false;
+                BuildCharts();
+            }
+                
         }
         
     }
