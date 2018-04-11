@@ -9,82 +9,45 @@
         </div>       
     </div>
     <div class="row">
-        <div class="col-md-6 text-right">
-            First Name:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="FNametxt" runat="server"></asp:TextBox>
-        </div>
-        <div class="col-md-6 text-right">
-            Last Name:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="LNametxt" runat="server"></asp:TextBox>
-        </div>
-        <div class="col-md-6 text-right">
-           Title:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="Titletxt" runat="server"></asp:TextBox>
-        </div>
-        <div class="col-md-6 text-right">
-            Organization:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="Orgtxt" runat="server"></asp:TextBox>
-        </div>
-        <div class="col-md-6 text-right">
-            Location:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="Loctxt" runat="server"></asp:TextBox>
-        </div>
-        <div class="col-md-6 text-right">
-            Email:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="Emailtxt" runat="server"></asp:TextBox>
-        </div>
-
-        <div class="col-md-6 text-right">
-            <asp:Button ID="UpdateBtn" runat="server" Text="Update Information" OnClick="UpdateBtn_Click" CausesValidation="false" />
-        </div>
-        <div class="col-md-6">
-            <asp:Label ID="Msglbl" runat="server" Text=""></asp:Label>
-        </div>
+        <label>First Name:</label>
+        <asp:TextBox ID="FNametxt" runat="server" CssClass="form-control"></asp:TextBox>
+        <label>Last Name:</label>
+        <asp:TextBox ID="LNametxt" runat="server" CssClass="form-control"></asp:TextBox>
+        <label>Title:</label>
+        <asp:TextBox ID="Titletxt" runat="server" CssClass="form-control"></asp:TextBox>
+        <label>Organization:</label>
+        <asp:TextBox ID="Orgtxt" runat="server" CssClass="form-control"></asp:TextBox>
+        <label>Location:</label>
+        <asp:TextBox ID="Loctxt" runat="server" CssClass="form-control"></asp:TextBox>
+        <label>Email:</label>
+        <asp:TextBox ID="Emailtxt" runat="server" CssClass="form-control" TextMode="Email"></asp:TextBox>
     </div>
-
+    <br />
+    <div class="row">
+        <asp:Button ID="UpdateBtn" runat="server" Text="Update Information" OnClick="UpdateBtn_Click" CausesValidation="false" />
+        <asp:Label ID="Msglbl" runat="server" Text=""></asp:Label>
+    </div>
+    <br />
     <div class="row">
         <div class="col-md-12 text-centre">
-            <asp:Label ID="Label1" runat="server" Text="Update Password"></asp:Label>
+            <asp:Label ID="Label1" runat="server" Text="Update Password" Font-Size="Large" Font-Bold="true"></asp:Label>
         </div>
-        <div class="col-md-6 text-right">
-            Old Password:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="oldPasswordtxt" runat="server" TextMode="Password"></asp:TextBox>
-            <asp:RequiredFieldValidator ID="RequiredFieldValidatorOldPassword" runat="server" ErrorMessage="Current Password is Required" ControlToValidate="oldPasswordtxt" Display="Dynamic"></asp:RequiredFieldValidator>
-        </div>
-        <div class="col-md-6 text-right">
-            New Password:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="Passwordtxt" runat="server" TextMode="Password"></asp:TextBox>
-            <asp:RequiredFieldValidator ID="RequiredFieldValidatorNewPassword" runat="server" ErrorMessage="New Password is Required" ControlToValidate="Passwordtxt" Display="Dynamic"></asp:RequiredFieldValidator>
-        </div>
-        <div class="col-md-6 text-right">
-            Verify Password:
-        </div>
-        <div class="col-md-6">
-            <asp:TextBox ID="Passwordtxt2" runat="server" TextMode="Password"></asp:TextBox>
-            <asp:CompareValidator ID="CompareValidatorpswd" runat="server" ErrorMessage="Password Fields must be Identical" ControlToCompare="Passwordtxt" ControlToValidate="Passwordtxt2" Operator="Equal" Display="Dynamic"></asp:CompareValidator>
-        </div>
-        <div class="col-md-6 text-right">
-            <asp:Button ID="UpdatePasswordBtn" runat="server" Text="Change Password" OnClick="UpdatePasswordBtn_Click" />
-        </div>
-        <div class="col-md-6">
-            <asp:Label ID="Pswdlbl" runat="server" Text=""></asp:Label>
-        </div>
+        <label>Old Password:</label>
+        <asp:TextBox ID="oldPasswordtxt" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidatorOldPassword" runat="server" ErrorMessage="Current Password is Required" ControlToValidate="oldPasswordtxt" Display="Dynamic"></asp:RequiredFieldValidator>
+
+        <label>New Password:</label>
+        <asp:TextBox ID="Passwordtxt" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidatorNewPassword" runat="server" ErrorMessage="New Password is Required" ControlToValidate="Passwordtxt" Display="Dynamic"></asp:RequiredFieldValidator>
+
+        <label>Verify Password:</label>
+        <asp:TextBox ID="Passwordtxt2" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+        <asp:CompareValidator ID="CompareValidatorpswd" runat="server" ErrorMessage="Password Fields must be Identical" ControlToCompare="Passwordtxt" ControlToValidate="Passwordtxt2" Operator="Equal" Display="Dynamic"></asp:CompareValidator>
+    </div>
+    <br />
+    <div class="row">
+        <asp:Button ID="UpdatePasswordBtn" runat="server" Text="Change Password" OnClick="UpdatePasswordBtn_Click" />
+        <asp:Label ID="Pswdlbl" runat="server" Text=""></asp:Label>
     </div>
 
     <div class="row text-center">
@@ -96,11 +59,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div>
-            <asp:Button ID="ButtonLogout" runat="server" Text="Log Out" OnClick="ButtonLogout_Click" CausesValidation="false" />
-        </div>
-    </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" Runat="Server">
 </asp:Content>
