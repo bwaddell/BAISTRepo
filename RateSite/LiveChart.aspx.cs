@@ -30,7 +30,7 @@ public partial class LiveChart : System.Web.UI.Page
 
 
             //ScriptManager.RegisterStartupScript(ltrChart, Page.GetType(), "chartKey", chart.ToHtmlString(), false);
-            ScriptManager.RegisterClientScriptBlock(ltrChart, Page.GetType(), "chartKey", chart.ToHtmlString(), false);
+            //ScriptManager.RegisterClientScriptBlock(ltrChart, Page.GetType(), "chartKey", chart.ToHtmlString(), false);
 
             //ltrChart.Text = chart.ToHtmlString();
         }

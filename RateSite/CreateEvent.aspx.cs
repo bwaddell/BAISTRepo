@@ -9,19 +9,20 @@ public partial class CreateEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
-        CSS requester = new CSS();
-        Facilitator fac = new Facilitator();
+        if (!IsPostBack)
+        {
+            CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
+            CSS requester = new CSS();
+            Facilitator fac = new Facilitator();
 
 
-        fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
+            fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
 
-        lbAccount.Text = "Hi, " + fac.FirstName + fac.LastName;
-
-
-        tbEventDate.Text = DateTime.Today.ToShortDateString();
+            lbAccount.Text = "Hi, " + fac.FirstName + fac.LastName;
 
 
+            tbEventDate.Text = DateTime.Today.ToShortDateString();
+        }       
     }
 
     protected void btnCreateEvent_Click(object sender, EventArgs e)
