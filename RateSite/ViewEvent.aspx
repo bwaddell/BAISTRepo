@@ -51,7 +51,6 @@
         <div class="col-lg">
             <asp:UpdatePanel ID="upTable" runat="server" UpdateMode="Conditional">
                 <%--INSIDE PANEL--%>
-                <%--this is where the graph and stuff goes--%>
                 <ContentTemplate>
 
                     <div class="col-md-4">
