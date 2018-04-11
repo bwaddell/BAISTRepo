@@ -103,14 +103,13 @@ create table EventDetails
 	Location nvarchar(30) not null,
 	Performer nvarchar(20) not null,
 	NatureOfEvent nvarchar(20) not null,
-	EventDate date not null,
-	EventBegin datetime default '12:00:00 1740-01-01',
-	EventEnd datetime default '12:00:00 1740-01-01'
+	EventDate nvarchar(20) not null,
+	EventBegin nvarchar(20) default '01-01-1800 12:00:00',
+	EventEnd nvarchar(20) default '01-01-1800 12:00:00'
 )
 alter table EventDetails
 	add constraint PK_EventDetails primary key (EventKey),
-		constraint FK_EventDetails foreign key (FacilitatorID) references Facilitator(FacilitatorID),
-		constraint CK_EventDetails check (EventEnd > EventBegin)
+		constraint FK_EventDetails foreign key (FacilitatorID) references Facilitator(FacilitatorID)
 Go
 
 
@@ -276,11 +275,13 @@ create procedure CreateEvent
 	@Location nvarchar(30) = null,
 	@Performer nvarchar(20) = null,
 	@NatureOfEvent nvarchar(20) = null,
-	@EventDate date = null
+	@EventDate nvarchar(20) = null
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
+
+	SET DATEFORMAT mdy;
 
 	if(@EventKey is null)
 		raiserror('CreateEvent - Required Parameter: @EventKey',16,1)

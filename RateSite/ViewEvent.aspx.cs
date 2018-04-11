@@ -19,7 +19,7 @@ public partial class ViewEvent : System.Web.UI.Page
         {
             CSS Director = new CSS();
             // List<Evaluation> EventData = new List<Evaluation>();
-
+            DateTime checkAgainst = new DateTime(1740, 01, 01);
             Event theEvent = new Event();
 
             //theEvent.EventID = "aaaa";
@@ -46,19 +46,10 @@ public partial class ViewEvent : System.Web.UI.Page
             //Highcharts mChart = Director.MakeMathChart(theEvent);
             //mathChart.Text = mChart.ToHtmlString();
 
-            if (theEvent.EventStart.Date != Convert.ToDateTime("1740-01-01"))
-            {
+            if (theEvent.EventStart.Date != checkAgainst.Date)
                 ButtonStart.Visible = false;
-                TimerForTableRefresh.Enabled = true;
-            }
-                
-            if (theEvent.EventEnd != Convert.ToDateTime("1740-01-01"))
-            {
+            if (theEvent.EventEnd != checkAgainst.Date)
                 ButtonEnd.Visible = false;
-                TimerForTableRefresh.Enabled = false;
-                BuildCharts();
-            }
-               
         }
         
     }
