@@ -21,8 +21,6 @@ public partial class FacilitatorAccount : System.Web.UI.Page
 
             activeFac = requestDirector.GetFacilitator(activeFac.FacilitatorID);
 
-            Namelbl.Text = "Hello " + activeFac.Title + " " + activeFac.FirstName + " " + activeFac.LastName;
-
             FNametxt.Text = activeFac.FirstName;
             LNametxt.Text = activeFac.LastName;
             Titletxt.Text = activeFac.Title;
@@ -148,9 +146,4 @@ public partial class FacilitatorAccount : System.Web.UI.Page
         }       
     }
 
-    protected void ButtonLogout_Click(object sender, EventArgs e)
-    {
-        FormsAuthentication.SignOut();
-        Response.Redirect("Logon.aspx", true);
-    }
 }
