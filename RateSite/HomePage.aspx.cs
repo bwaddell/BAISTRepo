@@ -22,7 +22,8 @@ public partial class HomePage : System.Web.UI.Page
         if(tbEventKey.Text.Length == 4)
         {
             statuslbl.Text = "";
-
+            DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
+        
             CSS RequestDirector = new CSS();
             Event currentEvent = new Event();
 
@@ -30,9 +31,9 @@ public partial class HomePage : System.Web.UI.Page
 
             currentEvent = RequestDirector.GetEvent(currentEvent);
 
-            if (currentEvent.Date != default(DateTime))
+            if (currentEvent.EventID != default(string))
             {
-                if (currentEvent.EventEnd == default(DateTime))
+                if (currentEvent.EventEnd == defaultTime)
                 {
                     Evaluator activeEvaluator = new Evaluator();
                     

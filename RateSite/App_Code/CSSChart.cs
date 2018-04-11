@@ -334,7 +334,11 @@ public class CSSChart
 
         ints.Sort();
 
-        median = (ints.Count % 2 != 0) ? ints[ints.Count / 2] : (ints[ints.Count / 2] + ints[ints.Count / 2 + 1] / 2);
+        if (ints.Count % 2 != 0)
+            median = ints[ints.Count / 2];
+        else
+            median = (((double)ints[ints.Count / 2 - 1] + (double)ints[ints.Count / 2]) / 2.0);
+
 
         return Math.Round(median);
     }

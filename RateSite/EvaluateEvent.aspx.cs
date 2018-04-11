@@ -9,58 +9,72 @@ public partial class EvaluateEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //CSS RequestDirector = new CSS();
-        //Evaluator activeEvaluator = new Evaluator();
-        //activeEvaluator = RequestDirector.CreateEvaluator();
+        if (!IsPostBack)
+        {
+            CSS RequestDirector = new CSS();
+            DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
 
-        //if (activeEvaluator.EvaluatorID != null)
-        //{
-        //    Session["Evaluator"] = activeEvaluator;       
-        //}
-        //else
-        //{
-        //    Server.Transfer("HomePage.aspx");
-        //}
+            Event ActiveEvent = new Event();
+            ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
+            ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
 
+            if (ActiveEvent.EventStart != defaultTime)
+            {
 
+            }
 
-
-
+        }
     }
 
     protected void ButtonUp_Click(object sender, EventArgs e)
     {
-        int Rating = int.Parse(LabelRating.Text);
-        Rating = (Rating + 1 > 10)  ?  Rating = 10 : Rating + 1;
-
-        LabelRating.Text = Rating.ToString();
-
-        int evalID = ((Evaluator)Session["Evaluator"]).EvaluatorID;
-        string sessID = ((Event)Session["Event"]).EventID;
-
-        Evaluation eval = new Evaluation(Rating, evalID, sessID);   // test evaluator and event IDs
-
         CSS RequestDirector = new CSS();
+        DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
 
-        bool Success = RequestDirector.AddEvaluation(eval);
-        //now send eval to the database with xxx class?
+        Event ActiveEvent = new Event();
+        ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
+        ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
+
+        if (ActiveEvent.EventStart != defaultTime)
+        {
+            if (ActiveEvent.EventEnd == defaultTime)
+            {
+                int Rating = int.Parse(LabelRating.Text);
+                Rating = (Rating + 1 > 10) ? Rating = 10 : Rating + 1;
+
+                LabelRating.Text = Rating.ToString();
+
+                Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);  
+
+                bool Success = RequestDirector.AddEvaluation(eval);
+            }
+        }
+       
     }
 
     protected void ButtonDown_Click(object sender, EventArgs e)
     {
-        int Rating = int.Parse(LabelRating.Text);
-        Rating = (Rating - 1 < 1) ? Rating = 1 : Rating - 1;
-
-        LabelRating.Text = Rating.ToString();
-
-        int evalID = ((Evaluator)Session["Evaluator"]).EvaluatorID;
-        string sessID = ((Event)Session["Event"]).EventID;
-
-        Evaluation eval = new Evaluation(Rating, evalID, sessID);   // test evaluator and event IDs
-
         CSS RequestDirector = new CSS();
+        DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
 
-        bool Success = RequestDirector.AddEvaluation(eval);
+        Event ActiveEvent = new Event();
+        ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
+        ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
+
+        if (ActiveEvent.EventStart != defaultTime)
+        {
+            if (ActiveEvent.EventEnd == defaultTime)
+            {
+                int Rating = int.Parse(LabelRating.Text);
+                Rating = (Rating - 1 < 1) ? Rating = 1 : Rating - 1;
+
+                LabelRating.Text = Rating.ToString();
+
+                Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);
+
+                bool Success = RequestDirector.AddEvaluation(eval);
+            }
+        }
     }
 
 

@@ -19,7 +19,7 @@ public partial class ViewEvent : System.Web.UI.Page
         {
             CSS Director = new CSS();
             // List<Evaluation> EventData = new List<Evaluation>();
-            DateTime checkAgainst = new DateTime(1800, 01, 01);
+            DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
             Event theEvent = new Event();
 
             //theEvent.EventID = "aaaa";
@@ -46,18 +46,29 @@ public partial class ViewEvent : System.Web.UI.Page
             //Highcharts mChart = Director.MakeMathChart(theEvent);
             //mathChart.Text = mChart.ToHtmlString();
 
-            if (theEvent.EventStart.Date != checkAgainst.Date)
+            if (theEvent.EventEnd != defaultTime)
             {
                 ButtonStart.Visible = false;
-                TimerForTableRefresh.Enabled = true;
-            }
-            if (theEvent.EventEnd.Date != checkAgainst.Date)
-            {
                 ButtonEnd.Visible = false;
                 TimerForTableRefresh.Enabled = false;
+                BuildTable();
                 BuildCharts();
             }
-                
+            else
+            {
+                if (theEvent.EventStart == defaultTime)
+                {
+                    ButtonStart.Visible = true;
+                    TimerForTableRefresh.Enabled = false;
+                }
+                else
+                {
+                    ButtonStart.Visible = false;
+                    TimerForTableRefresh.Enabled = true;
+                    ButtonEnd.Visible = true;
+                    ButtonEnd.Enabled = true;
+                }
+            }         
         }
         
     }
@@ -140,40 +151,7 @@ public partial class ViewEvent : System.Web.UI.Page
 
     protected void btnTable_Click(object sender, EventArgs e)
     {
-        lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
-
-        CSS RequestDirector = new CSS();
-
-        List<Evaluation> currentEvals = new List<Evaluation>();
-
-        Event test = new Event();
-        //test.EventID = "AAAA";
-        test.EventID = ((Event)Session["Event"]).EventID;
-
-        //currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
-        currentEvals = RequestDirector.GetCurrentEventData(test);
-
-
-        foreach (Evaluation ev in currentEvals)
-        {
-            TableRow tRow = new TableRow();
-            TableCell tCell = new TableCell();
-
-            tCell.Text = ev.EvaluatorID.ToString();
-            tRow.Cells.Add(tCell);
-
-            tCell = new TableCell();
-            tCell.Text = ev.Rating.ToString();
-            tRow.Cells.Add(tCell);
-
-            tCell = new TableCell();
-            tCell.Text = ev.TimeStamp.ToString();
-            tRow.Cells.Add(tCell);
-
-            Table1.Rows.Add(tRow);
-        }
-
-        Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+        BuildTable();
 
 
 
@@ -249,5 +227,42 @@ public partial class ViewEvent : System.Web.UI.Page
             Highcharts mChart = Director.MakeMathChart(theEvent);
             mathChart.Text = mChart.ToHtmlString();
         }
+    }
+    public void BuildTable()
+    {
+        lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
+
+        CSS RequestDirector = new CSS();
+
+        List<Evaluation> currentEvals = new List<Evaluation>();
+
+        Event test = new Event();
+        //test.EventID = "AAAA";
+        test.EventID = ((Event)Session["Event"]).EventID;
+
+        //currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
+        currentEvals = RequestDirector.GetCurrentEventData(test);
+
+
+        foreach (Evaluation ev in currentEvals)
+        {
+            TableRow tRow = new TableRow();
+            TableCell tCell = new TableCell();
+
+            tCell.Text = ev.EvaluatorID.ToString();
+            tRow.Cells.Add(tCell);
+
+            tCell = new TableCell();
+            tCell.Text = ev.Rating.ToString();
+            tRow.Cells.Add(tCell);
+
+            tCell = new TableCell();
+            tCell.Text = ev.TimeStamp.ToString();
+            tRow.Cells.Add(tCell);
+
+            Table1.Rows.Add(tRow);
+        }
+
+        Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
     }
 }

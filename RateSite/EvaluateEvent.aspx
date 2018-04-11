@@ -23,7 +23,7 @@
         </ContentTemplate>
 
         <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="ButtonUp" />
+            <asp:AsyncPostBackTrigger ControlID="ButtonUp"/>
             <asp:AsyncPostBackTrigger ControlID="ButtonDown" />
             <%--<asp:AsyncPostBackTrigger ControlID="TimerForNumRefresh" EventName="Tick" />--%>
         </Triggers>
