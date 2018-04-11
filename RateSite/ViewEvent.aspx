@@ -54,11 +54,12 @@
                 <%--this is where the graph and stuff goes--%>
                 <ContentTemplate>
 
-
-                    <label>Current Average Rating:</label>
-                    <asp:Label ID="Ratinglbl" runat="server" Text="0"></asp:Label>
-                    <br />
-                    <asp:Table ID="Table1" runat="server" CssClass="table">
+                    <div class="col-md-4">
+                        <label>Current Average Rating:</label>
+                        <asp:Label ID="Ratinglbl" runat="server" Text="0" Font-Bold="true" Font-Size="XX-Large"></asp:Label>
+                    </div>
+                    <div class="col-md-8">
+                        <asp:Table ID="Table1" runat="server" CssClass="table">
                         <asp:TableHeaderRow>
                             <asp:TableHeaderCell>EvaluatorID</asp:TableHeaderCell>
                             <asp:TableHeaderCell>Rating</asp:TableHeaderCell>
@@ -69,14 +70,19 @@
                         </asp:TableRow>
                     </asp:Table>
                     <asp:Label ID="lbUpdateTime" runat="server" Text="Update Time: "></asp:Label>
+                    </div>                   
 
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnTable" />
-                    <%--<asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh"
-                        EventName="Tick" />--%>
+                    <asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh"
+                        EventName="Tick" />
+
                 </Triggers>
             </asp:UpdatePanel>
+            <asp:Timer ID="TimerForTableRefresh" runat="server"
+                Interval="1000" OnTick="btnTable_Click" Enabled="false">
+    </asp:Timer>
         </div>
     </div>
 

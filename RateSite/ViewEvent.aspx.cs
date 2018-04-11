@@ -35,7 +35,7 @@ public partial class ViewEvent : System.Web.UI.Page
             tbLocation.Text = theEvent.Location;
             tbDate.Text = theEvent.Date.ToLongDateString();
             tbDesc.Text = theEvent.Description;
-            //int numOfEvaluators = theEvent.Evaluators.Count;
+            int numOfEvaluators = theEvent.Evaluators.Count;
 
             //Highcharts chart = Director.CreateChart(theEvent);
 
@@ -47,9 +47,18 @@ public partial class ViewEvent : System.Web.UI.Page
             //mathChart.Text = mChart.ToHtmlString();
 
             if (theEvent.EventStart.Date != Convert.ToDateTime("1740-01-01"))
+            {
                 ButtonStart.Visible = false;
+                TimerForTableRefresh.Enabled = true;
+            }
+                
             if (theEvent.EventEnd != Convert.ToDateTime("1740-01-01"))
+            {
                 ButtonEnd.Visible = false;
+                TimerForTableRefresh.Enabled = false;
+                BuildCharts();
+            }
+               
         }
         
     }
@@ -175,32 +184,7 @@ public partial class ViewEvent : System.Web.UI.Page
 
     protected void btnChart_Click(object sender, EventArgs e)
     {
-        CSS Director = new CSS();
-        // List<Evaluation> EventData = new List<Evaluation>();
-
-        Event theEvent = new Event();
-
-        //theEvent.EventID = "aaaa";
-        theEvent.EventID = ((Event)Session["Event"]).EventID;
-
-        //Get ALL event Data!!!
-
-        theEvent = Director.GetEvent(theEvent);
-        //int numOfEvaluators = theEvent.Evaluators.Count;
-
-        if (theEvent.Evaluators.Count > 0)
-        {
-            Highcharts chart = Director.CreateChart(theEvent);
-
-            //write the chart to the div(literal) on web page
-            //the rest is automatic
-            ltrChart.Text = chart.ToHtmlString();
-
-
-
-            Highcharts mChart = Director.MakeMathChart(theEvent);
-            mathChart.Text = mChart.ToHtmlString();
-        }
+        BuildCharts();
 
        
     }
@@ -236,6 +220,35 @@ public partial class ViewEvent : System.Web.UI.Page
         confirmation = Manager.UpdateEventStatus(updateMe);
 
         if (confirmation)        
-            ButtonEnd.Visible = false;             
+            ButtonEnd.Visible = false;
+
+        BuildCharts();      
+    }
+    public void BuildCharts()
+    {
+        CSS Director = new CSS();
+        // List<Evaluation> EventData = new List<Evaluation>();
+
+        Event theEvent = new Event();
+
+        //theEvent.EventID = "aaaa";
+        theEvent.EventID = ((Event)Session["Event"]).EventID;
+
+        //Get ALL event Data!!!
+
+        theEvent = Director.GetEvent(theEvent);
+        //int numOfEvaluators = theEvent.Evaluators.Count;
+
+        if (theEvent.Evaluators.Count > 0)
+        {
+            Highcharts chart = Director.CreateChart(theEvent);
+
+            //write the chart to the div(literal) on web page
+            //the rest is automatic
+            ltrChart.Text = chart.ToHtmlString();
+
+            Highcharts mChart = Director.MakeMathChart(theEvent);
+            mathChart.Text = mChart.ToHtmlString();
+        }
     }
 }
