@@ -13,7 +13,13 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
+    <div id="content" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
 
+            </div>
+        </div>
+    </div>
     <asp:ScriptManager ID="ConScriptManager" runat="server"></asp:ScriptManager>
     <label>Event ID:</label>
     <asp:TextBox ID="tbEventID" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
