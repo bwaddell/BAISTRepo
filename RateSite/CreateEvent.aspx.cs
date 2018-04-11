@@ -50,7 +50,7 @@ public partial class CreateEvent : System.Web.UI.Page
         if (success)
         {
             Session["Event"] = cEvent;
-            Server.Transfer("AnalyzeEvent.aspx");
+            Server.Transfer("ViewEvent.aspx");
         }
 
 

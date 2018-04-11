@@ -253,20 +253,14 @@ public class EventDirector
             eventReader.Read();
             
             foundEvent.EventID = eventID;
-            foundEvent.Date = (DateTime)eventReader["EventDate"];
+            foundEvent.Date = Convert.ToDateTime(eventReader["EventDate"]);
             foundEvent.Description = eventReader["NatureOfEvent"].ToString();
             foundEvent.FacilitatorID = Convert.ToInt32(eventReader["FacilitatorID"]);
             foundEvent.Performer = eventReader["Performer"].ToString();
-            foundEvent.Location = eventReader["Location"].ToString();
-
-            if (eventReader["EventBegin"] != DBNull.Value)
-            {
-                foundEvent.EventStart = (DateTime)eventReader["EventBegin"];
-            }
-            if (eventReader["EventEnd"] != DBNull.Value)
-            {
-                foundEvent.EventEnd = (DateTime)eventReader["EventEnd"];
-            }
+            foundEvent.Location = eventReader["Location"].ToString();       
+            foundEvent.EventStart = Convert.ToDateTime(eventReader["EventBegin"]);           
+            foundEvent.EventEnd = Convert.ToDateTime(eventReader["EventEnd"]);
+            
 
 
                 //call get evaluators for event

@@ -19,7 +19,7 @@ public partial class ViewEvent : System.Web.UI.Page
         {
             CSS Director = new CSS();
             // List<Evaluation> EventData = new List<Evaluation>();
-            DateTime checkAgainst = new DateTime(1740, 01, 01);
+            DateTime checkAgainst = new DateTime(1800, 01, 01);
             Event theEvent = new Event();
 
             //theEvent.EventID = "aaaa";
@@ -51,7 +51,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 ButtonStart.Visible = false;
                 TimerForTableRefresh.Enabled = true;
             }
-            if (theEvent.EventEnd != checkAgainst.Date)
+            if (theEvent.EventEnd.Date != checkAgainst.Date)
             {
                 ButtonEnd.Visible = false;
                 TimerForTableRefresh.Enabled = false;
