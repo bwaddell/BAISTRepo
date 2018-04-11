@@ -37,17 +37,10 @@ public partial class ViewEvent : System.Web.UI.Page
             tbDesc.Text = theEvent.Description;
             //int numOfEvaluators = theEvent.Evaluators.Count;
 
-            //Highcharts chart = Director.CreateChart(theEvent);
-
-            //write the chart to the div(literal) on web page
-            //the rest is automatic
-            //ltrChart.Text = chart.ToHtmlString();
-
-            //Highcharts mChart = Director.MakeMathChart(theEvent);
-            //mathChart.Text = mChart.ToHtmlString();
-
             if (theEvent.EventEnd != defaultTime)
             {
+                tbStart.Text = theEvent.EventStart.ToLongTimeString();
+                tbEnd.Text = theEvent.EventEnd.ToLongTimeString();
                 ButtonStart.Visible = false;
                 ButtonEnd.Visible = false;
                 TimerForTableRefresh.Enabled = false;
@@ -58,11 +51,15 @@ public partial class ViewEvent : System.Web.UI.Page
             {
                 if (theEvent.EventStart == defaultTime)
                 {
+                    tbStart.Text = "The Event has not yet begun.";
+                    tbEnd.Text = "The Event has not yet begun.";
                     ButtonStart.Visible = true;
                     TimerForTableRefresh.Enabled = false;
                 }
                 else
                 {
+                    tbStart.Text = theEvent.EventStart.ToLongTimeString();
+                    tbEnd.Text = "The Event is active.";
                     ButtonStart.Visible = false;
                     TimerForTableRefresh.Enabled = true;
                     ButtonEnd.Visible = true;
@@ -152,19 +149,12 @@ public partial class ViewEvent : System.Web.UI.Page
     protected void btnTable_Click(object sender, EventArgs e)
     {
         BuildTable();
-
-
-
-        //lbChartUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
-
     }
 
-    protected void btnChart_Click(object sender, EventArgs e)
-    {
-        BuildCharts();
-
-       
-    }
+    //protected void btnChart_Click(object sender, EventArgs e)
+    //{
+    //    BuildCharts();    
+    //}
 
     protected void ButtonStart_Click(object sender, EventArgs e)
     {
@@ -179,8 +169,13 @@ public partial class ViewEvent : System.Web.UI.Page
         updateMe.EventStart = DateTime.Now;
         confirmation = Manager.UpdateEventStatus(updateMe);
 
-        if(confirmation)
+        if (confirmation)
+        {
+            tbStart.Text = updateMe.EventStart.ToLongTimeString();
+            tbEnd.Text = "The Event is ongoing.";
             ButtonStart.Visible = false;
+        }
+            
     }
 
     protected void ButtonEnd_Click(object sender, EventArgs e)
@@ -196,10 +191,13 @@ public partial class ViewEvent : System.Web.UI.Page
         updateMe.EventEnd = DateTime.Now;
         confirmation = Manager.UpdateEventStatus(updateMe);
 
-        if (confirmation)        
+        if (confirmation)
+        {
             ButtonEnd.Visible = false;
-
-        BuildCharts();      
+            tbEnd.Text = updateMe.EventEnd.ToLongTimeString();
+            BuildTable();
+            BuildCharts();
+        }             
     }
     public void BuildCharts()
     {

@@ -48,6 +48,14 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
                 bool Success = RequestDirector.AddEvaluation(eval);
             }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('The Event has Ended')", true);
+            }
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('The Event has not yet begun')", true);
         }
        
     }
@@ -74,6 +82,14 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
                 bool Success = RequestDirector.AddEvaluation(eval);
             }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('The Event has Ended')", true);
+            }
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('The Event has not yet begun')", true);
         }
     }
 

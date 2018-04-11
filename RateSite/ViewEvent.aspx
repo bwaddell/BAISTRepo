@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ViewEvent.aspx.cs" Inherits="ViewEvent" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ViewEvent.aspx.cs" Inherits="ViewEvent" Theme="ContinUI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -15,9 +15,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
     <asp:ScriptManager ID="ConScriptManager" runat="server"></asp:ScriptManager>
-    <br />
-    <br />
-    <br />
     <label>Event ID:</label>
     <asp:TextBox ID="tbEventID" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
     <label>Performer:</label>
@@ -28,24 +25,26 @@
     <asp:TextBox ID="tbLocation" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
     <label>Date:</label>
     <asp:TextBox ID="tbDate" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+    <label>Start Time:</label>
+    <asp:TextBox ID="tbStart" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+    <label>End Time:</label>
+    <asp:TextBox ID="tbEnd" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
 
     <%--<label>Evaluator ID:</label>
     <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>--%>
-
-    <asp:Label ID="lbStartTime" runat="server" Text="StartTime"></asp:Label>
 
     <div class="row">
         <asp:Button ID="ButtonStart" runat="server" Text="Begin Event" OnClick="ButtonStart_Click"/>
         <asp:Button ID="ButtonEnd" runat="server" Text="End Event" Enabled="false" OnClick="ButtonEnd_Click"/>
     </div>
 
-    <div class="row ">
+<%--    <div class="row ">
         <asp:Button ID="btnTable" runat="server" Text="Update Table"
             OnClick="btnTable_Click" />
 
         <asp:Button ID="btnChart" runat="server" Text="Update Chart"
             OnClick="btnChart_Click" />
-    </div>
+    </div>--%>
 
     <div class="row">
         <div class="col-lg">
@@ -55,7 +54,7 @@
 
                     <div class="col-md-4">
                         <label>Current Average Rating:</label>
-                        <asp:Label ID="Ratinglbl" runat="server" Text="0" Font-Bold="true" Font-Size="XX-Large"></asp:Label>
+                        <asp:Label ID="Ratinglbl" CssClass="currentRating" runat="server" Text="0" Font-Bold="true" Font-Size="XX-Large"></asp:Label>
                     </div>
                     <div class="col-md-8">
                         <asp:Table ID="Table1" runat="server" CssClass="table">
@@ -73,7 +72,7 @@
 
                 </ContentTemplate>
                 <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="btnTable" />
+                    <%--<asp:AsyncPostBackTrigger ControlID="btnTable" />--%>
                     <asp:AsyncPostBackTrigger ControlID="TimerForTableRefresh"
                         EventName="Tick" />
 
