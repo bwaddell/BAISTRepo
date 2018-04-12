@@ -47,24 +47,24 @@ select * from Facilitator
 --delete from Evaluator
 --delete from EventDetails
 
-create user aspnet for login [NAIT\WEBBAIST$] 
-
-grant execute on AddEvaluationDataPoint to aspnet
-grant execute on AddEvaluator to aspnet
-grant execute on CreateEvaluator to aspnet
-grant execute on CreateEvent to aspnet
-grant execute on CreateFacilitator to aspnet
-grant execute on GetAllEventData to aspnet
-grant execute on GetEvaluator to aspnet
-grant execute on GetEvaluatorEventData to aspnet
-grant execute on GetEvent to aspnet
-grant execute on GetEventEvaluators to aspnet
-grant execute on GetFacilitator to aspnet
-grant execute on GetFacilitatorEvents to aspnet
-grant execute on GetHistoricalEvaluationData to aspnet
-grant execute on GetMostRecentEvaluativeData to aspnet
-grant execute on UpdateEventStatus to aspnet
-grant execute on UpdateFacilitatorInfo to aspnet
+--this is used for WEB BAIST ONLY
+--create user aspnet for login [NAIT\WEBBAIST$] 
+--grant execute on AddEvaluationDataPoint to aspnet
+--grant execute on AddEvaluator to aspnet
+--grant execute on CreateEvaluator to aspnet
+--grant execute on CreateEvent to aspnet
+--grant execute on CreateFacilitator to aspnet
+--grant execute on GetAllEventData to aspnet
+--grant execute on GetEvaluator to aspnet
+--grant execute on GetEvaluatorEventData to aspnet
+--grant execute on GetEvent to aspnet
+--grant execute on GetEventEvaluators to aspnet
+--grant execute on GetFacilitator to aspnet
+--grant execute on GetFacilitatorEvents to aspnet
+--grant execute on GetHistoricalEvaluationData to aspnet
+--grant execute on GetMostRecentEvaluativeData to aspnet
+--grant execute on UpdateEventStatus to aspnet
+--grant execute on UpdateFacilitatorInfo to aspnet
 
 
 
@@ -364,6 +364,7 @@ as
 GO
 
 --drop proc GetFacilitator
+go
 create procedure GetFacilitator
 (
 	@FacilitatorID INT = NULL
@@ -389,6 +390,7 @@ GO
 
 
 --drop proc GetFacilitatorEvents
+go
 create procedure GetFacilitatorEvents
 (
 	@FacilitatorID INT = NULL
@@ -576,7 +578,7 @@ as
 	return @ReturnCode				
 GO
 
---exec GetEvaluatorEventData 'abcd',8
+--exec GetEvaluatorEventData 'wlfg',7
 go
 
 --drop procedure GetAllEventData
@@ -724,14 +726,16 @@ select * from EventDetails
 
 --update start time of event to NOW
 declare @date datetime
+declare @dateEnd datetime
 set @date = GETDATE()
-exec UpdateEventStatus 'aaaa', @date, null
+set @dateEnd = DATEADD(hour,5,@date)
+exec UpdateEventStatus 'aaaa', @date, @dateEnd
 go
+
 
 declare @date datetime
 set @date = GETDATE()
 set @date = DATEADD(hour,-6,@date)
-
 exec AddEvaluationDataPoint 'aaaa',1,10,@date
 set @date = DATEADD(second,10,@date)
 exec AddEvaluationDataPoint 'aaaa',1,9,@date
@@ -779,10 +783,8 @@ set @date = DATEADD(second,700,@date)
 exec AddEvaluationDataPoint 'aaaa',1,4,@date
 set @date = DATEADD(second,720,@date)
 exec AddEvaluationDataPoint 'aaaa',1,5,@date
-
 set @date = GETDATE()
 set @date = DATEADD(hour,-6,@date)
-
 exec AddEvaluationDataPoint 'aaaa',2,9,@date
 set @date = DATEADD(second,12,@date)
 exec AddEvaluationDataPoint 'aaaa',2,8,@date
@@ -830,10 +832,8 @@ set @date = DATEADD(second,202,@date)
 exec AddEvaluationDataPoint 'aaaa',2,2,@date
 set @date = DATEADD(second,252,@date)
 exec AddEvaluationDataPoint 'aaaa',2,3,@date
-
 set @date = GETDATE()
 set @date = DATEADD(hour,-6,@date)
-
 exec AddEvaluationDataPoint 'aaaa',3,5,@date
 set @date = DATEADD(second,15,@date)
 exec AddEvaluationDataPoint 'aaaa',3,3,@date
@@ -881,14 +881,15 @@ set @date = DATEADD(second,206,@date)
 exec AddEvaluationDataPoint 'aaaa',3,6,@date
 set @date = DATEADD(second,256,@date)
 exec AddEvaluationDataPoint 'aaaa',3,7,@date
-
 go
 
 
-delete from EvaluativeData
-where EvaluatorID = 4
+--delete from EvaluativeData
+--where EvaluatorID = 4
 
 select * from EvaluativeData
 select * from Facilitator
+select * from EventDetails
+select * from Evaluator
 
-
+update EventDetails set EventDate='4/11/1993 12:00:00' --where EventKey = 'MSS9'
