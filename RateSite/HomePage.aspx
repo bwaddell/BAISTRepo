@@ -14,7 +14,7 @@
     </div>
     <br/>
     <div class="row">
-        <div class="homepageText">
+        <div class="">
             <asp:TextBox ID="tbEventKey" class="homepageText" runat="server" MaxLength="4"  placeholder="enter the event key"></asp:TextBox>
         </div>
     </div>

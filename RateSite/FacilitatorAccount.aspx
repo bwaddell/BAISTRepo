@@ -49,7 +49,7 @@
         <asp:Button ID="UpdatePasswordBtn" runat="server" Text="Change Password" OnClick="UpdatePasswordBtn_Click" />
         <asp:Label ID="Pswdlbl" runat="server" Text=""></asp:Label>
     </div>
-
+    <br />
     <div class="row text-center">
         <div class="col-md-12">
             <asp:ListBox ID="EventListBox" runat="server"></asp:ListBox>
