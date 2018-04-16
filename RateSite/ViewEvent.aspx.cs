@@ -195,6 +195,12 @@ public partial class ViewEvent : System.Web.UI.Page
             BuildCharts();
         }             
     }
+
+    protected void btnTable_Click(object sender, EventArgs e)
+    {
+        BuildTable();
+    }
+
     public void BuildCharts()
     {
         CSS Director = new CSS();
