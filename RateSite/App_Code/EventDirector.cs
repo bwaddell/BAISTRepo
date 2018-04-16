@@ -86,7 +86,7 @@ public class EventDirector
         AddParameter.ParameterName = "@EventDate";
         AddParameter.SqlDbType = SqlDbType.NVarChar;
         AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = Created.Date.ToString();
+        AddParameter.Value = Created.Date.ToShortDateString();
         CommandAdd.Parameters.Add(AddParameter);
 
         //try
