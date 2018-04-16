@@ -15,10 +15,9 @@ public partial class FacilitatorAccount : System.Web.UI.Page
             CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
             CSS requestDirector = new CSS();
 
+            //get data for event facilitator
             Facilitator activeFac = new Facilitator();
-
             activeFac.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
-
             activeFac = requestDirector.GetFacilitator(activeFac.FacilitatorID);
 
             FNametxt.Text = activeFac.FirstName;
@@ -28,18 +27,21 @@ public partial class FacilitatorAccount : System.Web.UI.Page
             Loctxt.Text = activeFac.Location;
             Emailtxt.Text = activeFac.Email;
 
+            //get any active or past events beloning to facilitator
             List<Event> facEvents = new List<Event>();
-
             facEvents = requestDirector.GetFacilitatorEvents(activeFac.FacilitatorID);
 
+            //add events to list
             ListItem eventItem;
             EventListBox.Items.Clear();
 
+            //if user has no events, hide the listbox and button
             if (facEvents.Count > 0)
             {
                 EventListBox.Visible = true;
                 ViewEventbtn.Visible = true;
 
+                //populate event list
                 foreach (Event ev in facEvents)
                 {
                     eventItem = new ListItem();
@@ -61,15 +63,17 @@ public partial class FacilitatorAccount : System.Web.UI.Page
         
     }
 
+    //redirect to view event page for selected event
     protected void ViewEventbtn_Click(object sender, EventArgs e)
     {
         CSS RequestDirector = new CSS();
 
+        //get selected event info
         Event selectedEvent = new Event();
         selectedEvent.EventID = EventListBox.SelectedValue;
-
         selectedEvent = RequestDirector.GetEvent(selectedEvent);
 
+        //save event to session, redirect to view event page
         if (selectedEvent.Date != default(DateTime))
         {
             Session["Event"] = selectedEvent;
@@ -77,17 +81,18 @@ public partial class FacilitatorAccount : System.Web.UI.Page
         }
     }
 
+    //update facilitator password
     protected void UpdatePasswordBtn_Click(object sender, EventArgs e)
     {
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
         CSS requestDirector = new CSS();
 
+        //get facilitator info
         Facilitator activeFac = new Facilitator();
-
         activeFac.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
-
         activeFac = requestDirector.GetFacilitator(activeFac.FacilitatorID);
 
+        //if valid password, update facilitator account with new hash
         if (activeFac.Password == requestDirector.CreatePasswordHash(oldPasswordtxt.Text, activeFac.Salt))
         {
             activeFac.Password = requestDirector.CreatePasswordHash(Passwordtxt.Text, activeFac.Salt);
@@ -103,19 +108,21 @@ public partial class FacilitatorAccount : System.Web.UI.Page
         }
     }
 
+    //update facilitator account info
     protected void UpdateBtn_Click(object sender, EventArgs e)
     {
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
         CSS requestDirector = new CSS();
 
+        //get facilitator info
         Facilitator activeFac = new Facilitator();
-
         activeFac.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
-
         activeFac = requestDirector.GetFacilitator(activeFac.FacilitatorID);
 
+        //check if facilitator changed email
         if (Emailtxt.Text != activeFac.Email)
         {
+            //if new email, check if email already in use
             if (requestDirector.GetFacilitatorByEmail(Emailtxt.Text).Email == default(string))
             {
                 activeFac.Email = Emailtxt.Text;

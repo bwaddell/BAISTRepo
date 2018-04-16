@@ -44,13 +44,6 @@
         <asp:Button ID="ButtonEnd" runat="server" Text="End Event" Enabled="false" OnClick="ButtonEnd_Click"/>
     </div>
 
-<%--    <div class="row ">
-        <asp:Button ID="btnTable" runat="server" Text="Update Table"
-            OnClick="btnTable_Click" />
-
-        <asp:Button ID="btnChart" runat="server" Text="Update Chart"
-            OnClick="btnChart_Click" />
-    </div>--%>
 
     <div class="row">
         <div class="col-lg">

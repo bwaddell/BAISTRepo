@@ -16,11 +16,12 @@ public partial class Logon : System.Web.UI.Page
 
     protected void ButtonLogin_Click(object sender, EventArgs e)
     {
-
         CSS RequestManager = new CSS();
 
+        //validate user login info
         if (RequestManager.IsAuthenticated(EmailTxt.Text, PasswordTxt.Text))
         {
+            //get info for email input
             Facilitator pullFacilitator = RequestManager.GetFacilitatorByEmail(EmailTxt.Text);
 
             string roles = pullFacilitator.Roles;

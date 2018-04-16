@@ -18,15 +18,13 @@ public partial class ViewEvent : System.Web.UI.Page
         if (!IsPostBack)
         {
             CSS Director = new CSS();
-            // List<Evaluation> EventData = new List<Evaluation>();
+            
+            //for compating default values of event start and end times.
             DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
+
+            //Get evaluation data for chosen event
             Event theEvent = new Event();
-
-            //theEvent.EventID = "aaaa";
             theEvent.EventID = ((Event)Session["Event"]).EventID;
-
-
-            //Get ALL event Data!!!
 
             theEvent = Director.GetEvent(theEvent);
 
@@ -37,6 +35,7 @@ public partial class ViewEvent : System.Web.UI.Page
             tbDesc.Text = theEvent.Description;
             //int numOfEvaluators = theEvent.Evaluators.Count;
 
+            //if the event has ended hide start/end buttons and generate charts and table
             if (theEvent.EventEnd != defaultTime)
             {
                 tbStart.Text = theEvent.EventStart.ToLongTimeString();
@@ -46,9 +45,10 @@ public partial class ViewEvent : System.Web.UI.Page
                 TimerForTableRefresh.Enabled = false;
                 BuildTable();
                 BuildCharts();
-            }
+            }   
             else
             {
+                //if event has not begun
                 if (theEvent.EventStart == defaultTime)
                 {
                     tbStart.Text = "The Event has not yet begun.";
@@ -56,6 +56,7 @@ public partial class ViewEvent : System.Web.UI.Page
                     ButtonStart.Visible = true;
                     TimerForTableRefresh.Enabled = false;
                 }
+                //if event is still active
                 else
                 {
                     tbStart.Text = theEvent.EventStart.ToLongTimeString();
@@ -70,7 +71,7 @@ public partial class ViewEvent : System.Web.UI.Page
         
     }
 
-
+    //export event data to .csv for external use
     protected void Export_Click(object sender, EventArgs e)
     {
         CSS Director = new CSS();
@@ -79,7 +80,6 @@ public partial class ViewEvent : System.Web.UI.Page
         List<Evaluation> Evaluations = new List<Evaluation>();
         StringBuilder csvcontent = new StringBuilder();
 
-        //Event.EventID = "aaaa";
         Event.EventID = ((Event)Session["Event"]).EventID;
         Event = Director.GetEvent(Event);
         Facilitator = Director.GetFacilitator(1);
@@ -146,26 +146,19 @@ public partial class ViewEvent : System.Web.UI.Page
         Response.End();
     }
 
-    protected void btnTable_Click(object sender, EventArgs e)
-    {
-        BuildTable();
-    }
 
-    //protected void btnChart_Click(object sender, EventArgs e)
-    //{
-    //    BuildCharts();    
-    //}
-
+    //begin the event if start button clicked
     protected void ButtonStart_Click(object sender, EventArgs e)
     {
         CSS Manager = new CSS();
         bool confirmation = false;
         Event updateMe = new Event();
 
+        //get event info
         updateMe.EventID = tbEventID.Text;
-
         updateMe = Manager.GetEvent(updateMe);
 
+        //update event with start time
         updateMe.EventStart = DateTime.Now;
         confirmation = Manager.UpdateEventStatus(updateMe);
 
@@ -178,19 +171,22 @@ public partial class ViewEvent : System.Web.UI.Page
             
     }
 
+    //end event when button clicked
     protected void ButtonEnd_Click(object sender, EventArgs e)
     {
         CSS Manager = new CSS();
         bool confirmation = false;
+
+        //get event info
         Event updateMe = new Event();
-
         updateMe.EventID = tbEventID.Text;
-
         updateMe = Manager.GetEvent(updateMe);
 
+        //update event with end time
         updateMe.EventEnd = DateTime.Now;
         confirmation = Manager.UpdateEventStatus(updateMe);
 
+        //generate table and charts 
         if (confirmation)
         {
             ButtonEnd.Visible = false;
@@ -202,18 +198,13 @@ public partial class ViewEvent : System.Web.UI.Page
     public void BuildCharts()
     {
         CSS Director = new CSS();
-        // List<Evaluation> EventData = new List<Evaluation>();
 
+        //get event info
         Event theEvent = new Event();
-
-        //theEvent.EventID = "aaaa";
         theEvent.EventID = ((Event)Session["Event"]).EventID;
-
-        //Get ALL event Data!!!
-
         theEvent = Director.GetEvent(theEvent);
-        //int numOfEvaluators = theEvent.Evaluators.Count;
 
+        //if event has evaluator data, construct the chart
         if (theEvent.Evaluators.Count > 0)
         {
             Highcharts chart = Director.CreateChart(theEvent);
@@ -222,26 +213,28 @@ public partial class ViewEvent : System.Web.UI.Page
             //the rest is automatic
             ltrChart.Text = chart.ToHtmlString();
 
+            //generate chart with mean/mode/median
             Highcharts mChart = Director.MakeMathChart(theEvent);
             mathChart.Text = mChart.ToHtmlString();
         }
     }
+
+    //build table with evaluator info
     public void BuildTable()
     {
         lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
 
         CSS RequestDirector = new CSS();
 
+        //get event evaluation data
         List<Evaluation> currentEvals = new List<Evaluation>();
+        Event activeEvent = new Event();
+        activeEvent.EventID = ((Event)Session["Event"]).EventID;
 
-        Event test = new Event();
-        //test.EventID = "AAAA";
-        test.EventID = ((Event)Session["Event"]).EventID;
+        //get most recent evaluation from each evaluator
+        currentEvals = RequestDirector.GetCurrentEventData(activeEvent);
 
-        //currentEvals = RequestDirector.GetCurrentEventData((Event)Session["Event"]);
-        currentEvals = RequestDirector.GetCurrentEventData(test);
-
-
+        //build table with evaluation data
         foreach (Evaluation ev in currentEvals)
         {
             TableRow tRow = new TableRow();
@@ -261,6 +254,7 @@ public partial class ViewEvent : System.Web.UI.Page
             Table1.Rows.Add(tRow);
         }
 
+        //calculate current average rating
         Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
     }
 }
