@@ -20,7 +20,6 @@ public partial class CreateEvent : System.Web.UI.Page
 
             lbAccount.Text = "Hi, " + fac.FirstName + fac.LastName;
 
-
             tbEventDate.Text = DateTime.Today.ToShortDateString();
         }       
     }
@@ -32,7 +31,7 @@ public partial class CreateEvent : System.Web.UI.Page
         bool success;
         string EventKey;
         EventKey = requester.CreateEventKey(3);
-
+        DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
 
         //tbEventID.Text = EventKey;
@@ -42,17 +41,14 @@ public partial class CreateEvent : System.Web.UI.Page
         cEvent.Performer = tbPerformer.Text;
         cEvent.Location = tbLocation.Text;
         cEvent.Description = tbNatureOfPerformance.Text;
-        cEvent.Date = DateTime.Parse(tbEventDate.Text);
+        cEvent.Date = Convert.ToDateTime(tbEventDate.Text);
 
-        
         success = requester.CreateEvent(cEvent);
 
         if (success)
         {
             Session["Event"] = cEvent;
-            Server.Transfer("ViewEvent.aspx");
+            Response.Redirect("ViewEvent.aspx");
         }
-
-
     }
 }
