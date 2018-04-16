@@ -9,7 +9,10 @@ public partial class HomePage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+        if (HttpContext.Current.User.Identity.IsAuthenticated)
+            CreateButton.IsVisible = true;
+        else
+            CreateButton.IsVisible = false;
     }
 
     protected void CreateButton_Click(object sender, EventArgs e)
