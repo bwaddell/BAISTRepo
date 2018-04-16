@@ -40,8 +40,8 @@
     <asp:TextBox ID="tbEvaluatorID" runat="server" CssClass="form-control">1</asp:TextBox>--%>
 
     <div class="row">
-        <asp:Button ID="ButtonStart" runat="server" Text="Begin Event" OnClick="ButtonStart_Click"/>
-        <asp:Button ID="ButtonEnd" runat="server" Text="End Event" Enabled="false" OnClick="ButtonEnd_Click"/>
+        <asp:Button ID="ButtonStart" CssClass="startEnd" runat="server" Text="Begin Event" OnClick="ButtonStart_Click"/>
+        <asp:Button ID="ButtonEnd" CssClass="startEnd" runat="server" Text="End Event" Enabled="false" OnClick="ButtonEnd_Click"/>
     </div>
 
 

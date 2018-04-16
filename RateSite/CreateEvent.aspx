@@ -1,16 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CreateEvent.aspx.cs" Inherits="CreateEvent" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CreateEvent.aspx.cs" Inherits="CreateEvent" Theme="ContinUI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
-    <h3 class="mt-5">Create Event Page</h3>
-    <p>This page is for Facilitators to Create a new Event</p>
 
     <div class="row">
         <div class="col-lg">
-
-
             <div class="form-group">
                 <asp:Label ID="lbAccount" runat="server" Text=""></asp:Label>
             </div>
@@ -50,7 +46,7 @@
                 <asp:Button ID="btnCreateEvent" runat="server"
                     Text="Create Event" OnClick="btnCreateEvent_Click"
                     CssClass="btn btn-dark" />
-                <asp:Label ID="lbstatus" runat="server" Text="Status: "></asp:Label>
+                <asp:Label ID="lbstatus" runat="server" Text=""></asp:Label>
             </div>
         </div>
     </div>

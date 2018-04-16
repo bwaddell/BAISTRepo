@@ -13,12 +13,10 @@ public partial class CreateEvent : System.Web.UI.Page
         {
             CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
             CSS requester = new CSS();
+
+            //get facilitator info
             Facilitator fac = new Facilitator();
-
-
             fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
-
-            lbAccount.Text = "Hi, " + fac.FirstName + fac.LastName;
 
             tbEventDate.Text = DateTime.Today.ToShortDateString();
         }       
@@ -29,13 +27,16 @@ public partial class CreateEvent : System.Web.UI.Page
         CSS requester = new CSS();
         Event cEvent = new Event();
         bool success;
+
+        //create key for event
         string EventKey;
         EventKey = requester.CreateEventKey(3);
+
+        //default value for event start and end times
         DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
+
+        //get facilitator info and event info input
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
-
-        //tbEventID.Text = EventKey;
-
         cEvent.EventID = EventKey;
         cEvent.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
         cEvent.Performer = tbPerformer.Text;
@@ -43,8 +44,10 @@ public partial class CreateEvent : System.Web.UI.Page
         cEvent.Description = tbNatureOfPerformance.Text;
         cEvent.Date = Convert.ToDateTime(tbEventDate.Text);
 
+        //attept event creation
         success = requester.CreateEvent(cEvent);
 
+        //if successful, add event to session and redirect to view event
         if (success)
         {
             Session["Event"] = cEvent;
