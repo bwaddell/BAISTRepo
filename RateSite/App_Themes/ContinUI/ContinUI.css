@@ -9,12 +9,15 @@ body {
     margin: 0px;
     min-height: 100%;
     width: 100%;
-
+    
     /*background-image: url('../../Images/musicBackground.jpg');*/
     /*background-image: linear-gradient(to bottom, rgba(255,255,255,0.99) 0%,rgba(100,100,150,0.6) 300%), url('../../Images/musicBackground.jpg');*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left top;
+    
+    color: #0a0a0a;
+        
 }
 
 #MainBody {
@@ -85,11 +88,14 @@ body {
 .jumbotron {
     text-align: center;
     background-color: transparent;
-    font: bold 20vh Times-New-Roman;
+    font: bold 20vh;
 }
 
 .navbar{
-
+    background-color: #022554;
+    color: #fff;
+    font-family: "Open Sans";
+    font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
 }
 
 .ratingLabel{

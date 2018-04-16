@@ -35,15 +35,28 @@ public partial class FacilitatorAccount : System.Web.UI.Page
             ListItem eventItem;
             EventListBox.Items.Clear();
 
-            foreach (Event ev in facEvents)
+            if (facEvents.Count > 0)
             {
-                eventItem = new ListItem();
+                EventListBox.Visible = true;
+                ViewEventbtn.Visible = true;
 
-                eventItem.Text = ev.Date.ToShortDateString() + ": " + ev.Performer + " : " + ev.Description;
-                eventItem.Value = ev.EventID;
+                foreach (Event ev in facEvents)
+                {
+                    eventItem = new ListItem();
 
-                EventListBox.Items.Add(eventItem);
+                    eventItem.Text = ev.Date.ToShortDateString() + ": " + ev.Performer + " : " + ev.Description;
+                    eventItem.Value = ev.EventID;
+
+                    EventListBox.Items.Add(eventItem);
+                }
             }
+            else
+            {
+                EventListBox.Visible = false;
+                ViewEventbtn.Visible = false;
+            }
+
+           
         }
         
     }
