@@ -19,27 +19,32 @@ public partial class HomePage : System.Web.UI.Page
 
     protected void JoinButton_Click(object sender, EventArgs e)
     {
+        //check if key is right length
         if(tbEventKey.Text.Length == 4)
         {
             statuslbl.Text = "";
+
+            //default value for event start/end time
             DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
         
             CSS RequestDirector = new CSS();
+
+            //get event info for key input
             Event currentEvent = new Event();
-
             currentEvent.EventID = tbEventKey.Text.ToUpper();
-
             currentEvent = RequestDirector.GetEvent(currentEvent);
 
+            //check if event key exists
             if (currentEvent.EventID != default(string))
             {
+                //if event end time is not default value, event is over.  Can not join
                 if (currentEvent.EventEnd == defaultTime)
                 {
-                    Evaluator activeEvaluator = new Evaluator();
-                    
-
+                    //create new evaluator
+                    Evaluator activeEvaluator = new Evaluator();                 
                     activeEvaluator = RequestDirector.CreateEvaluator();
 
+                    //redirect to evaluate page if evaluator is created
                     if (activeEvaluator.EvaluatorID != default(int))
                     {
                         Session["Event"] = currentEvent;
