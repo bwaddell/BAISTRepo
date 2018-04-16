@@ -14,36 +14,36 @@
             <div class="form-group">
                 <asp:Label ID="lbAccount" runat="server" Text=""></asp:Label>
             </div>
-            <%--            <div class="form-group">
-                <label>Event ID: </label>
-                <asp:TextBox ID="tbEventID" runat="server"
-                    CssClass="form-control" ReadOnly="true"></asp:TextBox>
-            </div>--%>
 
-            <%--            <div class="form-group">
-                <label>Facilitator ID:</label>
-                <asp:TextBox ID="tbFacilitatorID"  runat="server" 
-                    CssClass="form-control" TextMode="Number">1</asp:TextBox>
-            </div>--%>
             <div class="form-group">
                 <label>Location of Event:</label>
                 <asp:TextBox ID="tbLocation" runat="server"
                     CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidatorLoc" runat="server" ErrorMessage="Location Field is Required" Display="Dynamic" ControlToValidate="tbLocation"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="RegularExpressionValidatorLocLength" runat="server" ErrorMessage="Maximum 30 characters allowed." Display="Dynamic"
+                    ValidationExpression = "^[\s\S]{0,30}$" ControlToValidate="tbLocation"></asp:RegularExpressionValidator>
             </div>
             <div class="form-group">
                 <label>Performer:</label>
                 <asp:TextBox ID="tbPerformer" runat="server"
                     CssClass="form-control"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidatorPerf" runat="server" ErrorMessage="Performer Field is Required" Display="Dynamic" ControlToValidate="tbPerformer"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="RegularExpressionValidatorPerfLength" runat="server" ErrorMessage="Maximum 20 characters allowed." Display="Dynamic"
+                    ValidationExpression = "^[\s\S]{0,20}$" ControlToValidate="tbPerformer"></asp:RegularExpressionValidator>
             </div>
             <div class="form-group">
                 <label>Nature Of Performance:</label>
                 <asp:TextBox ID="tbNatureOfPerformance" runat="server"
                     CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidatorDesc" runat="server" ErrorMessage="This Field is Required" Display="Dynamic" ControlToValidate="tbNatureOfPerformance"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="RegularExpressionValidatorDescLength" runat="server" ErrorMessage="Maximum 20 characters allowed." Display="Dynamic"
+                    ValidationExpression = "^[\s\S]{0,20}$" ControlToValidate="tbNatureOfPerformance"></asp:RegularExpressionValidator>
             </div>
             <div class="form-group">
                 <label>Event Date:</label>
                 <asp:TextBox ID="tbEventDate" runat="server"
                     CssClass="form-control" TextMode="Date"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidatorDate" runat="server" ErrorMessage="Date is Required" Display="Dynamic" ControlToValidate="tbEventDate"></asp:RequiredFieldValidator>
             </div>
 
             <div class="form-group">
