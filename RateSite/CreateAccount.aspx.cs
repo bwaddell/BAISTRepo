@@ -29,12 +29,16 @@ public partial class CreateAccount : System.Web.UI.Page
             newFac.Organization = OrgTxt.Text;
             newFac.Location = LocTxt.Text;
 
+            //generate password hash
             newFac.Salt = RequestDirector.CreateSalt(5);
             newFac.Password = RequestDirector.CreatePasswordHash(PasswordTxt.Text, newFac.Salt);
+
             newFac.Roles = "Facilitator|";
 
+            //attempt to create an account
             Confirmation = RequestDirector.CreateFacilitator(newFac);
 
+            //if account creation successful, log in and redirect to home
             if (Confirmation)
             {
                 if (RequestDirector.IsAuthenticated(EmailTxt.Text, PasswordTxt.Text))
