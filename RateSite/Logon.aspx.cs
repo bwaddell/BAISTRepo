@@ -35,7 +35,7 @@ public partial class Logon : System.Web.UI.Page
 
             Response.Cookies.Add(authCookie);
 
-            Response.Redirect(FormsAuthentication.GetRedirectUrl(EmailTxt.Text, RememberChk.Checked));
+            Response.Redirect("HomePage.aspx");
         }
         else
         {
