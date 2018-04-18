@@ -29,6 +29,12 @@ public class CSSChart
         List<Series> liOfSeries = new List<Series>();
         List<object> points = new List<object>();
 
+        //DateTime eventStart = theEvent.EventStart.ToUniversalTime();
+        //DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+
+        DateTime eventStart = theEvent.EventStart.ToUniversalTime();
+        DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+
         //foreach evaluator in event foreach evaluation in evaluator add point. [TimeStamp,Rating]
         foreach (Evaluator evalu in theEvent.Evaluators)
         {
@@ -37,8 +43,8 @@ public class CSSChart
             {
                 points.Add(new
                 {
-                    //X = evaluation.TimeStamp - theEvent.EventStart,
-                    X = evaluation.TimeStamp,
+                    X = (evaluation.TimeStamp.ToUniversalTime() - theEvent.EventStart).TotalSeconds,
+                    //X = evaluation.TimeStamp.ToUniversalTime(),
                     Y = evaluation.Rating
                 });
             }
@@ -55,7 +61,7 @@ public class CSSChart
 
 
         //-----------------------------------------------------------------------------
-        Highcharts chart = makeChartInfo(liOfSeries, ChartTypes.Spline);
+        Highcharts chart = makeChartInfo(theEvent, liOfSeries, ChartTypes.Spline);
 
         return chart;
     }
@@ -64,8 +70,11 @@ public class CSSChart
     
 
 
-    private Highcharts makeChartInfo(List<Series> liOfSeries, ChartTypes chartType)
+    private Highcharts makeChartInfo(Event theEvent, List<Series> liOfSeries, ChartTypes chartType)
     {
+        DateTime eventStart = theEvent.EventStart.ToUniversalTime();
+        DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+
         Highcharts chart = new Highcharts("chart").InitChart(new Chart
         {
             Type = chartType,
@@ -122,6 +131,7 @@ public class CSSChart
             {
                 StaggerLines = 2
             }
+            //Max = 
         });
         chart.SetYAxis(new YAxis
         {
@@ -129,8 +139,8 @@ public class CSSChart
             {
                 Text = "Rating"
             },
-            Max = 10
-
+            Max = 10,
+            Min = 0,
         });
         chart.SetSeries(liOfSeries.ToArray());
         chart.SetLoading(new Loading
@@ -166,31 +176,36 @@ public class CSSChart
         }
 
         //get times of first and last rating
-        DateTime firstRating = allEvaluations.OrderBy(x => x.TimeStamp).FirstOrDefault().TimeStamp;
-        DateTime lastRating = allEvaluations.OrderByDescending(x => x.TimeStamp).FirstOrDefault().TimeStamp;
+        //DateTime firstRating = allEvaluations.OrderBy(x => x.TimeStamp).FirstOrDefault().TimeStamp;
+        //DateTime lastRating = allEvaluations.OrderByDescending(x => x.TimeStamp).FirstOrDefault().TimeStamp;
 
-        double diffInSeconds = (lastRating - firstRating).TotalSeconds;
+        DateTime eventStart = theEvent.EventStart.ToUniversalTime();
+        DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+
+        double diffInSeconds = (eventEnd - eventStart).TotalSeconds;
 
         int secsBetweenPoints = (int)(diffInSeconds / 50.0);
 
         List<int> ratings;
 
-        for (DateTime i = firstRating; i < lastRating; i = i.AddSeconds(secsBetweenPoints))
+        for (DateTime i = eventStart; i < eventEnd; i = i.AddSeconds(secsBetweenPoints))
         {
             ratings = new List<int>();
             ratings = getRatingsAtTimestamp(i, theEvent);
 
             if (ratings.Count > 0)
             {
+                double timestamp = (i - eventStart).TotalMilliseconds;
+
                 meanPoints.Add(new
                 {
-                    X = (i - firstRating).TotalMilliseconds,
+                    X = timestamp,
                     Y = ratings.Average(x => x)
                 });
 
                 modePoints.Add(new
                 {
-                    X = (i - firstRating).TotalMilliseconds,
+                    X = timestamp,
                     Y = ratings.GroupBy(v => v)
                             .OrderByDescending(g => g.Count())
                             .First()
@@ -199,7 +214,7 @@ public class CSSChart
 
                 medianPoints.Add(new
                 {
-                    X = (i - firstRating).TotalMilliseconds,
+                    X = timestamp,
                     Y = GetMedian(ratings)
                 });
             }
