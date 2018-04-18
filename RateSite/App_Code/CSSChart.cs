@@ -187,11 +187,11 @@ public class CSSChart
             {
                 Text = "Time Stamp"
             },
-            Type = AxisTypes.Datetime,
-            DateTimeLabelFormats = new DateTimeLabel
-            {
-                Minute = "%l:%M %p"
-            },
+            Type = AxisTypes.Linear,
+            //DateTimeLabelFormats = new DateTimeLabel
+            //{
+            //    Minute = "%l:%M %p"
+            //},
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
@@ -351,11 +351,11 @@ public class CSSChart
             {
                 Text = "Time Stamp"
             },
-            Type = AxisTypes.Datetime,
-            DateTimeLabelFormats = new DateTimeLabel
-            {
-                Minute = "%l:%M %p"
-            },
+            Type = AxisTypes.Linear,
+            //DateTimeLabelFormats = new DateTimeLabel
+            //{
+            //    Minute = "%l:%M %p"
+            //},
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
