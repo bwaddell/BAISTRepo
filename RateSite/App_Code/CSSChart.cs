@@ -122,11 +122,11 @@ public class CSSChart
             {
                 Text = "Time Stamp"
             },
-            Type = AxisTypes.Datetime,
-            DateTimeLabelFormats = new DateTimeLabel
-            {
-                Minute = "%l:%M %p"
-            },
+            Type = AxisTypes.Linear,
+            //DateTimeLabelFormats = new DateTimeLabel
+            //{
+            //    Minute = "%l:%M %p"
+            //},
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
@@ -195,7 +195,7 @@ public class CSSChart
 
             if (ratings.Count > 0)
             {
-                double timestamp = (i - eventStart).TotalMilliseconds;
+                double timestamp = (i - eventStart).TotalSeconds;
 
                 meanPoints.Add(new
                 {
@@ -286,11 +286,11 @@ public class CSSChart
             {
                 Text = "Time Stamp"
             },
-            Type = AxisTypes.Datetime,
-            DateTimeLabelFormats = new DateTimeLabel
-            {
-                Minute = "%l:%M %p"
-            },
+            Type = AxisTypes.Linear,
+            //DateTimeLabelFormats = new DateTimeLabel
+            //{
+            //    Minute = "%l:%M %p"
+            //},
             Labels = new XAxisLabels
             {
                 StaggerLines = 2

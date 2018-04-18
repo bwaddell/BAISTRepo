@@ -55,7 +55,7 @@
                             </li>
                             <li>
                                 <asp:LinkButton ID="ButtonSignOut" runat="server" OnClick="ButtonSignOut_Click" CausesValidation="false" Visible="false">
-                                    <span class="glyphicon glyphicon-user"></span>Sign Out
+                                    <span class="glyphicon glyphicon-user"></span> Sign Out
                                 </asp:LinkButton>
                             </li>
                         </ul>
