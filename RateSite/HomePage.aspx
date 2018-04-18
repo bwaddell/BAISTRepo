@@ -10,7 +10,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-4 col-sm-offset-4">
+        <div class="col-sm-4 col-sm-offset-4 text-center">
             <asp:Button ID="CreateButton" class="btn btn-primary btn-block" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
         </div>
     </div>
@@ -20,8 +20,9 @@
             <asp:TextBox ID="tbEventKey" class="" runat="server" MaxLength="4"  placeholder="enter the event key"></asp:TextBox>
         </div>
     </div>
+    <br />
     <div class="row">
-                <div class=" btn-block col-sm-4 col-sm-offset-4">
+                <div class=" btn-block col-sm-4 col-sm-offset-4 text-center">
 
             <asp:Button ID="JoinButton" class="btn btn-success btn-block" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
         </div>
