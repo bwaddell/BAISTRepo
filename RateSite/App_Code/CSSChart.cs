@@ -126,7 +126,7 @@ public class CSSChart
             //DateTimeLabelFormats = new DateTimeLabel
             //{
             //    Minute = "%l:%M %p"
-            //},
+            //},            
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
