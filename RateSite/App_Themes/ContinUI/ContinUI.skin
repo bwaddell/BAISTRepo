@@ -16,7 +16,10 @@ Default skin template. The following skins are provided as examples only.
 
 
 <asp:Button runat="server" cssClass="btn btn-default" />
-<%--
+
 <asp:TextBox runat="server" CssClass="form-control" />
+<%--
+<id="HomePage
+
 
 --%>

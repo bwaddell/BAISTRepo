@@ -164,7 +164,7 @@ public class CSSChart
         {
             //Column = new PlotOptionsColumn { Animation = new Animation(false) },
             //Line = new PlotOptionsLine { Animation = new Animation(false) }
-
+            
         });
         chart.SetExporting(new Exporting
         {

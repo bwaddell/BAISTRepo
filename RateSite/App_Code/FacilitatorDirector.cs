@@ -313,7 +313,7 @@ public class FacilitatorDirector
         CommandAdd.Parameters.Add(AddParameter);
 
         AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Mail";
+        AddParameter.ParameterName = "@Email";
         AddParameter.SqlDbType = SqlDbType.NVarChar;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = newFacilitator.Email;

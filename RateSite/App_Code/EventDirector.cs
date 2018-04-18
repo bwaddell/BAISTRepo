@@ -175,16 +175,19 @@ public class EventDirector
 
         AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventStart";
-        AddParameter.SqlDbType = SqlDbType.DateTime;
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
         AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = updatedEvent.EventStart;           //help
+        AddParameter.Value = updatedEvent.EventStart.ToUniversalTime().ToString();           //help
         CommandAdd.Parameters.Add(AddParameter);
 
         AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventFinish";
-        AddParameter.SqlDbType = SqlDbType.DateTime;
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
         AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = updatedEvent.EventEnd;           //help
+        if (updatedEvent.EventEnd == Convert.ToDateTime("1/1/1800 12:00:00 PM"))
+            AddParameter.Value = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+        else
+            AddParameter.Value = updatedEvent.EventEnd.ToUniversalTime().ToString();           //help
         CommandAdd.Parameters.Add(AddParameter);
 
 
@@ -257,10 +260,20 @@ public class EventDirector
             foundEvent.Description = eventReader["NatureOfEvent"].ToString();
             foundEvent.FacilitatorID = Convert.ToInt32(eventReader["FacilitatorID"]);
             foundEvent.Performer = eventReader["Performer"].ToString();
-            foundEvent.Location = eventReader["Location"].ToString();       
-            foundEvent.EventStart = Convert.ToDateTime(eventReader["EventBegin"]);           
-            foundEvent.EventEnd = Convert.ToDateTime(eventReader["EventEnd"]);
-            
+            foundEvent.Location = eventReader["Location"].ToString();
+
+
+            if (eventReader["EventBegin"].ToString() == "1/1/1800 12:00:00 PM")
+                foundEvent.EventStart = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+            else
+                foundEvent.EventStart = Convert.ToDateTime(eventReader["EventBegin"]).ToLocalTime();
+
+            if (eventReader["EventEnd"].ToString() == "1/1/1800 12:00:00 PM")
+                foundEvent.EventEnd = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+            else
+                foundEvent.EventEnd = Convert.ToDateTime(eventReader["EventEnd"]).ToLocalTime();
+
+           
 
 
                 //call get evaluators for event
