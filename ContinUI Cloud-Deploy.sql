@@ -274,6 +274,7 @@ as
 		end
 	return @ReturnCode
 GO
+--select * from EventDetails
 
 
 --drop procedure GetFacilitatorInfo												dropped as unnessisary
@@ -836,4 +837,4 @@ select * from Facilitator
 select * from EventDetails
 select * from Evaluator
 
-update EventDetails set EventDate='4/11/1993 12:00:00' --where EventKey = 'MSS9'
+update EventDetails set EventEnd='Apr 18 2018  7:58PM' --where EventKey = 'MSS9'

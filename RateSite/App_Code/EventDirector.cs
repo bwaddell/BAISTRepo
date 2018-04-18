@@ -175,16 +175,16 @@ public class EventDirector
 
         AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventStart";
-        AddParameter.SqlDbType = SqlDbType.DateTime;
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
         AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = updatedEvent.EventStart;           //help
+        AddParameter.Value = updatedEvent.EventStart.ToString();           //help
         CommandAdd.Parameters.Add(AddParameter);
 
         AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventFinish";
-        AddParameter.SqlDbType = SqlDbType.DateTime;
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
         AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = updatedEvent.EventEnd;           //help
+        AddParameter.Value = updatedEvent.EventEnd.ToString();           //help
         CommandAdd.Parameters.Add(AddParameter);
 
 
