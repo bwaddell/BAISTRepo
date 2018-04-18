@@ -4,6 +4,29 @@
 -- check that the database name below is correct the execute entire script
 
 
+drop table EvaluativeData
+drop table Evaluator
+drop table EventDetails
+drop table Facilitator
+
+drop proc AddEvaluationDataPoint
+drop proc AddEvaluator
+drop proc CreateEvaluator
+drop proc CreateEvent
+drop proc CreateFacilitator
+drop proc GetAllEventData
+drop proc GetEvaluator
+drop proc GetEvaluatorEventData
+drop proc GetEvent
+drop proc GetEventEvaluators
+drop proc GetFacilitator
+drop proc GetFacilitatorInfo
+drop proc GetFacilitatorEvents
+drop proc GetHistoricalEvaluationData
+drop proc GetMostRecentEvaluativeData
+drop proc UpdateEventStatus
+drop proc UpdateFacilitatorInfo
+
 
 --******************************************--
 --					Tables					--
@@ -254,8 +277,8 @@ go
 create procedure UpdateEventStatus
 (
 	@EventKey nvarchar(5) = null,
-	@EventStart datetime = null,
-	@EventFinish datetime = null
+	@EventStart nvarchar(20) = null,
+	@EventFinish nvarchar(20) = null
 )
 as
 	declare @ReturnCode as int
@@ -837,4 +860,4 @@ select * from Facilitator
 select * from EventDetails
 select * from Evaluator
 
-update EventDetails set EventEnd='Apr 18 2018  7:58PM' --where EventKey = 'MSS9'
+update EventDetails set EventEnd='Apr 18 2018  7:57PM' --where EventKey = 'MSS9'

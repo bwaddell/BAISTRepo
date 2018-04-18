@@ -12,7 +12,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
         if (!IsPostBack)
         {
             CSS RequestDirector = new CSS();
-            DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
+            DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
 
             Event ActiveEvent = new Event();
             ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
@@ -29,7 +29,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
     protected void ButtonUp_Click(object sender, EventArgs e)
     {
         CSS RequestDirector = new CSS();
-        DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
+        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
 
         Event ActiveEvent = new Event();
         ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
@@ -63,7 +63,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
     protected void ButtonDown_Click(object sender, EventArgs e)
     {
         CSS RequestDirector = new CSS();
-        DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
+        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
 
         Event ActiveEvent = new Event();
         ActiveEvent.EventID = ((Event)Session["Event"]).EventID;

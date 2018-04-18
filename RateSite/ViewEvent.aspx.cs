@@ -20,7 +20,7 @@ public partial class ViewEvent : System.Web.UI.Page
             CSS Director = new CSS();
             
             //for comparing default values of event start and end times.
-            DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
+            DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
 
             //Get evaluation data for chosen event
             Event theEvent = new Event();
