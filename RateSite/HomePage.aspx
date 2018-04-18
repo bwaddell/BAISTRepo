@@ -10,19 +10,20 @@
     </div>
 
     <div class="row">
-        <div class="btn homepageBtn">
-            <asp:Button ID="CreateButton" class="homepageBtn" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
+        <div class="col-sm-4 col-sm-offset-4">
+            <asp:Button ID="CreateButton" class="btn btn-primary btn-block" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
         </div>
     </div>
-    <br/>
+    <br />
     <div class="row">
-        <div class="">
-            <asp:TextBox ID="tbEventKey" class="homepageText" runat="server" MaxLength="4"  placeholder="enter the event key"></asp:TextBox>
+        <div class=" col-sm-4 col-sm-offset-4">
+            <asp:TextBox ID="tbEventKey" class="" runat="server" MaxLength="4"  placeholder="enter the event key"></asp:TextBox>
         </div>
     </div>
     <div class="row">
-        <div class="btn homepageBtn">
-            <asp:Button ID="JoinButton" class="homepageBtn" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
+                <div class=" btn-block col-sm-4 col-sm-offset-4">
+
+            <asp:Button ID="JoinButton" class="btn btn-success btn-block" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
         </div>
     </div>
     <div class="row">
