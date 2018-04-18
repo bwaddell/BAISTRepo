@@ -38,8 +38,8 @@ public partial class ViewEvent : System.Web.UI.Page
             //if the event has ended hide start/end buttons and generate charts and table
             if (theEvent.EventEnd != defaultTime)
             {
-                tbStart.Text = theEvent.EventStart.ToLongTimeString();
-                tbEnd.Text = theEvent.EventEnd.ToLongTimeString();
+                tbStart.Text = theEvent.EventStart.ToLocalTime().ToLongTimeString();
+                tbEnd.Text = theEvent.EventEnd.ToLocalTime().ToLongTimeString();
                 ButtonStart.Visible = false;
                 ButtonEnd.Visible = false;
                 TimerForTableRefresh.Enabled = false;
@@ -59,7 +59,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 //if event is still active
                 else
                 {
-                    tbStart.Text = theEvent.EventStart.ToLongTimeString();
+                    tbStart.Text = theEvent.EventStart.ToLocalTime().ToLongTimeString();
                     tbEnd.Text = "The Event is active.";
                     ButtonStart.Visible = false;
                     TimerForTableRefresh.Enabled = true;
@@ -159,12 +159,12 @@ public partial class ViewEvent : System.Web.UI.Page
         updateMe = Manager.GetEvent(updateMe);
 
         //update event with start time
-        updateMe.EventStart = DateTime.Now;
+        updateMe.EventStart = DateTime.Now.ToUniversalTime();
         confirmation = Manager.UpdateEventStatus(updateMe);
 
         if (confirmation)
         {
-            tbStart.Text = updateMe.EventStart.ToLongTimeString();
+            tbStart.Text = updateMe.EventStart.ToLocalTime().ToLongTimeString();
             tbEnd.Text = "The Event is ongoing.";
             ButtonStart.Visible = false;
         }
@@ -183,14 +183,14 @@ public partial class ViewEvent : System.Web.UI.Page
         updateMe = Manager.GetEvent(updateMe);
 
         //update event with end time
-        updateMe.EventEnd = DateTime.Now;
+        updateMe.EventEnd = DateTime.Now.ToUniversalTime();
         confirmation = Manager.UpdateEventStatus(updateMe);
 
         //generate table and charts 
         if (confirmation)
         {
             ButtonEnd.Visible = false;
-            tbEnd.Text = updateMe.EventEnd.ToLongTimeString();
+            tbEnd.Text = updateMe.EventEnd.ToLocalTime().ToLongTimeString();
             BuildTable();
             BuildCharts();
         }             

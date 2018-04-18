@@ -27,36 +27,101 @@ public class CSSChart
     public Highcharts MakeChart(Event theEvent)
     {
         List<Series> liOfSeries = new List<Series>();
-        List<object> points = new List<object>();
-
-        //DateTime eventStart = theEvent.EventStart.ToUniversalTime();
-        //DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+        List<List<object>> points = new List<List<object>>();
 
         DateTime eventStart = theEvent.EventStart.ToUniversalTime();
         DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
 
-        //foreach evaluator in event foreach evaluation in evaluator add point. [TimeStamp,Rating]
-        foreach (Evaluator evalu in theEvent.Evaluators)
+        double diffInSeconds = (eventEnd - eventStart).TotalSeconds;
+
+        int secsBetweenPoints;
+        double numOfPoints = 50.0;
+
+        if ((int)(diffInSeconds / numOfPoints) > 1)
+            secsBetweenPoints = (int)(diffInSeconds / numOfPoints);
+        else
+            secsBetweenPoints = 1;
+
+        List<int> ratings;
+        List<object> pts;
+        Series ser;
+        Evaluator e = new Evaluator();
+        Evaluation ev = new Evaluation();
+
+        for (int j = 0; j < theEvent.Evaluators.Count; j++)
         {
-            points.Clear();
-            foreach (Evaluation evaluation in evalu.EvaluatorEvaluations)
-            {
-                points.Add(new
-                {
-                    X = (evaluation.TimeStamp.ToUniversalTime() - theEvent.EventStart).TotalSeconds,
-                    //X = evaluation.TimeStamp.ToUniversalTime(),
-                    Y = evaluation.Rating
-                });
-            }
-            //add the points to the series
-            Series ser = new Series();
-            ser.Name = String.Format("{1} ({0})", evalu.EvaluatorID, evalu.Name);
-            //ser.Type = ChartTypes.Spline;
-            ser.Data = new Data(points.ToArray());
-            ser.Color = System.Drawing.Color.
-                FromArgb(200, rand.Next(50, 200), rand.Next(50, 200), rand.Next(50, 200));
+            ser = new Series();
+            pts = new List<object>();         
+
             liOfSeries.Add(ser);
+            points.Add(pts);
         }
+
+        for (DateTime i = eventStart; i < eventEnd; i = i.AddSeconds(secsBetweenPoints))
+        {
+            for (int j = 0; j < theEvent.Evaluators.Count; j++)
+            {
+                e = theEvent.Evaluators[j];
+
+                if (e.EvaluatorEvaluations[0].TimeStamp <= i)
+                {
+                    int evalCount = 0;
+                    while (evalCount < e.EvaluatorEvaluations.Count)
+                    {
+                        if (e.EvaluatorEvaluations[evalCount].TimeStamp <= i)
+                        {
+                            ev = e.EvaluatorEvaluations[evalCount];
+                            evalCount++;
+                        }
+                        else
+                        {
+                            break;
+                        }                
+                    }
+                    double timestamp = (i - eventStart).TotalSeconds;
+
+                    points[j].Add(new
+                    {
+                        X = timestamp,
+                        Y = ev.Rating
+                    });
+                }
+            }     
+
+        }
+
+        for (int k = 0; k < liOfSeries.Count; k++)
+        {
+            liOfSeries[k].Data = new Data(points[k].ToArray());
+            liOfSeries[k].Color = System.Drawing.Color.
+                    FromArgb(150, rand.Next(150, 256), rand.Next(25), rand.Next(25));
+            liOfSeries[k].Name = String.Format("{1} ({0})", theEvent.Evaluators[k].EvaluatorID, theEvent.Evaluators[k].Name);
+        }
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //foreach evaluator in event foreach evaluation in evaluator add point. [TimeStamp,Rating]
+        //foreach (Evaluator evalu in theEvent.Evaluators)
+        //{
+        //    points.Clear();
+        //    foreach (Evaluation evaluation in evalu.EvaluatorEvaluations)
+        //    {
+        //        points.Add(new
+        //        {
+        //            X = (evaluation.TimeStamp.ToUniversalTime() - theEvent.EventStart).TotalSeconds,
+        //            //X = evaluation.TimeStamp.ToUniversalTime(),
+        //            Y = evaluation.Rating
+        //        });
+        //    }
+        //    //add the points to the series
+        //    Series ser = new Series();
+        //    ser.Name = String.Format("{1} ({0})", evalu.EvaluatorID, evalu.Name);
+        //    //ser.Type = ChartTypes.Spline;
+        //    ser.Data = new Data(points.ToArray());
+        //    ser.Color = System.Drawing.Color.
+        //        FromArgb(200, rand.Next(50, 200), rand.Next(50, 200), rand.Next(50, 200));
+        //    liOfSeries.Add(ser);
+        //}
 
 
 

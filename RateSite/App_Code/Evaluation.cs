@@ -24,7 +24,7 @@ public class Evaluation
     {
         //  method sets the timestamp to NOW and all other 
         //  variables are supplied
-        TimeStampValue = DateTime.Now;
+        TimeStampValue = DateTime.Now.ToUniversalTime();
         RatingValue = rating;
         EvaluatorIDValue = evaluatorID;
         EventIDValue = eventID;
