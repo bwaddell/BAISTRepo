@@ -254,7 +254,7 @@ public partial class ViewEvent : System.Web.UI.Page
             tRow.Cells.Add(tCell);
 
             tCell = new TableCell();
-            tCell.Text = ev.TimeStamp.ToString();
+            tCell.Text = ev.TimeStamp.ToLocalTime().ToString();
             tRow.Cells.Add(tCell);
 
             Table1.Rows.Add(tRow);
