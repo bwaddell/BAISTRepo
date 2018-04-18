@@ -29,8 +29,10 @@ public class CSSChart
         List<Series> liOfSeries = new List<Series>();
         List<List<object>> points = new List<List<object>>();
 
-        DateTime eventStart = theEvent.EventStart.ToUniversalTime();
-        DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+        //DateTime eventStart = theEvent.EventStart.ToUniversalTime();
+        //DateTime eventEnd = theEvent.EventEnd.ToUniversalTime
+        DateTime eventStart = theEvent.EventStart.ToLocalTime();
+        DateTime eventEnd = theEvent.EventEnd.ToLocalTime();
 
         double diffInSeconds = (eventEnd - eventStart).TotalSeconds;
 
@@ -51,7 +53,7 @@ public class CSSChart
         for (int j = 0; j < theEvent.Evaluators.Count; j++)
         {
             ser = new Series();
-            pts = new List<object>();         
+            pts = new List<object>();
 
             liOfSeries.Add(ser);
             points.Add(pts);
@@ -63,12 +65,12 @@ public class CSSChart
             {
                 e = theEvent.Evaluators[j];
 
-                if (e.EvaluatorEvaluations[0].TimeStamp <= i)
+                if (e.EvaluatorEvaluations[0].TimeStamp.ToLocalTime() <= i)
                 {
                     int evalCount = 0;
                     while (evalCount < e.EvaluatorEvaluations.Count)
                     {
-                        if (e.EvaluatorEvaluations[evalCount].TimeStamp <= i)
+                        if (e.EvaluatorEvaluations[evalCount].TimeStamp.ToLocalTime() <= i)
                         {
                             ev = e.EvaluatorEvaluations[evalCount];
                             evalCount++;
@@ -76,7 +78,7 @@ public class CSSChart
                         else
                         {
                             break;
-                        }                
+                        }
                     }
                     double timestamp = (i - eventStart).TotalSeconds;
 
@@ -86,7 +88,7 @@ public class CSSChart
                         Y = ev.Rating
                     });
                 }
-            }     
+            }
 
         }
 
@@ -94,7 +96,7 @@ public class CSSChart
         {
             liOfSeries[k].Data = new Data(points[k].ToArray());
             liOfSeries[k].Color = System.Drawing.Color.
-                    FromArgb(150, rand.Next(150, 256), rand.Next(25), rand.Next(25));
+                     FromArgb(255, rand.Next(50, 200), rand.Next(50, 200), rand.Next(50, 200));
             liOfSeries[k].Name = String.Format("{1} ({0})", theEvent.Evaluators[k].EvaluatorID, theEvent.Evaluators[k].Name);
         }
 
@@ -132,13 +134,16 @@ public class CSSChart
     }
 
 
-    
+
 
 
     private Highcharts makeChartInfo(Event theEvent, List<Series> liOfSeries, ChartTypes chartType)
     {
-        DateTime eventStart = theEvent.EventStart.ToUniversalTime();
-        DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+        //DateTime eventStart = theEvent.EventStart.ToUniversalTime();
+        //DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+
+        DateTime eventStart = theEvent.EventStart.ToLocalTime();
+        DateTime eventEnd = theEvent.EventEnd.ToLocalTime();
 
         Highcharts chart = new Highcharts("chart").InitChart(new Chart
         {
@@ -195,8 +200,8 @@ public class CSSChart
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
-            }
-            //Max = 
+            },
+            Min = 0
         });
         chart.SetYAxis(new YAxis
         {
@@ -244,19 +249,27 @@ public class CSSChart
         //DateTime firstRating = allEvaluations.OrderBy(x => x.TimeStamp).FirstOrDefault().TimeStamp;
         //DateTime lastRating = allEvaluations.OrderByDescending(x => x.TimeStamp).FirstOrDefault().TimeStamp;
 
-        DateTime eventStart = theEvent.EventStart.ToUniversalTime();
-        DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+        //DateTime eventStart = theEvent.EventStart.ToUniversalTime();
+        //DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+        DateTime eventStart = theEvent.EventStart.ToLocalTime();
+        DateTime eventEnd = theEvent.EventEnd.ToLocalTime();
 
         double diffInSeconds = (eventEnd - eventStart).TotalSeconds;
 
-        int secsBetweenPoints = (int)(diffInSeconds / 50.0);
+        int secsBetweenPoints;
+        double numOfPoints = 50.0;
+
+        if ((int)(diffInSeconds / numOfPoints) > 1)
+            secsBetweenPoints = (int)(diffInSeconds / numOfPoints);
+        else
+            secsBetweenPoints = 1;
 
         List<int> ratings;
 
         for (DateTime i = eventStart; i < eventEnd; i = i.AddSeconds(secsBetweenPoints))
         {
             ratings = new List<int>();
-            ratings = getRatingsAtTimestamp(i, theEvent);
+            ratings = getRatingsAtTimestamp(i.ToUniversalTime(), theEvent);
 
             if (ratings.Count > 0)
             {
@@ -290,7 +303,7 @@ public class CSSChart
         serMedian.Data = new Data(medianPoints.ToArray());
 
         serMean.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(150,256), rand.Next(25), rand.Next(25));
+                FromArgb(150, rand.Next(150, 256), rand.Next(25), rand.Next(25));
         serMode.Color = System.Drawing.Color.
                 FromArgb(150, rand.Next(25), rand.Next(150, 256), rand.Next(25));
         serMedian.Color = System.Drawing.Color.
@@ -351,15 +364,19 @@ public class CSSChart
             {
                 Text = "Time Stamp"
             },
-            Type = AxisTypes.Linear,
-            //DateTimeLabelFormats = new DateTimeLabel
-            //{
-            //    Minute = "%l:%M %p"
-            //},
+            //Type = AxisTypes.Linear,
+            Type = AxisTypes.Datetime,
+            DateTimeLabelFormats = new DateTimeLabel
+            {
+
+            },
             Labels = new XAxisLabels
             {
+
+                //Format = string.Format("{0}:{1}:{2}", this.Value, this.)
                 StaggerLines = 2
-            }
+            },
+            Min = 0
         });
         chart.SetYAxis(new YAxis
         {
@@ -367,12 +384,10 @@ public class CSSChart
             {
                 Text = "Rating"
             },
-            Max = 10
-
+            Max = 10,
+            Min = 0
         });
         chart.SetSeries(liOfSeries.ToArray());
-
-        //chart.SetSeries(
 
         chart.SetLoading(new Loading
         {
