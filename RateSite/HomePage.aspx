@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="HomePage.aspx.cs" Inherits="HomePage" Theme="ContinUI" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" 
+    AutoEventWireup="true" CodeFile="HomePage.aspx.cs" Inherits="HomePage" Theme="ContinUI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -7,6 +8,7 @@
         <h1>ContinUI</h1>
         <p>The Continuous Rating Site</p>
     </div>
+
     <div class="row">
         <div class="btn homepageBtn">
             <asp:Button ID="CreateButton" class="homepageBtn" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
