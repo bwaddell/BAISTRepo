@@ -12,7 +12,7 @@
 
 -- create login for the web server to access data base server
 use ContinUIDB
-sp_help
+--sp_help
 
 drop table EvaluativeData
 drop table Evaluator
@@ -76,7 +76,6 @@ use ContinUIDB
 GO
 
 
-
 --drop table Facilitator
 create table Facilitator
 (
@@ -103,9 +102,9 @@ create table EventDetails
 	Location nvarchar(30) not null,
 	Performer nvarchar(20) not null,
 	NatureOfEvent nvarchar(20) not null,
-	EventDate nvarchar(20) not null,
-	EventBegin nvarchar(20) default '01-01-1800 12:00:00',
-	EventEnd nvarchar(20) default '01-01-1800 12:00:00'
+	EventDate nvarchar(25) not null,
+	EventBegin nvarchar(25) default '1/1/1800 12:00:00 PM',
+	EventEnd nvarchar(25) default '1/1/1800 12:00:00 PM'
 )
 alter table EventDetails
 	add constraint PK_EventDetails primary key (EventKey),
@@ -275,7 +274,7 @@ create procedure CreateEvent
 	@Location nvarchar(30) = null,
 	@Performer nvarchar(20) = null,
 	@NatureOfEvent nvarchar(20) = null,
-	@EventDate nvarchar(20) = null
+	@EventDate nvarchar(25) = null
 )
 as
 	declare @ReturnCode as int
@@ -316,8 +315,8 @@ go
 create procedure UpdateEventStatus
 (
 	@EventKey nvarchar(5) = null,
-	@EventStart datetime = null,
-	@EventFinish datetime = null
+	@EventStart nvarchar(25) = null,
+	@EventFinish nvarchar(25) = null
 )
 as
 	declare @ReturnCode as int
@@ -336,6 +335,7 @@ as
 		end
 	return @ReturnCode
 GO
+--select * from EventDetails
 
 
 --drop procedure GetFacilitatorInfo												dropped as unnessisary
@@ -428,7 +428,7 @@ as
 
 	begin
 		insert into Evaluator(Name,VotingCriteria)
-		values('TemporaryName','QualityOfPerformance')
+		values('TempName','QualityOfPerformance')
 
 		if @@ERROR = 0
 			begin
@@ -690,6 +690,8 @@ go
 --select @evalID
 --go
 
+execute CreateFacilitator 'admin','User','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SA','NAIT BAIST','Edmonton'
+go
 
 
 
@@ -886,9 +888,8 @@ go
 
 --delete from EvaluativeData
 --where EvaluatorID = 4
-
-select * from EvaluativeData
 select * from Facilitator
+select * from EvaluativeData
 select * from EventDetails
 select * from Evaluator
 

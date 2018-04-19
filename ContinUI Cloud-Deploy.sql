@@ -64,9 +64,9 @@ create table EventDetails
 	Location nvarchar(30) not null,
 	Performer nvarchar(20) not null,
 	NatureOfEvent nvarchar(20) not null,
-	EventDate nvarchar(20) not null,
-	EventBegin nvarchar(20) default '01-01-1800 12:00:00',
-	EventEnd nvarchar(20) default '01-01-1800 12:00:00'
+	EventDate nvarchar(25) not null,
+	EventBegin nvarchar(25) default '1/1/1800 12:00:00 PM',
+	EventEnd nvarchar(25) default '1/1/1800 12:00:00 PM'
 )
 alter table EventDetails
 	add constraint PK_EventDetails primary key (EventKey),
@@ -236,7 +236,7 @@ create procedure CreateEvent
 	@Location nvarchar(30) = null,
 	@Performer nvarchar(20) = null,
 	@NatureOfEvent nvarchar(20) = null,
-	@EventDate nvarchar(20) = null
+	@EventDate nvarchar(25) = null
 )
 as
 	declare @ReturnCode as int
@@ -277,8 +277,8 @@ go
 create procedure UpdateEventStatus
 (
 	@EventKey nvarchar(5) = null,
-	@EventStart nvarchar(20) = null,
-	@EventFinish nvarchar(20) = null
+	@EventStart nvarchar(25) = null,
+	@EventFinish nvarchar(25) = null
 )
 as
 	declare @ReturnCode as int
@@ -390,7 +390,7 @@ as
 
 	begin
 		insert into Evaluator(Name,VotingCriteria)
-		values('TemporaryName','QualityOfPerformance')
+		values('TempName','QualityOfPerformance')
 
 		if @@ERROR = 0
 			begin
@@ -643,16 +643,6 @@ as
 		return @ReturnCode	
 go
 
---execute GetAllEventData 'aaaa'
-
-
-
---declare @evalID INT
---execute CreateEvaluator @evalID output
---select @evalID
---go
-
-
 
 
 
@@ -860,4 +850,4 @@ select * from Facilitator
 select * from EventDetails
 select * from Evaluator
 
-update EventDetails set EventEnd='Apr 18 2018  7:57PM' --where EventKey = 'MSS9'
+update EventDetails set EventBegin='4/18/2018 20:59:08 PM',  EventEnd='4/18/2018 21:00:11 PM' --where EventKey = 'MSS9'
