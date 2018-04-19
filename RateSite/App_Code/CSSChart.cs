@@ -80,7 +80,7 @@ public class CSSChart
                             break;
                         }
                     }
-                    double timestamp = (i - eventStart).TotalSeconds;
+                    double timestamp = (i - eventStart).TotalMilliseconds;
 
                     points[j].Add(new
                     {
@@ -97,7 +97,8 @@ public class CSSChart
             liOfSeries[k].Data = new Data(points[k].ToArray());
             liOfSeries[k].Color = System.Drawing.Color.
                      FromArgb(255, rand.Next(50, 200), rand.Next(50, 200), rand.Next(50, 200));
-            liOfSeries[k].Name = String.Format("{1} ({0})", theEvent.Evaluators[k].EvaluatorID, theEvent.Evaluators[k].Name);
+            //liOfSeries[k].Name = String.Format("{1} ({0})", theEvent.Evaluators[k].EvaluatorID, theEvent.Evaluators[k].Name);
+            liOfSeries[k].Name = String.Format("{0}", theEvent.Evaluators[k].EvaluatorID);
         }
 
 
@@ -158,7 +159,7 @@ public class CSSChart
         });
         chart.SetOptions(new GlobalOptions
         {
-            Global = new Global { UseUTC = false }
+            //Global = new Global { UseUTC = false }
         });
         chart.SetPlotOptions(new PlotOptions
         {
@@ -192,11 +193,12 @@ public class CSSChart
             {
                 Text = "Time Stamp"
             },
-            Type = AxisTypes.Linear,
-            //DateTimeLabelFormats = new DateTimeLabel
-            //{
-            //    Minute = "%l:%M %p"
-            //},            
+            //Type = AxisTypes.Linear,
+            Type = AxisTypes.Datetime,
+            DateTimeLabelFormats = new DateTimeLabel
+            {
+                Minute = "%l:%M %p"
+            },
             Labels = new XAxisLabels
             {
                 StaggerLines = 2
@@ -273,7 +275,7 @@ public class CSSChart
 
             if (ratings.Count > 0)
             {
-                double timestamp = (i - eventStart).TotalSeconds;
+                double timestamp = (i - eventStart).TotalMilliseconds;
 
                 meanPoints.Add(new
                 {
@@ -330,7 +332,7 @@ public class CSSChart
         });
         chart.SetOptions(new GlobalOptions
         {
-            Global = new Global { UseUTC = false }
+            Global = new Global { UseUTC = true }
         });
         chart.SetPlotOptions(new PlotOptions
         {
@@ -368,7 +370,7 @@ public class CSSChart
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
             {
-
+                
             },
             Labels = new XAxisLabels
             {
