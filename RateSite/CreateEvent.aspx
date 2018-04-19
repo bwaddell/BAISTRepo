@@ -4,6 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
+    <h2>Create Event</h2>
 
     <div class="row">
         <div class="col-lg">

@@ -9,15 +9,15 @@ public partial class HomePage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (HttpContext.Current.User.Identity.IsAuthenticated)
-            CreateButton.Visible = true;
-        else
-            CreateButton.Visible = false;
+        //if (HttpContext.Current.User.Identity.IsAuthenticated)
+            //CreateButton.Visible = true;
+        //else
+        //    CreateButton.Visible = false;
     }
 
     protected void CreateButton_Click(object sender, EventArgs e)
-    {
-        Server.Transfer("CreateEvent.aspx");
+    {        
+        Response.Redirect("CreateEvent.aspx");
     }
 
     protected void JoinButton_Click(object sender, EventArgs e)
@@ -52,7 +52,7 @@ public partial class HomePage : System.Web.UI.Page
                     {
                         Session["Event"] = currentEvent;
                         Session["Evaluator"] = activeEvaluator;
-                        Server.Transfer("EvaluateEvent.aspx");
+                        Response.Redirect("EvaluateEvent.aspx");
                     }
                     else
                     {

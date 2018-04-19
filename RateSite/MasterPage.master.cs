@@ -30,12 +30,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
     protected void ButtonViewAccount_Click(object sender, EventArgs e)
     {
-        Server.Transfer("FacilitatorAccount.aspx");
+        Response.Redirect("FacilitatorAccount.aspx");
     }
 
     protected void ButtonLogIn_Click(object sender, EventArgs e)
     {
-        Server.Transfer("Logon.aspx");
+        Response.Redirect("Logon.aspx");
     }
 
     protected void ButtonSignOut_Click(object sender, EventArgs e)
@@ -46,6 +46,6 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
     protected void ButtonCreateAccount_Click(object sender, EventArgs e)
     {
-        Server.Transfer("CreateAccount.aspx");
+        Response.Redirect("CreateAccount.aspx");
     }
 }

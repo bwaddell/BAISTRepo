@@ -20,7 +20,8 @@
                 runat="server" Text="Join Existing Event" OnClick="JoinButton_Click" />
         <h4>Or</h4>
             <asp:Button ID="CreateButton" class="btn btn-default btn-block"
-                runat="server" Text="Create New Event" OnClick="CreateButton_Click" />
+                runat="server" Text="Create New Event" 
+                OnClick="CreateButton_Click" />
         </div>
         <div class="row">
             <div class="homepageText">

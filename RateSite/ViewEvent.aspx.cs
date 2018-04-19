@@ -40,8 +40,8 @@ public partial class ViewEvent : System.Web.UI.Page
             {
                 tbStart.Text = theEvent.EventStart.ToLocalTime().ToLongTimeString();
                 tbEnd.Text = theEvent.EventEnd.ToLocalTime().ToLongTimeString();
-                ButtonStart.Visible = false;
-                ButtonEnd.Visible = false;
+                ButtonStart.Enabled = false;
+                ButtonEnd.Enabled = false;
                 TimerForTableRefresh.Enabled = false;
                 BuildTable();
                 BuildCharts();
@@ -53,7 +53,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 {
                     tbStart.Text = "The Event has not yet begun.";
                     tbEnd.Text = "The Event has not yet begun.";
-                    ButtonStart.Visible = true;
+                    ButtonStart.Enabled = true;
                     TimerForTableRefresh.Enabled = false;
                 }
                 //if event is still active
@@ -61,10 +61,10 @@ public partial class ViewEvent : System.Web.UI.Page
                 {
                     tbStart.Text = theEvent.EventStart.ToLocalTime().ToLongTimeString();
                     tbEnd.Text = "The Event is active.";
-                    ButtonStart.Visible = false;
+                    ButtonStart.Enabled = false;
                     TimerForTableRefresh.Enabled = true;
-                    ButtonEnd.Visible = true;
                     ButtonEnd.Enabled = true;
+                    //ButtonEnd.Enabled = true;
                 }
             }         
         }
@@ -166,7 +166,7 @@ public partial class ViewEvent : System.Web.UI.Page
         {
             tbStart.Text = updateMe.EventStart.ToLocalTime().ToLongTimeString();
             tbEnd.Text = "The Event is ongoing.";
-            ButtonStart.Visible = false;
+            ButtonStart.Enabled = false;
         }
             
     }
@@ -189,7 +189,7 @@ public partial class ViewEvent : System.Web.UI.Page
         //generate table and charts 
         if (confirmation)
         {
-            ButtonEnd.Visible = false;
+            ButtonEnd.Enabled = false;
             tbEnd.Text = updateMe.EventEnd.ToLocalTime().ToLongTimeString();
             BuildTable();
             BuildCharts();

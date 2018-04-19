@@ -4,6 +4,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 
+    <h2>Facilitator Account</h2>
+
+
     <div class="row">
         <div class="form-group">
             <label>First Name:</label>

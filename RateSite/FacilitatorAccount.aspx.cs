@@ -77,7 +77,7 @@ public partial class FacilitatorAccount : System.Web.UI.Page
         if (selectedEvent.Date != default(DateTime))
         {
             Session["Event"] = selectedEvent;
-            Server.Transfer("ViewEvent.aspx");
+            Response.Redirect("ViewEvent.aspx");
         }
     }
 

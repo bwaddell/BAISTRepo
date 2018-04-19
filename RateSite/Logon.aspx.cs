@@ -35,7 +35,11 @@ public partial class Logon : System.Web.UI.Page
 
             Response.Cookies.Add(authCookie);
 
-            Response.Redirect("HomePage.aspx");
+            string Redirect;
+            Redirect = Request["ReturnUrl"];
+            if (Redirect == null)
+                Redirect = "HomePage.aspx";
+            Response.Redirect(Redirect, true);
         }
         else
         {

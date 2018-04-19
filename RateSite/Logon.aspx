@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-md-6">
                     <asp:Button ID="ButtonLogin" runat="server" Text="Log In"
-                        OnClick="ButtonLogin_Click" CssClass="btn btn-lg btn-primary" />
+                        OnClick="ButtonLogin_Click" CssClass="btn btn-block btn-default" />
                 </div>
             </div>
 
