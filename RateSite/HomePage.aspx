@@ -9,26 +9,24 @@
         <p>The Continuous Rating Site</p>
     </div>
 
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-4 text-center">
-            <asp:Button ID="CreateButton" class="btn btn-primary btn-block" runat="server" Text="Create Event" OnClick="CreateButton_Click" />
+    <div class="col-lg-4 col-md-8 col-lg-offset-4 col-md-offset-2 text-center">
+
+        <div class="form-group row">
+            <asp:TextBox ID="tbEventKey" class="form-control" runat="server" MaxLength="4"
+                placeholder="enter the event key"></asp:TextBox>
         </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class=" col-sm-4 col-sm-offset-4">
-            <asp:TextBox ID="tbEventKey" class="" runat="server" MaxLength="4" placeholder="enter the event key"></asp:TextBox>
+        <div class="form-group row">
+            <asp:Button ID="JoinButton" class="btn btn-default btn-block"
+                runat="server" Text="Join Existing Event" OnClick="JoinButton_Click" />
+        <h4>Or</h4>
+            <asp:Button ID="CreateButton" class="btn btn-default btn-block"
+                runat="server" Text="Create New Event" OnClick="CreateButton_Click" />
         </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-sm-4 col-sm-offset-4 text-center">
-            <asp:Button ID="JoinButton" class="btn btn-success btn-block" runat="server" Text="Join Event" OnClick="JoinButton_Click" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="homepageText">
-            <asp:Label ID="statuslbl" class="homepageText" runat="server" Text=""></asp:Label>
+        <div class="row">
+            <div class="homepageText">
+                <asp:Label ID="statuslbl" class="homepageText" runat="server"
+                    Text=""></asp:Label>
+            </div>
         </div>
     </div>
 </asp:Content>
