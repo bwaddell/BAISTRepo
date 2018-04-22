@@ -41,6 +41,7 @@
                         <ul class="nav navbar-nav">
                             <li><a href="HomePage.aspx">Home</a></li>                        
                             <li><asp:LinkButton ID="ButtonViewAccount" runat="server" Text="View Account" OnClick="ButtonViewAccount_Click" Visible="false" CausesValidation="false" /></li>
+                            <li><asp:LinkButton ID="ButtonEventList" runat="server" Text="Events" OnClick="ButtonEventList_Click" Visible="false" CausesValidation="false" /></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><asp:LinkButton ID="ButtonCreateAccount" runat="server" 

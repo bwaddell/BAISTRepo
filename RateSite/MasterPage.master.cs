@@ -17,12 +17,15 @@ public partial class MasterPage : System.Web.UI.MasterPage
         {
             ButtonSignOut.Visible = true;
             ButtonViewAccount.Visible = true;
+            ButtonEventList.Visible = true;
 
         }
         else
         {
             ButtonCreateAccount.Visible = true;
             ButtonLogIn.Visible = true;
+            ButtonEventList.Visible = false;
+
         }
 
 
@@ -47,5 +50,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
     protected void ButtonCreateAccount_Click(object sender, EventArgs e)
     {
         Response.Redirect("CreateAccount.aspx");
+    }
+
+    protected void ButtonEventList_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Events.aspx");
+
     }
 }
