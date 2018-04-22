@@ -108,7 +108,7 @@
 
                 <div class="col-md-8">
                     <div class="">
-                        <asp:Table ID="Table1" runat="server" CssClass="table table-responsive">
+                        <asp:Table ID="Table1" runat="server" CssClass="table table-responsive ">
                             <asp:TableHeaderRow>
                                 <asp:TableHeaderCell CssClass="">Evaluator ID</asp:TableHeaderCell>
                                 <asp:TableHeaderCell CssClass="">Last Rating</asp:TableHeaderCell>

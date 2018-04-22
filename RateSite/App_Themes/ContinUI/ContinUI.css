@@ -1,30 +1,23 @@
-﻿html {
-   margin: 0px;
+﻿html,body {
    height: 100%;
    width: 100%;
+   margin: 0;
+   padding: 0;
 }
 
 body {
     padding-top: 60px;
     margin: 0px;
-    min-height: 100%;
     width: 100%;
-    
-    /*background-image: url('../../Images/musicBackground.jpg');*/
-    /*background-image: linear-gradient(to bottom, rgba(255,255,255,0.99) 0%,rgba(100,100,150,0.6) 300%), url('../../Images/musicBackground.jpg');*/
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: left top;
-    
-    color: #0a0a0a;
-        
+    color: black;            
 }
 
-#MainBody {
-    align-content: center;
-    text-align: center;
-    
-    height: 100%;
+.content {
+    min-height: calc(100vh - 100px);
+}
+
+.footer{
+    height: 40px;
 }
 
 .RatingClass {
@@ -42,13 +35,13 @@ body {
     display: inline-block;
     vertical-align: middle;
     float: none;
-    font: bold 14vh magneto,verdana;
+    font: bold 16vh magneto,verdana;
 }
 
 .btnClass {
     display: inline-block;
-    height: 36vh;
-    opacity: 0.7;
+    height: 37vh;
+    /*opacity: 1;*/
 }
 
 .btnImage {
@@ -101,6 +94,12 @@ body {
     font-size: 12vh;
 }
 
-.startEnd{
-
+.footer{
+    text-align: center;
+    vertical-align: middle;
+    background-color: #022554;
+    width: 100%;
+    color: #fff;
+    font-family: "Open Sans";
+    font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
 }

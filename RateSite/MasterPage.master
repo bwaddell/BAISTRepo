@@ -19,7 +19,7 @@
 </head>
 <body runat="server" id="masterBody">
     <form id="form1" runat="server">
-        <div class="row">
+        <div class="container">
 
 
             <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
@@ -39,20 +39,23 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
-                            <li><a href="HomePage.aspx">Home</a></li>                        
-                            <li><asp:LinkButton ID="ButtonViewAccount" runat="server" Text="View Account" OnClick="ButtonViewAccount_Click" Visible="false" CausesValidation="false" /></li>
-                            <li><asp:LinkButton ID="ButtonEventList" runat="server" Text="Events" OnClick="ButtonEventList_Click" Visible="false" CausesValidation="false" /></li>
+                            <li><a href="HomePage.aspx">Home</a></li>
+                            <li>
+                                <asp:LinkButton ID="ButtonViewAccount" runat="server" Text="View Account" OnClick="ButtonViewAccount_Click" Visible="false" CausesValidation="false" /></li>
+                            <li>
+                                <asp:LinkButton ID="ButtonEventList" runat="server" Text="Events" OnClick="ButtonEventList_Click" Visible="false" CausesValidation="false" /></li>
                         </ul>
-                         <ul class="nav navbar-nav">
-                            <li><a href="About.aspx">About & Help</a></li>                        
+                        <ul class="nav navbar-nav">
+                            <li><a href="About.aspx">About & Help</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><asp:LinkButton ID="ButtonCreateAccount" runat="server" 
-                                Text="Create Account" OnClick="ButtonCreateAccount_Click" 
-                                Visible="false" CausesValidation="false" /></li>
                             <li>
-                                <asp:LinkButton ID="ButtonLogIn" runat="server" 
-                                    CausesValidation="false" Visible="false" 
+                                <asp:LinkButton ID="ButtonCreateAccount" runat="server"
+                                    Text="Create Account" OnClick="ButtonCreateAccount_Click"
+                                    Visible="false" CausesValidation="false" /></li>
+                            <li>
+                                <asp:LinkButton ID="ButtonLogIn" runat="server"
+                                    CausesValidation="false" Visible="false"
                                     OnClick="ButtonLogIn_Click">
                                  Login <span class="glyphicon glyphicon-log-in"></span>
                                 </asp:LinkButton>
@@ -71,15 +74,19 @@
             </nav>
         </div>
 
-        <div class="container">
-            <asp:Label ID="lbMsg" runat="server" Text=""></asp:Label>
-
-
+        <div class="content container">
             <asp:ContentPlaceHolder ID="MainBody" runat="server">
 
                 <%--Main body content shows up in here--%>
             </asp:ContentPlaceHolder>
+
         </div>
+
+
+        <footer id="siteFooter" class="footer">
+            <p>Created by NAIT students in partnership with CPS</p>
+        </footer>
+
     </form>
 
 
