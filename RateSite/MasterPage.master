@@ -41,6 +41,7 @@
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
                             <li><a href="HomePage.aspx">Home</a></li>
+                            <li><a href="About.aspx">About & Help</a></li>                        
                             <li>
                                 <asp:LinkButton ID="ButtonViewAccount" runat="server"
                                     Text="My Account" OnClick="ButtonViewAccount_Click" Visible="false"

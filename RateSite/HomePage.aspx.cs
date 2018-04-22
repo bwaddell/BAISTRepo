@@ -17,22 +17,14 @@ public partial class HomePage : System.Web.UI.Page
 
     protected void CreateButton_Click(object sender, EventArgs e)
     {
-        CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
-        CSS requester = new CSS();
-
-        //get facilitator info
-        Facilitator fac = new Facilitator();
-        try
+        if (HttpContext.Current.User.Identity.IsAuthenticated)
         {
-            fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
             Response.Redirect("CreateEvent.aspx");
-
         }
-        catch
+        else
         {
             //not logged in or cant find user redirect to create account page.
-
-            Response.Redirect("CreateAccount.aspx");
+            Response.Redirect("Logon.aspx");
         }
     }
 
