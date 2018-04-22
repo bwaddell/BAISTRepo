@@ -3,8 +3,14 @@
 --	Instructions: --
 -- check that the database name below is correct then execute entire script
 
-use ContinUI_Database		--set the database name
+
+
+IF(db_id(N'ContinUIDB') IS NULL)	-- create a new database
+	CREATE DATABASE ContinUIDB
 go
+use ContinUIDB		--use the database created
+go
+
 
 
 --******************************************--
@@ -673,7 +679,8 @@ go
 --**************************************--
 --			Creating test Data			--
 --**************************************--
-execute CreateFacilitator 'admin','User','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SA','NAIT BAIST','Edmonton'
+execute CreateFacilitator 'admin','account','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','Mr','NAIT BAIST','Edmonton, AB'
+execute CreateFacilitator 'BAIST','Students','baist@gmail.com','admin','ac81acfd35332d177ace4dfd997236d666b54bff5ba4420c7cae6a5237b9174c','D/ydVF8=','Mr','NAIT BAIST','Edmonton, AB'
 go
 declare @evalID int
 execute AddEvaluator @evalID output, 'Cody Jacob','08-12-2001','M','NAIT','Edmonton','Vote criteria?'
