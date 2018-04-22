@@ -93,7 +93,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-5 col-form-label">Current Average Rating:</label>
+                        <asp:Label ID="RatingTitle" CssClass="col-md-5 col-form-label" Font-Bold="true" runat="server" Text="Current Average Rating:"></asp:Label>
                         <asp:Label ID="Ratinglbl" CssClass="col-md-7 col-form-label" runat="server"
                             Text="0" Font-Size="XX-Large"></asp:Label>
                     </div>

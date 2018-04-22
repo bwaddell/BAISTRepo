@@ -18,6 +18,9 @@ public partial class ViewEvent : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        ScriptManager scriptManager = ScriptManager.GetCurrent(this.Page);
+        scriptManager.RegisterPostBackControl(this.Export);
+
         if (!IsPostBack)
         {
             CSS Director = new CSS();
@@ -215,6 +218,7 @@ public partial class ViewEvent : System.Web.UI.Page
     {
         CSS Director = new CSS();
 
+
         //get event info
         Event theEvent = new Event();
         theEvent.EventID = ((Event)Session["Event"]).EventID;
@@ -245,7 +249,7 @@ public partial class ViewEvent : System.Web.UI.Page
     public void BuildTable()
     {
         lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
-
+        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
         CSS RequestDirector = new CSS();
 
         //get event evaluation data
@@ -253,11 +257,39 @@ public partial class ViewEvent : System.Web.UI.Page
         Event activeEvent = new Event();
         activeEvent.EventID = ((Event)Session["Event"]).EventID;
 
+        activeEvent = RequestDirector.GetEvent(activeEvent);
+
         //get most recent evaluation from each evaluator
         currentEvals = RequestDirector.GetCurrentEventData(activeEvent);
 
+        //List<Evaluation> allEvals = new List<Evaluation>();
+        //allEvals = RequestDirector.GetEventData(activeEvent.EventID);
+
         //build table with evaluation data
-        foreach (Evaluation ev in currentEvals)
+        //foreach (Evaluation ev in currentEvals)
+        //{
+        //    TableRow tRow = new TableRow();
+        //    TableCell tCell = new TableCell();
+
+        //    tCell.Text = ev.EvaluatorID.ToString();
+        //    tRow.Cells.Add(tCell);
+
+        //    tCell = new TableCell();
+        //    tCell.Text = ev.Rating.ToString();
+        //    tRow.Cells.Add(tCell);
+
+        //    tCell = new TableCell();            //add the avg rating of the eval
+        //    tCell.Text = 10.ToString();
+        //    tRow.Cells.Add(tCell);
+
+        //    tCell = new TableCell();
+        //    tCell.Text = ev.TimeStamp.ToLocalTime().ToString();
+        //    tRow.Cells.Add(tCell);
+
+        //    Table1.Rows.Add(tRow);
+        //}
+
+        foreach (Evaluator ev in activeEvent.Evaluators)
         {
             TableRow tRow = new TableRow();
             TableCell tCell = new TableCell();
@@ -266,23 +298,50 @@ public partial class ViewEvent : System.Web.UI.Page
             tRow.Cells.Add(tCell);
 
             tCell = new TableCell();
-            tCell.Text = ev.Rating.ToString();
+            tCell.Text = ev.EvaluatorEvaluations.Last().Rating.ToString();
             tRow.Cells.Add(tCell);
 
             tCell = new TableCell();            //add the avg rating of the eval
-            tCell.Text = 10.ToString();
+            tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");
             tRow.Cells.Add(tCell);
 
             tCell = new TableCell();
-            tCell.Text = ev.TimeStamp.ToLocalTime().ToString();
+            tCell.Text = ev.EvaluatorEvaluations.Last().TimeStamp.ToString();
             tRow.Cells.Add(tCell);
 
             Table1.Rows.Add(tRow);
         }
 
-        //calculate current average rating
-        if (currentEvals.Count != 0)
-            Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+        //if event is over calculate the average rating for the whole event.
+        //else calculate the current average if the event is currently active
+        if (activeEvent.EventEnd != defaultTime)
+        {
+            if (currentEvals.Count != 0)
+            {
+                double totalAverage;
+                List<Evaluation> allEvaluations = new List<Evaluation>();
+
+                //change the label
+                RatingTitle.Text = "Total Average Rating:";
+
+                //create list of all evals for event then average
+                foreach (Evaluator ev in activeEvent.Evaluators)
+                {
+                    allEvaluations.AddRange(ev.EvaluatorEvaluations);
+                }
+
+                totalAverage = allEvaluations.Average(o => o.Rating);
+
+                Ratinglbl.Text = totalAverage.ToString("#.##");
+            }           
+        }
+        else
+        {
+            if (currentEvals.Count != 0)
+                Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+        }
+
+        
     }
 
     protected void TimerForTableRefresh_Tick(object sender, EventArgs e)
