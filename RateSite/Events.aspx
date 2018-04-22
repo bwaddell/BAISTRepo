@@ -14,10 +14,14 @@
                 <asp:Table ID="tblEventList" runat="server" CssClass="table">
                     <asp:TableHeaderRow>
                         <asp:TableHeaderCell>Date</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Event Key</asp:TableHeaderCell>
                         <asp:TableHeaderCell>Location</asp:TableHeaderCell>
                         <asp:TableHeaderCell>Performer</asp:TableHeaderCell>
                         <asp:TableHeaderCell>Nature Of Event</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Duration (hh:mm:ss)</asp:TableHeaderCell>
                         <asp:TableHeaderCell># of Evaluators</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Total Average</asp:TableHeaderCell>
+                        <asp:TableHeaderCell></asp:TableHeaderCell>
                     </asp:TableHeaderRow>
                     <asp:TableRow>
                     </asp:TableRow>
@@ -29,5 +33,7 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" Runat="Server">
+
+
 </asp:Content>
 

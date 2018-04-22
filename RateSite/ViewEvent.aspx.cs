@@ -320,10 +320,9 @@ public partial class ViewEvent : System.Web.UI.Page
                 {
                     allEvaluations.AddRange(ev.EvaluatorEvaluations);
                 }
-
                 totalAverage = allEvaluations.Average(o => o.Rating);
-
                 Ratinglbl.Text = totalAverage.ToString("#.##");
+
                 lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
             }
         }
