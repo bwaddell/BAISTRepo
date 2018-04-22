@@ -40,17 +40,30 @@ create table EventDetails
 (
 	EventKey nvarchar(5) not null,
 	FacilitatorID int not null,
-	Location nvarchar(30) not null,
-	Performer nvarchar(20) not null,
-	NatureOfEvent nvarchar(20) not null,
+	Location nvarchar(100) not null,											
+	Performer nvarchar(100) not null,											
+	NatureOfEvent nvarchar(100) not null,										
 	EventDate nvarchar(25) not null,
-	EventBegin nvarchar(25) default '1/1/1800 12:00:00 PM',
+	EventBegin nvarchar(25) default '1/1/1800 12:00:00 PM',				
 	EventEnd nvarchar(25) default '1/1/1800 12:00:00 PM'
 )
 alter table EventDetails
 	add constraint PK_EventDetails primary key (EventKey),
 		constraint FK_EventDetails foreign key (FacilitatorID) references Facilitator(FacilitatorID)
 Go
+
+
+--alter table EventDetails
+--alter column
+--	Location nvarchar(100) not null
+
+--alter table EventDetails
+--alter column
+--	Performer nvarchar(100) not null
+
+--alter table EventDetails
+--alter column
+--	NatureOfEvent nvarchar(100) not null
 
 
 --drop table Evaluator
@@ -226,9 +239,9 @@ create procedure CreateEvent
 (
 	@EventKey nvarchar(5) = null,
 	@Facilitator int = null,
-	@Location nvarchar(30) = null,
-	@Performer nvarchar(20) = null,
-	@NatureOfEvent nvarchar(20) = null,
+	@Location nvarchar(100) = null,
+	@Performer nvarchar(100) = null,
+	@NatureOfEvent nvarchar(100) = null,
 	@EventDate nvarchar(25) = null
 )
 as
@@ -370,6 +383,7 @@ as
 		begin
 			select EventKey,FacilitatorID, Location, Performer, NatureOfEvent,EventDate,EventBegin,EventEnd from EventDetails
 			where FacilitatorID = @FacilitatorID
+			order by EventDate desc, EventBegin desc
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -379,6 +393,7 @@ as
 	return @ReturnCode
 GO
 
+exec GetFacilitatorEvents 1
 
 
 --**************************************--
@@ -780,4 +795,4 @@ select * from Evaluator
 select * from EventDetails
 select * from Facilitator
 
-
+delete from EventDetails where EventKey = 'C2PK'
