@@ -111,7 +111,8 @@
                         <asp:Table ID="Table1" runat="server" CssClass="table table-responsive">
                             <asp:TableHeaderRow>
                                 <asp:TableHeaderCell CssClass="">EvaluatorID</asp:TableHeaderCell>
-                                <asp:TableHeaderCell CssClass="">Rating</asp:TableHeaderCell>
+                                <asp:TableHeaderCell CssClass="">Last Rating</asp:TableHeaderCell>
+                                <asp:TableHeaderCell CssClass="">Avg Rating</asp:TableHeaderCell>
                                 <asp:TableHeaderCell CssClass="">TimeStamp</asp:TableHeaderCell>
                             </asp:TableHeaderRow>
                             <asp:TableRow>
@@ -121,6 +122,31 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
+            <%-- Charts --%>
+            <div class="form-group row">
+                <div class="col-lg border">
+
+                    <%--<h3>Graphs</h3>--%>
+                    <div class="row">
+                        <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
+                        <%--High chart literal, this is where the chart will be placed--%>
+                    </div>
+
+                </div>
+                <div class="col-lg border">
+
+                    <div class="row">
+                        <asp:Literal ID="mathChart" runat="server"></asp:Literal>
+                    </div>
+
+                </div>
+            </div>
+
         </ContentTemplate>
         <Triggers>
             <%--<asp:AsyncPostBackTrigger ControlID="btnTable" />--%>
@@ -129,31 +155,9 @@
         </Triggers>
     </asp:UpdatePanel>
     <asp:Timer ID="TimerForTableRefresh" runat="server"
-        Interval="1000" OnTick="btnTable_Click" Enabled="false">
+        Interval="1000" OnTick="TimerForTableRefresh_Tick" Enabled="false">
     </asp:Timer>
 
-
-
-
-    <%-- Charts --%>
-    <div class="form-group row">
-        <div class="col-lg border">
-
-            <h3>Graphs</h3>
-            <div class="row">
-                <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
-                <%--High chart literal, this is where the chart will be placed--%>
-            </div>
-
-        </div>
-        <div class="col-lg border">
-
-            <div class="row">
-                <asp:Literal ID="mathChart" runat="server"></asp:Literal>
-            </div>
-
-        </div>
-    </div>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">

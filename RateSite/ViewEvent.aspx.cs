@@ -13,14 +13,16 @@ using DotNet.Highcharts.Enums;
 
 public partial class ViewEvent : System.Web.UI.Page
 {
+    DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
             CSS Director = new CSS();
-            
+
             //for comparing default values of event start and end times.
-            DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
 
             //Get evaluation data for chosen event
             Event theEvent = new Event();
@@ -31,11 +33,11 @@ public partial class ViewEvent : System.Web.UI.Page
             tbEventID.Text = theEvent.EventID.ToString();
             tbPerformer.Text = theEvent.Performer;
             tbLocation.Text = theEvent.Location;
-            tbDate.Text = theEvent.Date.ToLongDateString();
+            tbDate.Text = theEvent.Date.ToShortDateString();
             tbDesc.Text = theEvent.Description;
             //int numOfEvaluators = theEvent.Evaluators.Count;
 
-            //if the event has ended hide start/end buttons and generate charts and table
+            //if the event has ended disable start/end buttons and generate charts and table
             if (theEvent.EventEnd != defaultTime)
             {
                 tbStart.Text = theEvent.EventStart.ToLocalTime().ToLongTimeString();
@@ -45,15 +47,16 @@ public partial class ViewEvent : System.Web.UI.Page
                 TimerForTableRefresh.Enabled = false;
                 BuildTable();
                 BuildCharts();
-            }   
+            }
             else
             {
                 //if event has not begun
                 if (theEvent.EventStart == defaultTime)
                 {
-                    tbStart.Text = "The Event has not yet begun.";
-                    tbEnd.Text = "The Event has not yet begun.";
+                    tbStart.Text = "The Event has not begun.";
+                    tbEnd.Text = "The Event has not begun.";
                     ButtonStart.Enabled = true;
+                    ButtonEnd.Enabled = true;
                     TimerForTableRefresh.Enabled = false;
                 }
                 //if event is still active
@@ -66,9 +69,9 @@ public partial class ViewEvent : System.Web.UI.Page
                     ButtonEnd.Enabled = true;
                     //ButtonEnd.Enabled = true;
                 }
-            }         
+            }
         }
-        
+
     }
 
     //export event data to .csv for external use
@@ -83,20 +86,20 @@ public partial class ViewEvent : System.Web.UI.Page
         Event.EventID = ((Event)Session["Event"]).EventID;
         Event = Director.GetEvent(Event);
         Facilitator = Director.GetFacilitator(1);
-       
+
 
         csvcontent.AppendLine("First Name,Last Name,Title,Organization,Location,Email");
         csvcontent.AppendLine(Facilitator.FirstName + "," + Facilitator.LastName + "," + Facilitator.Title + "," + Facilitator.Organization + "," + Facilitator.Location + "," + Facilitator.Email);
         csvcontent.AppendLine("\n");
 
-        
-        if(Event.EventStart == null)
+
+        if (Event.EventStart == null)
         {
             csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
             csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + ",Not Set," + Event.EventEnd.ToLongTimeString());
             csvcontent.AppendLine("\n");
         }
-        else if(Event.EventEnd == null)
+        else if (Event.EventEnd == null)
         {
             csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
             csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + "," + Event.EventEnd.ToLongTimeString());
@@ -165,10 +168,14 @@ public partial class ViewEvent : System.Web.UI.Page
         if (confirmation)
         {
             tbStart.Text = updateMe.EventStart.ToLocalTime().ToLongTimeString();
-            tbEnd.Text = "The Event is ongoing.";
+            tbEnd.Text = "The Event has started.";
             ButtonStart.Enabled = false;
+            ButtonEnd.Enabled = true;
+
+            TimerForTableRefresh.Enabled = true;
+
         }
-            
+
     }
 
     //end event when button clicked
@@ -190,16 +197,16 @@ public partial class ViewEvent : System.Web.UI.Page
         if (confirmation)
         {
             ButtonEnd.Enabled = false;
+            tbStart.Text = updateMe.EventStart.ToLocalTime().ToLongTimeString();
             tbEnd.Text = updateMe.EventEnd.ToLocalTime().ToLongTimeString();
+            ButtonStart.Enabled = false;
+            ButtonEnd.Enabled = false;
+            TimerForTableRefresh.Enabled = false;
             BuildTable();
             BuildCharts();
-        }             
+        }
     }
 
-    protected void btnTable_Click(object sender, EventArgs e)
-    {
-        BuildTable();
-    }
 
     public void BuildCharts()
     {
@@ -218,6 +225,12 @@ public partial class ViewEvent : System.Web.UI.Page
             //write the chart to the div(literal) on web page
             //the rest is automatic
             ltrChart.Text = chart.ToHtmlString();
+            
+            //---------------------------------------
+            //ClientScriptManager cs = Page.ClientScript;
+            //if (!cs.IsClientScriptBlockRegistered(this.GetType(), "clientGraph"))
+            //    cs.RegisterClientScriptBlock(this.GetType(), "clientGraph", chart.ToHtmlString());
+            
 
             //generate chart with mean/mode/median
             Highcharts mChart = Director.MakeMathChart(theEvent);
@@ -253,6 +266,10 @@ public partial class ViewEvent : System.Web.UI.Page
             tCell.Text = ev.Rating.ToString();
             tRow.Cells.Add(tCell);
 
+            tCell = new TableCell();            //add the avg rating of the eval
+            tCell.Text = 10.ToString();
+            tRow.Cells.Add(tCell);
+
             tCell = new TableCell();
             tCell.Text = ev.TimeStamp.ToLocalTime().ToString();
             tRow.Cells.Add(tCell);
@@ -261,6 +278,12 @@ public partial class ViewEvent : System.Web.UI.Page
         }
 
         //calculate current average rating
-        Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+        if (currentEvals.Count != 0)
+            Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+    }
+
+    protected void TimerForTableRefresh_Tick(object sender, EventArgs e)
+    {
+        BuildTable();
     }
 }

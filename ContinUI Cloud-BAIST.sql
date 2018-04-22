@@ -144,12 +144,16 @@ GO
 
 
 
+
+
+
+
 --****************************************--
 --Stored Procedures---
 --****************************************--
 
-
---drop procedure AddEvaluationDataPoint
+IF (OBJECT_ID('AddEvaluationDataPoint') IS NOT NULL)
+  DROP PROCEDURE AddEvaluationDataPoint
 go
 create procedure AddEvaluationDataPoint
 (
@@ -183,7 +187,11 @@ as
 	return @ReturnCode
 GO
 
---drop procedure AddEvaluator
+
+
+--**************************************--
+IF (OBJECT_ID('AddEvaluator') IS NOT NULL)
+  DROP PROCEDURE AddEvaluator
 go
 create procedure AddEvaluator
 (
@@ -221,7 +229,10 @@ as
 GO
 
 
---drop procedure CreateFacilitator
+
+--**************************************--
+IF (OBJECT_ID('CreateFacilitator') IS NOT NULL)
+  DROP PROCEDURE CreateFacilitator
 go
 create procedure CreateFacilitator
 (
@@ -265,7 +276,10 @@ as
 GO
 
 
---drop procedure CreateEvent
+
+--**************************************--
+IF (OBJECT_ID('CreateEvent') IS NOT NULL)
+  DROP PROCEDURE CreateEvent
 go
 create procedure CreateEvent
 (
@@ -309,8 +323,9 @@ GO
 
 
 
-
---drop procedure UpdateEventStatus
+--**************************************--
+IF (OBJECT_ID('UpdateEventStatus') IS NOT NULL)
+  DROP PROCEDURE UpdateEventStatus
 go
 create procedure UpdateEventStatus
 (
@@ -335,10 +350,12 @@ as
 		end
 	return @ReturnCode
 GO
---select * from EventDetails
 
 
---drop procedure GetFacilitatorInfo												dropped as unnessisary
+
+--**************************************--
+IF (OBJECT_ID('GetFacilitatorInfo') IS NOT NULL)
+  DROP PROCEDURE GetFacilitatorInfo										
 go
 create procedure GetFacilitatorInfo
 (
@@ -363,7 +380,11 @@ as
 	return @ReturnCode
 GO
 
---drop proc GetFacilitator
+
+
+--**************************************--
+IF (OBJECT_ID('GetFacilitator') IS NOT NULL)
+  DROP PROCEDURE GetFacilitator
 go
 create procedure GetFacilitator
 (
@@ -389,7 +410,10 @@ as
 GO
 
 
---drop proc GetFacilitatorEvents
+
+--**************************************--
+IF (OBJECT_ID('GetFacilitatorEvents') IS NOT NULL)
+  DROP PROCEDURE GetFacilitatorEvents
 go
 create procedure GetFacilitatorEvents
 (
@@ -413,10 +437,12 @@ as
 		end
 	return @ReturnCode
 GO
---exec GetFacilitatorEvents 1
 
 
---drop procedure CreateEvaluator
+
+--**************************************--
+IF (OBJECT_ID('CreateEvaluator') IS NOT NULL)
+  DROP PROCEDURE CreateEvaluator
 go
 create procedure CreateEvaluator
 (
@@ -442,7 +468,10 @@ as
 go
 
 
---drop procedure GetEvaluator
+
+--**************************************--
+IF (OBJECT_ID('GetEvaluator') IS NOT NULL)
+  DROP PROCEDURE GetEvaluator
 go
 create procedure GetEvaluator
 (
@@ -467,7 +496,11 @@ as
 	return @ReturnCode				
 GO
 
---drop procedure GetEventEvaluators
+
+
+--**************************************--
+IF (OBJECT_ID('GetEventEvaluators') IS NOT NULL)
+  DROP PROCEDURE GetEventEvaluators
 go
 create procedure GetEventEvaluators --for event
 (
@@ -493,9 +526,12 @@ as
 		end
 	return @ReturnCode				
 GO
---exec GetEventEvaluators 'aaaa'
 
---drop procedure GetHistoricalEvaluationData
+
+
+--**************************************--
+IF (OBJECT_ID('GetHistoricalEvaluationData') IS NOT NULL)
+  DROP PROCEDURE GetHistoricalEvaluationData
 go
 create procedure GetHistoricalEvaluationData
 (
@@ -521,7 +557,11 @@ as
 	return @ReturnCode				
 GO
 
---drop procedure GetMostRecentEvaluativeData
+
+
+--**************************************--
+IF (OBJECT_ID('GetMostRecentEvaluativeData') IS NOT NULL)
+  DROP PROCEDURE GetMostRecentEvaluativeData
 go
 create procedure GetMostRecentEvaluativeData
 (
@@ -550,7 +590,11 @@ as
 	return @ReturnCode				
 GO
 
---drop procedure GetEvaluatorEventData
+
+
+--**************************************--
+IF (OBJECT_ID('GetEvaluatorEventData') IS NOT NULL)
+  DROP PROCEDURE GetEvaluatorEventData
 go
 create procedure GetEvaluatorEventData
 (
@@ -578,10 +622,12 @@ as
 	return @ReturnCode				
 GO
 
---exec GetEvaluatorEventData 'wlfg',7
-go
 
---drop procedure GetAllEventData
+
+
+--**************************************--
+IF (OBJECT_ID('GetAllEventData') IS NOT NULL)
+  DROP PROCEDURE GetAllEventData
 go
 create procedure GetAllEventData
 (
@@ -606,7 +652,11 @@ as
 	return @ReturnCode				
 GO
 
---drop procedure GetEvent
+
+
+--**************************************--
+IF (OBJECT_ID('GetEvent') IS NOT NULL)
+  DROP PROCEDURE GetEvent
 go
 create procedure GetEvent
 (
@@ -630,9 +680,12 @@ as
 			end
 		return @ReturnCode	
 go
---exec GetEvent 'aaaa'
 
---drop procedure UpdateFacilitatorInfo
+
+
+--**************************************--
+IF (OBJECT_ID('UpdateFacilitatorInfo') IS NOT NULL)
+  DROP PROCEDURE UpdateFacilitatorInfo
 go
 create procedure UpdateFacilitatorInfo
 (
@@ -681,14 +734,9 @@ as
 		return @ReturnCode	
 go
 
---execute GetAllEventData 'aaaa'
 
 
 
---declare @evalID INT
---execute CreateEvaluator @evalID output
---select @evalID
---go
 
 execute CreateFacilitator 'admin','User','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SA','NAIT BAIST','Edmonton'
 go
@@ -716,13 +764,12 @@ execute UpdateFacilitatorInfo 1, 'admin@gmail.com','3dfd5cbdd931df72ff375bf1e7bd
 go
 
 
-
-insert into EventDetails values( 'aaaa',1,'Edmonton NAIT','Bruce Wayne','Singing in the Rain', '2018-04-09', null,null)
+insert into EventDetails values( 'AAAA',1,'Edmonton, AB, Canada','NAIT Baist Students','Building a website', '4/21/2018', null,null)
 select * from EventDetails
 --declare @date date
 --set @date = GETDATE()
 --select @date
---execute CreateEvent 'aaaa',1,'Edmonton NAIT','Bruce Wayne','Singing in the Rain', @date
+--execute CreateEvent 'AAAA',1,'Edmonton, AB, Canada','NAIT Baist Students','Building a website', '4/21/2018'
 --go
 
 
@@ -892,5 +939,7 @@ select * from Facilitator
 select * from EvaluativeData
 select * from EventDetails
 select * from Evaluator
+--delete from EvaluativeData
+--delete from EventDetails
 
 update EventDetails set EventDate='4/11/1993 12:00:00' --where EventKey = 'MSS9'

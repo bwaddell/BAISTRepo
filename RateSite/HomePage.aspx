@@ -9,11 +9,15 @@
         <p>The Continuous Rating Site</p>
     </div>
 
-    <div class="col-lg-4 col-md-8 col-lg-offset-4 col-md-offset-2 text-center">
+
+    <div class="col-md-8 col-md-offset-2 text-center">
+
+    <p>Lorem ipsum diam netus donec primis pretium elit praesent nullam sociosqu, curae ad nec himenaeos nullam phasellus dolor curabitur consectetur habitasse dictumst, habitasse himenaeos orci fames sem pharetra praesent felis porta.</p>
+<p>Turpis condimentum nisl scelerisque urna fringilla porttitor quisque diam sollicitudin, curabitur accumsan etiam aptent taciti vulputate consequat tristique, tincidunt ultrices ad eleifend ad sollicitudin porttitor primis.</p>
 
         <div class="form-group row">
-            <asp:TextBox ID="tbEventKey" class="form-control" runat="server" MaxLength="4"
-                placeholder="enter the event key"></asp:TextBox>
+            <asp:TextBox ID="tbEventKey" class="form-control text-center" runat="server" MaxLength="4"
+                placeholder="Enter the event key"></asp:TextBox>
         </div>
         <div class="form-group row">
             <asp:Button ID="JoinButton" class="btn btn-default btn-block"

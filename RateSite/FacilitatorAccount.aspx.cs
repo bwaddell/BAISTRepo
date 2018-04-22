@@ -38,29 +38,39 @@ public partial class FacilitatorAccount : System.Web.UI.Page
             //if user has no events, hide the listbox and button
             if (facEvents.Count > 0)
             {
-                EventListBox.Visible = true;
-                ViewEventbtn.Visible = true;
+                PEventList.Visible = true;
 
                 //populate event list
                 foreach (Event ev in facEvents)
                 {
                     eventItem = new ListItem();
 
-                    eventItem.Text = ev.Date.ToShortDateString() + ": " + ev.Performer + " : " + ev.Description;
+                    eventItem.Text = "Date: " + ev.Date.ToShortDateString() + 
+                        "   --   Location: " + ev.Location +
+                        "   --   Performer: " + ev.Performer +
+                        "   --   Nature of Event: " + ev.Description +
+                        "   --   # of Evaluators: " + ev.Evaluators.Count;
+                    //EventListBox.Font= fon
                     eventItem.Value = ev.EventID;
 
                     EventListBox.Items.Add(eventItem);
+
+
+                    //turn listbox into a table later?
+
                 }
+                if (facEvents.Count < 5)
+                    EventListBox.Rows = 5;
+                else
+                    EventListBox.Rows = facEvents.Count;
             }
             else
             {
-                EventListBox.Visible = false;
-                ViewEventbtn.Visible = false;
+                PEventList.Visible = false;
             }
 
-           
         }
-        
+
     }
 
     //redirect to view event page for selected event
@@ -163,7 +173,7 @@ public partial class FacilitatorAccount : System.Web.UI.Page
             {
                 Msglbl.Text = "Account Information Update Failed";
             }
-        }       
+        }
     }
 
 }

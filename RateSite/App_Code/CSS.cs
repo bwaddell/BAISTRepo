@@ -88,9 +88,7 @@ public class CSS
         List<Evaluation> evaluations = new List<Evaluation>();
         EvaluationDirector Controller = new EvaluationDirector();
 
-        evaluations = Controller.GetAllEventData(EventKey);    
-
-        
+        evaluations = Controller.GetAllEventData(EventKey);          
 
         return evaluations;
     }
@@ -163,9 +161,15 @@ public class CSS
     public List<Event> GetFacilitatorEvents(int id)
     {
         List<Event> facEvents = new List<Event>();
-        FacilitatorDirector Controller = new FacilitatorDirector();
+        FacilitatorDirector FacController = new FacilitatorDirector();
+        EventDirector EveController = new EventDirector();
 
-        facEvents = Controller.GetFacilitatorEvents(id);
+        facEvents = FacController.GetFacilitatorEvents(id);
+
+
+        foreach (Event even in facEvents)
+            even.Evaluators = EveController.GetEvaluatorsForEvent(even.EventID);
+
         return facEvents;
     }
 

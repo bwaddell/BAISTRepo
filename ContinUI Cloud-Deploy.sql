@@ -1,42 +1,15 @@
 --ContinUI web site
 
 --	Instructions: --
--- check that the database name below is correct the execute entire script
+-- check that the database name below is correct then execute entire script
 
-
-drop table EvaluativeData
-drop table Evaluator
-drop table EventDetails
-drop table Facilitator
-
-drop proc AddEvaluationDataPoint
-drop proc AddEvaluator
-drop proc CreateEvaluator
-drop proc CreateEvent
-drop proc CreateFacilitator
-drop proc GetAllEventData
-drop proc GetEvaluator
-drop proc GetEvaluatorEventData
-drop proc GetEvent
-drop proc GetEventEvaluators
-drop proc GetFacilitator
-drop proc GetFacilitatorInfo
-drop proc GetFacilitatorEvents
-drop proc GetHistoricalEvaluationData
-drop proc GetMostRecentEvaluativeData
-drop proc UpdateEventStatus
-drop proc UpdateFacilitatorInfo
+use ContinUI_Database		--set the database name
+go
 
 
 --******************************************--
 --					Tables					--
 --******************************************--
-
-use ContinUI_Database
-go
-
-
-
 
 --drop table Facilitator
 create table Facilitator
@@ -106,12 +79,16 @@ GO
 
 
 
+
+
+
+
 --****************************************--
 --Stored Procedures---
 --****************************************--
 
-
---drop procedure AddEvaluationDataPoint
+IF (OBJECT_ID('AddEvaluationDataPoint') IS NOT NULL)
+  DROP PROCEDURE AddEvaluationDataPoint
 go
 create procedure AddEvaluationDataPoint
 (
@@ -145,7 +122,11 @@ as
 	return @ReturnCode
 GO
 
---drop procedure AddEvaluator
+
+
+--**************************************--
+IF (OBJECT_ID('AddEvaluator') IS NOT NULL)
+  DROP PROCEDURE AddEvaluator
 go
 create procedure AddEvaluator
 (
@@ -183,7 +164,10 @@ as
 GO
 
 
---drop procedure CreateFacilitator
+
+--**************************************--
+IF (OBJECT_ID('CreateFacilitator') IS NOT NULL)
+  DROP PROCEDURE CreateFacilitator
 go
 create procedure CreateFacilitator
 (
@@ -227,7 +211,10 @@ as
 GO
 
 
---drop procedure CreateEvent
+
+--**************************************--
+IF (OBJECT_ID('CreateEvent') IS NOT NULL)
+  DROP PROCEDURE CreateEvent
 go
 create procedure CreateEvent
 (
@@ -271,8 +258,9 @@ GO
 
 
 
-
---drop procedure UpdateEventStatus
+--**************************************--
+IF (OBJECT_ID('UpdateEventStatus') IS NOT NULL)
+  DROP PROCEDURE UpdateEventStatus
 go
 create procedure UpdateEventStatus
 (
@@ -297,10 +285,12 @@ as
 		end
 	return @ReturnCode
 GO
---select * from EventDetails
 
 
---drop procedure GetFacilitatorInfo												dropped as unnessisary
+
+--**************************************--
+IF (OBJECT_ID('GetFacilitatorInfo') IS NOT NULL)
+  DROP PROCEDURE GetFacilitatorInfo										
 go
 create procedure GetFacilitatorInfo
 (
@@ -325,7 +315,11 @@ as
 	return @ReturnCode
 GO
 
---drop proc GetFacilitator
+
+
+--**************************************--
+IF (OBJECT_ID('GetFacilitator') IS NOT NULL)
+  DROP PROCEDURE GetFacilitator
 go
 create procedure GetFacilitator
 (
@@ -351,7 +345,10 @@ as
 GO
 
 
---drop proc GetFacilitatorEvents
+
+--**************************************--
+IF (OBJECT_ID('GetFacilitatorEvents') IS NOT NULL)
+  DROP PROCEDURE GetFacilitatorEvents
 go
 create procedure GetFacilitatorEvents
 (
@@ -375,10 +372,12 @@ as
 		end
 	return @ReturnCode
 GO
---exec GetFacilitatorEvents 1
 
 
---drop procedure CreateEvaluator
+
+--**************************************--
+IF (OBJECT_ID('CreateEvaluator') IS NOT NULL)
+  DROP PROCEDURE CreateEvaluator
 go
 create procedure CreateEvaluator
 (
@@ -404,7 +403,10 @@ as
 go
 
 
---drop procedure GetEvaluator
+
+--**************************************--
+IF (OBJECT_ID('GetEvaluator') IS NOT NULL)
+  DROP PROCEDURE GetEvaluator
 go
 create procedure GetEvaluator
 (
@@ -429,7 +431,11 @@ as
 	return @ReturnCode				
 GO
 
---drop procedure GetEventEvaluators
+
+
+--**************************************--
+IF (OBJECT_ID('GetEventEvaluators') IS NOT NULL)
+  DROP PROCEDURE GetEventEvaluators
 go
 create procedure GetEventEvaluators --for event
 (
@@ -455,9 +461,12 @@ as
 		end
 	return @ReturnCode				
 GO
---exec GetEventEvaluators 'aaaa'
 
---drop procedure GetHistoricalEvaluationData
+
+
+--**************************************--
+IF (OBJECT_ID('GetHistoricalEvaluationData') IS NOT NULL)
+  DROP PROCEDURE GetHistoricalEvaluationData
 go
 create procedure GetHistoricalEvaluationData
 (
@@ -483,7 +492,11 @@ as
 	return @ReturnCode				
 GO
 
---drop procedure GetMostRecentEvaluativeData
+
+
+--**************************************--
+IF (OBJECT_ID('GetMostRecentEvaluativeData') IS NOT NULL)
+  DROP PROCEDURE GetMostRecentEvaluativeData
 go
 create procedure GetMostRecentEvaluativeData
 (
@@ -512,7 +525,11 @@ as
 	return @ReturnCode				
 GO
 
---drop procedure GetEvaluatorEventData
+
+
+--**************************************--
+IF (OBJECT_ID('GetEvaluatorEventData') IS NOT NULL)
+  DROP PROCEDURE GetEvaluatorEventData
 go
 create procedure GetEvaluatorEventData
 (
@@ -540,10 +557,12 @@ as
 	return @ReturnCode				
 GO
 
---exec GetEvaluatorEventData 'wlfg',7
-go
 
---drop procedure GetAllEventData
+
+
+--**************************************--
+IF (OBJECT_ID('GetAllEventData') IS NOT NULL)
+  DROP PROCEDURE GetAllEventData
 go
 create procedure GetAllEventData
 (
@@ -568,7 +587,11 @@ as
 	return @ReturnCode				
 GO
 
---drop procedure GetEvent
+
+
+--**************************************--
+IF (OBJECT_ID('GetEvent') IS NOT NULL)
+  DROP PROCEDURE GetEvent
 go
 create procedure GetEvent
 (
@@ -592,9 +615,12 @@ as
 			end
 		return @ReturnCode	
 go
---exec GetEvent 'aaaa'
 
---drop procedure UpdateFacilitatorInfo
+
+
+--**************************************--
+IF (OBJECT_ID('UpdateFacilitatorInfo') IS NOT NULL)
+  DROP PROCEDURE UpdateFacilitatorInfo
 go
 create procedure UpdateFacilitatorInfo
 (
@@ -644,210 +670,107 @@ as
 go
 
 
-
-
 --**************************************--
 --			Creating test Data			--
 --**************************************--
-
 execute CreateFacilitator 'admin','User','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SA','NAIT BAIST','Edmonton'
 go
-
-
-
-
---***********************************************************************************
-
 declare @evalID int
 execute AddEvaluator @evalID output, 'Cody Jacob','08-12-2001','M','NAIT','Edmonton','Vote criteria?'
 execute AddEvaluator @evalID output, 'Ben Waddell','05-10-2001','M','NAIT','Edmonton','Vote criteria?'
 execute AddEvaluator @evalID output, 'Martin Sawicki','04-09-2001','M','NAIT','Edmonton','Vote criteria?'
---select * from Evaluator
---select @evalID
 go
-execute CreateFacilitator 'admin','User','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','SA','NAIT BAIST','Edmonton'
+execute CreateEvent 'AAAA',1,'Edmonton, AB, Canada','NAIT Baist Students','Building a website','4/20/2018'
 go
-
-execute UpdateFacilitatorInfo 1, 'admin@gmail.com','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','admin','FName','LName','SysAdmin','NAIT BAIST','Edmonton'
-go
-
-
-
-insert into EventDetails values( 'aaaa',1,'Edmonton NAIT','Bruce Wayne','Singing in the Rain', '2018-04-09', null,null)
-select * from EventDetails
---declare @date date
---set @date = GETDATE()
---select @date
---execute CreateEvent 'aaaa',1,'Edmonton NAIT','Bruce Wayne','Singing in the Rain', @date
---go
-
-
 --update start time of event to NOW
-declare @date datetime
-declare @dateEnd datetime
-set @date = GETDATE()
-set @dateEnd = DATEADD(hour,5,@date)
-exec UpdateEventStatus 'aaaa', @date, @dateEnd
+exec UpdateEventStatus 'AAAA', '4/20/2018 7:00:00 AM', '4/20/2018 8:00:00 AM'
+go
+--add evaluative data to table
+exec AddEvaluationDataPoint 'AAAA',1,10,'4/20/2018 7:00:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,9,'4/20/2018 7:00:30 AM'
+exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:01:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:01:30 AM'
+exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:02:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:03:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,6,'4/20/2018 7:05:10 AM'
+exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:05:20 AM'
+exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:06:30 AM'
+exec AddEvaluationDataPoint 'AAAA',1,3,'4/20/2018 7:06:50 AM'
+exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:06:55 AM'
+exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:10:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,6,'4/20/2018 7:10:10 AM'
+exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:11:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:12:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:13:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:14:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:16:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,3,'4/20/2018 7:15:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:30:00 AM'
+exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:39:50 AM'
+
+exec AddEvaluationDataPoint 'AAAA',2,9,'4/20/2018 7:10:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,8,'4/20/2018 7:11:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,9,'4/20/2018 7:12:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,8,'4/20/2018 7:13:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,7,'4/20/2018 7:16:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:16:30 AM'
+exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:18:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:19:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:20:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,1,'4/20/2018 7:25:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:30:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,3,'4/20/2018 7:35:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:36:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:37:10 AM'
+exec AddEvaluationDataPoint 'AAAA',2,7,'4/20/2018 7:37:11 AM'
+exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:37:12 AM'
+exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:15 AM'
+exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:30 AM'
+exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:38:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:38:20 AM'
+exec AddEvaluationDataPoint 'AAAA',2,1,'4/20/2018 7:39:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:40:00 AM'
+exec AddEvaluationDataPoint 'AAAA',2,3,'4/20/2018 7:50:00 AM'
+
+exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:5:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:10:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:10:20 AM'
+exec AddEvaluationDataPoint 'AAAA',3,1,'4/20/2018 7:15:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:16:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:17:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:18:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:19:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:20:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:22:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:33:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,7,'4/20/2018 7:35:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:36:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:37:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:38:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:39:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:40:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:41:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:45:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:50:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:51:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:52:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:55:00 AM'
+exec AddEvaluationDataPoint 'AAAA',3,7,'4/20/2018 7:56:00 AM'
 go
 
 
-declare @date datetime
-set @date = GETDATE()
-set @date = DATEADD(hour,-6,@date)
-exec AddEvaluationDataPoint 'aaaa',1,10,@date
-set @date = DATEADD(second,10,@date)
-exec AddEvaluationDataPoint 'aaaa',1,9,@date
-set @date = DATEADD(second,15,@date)
-exec AddEvaluationDataPoint 'aaaa',1,8,@date
-set @date = DATEADD(second,20,@date)
-exec AddEvaluationDataPoint 'aaaa',1,7,@date
-set @date = DATEADD(second,30,@date)
-exec AddEvaluationDataPoint 'aaaa',1,8,@date
-set @date = DATEADD(second,50,@date)
-exec AddEvaluationDataPoint 'aaaa',1,7,@date
-set @date = DATEADD(second,100,@date)
-exec AddEvaluationDataPoint 'aaaa',1,6,@date
-set @date = DATEADD(second,130,@date)
-exec AddEvaluationDataPoint 'aaaa',1,5,@date
-set @date = DATEADD(second,150,@date)
-exec AddEvaluationDataPoint 'aaaa',1,4,@date
-set @date = DATEADD(second,170,@date)
-exec AddEvaluationDataPoint 'aaaa',1,3,@date
-set @date = DATEADD(second,200,@date)
-exec AddEvaluationDataPoint 'aaaa',1,4,@date
-set @date = DATEADD(second,250,@date)
-exec AddEvaluationDataPoint 'aaaa',1,5,@date
-set @date = DATEADD(second,260,@date)
-exec AddEvaluationDataPoint 'aaaa',1,6,@date
-set @date = DATEADD(second,270,@date)
-exec AddEvaluationDataPoint 'aaaa',1,7,@date
-set @date = DATEADD(second,300,@date)
-exec AddEvaluationDataPoint 'aaaa',1,8,@date
-set @date = DATEADD(second,400,@date)
-exec AddEvaluationDataPoint 'aaaa',1,7,@date
-set @date = DATEADD(second,450,@date)
-exec AddEvaluationDataPoint 'aaaa',1,8,@date
-set @date = DATEADD(second,500,@date)
-exec AddEvaluationDataPoint 'aaaa',1,7,@date
-set @date = DATEADD(second,520,@date)
-exec AddEvaluationDataPoint 'aaaa',1,6,@date
-set @date = DATEADD(second,530,@date)
-exec AddEvaluationDataPoint 'aaaa',1,5,@date
-set @date = DATEADD(second,550,@date)
-exec AddEvaluationDataPoint 'aaaa',1,4,@date
-set @date = DATEADD(second,600,@date)
-exec AddEvaluationDataPoint 'aaaa',1,3,@date
-set @date = DATEADD(second,700,@date)
-exec AddEvaluationDataPoint 'aaaa',1,4,@date
-set @date = DATEADD(second,720,@date)
-exec AddEvaluationDataPoint 'aaaa',1,5,@date
-set @date = GETDATE()
-set @date = DATEADD(hour,-6,@date)
-exec AddEvaluationDataPoint 'aaaa',2,9,@date
-set @date = DATEADD(second,12,@date)
-exec AddEvaluationDataPoint 'aaaa',2,8,@date
-set @date = DATEADD(second,16,@date)
-exec AddEvaluationDataPoint 'aaaa',2,9,@date
-set @date = DATEADD(second,22,@date)
-exec AddEvaluationDataPoint 'aaaa',2,8,@date
-set @date = DATEADD(second,32,@date)
-exec AddEvaluationDataPoint 'aaaa',2,7,@date
-set @date = DATEADD(second,52,@date)
-exec AddEvaluationDataPoint 'aaaa',2,6,@date
-set @date = DATEADD(second,102,@date)
-exec AddEvaluationDataPoint 'aaaa',2,5,@date
-set @date = DATEADD(second,132,@date)
-exec AddEvaluationDataPoint 'aaaa',2,4,@date
-set @date = DATEADD(second,152,@date)
-exec AddEvaluationDataPoint 'aaaa',2,2,@date
-set @date = DATEADD(second,172,@date)
-exec AddEvaluationDataPoint 'aaaa',2,1,@date
-set @date = DATEADD(second,202,@date)
-exec AddEvaluationDataPoint 'aaaa',2,2,@date
-set @date = DATEADD(second,252,@date)
-exec AddEvaluationDataPoint 'aaaa',2,3,@date
-set @date = DATEADD(second,250,@date)
-exec AddEvaluationDataPoint 'aaaa',2,4,@date
-set @date = DATEADD(second,12,@date)
-exec AddEvaluationDataPoint 'aaaa',2,5,@date
-set @date = DATEADD(second,16,@date)
-exec AddEvaluationDataPoint 'aaaa',2,6,@date
-set @date = DATEADD(second,22,@date)
-exec AddEvaluationDataPoint 'aaaa',2,7,@date
-set @date = DATEADD(second,32,@date)
-exec AddEvaluationDataPoint 'aaaa',2,6,@date
-set @date = DATEADD(second,52,@date)
-exec AddEvaluationDataPoint 'aaaa',2,5,@date
-set @date = DATEADD(second,102,@date)
-exec AddEvaluationDataPoint 'aaaa',2,5,@date
-set @date = DATEADD(second,132,@date)
-exec AddEvaluationDataPoint 'aaaa',2,4,@date
-set @date = DATEADD(second,152,@date)
-exec AddEvaluationDataPoint 'aaaa',2,2,@date
-set @date = DATEADD(second,172,@date)
-exec AddEvaluationDataPoint 'aaaa',2,1,@date
-set @date = DATEADD(second,202,@date)
-exec AddEvaluationDataPoint 'aaaa',2,2,@date
-set @date = DATEADD(second,252,@date)
-exec AddEvaluationDataPoint 'aaaa',2,3,@date
-set @date = GETDATE()
-set @date = DATEADD(hour,-6,@date)
-exec AddEvaluationDataPoint 'aaaa',3,5,@date
-set @date = DATEADD(second,15,@date)
-exec AddEvaluationDataPoint 'aaaa',3,3,@date
-set @date = DATEADD(second,17,@date)
-exec AddEvaluationDataPoint 'aaaa',3,2,@date
-set @date = DATEADD(second,25,@date)
-exec AddEvaluationDataPoint 'aaaa',3,1,@date
-set @date = DATEADD(second,36,@date)
-exec AddEvaluationDataPoint 'aaaa',3,2,@date
-set @date = DATEADD(second,58,@date)
-exec AddEvaluationDataPoint 'aaaa',3,3,@date
-set @date = DATEADD(second,106,@date)
-exec AddEvaluationDataPoint 'aaaa',3,4,@date
-set @date = DATEADD(second,136,@date)
-exec AddEvaluationDataPoint 'aaaa',3,5,@date
-set @date = DATEADD(second,156,@date)
-exec AddEvaluationDataPoint 'aaaa',3,4,@date
-set @date = DATEADD(second,176,@date)
-exec AddEvaluationDataPoint 'aaaa',3,5,@date
-set @date = DATEADD(second,206,@date)
-exec AddEvaluationDataPoint 'aaaa',3,6,@date
-set @date = DATEADD(second,256,@date)
-exec AddEvaluationDataPoint 'aaaa',3,7,@date
-set @date = DATEADD(second,256,@date)
-exec AddEvaluationDataPoint 'aaaa',3,6,@date
-set @date = DATEADD(second,15,@date)
-exec AddEvaluationDataPoint 'aaaa',3,5,@date
-set @date = DATEADD(second,17,@date)
-exec AddEvaluationDataPoint 'aaaa',3,4,@date
-set @date = DATEADD(second,25,@date)
-exec AddEvaluationDataPoint 'aaaa',3,3,@date
-set @date = DATEADD(second,36,@date)
-exec AddEvaluationDataPoint 'aaaa',3,2,@date
-set @date = DATEADD(second,58,@date)
-exec AddEvaluationDataPoint 'aaaa',3,3,@date
-set @date = DATEADD(second,106,@date)
-exec AddEvaluationDataPoint 'aaaa',3,4,@date
-set @date = DATEADD(second,136,@date)
-exec AddEvaluationDataPoint 'aaaa',3,5,@date
-set @date = DATEADD(second,156,@date)
-exec AddEvaluationDataPoint 'aaaa',3,4,@date
-set @date = DATEADD(second,176,@date)
-exec AddEvaluationDataPoint 'aaaa',3,5,@date
-set @date = DATEADD(second,206,@date)
-exec AddEvaluationDataPoint 'aaaa',3,6,@date
-set @date = DATEADD(second,256,@date)
-exec AddEvaluationDataPoint 'aaaa',3,7,@date
-go
 
 
---delete from EvaluativeData
---where EvaluatorID = 4
+
+
+--**************************************--
+--			Select Statements			--
+--**************************************--
 
 select * from EvaluativeData
-select * from Facilitator
-select * from EventDetails
 select * from Evaluator
+select * from EventDetails
+select * from Facilitator
 
-update EventDetails set EventBegin='4/18/2018 20:59:08 PM',  EventEnd='4/18/2018 21:00:11 PM' --where EventKey = 'MSS9'
+
