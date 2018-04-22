@@ -12,8 +12,8 @@
 
     <div class="col-md-8 col-md-offset-2 text-center">
 
-    <p>Lorem ipsum diam netus donec primis pretium elit praesent nullam sociosqu, curae ad nec himenaeos nullam phasellus dolor curabitur consectetur habitasse dictumst, habitasse himenaeos orci fames sem pharetra praesent felis porta.</p>
-<p>Turpis condimentum nisl scelerisque urna fringilla porttitor quisque diam sollicitudin, curabitur accumsan etiam aptent taciti vulputate consequat tristique, tincidunt ultrices ad eleifend ad sollicitudin porttitor primis.</p>
+    <p>If you want to join an exsiting event enter the Event key below.</p>
+    <p>If you want to create a new event click the Create New Event button below.</p>
 
         <div class="form-group row">
             <asp:TextBox ID="tbEventKey" class="form-control text-center" runat="server" MaxLength="4"
