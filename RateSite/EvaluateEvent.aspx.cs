@@ -26,21 +26,25 @@ public partial class EvaluateEvent : System.Web.UI.Page
     protected void ButtonUp_Click(object sender, EventArgs e)
     {
         CSS RequestDirector = new CSS();
-        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");  //default date for event start and end times
 
+        //get event info
         Event ActiveEvent = new Event();
         ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
         ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
 
+        //if event has started and has not ended
         if (ActiveEvent.EventStart != defaultTime)
         {
             if (ActiveEvent.EventEnd == defaultTime)
             {
+                //limit rating between 1-10
                 int Rating = int.Parse(LabelRating.Text);
                 Rating = (Rating + 1 > 10) ? Rating = 10 : Rating + 1;
 
                 LabelRating.Text = Rating.ToString();
 
+                //create evaluation object and send to DB
                 Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);  
 
                 bool Success = RequestDirector.AddEvaluation(eval);
@@ -60,21 +64,25 @@ public partial class EvaluateEvent : System.Web.UI.Page
     protected void ButtonDown_Click(object sender, EventArgs e)
     {
         CSS RequestDirector = new CSS();
-        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");  //default date for event start and end times
 
+        //get event info
         Event ActiveEvent = new Event();
         ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
         ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
 
+        //if event has started and not ended
         if (ActiveEvent.EventStart != defaultTime)
         {
             if (ActiveEvent.EventEnd == defaultTime)
             {
+                //limit rating to 1-10
                 int Rating = int.Parse(LabelRating.Text);
                 Rating = (Rating - 1 < 1) ? Rating = 1 : Rating - 1;
 
                 LabelRating.Text = Rating.ToString();
 
+                //create evaluation and send to DB
                 Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);
 
                 bool Success = RequestDirector.AddEvaluation(eval);

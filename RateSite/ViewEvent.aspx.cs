@@ -190,16 +190,7 @@ public partial class ViewEvent : System.Web.UI.Page
         //generate table and charts 
         if (confirmation)
         {
-            //ButtonEnd.Enabled = false;
-            //tbStart.Text = updateMe.EventStart.ToLocalTime().ToLongTimeString();
-            //tbEnd.Text = updateMe.EventEnd.ToLocalTime().ToLongTimeString();
-            //ButtonStart.Enabled = false;
-            //ButtonEnd.Enabled = false;
-            //TimerForTableRefresh.Enabled = false;
-            //BuildTable();
-            //BuildCharts();
-
-            //this is The only work around i could figure... :(            
+            //Reload page
             Response.Redirect("ViewEvent.aspx", true);
         }
     }
@@ -224,12 +215,6 @@ public partial class ViewEvent : System.Web.UI.Page
             //the rest is automatic
             ltrChart.Text = chart.ToHtmlString();
 
-            //---------------------------------------
-            //ClientScriptManager cs = Page.ClientScript;
-            //if (!cs.IsClientScriptBlockRegistered(this.GetType(), "clientGraph"))
-            //    cs.RegisterClientScriptBlock(this.GetType(), "clientGraph", chart.ToHtmlString());
-
-
             //generate chart with mean/mode/median
             Highcharts mChart = Director.MakeMathChart(theEvent);
             mathChart.Text = mChart.ToHtmlString();
@@ -240,7 +225,7 @@ public partial class ViewEvent : System.Web.UI.Page
     public void BuildTable()
     {
         lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
-        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+        //DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
         CSS RequestDirector = new CSS();
 
         //get event evaluation data
@@ -253,32 +238,6 @@ public partial class ViewEvent : System.Web.UI.Page
         //get most recent evaluation from each evaluator
         currentEvals = RequestDirector.GetCurrentEventData(activeEvent);
 
-        //List<Evaluation> allEvals = new List<Evaluation>();
-        //allEvals = RequestDirector.GetEventData(activeEvent.EventID);
-
-        //build table with evaluation data
-        //foreach (Evaluation ev in currentEvals)
-        //{
-        //    TableRow tRow = new TableRow();
-        //    TableCell tCell = new TableCell();
-
-        //    tCell.Text = ev.EvaluatorID.ToString();
-        //    tRow.Cells.Add(tCell);
-
-        //    tCell = new TableCell();
-        //    tCell.Text = ev.Rating.ToString();
-        //    tRow.Cells.Add(tCell);
-
-        //    tCell = new TableCell();            //add the avg rating of the eval
-        //    tCell.Text = 10.ToString();
-        //    tRow.Cells.Add(tCell);
-
-        //    tCell = new TableCell();
-        //    tCell.Text = ev.TimeStamp.ToLocalTime().ToString();
-        //    tRow.Cells.Add(tCell);
-
-        //    Table1.Rows.Add(tRow);
-        //}
 
         foreach (Evaluator ev in activeEvent.Evaluators)
         {
