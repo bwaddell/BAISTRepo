@@ -111,9 +111,6 @@ public partial class Events : System.Web.UI.Page
             tblEventList.Rows.Add(tRow);
 
         }
-
-
-
     }
 
     protected void ViewEvent_Click(object sender, EventArgs e)

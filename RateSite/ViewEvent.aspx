@@ -39,7 +39,7 @@
         <label class="col-md-2 col-form-label">Nature of Event:</label>
         <div class="col-md-10">
             <asp:TextBox ID="tbDesc" runat="server" CssClass="form-control"
-                ReadOnly="true"></asp:TextBox>
+                ReadOnly="true" TextMode="MultiLine"></asp:TextBox>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
         <label class="col-md-2 col-form-label">Location:</label>
         <div class="col-md-10">
             <asp:TextBox ID="tbLocation" runat="server" CssClass="form-control"
-                ReadOnly="true"></asp:TextBox>
+                ReadOnly="true" TextMode="MultiLine"></asp:TextBox>
         </div>
     </div>
     <asp:UpdatePanel ID="upTable" runat="server" UpdateMode="Conditional">
