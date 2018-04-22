@@ -12,8 +12,8 @@
 
     <div class="col-md-8 col-md-offset-2 text-center">
 
-    <p>If you want to join an exsiting event enter the Event key below.</p>
-    <p>If you want to create a new event click the Create New Event button below.</p>
+<%--    <p>If you want to join an exsiting event enter the Event key below.</p>
+    <p>If you want to create a new event click the Create New Event button below.</p>--%>
 
         <div class="form-group row">
             <asp:TextBox ID="tbEventKey" class="form-control text-center" runat="server" MaxLength="4"
