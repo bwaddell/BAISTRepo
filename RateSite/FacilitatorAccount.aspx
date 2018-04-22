@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    <asp:Panel ID="PEventList" runat="server">
+<%--    <asp:Panel ID="PEventList" runat="server">
         <div class="row text-center">
             <div class="col-md-12">
                 <div class="form-group">
@@ -126,7 +126,7 @@
                 </div>
             </div>
         </div>
-    </asp:Panel>
+    </asp:Panel>--%>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
 </asp:Content>

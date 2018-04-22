@@ -21,9 +21,6 @@
                     </asp:TableHeaderRow>
                     <asp:TableRow>
                     </asp:TableRow>
-                    <asp:TableFooterRow>
-                        <asp:TableCell>mm/dd/yyyy</asp:TableCell>
-                    </asp:TableFooterRow>
                 </asp:Table>
             </div>
         </div>

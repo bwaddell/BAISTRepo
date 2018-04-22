@@ -28,68 +28,68 @@ public partial class FacilitatorAccount : System.Web.UI.Page
             Emailtxt.Text = activeFac.Email;
 
             //get any active or past events beloning to facilitator
-            List<Event> facEvents = new List<Event>();
-            facEvents = requestDirector.GetFacilitatorEvents(activeFac.FacilitatorID);
+            //List<Event> facEvents = new List<Event>();
+            //facEvents = requestDirector.GetFacilitatorEvents(activeFac.FacilitatorID);
 
-            //add events to list
-            ListItem eventItem;
-            EventListBox.Items.Clear();
+            ////add events to list
+            //ListItem eventItem;
+            //EventListBox.Items.Clear();
 
-            //if user has no events, hide the listbox and button
-            if (facEvents.Count > 0)
-            {
-                PEventList.Visible = true;
+            ////if user has no events, hide the listbox and button
+            //if (facEvents.Count > 0)
+            //{
+            //    PEventList.Visible = true;
 
-                //populate event list
-                foreach (Event ev in facEvents)
-                {
-                    eventItem = new ListItem();
+            //    //populate event list
+            //    foreach (Event ev in facEvents)
+            //    {
+            //        eventItem = new ListItem();
 
-                    eventItem.Text = "Date: " + ev.Date.ToShortDateString() + 
-                        "   --   Location: " + ev.Location +
-                        "   --   Performer: " + ev.Performer +
-                        "   --   Nature of Event: " + ev.Description +
-                        "   --   # of Evaluators: " + ev.Evaluators.Count;
-                    //EventListBox.Font= fon
-                    eventItem.Value = ev.EventID;
+            //        eventItem.Text = "Date: " + ev.Date.ToShortDateString() + 
+            //            "   --   Location: " + ev.Location +
+            //            "   --   Performer: " + ev.Performer +
+            //            "   --   Nature of Event: " + ev.Description +
+            //            "   --   # of Evaluators: " + ev.Evaluators.Count;
+            //        //EventListBox.Font= fon
+            //        eventItem.Value = ev.EventID;
 
-                    EventListBox.Items.Add(eventItem);
+            //        EventListBox.Items.Add(eventItem);
 
 
-                    //turn listbox into a table later?
+            //        //turn listbox into a table later?
 
-                }
-                if (facEvents.Count < 5)
-                    EventListBox.Rows = 5;
-                else
-                    EventListBox.Rows = facEvents.Count;
-            }
-            else
-            {
-                PEventList.Visible = false;
-            }
+            //    }
+            //    if (facEvents.Count < 5)
+            //        EventListBox.Rows = 5;
+            //    else
+            //        EventListBox.Rows = facEvents.Count;
+            //}
+            //else
+            //{
+            //    PEventList.Visible = false;
+            //}
 
         }
 
     }
 
     //redirect to view event page for selected event
-    protected void ViewEventbtn_Click(object sender, EventArgs e)
-    {
-        CSS RequestDirector = new CSS();
+    //protected void ViewEventbtn_Click(object sender, EventArgs e)
+    //{
+    //    CSS RequestDirector = new CSS();
 
-        //get selected event info
-        Event selectedEvent = new Event();
-        selectedEvent.EventID = EventListBox.SelectedValue;
-        selectedEvent = RequestDirector.GetEvent(selectedEvent);
+    //    //get selected event info
+    //    Event selectedEvent = new Event();
+    //    //selectedEvent.EventID = EventListBox.SelectedValue;
+    //    selectedEvent = RequestDirector.GetEvent(selectedEvent);
 
-        //save event to session, redirect to view event page
-        if (selectedEvent.Date != default(DateTime))
-        {
-            Session["Event"] = selectedEvent;
-            Response.Redirect("ViewEvent.aspx");
-        }
-    }
+    //    //save event to session, redirect to view event page
+    //    if (selectedEvent.Date != default(DateTime))
+    //    {
+    //        Session["Event"] = selectedEvent;
+    //        Response.Redirect("ViewEvent.aspx");
+    //    }
+    //}
 
     //update facilitator password
     protected void UpdatePasswordBtn_Click(object sender, EventArgs e)
