@@ -59,7 +59,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <p>If you wish to host your own events and gain live feedback for them, you must create a facilitator account. This can 
-                   be done by clicking Create Account in the top right corner of the page, beside the Login button. You will be redirected
+                   be done by clicking Register in the top right corner of the page, beside the Login button. You will be redirected
                    to the Create Account page, where you will need to fill in the required fields, such as your email and a password. If
                    your account was made successfully, you will be redirected to the homepage, with two new options in the top left of
                    the page, View Account and Events.
@@ -75,9 +75,9 @@
      <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <p>If you wish to update your account information or your password, click on View Account in the top left corner of the page.
-                   Here you can modify the contents of your account, or password, as you please. If any errors or empty fields exist when
-                   you attempt to change your information, the page will notify you and not proceed with the update.
+                <p>If you wish to update your account information or your password, click on My Account on the left side of the navigation 
+                   bar. Here you can modify the contents of your account, or password, as you please. If any errors or empty fields exist 
+                   when you attempt to change your information, the page will notify you and not proceed with the update.
                 </p>
             </div>
         </div>
@@ -88,7 +88,12 @@
      <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <p>To create an event for evaluation, click the Create New Event button on the home page.</p>
+                <p>To create an event for evaluation, click the Create New Event button on the home page. This will take you to the Create
+                   Event page. Here you will enter he event information and event date. Once this is done, hit the Create Event button. If
+                   successdul, you will be automatically redirected to the view event page for your new event. Otherwise, you will be 
+                   notified if an error occurred. 
+                </p>
+                <p>NOTE: If you are not logged in, you will be redirected to the Create account page when clicking Create Event.</p>
             </div>
         </div>
     </div>
@@ -98,7 +103,18 @@
      <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <p></p>
+                <p>When you wish to view an event, click on My Events on the left side of the navigation bar. This will load and display 
+                   a list of all your events, past, present, and future, for you to choose from. When you identify the event you wish to 
+                   view, hit the View Event button associated with that event. You will be redirected to the event page for the selected
+                   event, where you can view the basic event details, the average event score, the event evaluators and their scores,
+                   and the overall event stats once the event is ended.
+                </p>
+                <p>To begin an event, click the Begin Event button, and all the evaluators will be able to begin providing feedback.
+                   Likewise, to end the event click, click on the End Event button. Upon doing so, more indepth data will be generated,
+                   and the evealuators will be unable to provide more feedback. To download a copy of the event details yourself, click
+                   on Export Event Data. This will prompt you to choose a name and location to save your event data, which can then be
+                   opened and viewed at a later date.
+                </p>
             </div>
         </div>
     </div>
