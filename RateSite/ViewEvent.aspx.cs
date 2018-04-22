@@ -196,14 +196,17 @@ public partial class ViewEvent : System.Web.UI.Page
         //generate table and charts 
         if (confirmation)
         {
-            ButtonEnd.Enabled = false;
-            tbStart.Text = updateMe.EventStart.ToLocalTime().ToLongTimeString();
-            tbEnd.Text = updateMe.EventEnd.ToLocalTime().ToLongTimeString();
-            ButtonStart.Enabled = false;
-            ButtonEnd.Enabled = false;
-            TimerForTableRefresh.Enabled = false;
-            BuildTable();
-            BuildCharts();
+            //ButtonEnd.Enabled = false;
+            //tbStart.Text = updateMe.EventStart.ToLocalTime().ToLongTimeString();
+            //tbEnd.Text = updateMe.EventEnd.ToLocalTime().ToLongTimeString();
+            //ButtonStart.Enabled = false;
+            //ButtonEnd.Enabled = false;
+            //TimerForTableRefresh.Enabled = false;
+            //BuildTable();
+            //BuildCharts();
+
+            //this is The only work around i could figure... :(            
+            Response.Redirect("ViewEvent.aspx", true);
         }
     }
 

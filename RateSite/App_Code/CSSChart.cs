@@ -147,7 +147,7 @@ public class CSSChart
         DateTime eventEnd = theEvent.EventEnd.ToLocalTime();
 
         Highcharts chart = new Highcharts("chart").InitChart(new Chart
-        {
+        {            
             Type = chartType,
             BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#f1f2f7'")),
             ZoomType = ZoomTypes.X,
