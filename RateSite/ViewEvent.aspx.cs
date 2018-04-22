@@ -240,7 +240,7 @@ public partial class ViewEvent : System.Web.UI.Page
     public void BuildTable()
     {
         lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
-        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+        //DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
         CSS RequestDirector = new CSS();
 
         //get event evaluation data

@@ -19,7 +19,7 @@
                    <a href="http://performancescience.ac.uk/">Center for Performance Science</a>. Its purpose is to allow an audience 
                    to provide live feedback during an event, which can range from dramatic acting to product demonstrations.</p>
                 <p>Below you will find guides demonstrating the operation of the various services this website provides. If you would 
-                   like to provide feedback or report a issue, please send an email to: -insert CPS IT department email here-</p>
+                   like to provide feedback or report a issue, please send an email to: <a href="mailto:continuinait@gmail.com">ContinuiNait@gmail.com</a></p>
             </div>
         </div>
     </div>
