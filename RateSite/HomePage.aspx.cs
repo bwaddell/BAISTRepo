@@ -16,8 +16,24 @@ public partial class HomePage : System.Web.UI.Page
     }
 
     protected void CreateButton_Click(object sender, EventArgs e)
-    {        
-        Response.Redirect("CreateEvent.aspx");
+    {
+        CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
+        CSS requester = new CSS();
+
+        //get facilitator info
+        Facilitator fac = new Facilitator();
+        try
+        {
+            fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
+
+            Response.Redirect("CreateEvent.aspx");
+        }
+        catch
+        {
+            //not logged in or cant find user redirect to create account page.
+
+            Response.Redirect("CreateAccount.aspx");
+        }
     }
 
     protected void JoinButton_Click(object sender, EventArgs e)
