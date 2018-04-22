@@ -25,8 +25,8 @@ public partial class HomePage : System.Web.UI.Page
         try
         {
             fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
-
             Response.Redirect("CreateEvent.aspx");
+
         }
         catch
         {
