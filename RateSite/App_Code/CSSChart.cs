@@ -197,7 +197,7 @@ public class CSSChart
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
             {
-                Minute = "%l:%M %p"
+                //Minute = "%l:%M %p"
             },
             Labels = new XAxisLabels
             {

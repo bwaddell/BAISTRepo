@@ -18,6 +18,9 @@ public partial class ViewEvent : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        ScriptManager scriptManager = ScriptManager.GetCurrent(this.Page);
+        scriptManager.RegisterPostBackControl(this.Export);
+
         if (!IsPostBack)
         {
             CSS Director = new CSS();
@@ -44,6 +47,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 tbEnd.Text = theEvent.EventEnd.ToLocalTime().ToLongTimeString();
                 ButtonStart.Enabled = false;
                 ButtonEnd.Enabled = false;
+                Export.Enabled = true;
                 TimerForTableRefresh.Enabled = false;
                 BuildTable();
                 BuildCharts();
@@ -57,6 +61,7 @@ public partial class ViewEvent : System.Web.UI.Page
                     tbEnd.Text = "The Event has not begun.";
                     ButtonStart.Enabled = true;
                     ButtonEnd.Enabled = true;
+                    Export.Enabled = false;
                     TimerForTableRefresh.Enabled = false;
                 }
                 //if event is still active
@@ -66,8 +71,8 @@ public partial class ViewEvent : System.Web.UI.Page
                     tbEnd.Text = "The Event is active.";
                     ButtonStart.Enabled = false;
                     TimerForTableRefresh.Enabled = true;
+                    Export.Enabled = false;
                     ButtonEnd.Enabled = true;
-                    //ButtonEnd.Enabled = true;
                 }
             }
         }
@@ -77,41 +82,29 @@ public partial class ViewEvent : System.Web.UI.Page
     //export event data to .csv for external use
     protected void Export_Click(object sender, EventArgs e)
     {
+        //Initialize instances of all neccessary classes and director
         CSS Director = new CSS();
         Event Event = new Event();
         Facilitator Facilitator = new Facilitator();
         List<Evaluation> Evaluations = new List<Evaluation>();
         StringBuilder csvcontent = new StringBuilder();
 
+        //Set the Event.ID of our empty event, and use said event to pull event information from DB
         Event.EventID = ((Event)Session["Event"]).EventID;
         Event = Director.GetEvent(Event);
         Facilitator = Director.GetFacilitator(1);
 
-
+        //Creates the first section of data in the CSV, regarding the Facilitators info. Data is formatted in two lines, the first line being the data description, the second line being the respective data.
         csvcontent.AppendLine("First Name,Last Name,Title,Organization,Location,Email");
         csvcontent.AppendLine(Facilitator.FirstName + "," + Facilitator.LastName + "," + Facilitator.Title + "," + Facilitator.Organization + "," + Facilitator.Location + "," + Facilitator.Email);
         csvcontent.AppendLine("\n");
 
+        //Creates the second line of data in the CSV, regarding the Events info. Formatted as above.
+        csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
+        csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + "," + Event.EventEnd.ToLongTimeString());
+        csvcontent.AppendLine("\n");
 
-        if (Event.EventStart == null)
-        {
-            csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
-            csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + ",Not Set," + Event.EventEnd.ToLongTimeString());
-            csvcontent.AppendLine("\n");
-        }
-        else if (Event.EventEnd == null)
-        {
-            csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
-            csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + "," + Event.EventEnd.ToLongTimeString());
-            csvcontent.AppendLine("\n");
-        }
-        else
-        {
-            csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
-            csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + ",Not Set");
-            csvcontent.AppendLine("\n");
-        }
-
+        //Creates a section of data for each evaluator, formatted with each data point underneath its respective timestamp
         foreach (Evaluator User in Event.Evaluators)
         {
             Evaluations = Director.GetEvaluatorEvaluations(Event.EventID, User.EvaluatorID);
@@ -142,6 +135,7 @@ public partial class ViewEvent : System.Web.UI.Page
             csvcontent.AppendLine("\n");
         }
 
+        //Clear the response and re package it as a downloadable CSV file
         Response.Clear();
         Response.ContentType = "text/csv";
         Response.AddHeader("Content-Disposition", "attachment;filename=myfilename.csv");
@@ -215,6 +209,7 @@ public partial class ViewEvent : System.Web.UI.Page
     {
         CSS Director = new CSS();
 
+
         //get event info
         Event theEvent = new Event();
         theEvent.EventID = ((Event)Session["Event"]).EventID;
@@ -228,12 +223,12 @@ public partial class ViewEvent : System.Web.UI.Page
             //write the chart to the div(literal) on web page
             //the rest is automatic
             ltrChart.Text = chart.ToHtmlString();
-            
+
             //---------------------------------------
             //ClientScriptManager cs = Page.ClientScript;
             //if (!cs.IsClientScriptBlockRegistered(this.GetType(), "clientGraph"))
             //    cs.RegisterClientScriptBlock(this.GetType(), "clientGraph", chart.ToHtmlString());
-            
+
 
             //generate chart with mean/mode/median
             Highcharts mChart = Director.MakeMathChart(theEvent);
@@ -245,7 +240,7 @@ public partial class ViewEvent : System.Web.UI.Page
     public void BuildTable()
     {
         lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
-
+        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
         CSS RequestDirector = new CSS();
 
         //get event evaluation data
@@ -253,11 +248,39 @@ public partial class ViewEvent : System.Web.UI.Page
         Event activeEvent = new Event();
         activeEvent.EventID = ((Event)Session["Event"]).EventID;
 
+        activeEvent = RequestDirector.GetEvent(activeEvent);
+
         //get most recent evaluation from each evaluator
         currentEvals = RequestDirector.GetCurrentEventData(activeEvent);
 
+        //List<Evaluation> allEvals = new List<Evaluation>();
+        //allEvals = RequestDirector.GetEventData(activeEvent.EventID);
+
         //build table with evaluation data
-        foreach (Evaluation ev in currentEvals)
+        //foreach (Evaluation ev in currentEvals)
+        //{
+        //    TableRow tRow = new TableRow();
+        //    TableCell tCell = new TableCell();
+
+        //    tCell.Text = ev.EvaluatorID.ToString();
+        //    tRow.Cells.Add(tCell);
+
+        //    tCell = new TableCell();
+        //    tCell.Text = ev.Rating.ToString();
+        //    tRow.Cells.Add(tCell);
+
+        //    tCell = new TableCell();            //add the avg rating of the eval
+        //    tCell.Text = 10.ToString();
+        //    tRow.Cells.Add(tCell);
+
+        //    tCell = new TableCell();
+        //    tCell.Text = ev.TimeStamp.ToLocalTime().ToString();
+        //    tRow.Cells.Add(tCell);
+
+        //    Table1.Rows.Add(tRow);
+        //}
+
+        foreach (Evaluator ev in activeEvent.Evaluators)
         {
             TableRow tRow = new TableRow();
             TableCell tCell = new TableCell();
@@ -266,23 +289,50 @@ public partial class ViewEvent : System.Web.UI.Page
             tRow.Cells.Add(tCell);
 
             tCell = new TableCell();
-            tCell.Text = ev.Rating.ToString();
+            tCell.Text = ev.EvaluatorEvaluations.Last().Rating.ToString();
             tRow.Cells.Add(tCell);
 
             tCell = new TableCell();            //add the avg rating of the eval
-            tCell.Text = 10.ToString();
+            tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");
             tRow.Cells.Add(tCell);
 
             tCell = new TableCell();
-            tCell.Text = ev.TimeStamp.ToLocalTime().ToString();
+            tCell.Text = ev.EvaluatorEvaluations.Last().TimeStamp.ToString();
             tRow.Cells.Add(tCell);
 
             Table1.Rows.Add(tRow);
         }
 
-        //calculate current average rating
-        if (currentEvals.Count != 0)
-            Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+        //if event is over calculate the average rating for the whole event.
+        //else calculate the current average if the event is currently active
+        if (activeEvent.EventEnd != defaultTime)
+        {
+            if (currentEvals.Count != 0)
+            {
+                double totalAverage;
+                List<Evaluation> allEvaluations = new List<Evaluation>();
+
+                //change the label
+                RatingTitle.Text = "Total Average Rating:";
+
+                //create list of all evals for event then average
+                foreach (Evaluator ev in activeEvent.Evaluators)
+                {
+                    allEvaluations.AddRange(ev.EvaluatorEvaluations);
+                }
+
+                totalAverage = allEvaluations.Average(o => o.Rating);
+
+                Ratinglbl.Text = totalAverage.ToString("#.##");
+            }           
+        }
+        else
+        {
+            if (currentEvals.Count != 0)
+                Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+        }
+
+        
     }
 
     protected void TimerForTableRefresh_Tick(object sender, EventArgs e)
