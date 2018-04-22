@@ -324,12 +324,16 @@ public partial class ViewEvent : System.Web.UI.Page
                 totalAverage = allEvaluations.Average(o => o.Rating);
 
                 Ratinglbl.Text = totalAverage.ToString("#.##");
-            }           
+                lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
+            }
         }
         else
         {
             if (currentEvals.Count != 0)
+            {
                 Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+                lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
+            }
         }
 
         

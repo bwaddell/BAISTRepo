@@ -103,3 +103,14 @@ body {
     font-family: "Open Sans";
     font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
 }
+.startEnd{
+
+}
+
+#mChart_container{
+    margin-bottom: 50px;
+}
+
+#chart_container{
+    margin-bottom: 50px;    
+}

@@ -40,29 +40,36 @@
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
                             <li><a href="HomePage.aspx">Home</a></li>
+                            <li><a href="About.aspx">About & Help</a></li>                        
                             <li>
-                                <asp:LinkButton ID="ButtonViewAccount" runat="server" Text="View Account" OnClick="ButtonViewAccount_Click" Visible="false" CausesValidation="false" /></li>
+                                <asp:LinkButton ID="ButtonViewAccount" runat="server"
+                                    Text="My Account" OnClick="ButtonViewAccount_Click" Visible="false"
+                                    CausesValidation="false" />
+                            </li>
                             <li>
-                                <asp:LinkButton ID="ButtonEventList" runat="server" Text="Events" OnClick="ButtonEventList_Click" Visible="false" CausesValidation="false" /></li>
+                                <asp:LinkButton ID="ButtonEventList" runat="server"
+                                    Text="My Events" OnClick="ButtonEventList_Click" Visible="false"
+                                    CausesValidation="false" />                                
+                            </li>
                         </ul>
-                        <ul class="nav navbar-nav">
-                            <li><a href="About.aspx">About & Help</a></li>
-                        </ul>
+
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <asp:LinkButton ID="ButtonCreateAccount" runat="server"
-                                    Text="Create Account" OnClick="ButtonCreateAccount_Click"
+                                    Text="Register" OnClick="ButtonCreateAccount_Click"
                                     Visible="false" CausesValidation="false" /></li>
                             <li>
                                 <asp:LinkButton ID="ButtonLogIn" runat="server"
                                     CausesValidation="false" Visible="false"
                                     OnClick="ButtonLogIn_Click">
-                                 Login <span class="glyphicon glyphicon-log-in"></span>
+                                  <span class="glyphicon glyphicon-log-in"></span> Log in 
                                 </asp:LinkButton>
                             </li>
                             <li>
-                                <asp:LinkButton ID="ButtonSignOut" runat="server" OnClick="ButtonSignOut_Click" CausesValidation="false" Visible="false">
-                                    <span class="glyphicon glyphicon-user"></span> Sign Out
+                                <asp:LinkButton ID="ButtonSignOut" runat="server"
+                                    OnClick="ButtonSignOut_Click" CausesValidation="false"
+                                    Visible="false"> 
+                                    <span class="glyphicon glyphicon-log-out"></span> Log out 
                                 </asp:LinkButton>
                             </li>
                         </ul>

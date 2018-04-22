@@ -56,7 +56,7 @@ public partial class CreateAccount : System.Web.UI.Page
 
                     Response.Cookies.Add(authCookie);
 
-                    Response.Redirect(FormsAuthentication.GetRedirectUrl(EmailTxt.Text, false));
+                    Response.Redirect("HomePage.aspx");
                 }
                 else
                 {
