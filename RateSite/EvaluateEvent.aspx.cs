@@ -9,6 +9,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+     
         if (!IsPostBack)
         {
             CSS RequestDirector = new CSS();
@@ -18,10 +19,6 @@ public partial class EvaluateEvent : System.Web.UI.Page
             ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
             ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
 
-            if (ActiveEvent.EventStart != defaultTime)
-            {
-
-            }
 
         }
     }
