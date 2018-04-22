@@ -16,9 +16,17 @@ public partial class CreateEvent : System.Web.UI.Page
 
             //get facilitator info
             Facilitator fac = new Facilitator();
-            fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
+            try
+            {
+                fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
+                tbEventDate.Text = DateTime.Today.ToString();
+            }
+            catch
+            {
+                //not logged in or cant find user redirect to create account page.
+                Response.Redirect("CreateAccount.aspx");
+            }
 
-            tbEventDate.Text = DateTime.Today.ToShortDateString();
         }       
     }
 

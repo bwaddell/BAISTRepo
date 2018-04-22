@@ -10,27 +10,27 @@ using DotNet.Highcharts.Enums;
 using System.Xml.Serialization;
 
 /// <summary>
-/// Summary description for EventWebService
+/// This webservice will allow you to gather all the event data from the server
 /// </summary>
 [WebService(Namespace = "http://ContinUI.com", Name = "ContinUI", Description = "Web service for ContinUI")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
 // [System.Web.Script.Services.ScriptService]
+
+
 public class EventWebService : System.Web.Services.WebService
 {
-
     public EventWebService()
     {
-
         //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+        //InitializeComponent();
     }
 
-    [WebMethod]
-    public string HelloWorld()
-    {
-        return "Hello World";
-    }
+    //[WebMethod]
+    //public string HelloWorld()
+    //{
+    //    return "Hello World";
+    //}
 
     [WebMethod]
     public Event GetEvent(string eventID)
@@ -40,12 +40,9 @@ public class EventWebService : System.Web.Services.WebService
         CSS Director = new CSS();
         Event ActiveEvent = new Event();
 
-
         ActiveEvent.EventID = eventID;
 
-
         ActiveEvent = Director.GetEvent(ActiveEvent);
-
 
         return ActiveEvent;
     }
