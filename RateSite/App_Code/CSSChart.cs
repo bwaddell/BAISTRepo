@@ -29,11 +29,11 @@ public class CSSChart
         List<Series> liOfSeries = new List<Series>();
         List<List<object>> points = new List<List<object>>();
 
-        //DateTime eventStart = theEvent.EventStart.ToUniversalTime();
-        //DateTime eventEnd = theEvent.EventEnd.ToUniversalTime
+        //get start and end times for chart.  Convert to local time
         DateTime eventStart = theEvent.EventStart.ToLocalTime();
         DateTime eventEnd = theEvent.EventEnd.ToLocalTime();
 
+        //get amount of seconds between points on chart.  have a minimum of one a second
         double diffInSeconds = (eventEnd - eventStart).TotalSeconds;
 
         int secsBetweenPoints;
@@ -44,12 +44,12 @@ public class CSSChart
         else
             secsBetweenPoints = 1;
 
-        List<int> ratings;
         List<object> pts;
         Series ser;
         Evaluator e = new Evaluator();
         Evaluation ev = new Evaluation();
 
+        //create a series of points for each evaluator in event
         for (int j = 0; j < theEvent.Evaluators.Count; j++)
         {
             ser = new Series();
@@ -59,17 +59,20 @@ public class CSSChart
             points.Add(pts);
         }
 
+        //add a point for each evaluator at specified time interval
         for (DateTime i = eventStart; i < eventEnd; i = i.AddSeconds(secsBetweenPoints))
         {
             for (int j = 0; j < theEvent.Evaluators.Count; j++)
             {
                 e = theEvent.Evaluators[j];
 
+                //don't make a point if he evaluator hasn't changed his rating yet
                 if (e.EvaluatorEvaluations[0].TimeStamp.ToLocalTime() <= i)
                 {
                     int evalCount = 0;
                     while (evalCount < e.EvaluatorEvaluations.Count)
                     {
+                        //get the last evaluation before time i
                         if (e.EvaluatorEvaluations[evalCount].TimeStamp.ToLocalTime() <= i)
                         {
                             ev = e.EvaluatorEvaluations[evalCount];
@@ -80,6 +83,7 @@ public class CSSChart
                             break;
                         }
                     }
+                    //get time from the start of the event
                     double timestamp = (i - eventStart).TotalMilliseconds;
 
                     points[j].Add(new
@@ -91,7 +95,7 @@ public class CSSChart
             }
 
         }
-
+        //give data to each series
         for (int k = 0; k < liOfSeries.Count; k++)
         {
             liOfSeries[k].Data = new Data(points[k].ToArray());
@@ -101,48 +105,15 @@ public class CSSChart
             liOfSeries[k].Name = String.Format("{0}", theEvent.Evaluators[k].EvaluatorID);
         }
 
-
-        ///////////////////////////////////////////////////////////////////////////////////
-        //foreach evaluator in event foreach evaluation in evaluator add point. [TimeStamp,Rating]
-        //foreach (Evaluator evalu in theEvent.Evaluators)
-        //{
-        //    points.Clear();
-        //    foreach (Evaluation evaluation in evalu.EvaluatorEvaluations)
-        //    {
-        //        points.Add(new
-        //        {
-        //            X = (evaluation.TimeStamp.ToUniversalTime() - theEvent.EventStart).TotalSeconds,
-        //            //X = evaluation.TimeStamp.ToUniversalTime(),
-        //            Y = evaluation.Rating
-        //        });
-        //    }
-        //    //add the points to the series
-        //    Series ser = new Series();
-        //    ser.Name = String.Format("{1} ({0})", evalu.EvaluatorID, evalu.Name);
-        //    //ser.Type = ChartTypes.Spline;
-        //    ser.Data = new Data(points.ToArray());
-        //    ser.Color = System.Drawing.Color.
-        //        FromArgb(200, rand.Next(50, 200), rand.Next(50, 200), rand.Next(50, 200));
-        //    liOfSeries.Add(ser);
-        //}
-
-
-
-        //-----------------------------------------------------------------------------
+        //return chart data
         Highcharts chart = makeChartInfo(theEvent, liOfSeries, ChartTypes.Spline);
 
         return chart;
     }
-
-
-
-
-
+   
     private Highcharts makeChartInfo(Event theEvent, List<Series> liOfSeries, ChartTypes chartType)
     {
-        //DateTime eventStart = theEvent.EventStart.ToUniversalTime();
-        //DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
-
+        //get start and end times, convert to device localtime
         DateTime eventStart = theEvent.EventStart.ToLocalTime();
         DateTime eventEnd = theEvent.EventEnd.ToLocalTime();
 
@@ -159,13 +130,9 @@ public class CSSChart
         });
         chart.SetOptions(new GlobalOptions
         {
-            //Global = new Global { UseUTC = false }
         });
         chart.SetPlotOptions(new PlotOptions
         {
-            //Column = new PlotOptionsColumn { Animation = new Animation(false) },
-            //Line = new PlotOptionsLine { Animation = new Animation(false) }
-            
         });
         chart.SetExporting(new Exporting
         {
@@ -176,11 +143,8 @@ public class CSSChart
             Enabled = true,
             BackgroundColor = new BackColorOrGradient(System.Drawing.Color.FromName("'#cccccc'"))
         });
-
         chart.SetNavigation(new Navigation
         {
-            //ButtonOptions = new NavigationButtonOptions { SymbolStroke = System.Drawing.Color.FromArgb(5, 40, 200) }
-
         });
         chart.SetTooltip(new Tooltip
         {
@@ -193,11 +157,9 @@ public class CSSChart
             {
                 Text = "Time Stamp"
             },
-            //Type = AxisTypes.Linear,
             Type = AxisTypes.Datetime,
             DateTimeLabelFormats = new DateTimeLabel
             {
-                //Minute = "%l:%M %p"
             },
             Labels = new XAxisLabels
             {
@@ -217,14 +179,14 @@ public class CSSChart
         chart.SetSeries(liOfSeries.ToArray());
         chart.SetLoading(new Loading
         {
-            //ShowDuration = 0,
-            //HideDuration = 0          //idk if these did anything?
         });
         return chart;
     }
 
+    //make chart was calculations for mode, median, mean
     public Highcharts MakeMathChart(Event theEvent)
     {
+        //make a series and points for each calculation type
         List<Series> liOfSeries = new List<Series>();
         List<object> points = new List<object>();
         Random rand = new Random();
@@ -241,26 +203,24 @@ public class CSSChart
         serMedian.Name = "Median";
         List<object> medianPoints = new List<object>();
 
+        //make a list of every evaluation for the event
         List<Evaluation> allEvaluations = new List<Evaluation>();
         foreach (Evaluator e in theEvent.Evaluators)
         {
             allEvaluations.AddRange(e.EvaluatorEvaluations);
         }
 
-        //get times of first and last rating
-        //DateTime firstRating = allEvaluations.OrderBy(x => x.TimeStamp).FirstOrDefault().TimeStamp;
-        //DateTime lastRating = allEvaluations.OrderByDescending(x => x.TimeStamp).FirstOrDefault().TimeStamp;
-
-        //DateTime eventStart = theEvent.EventStart.ToUniversalTime();
-        //DateTime eventEnd = theEvent.EventEnd.ToUniversalTime();
+        //get start and end times for event, convert to device local time
         DateTime eventStart = theEvent.EventStart.ToLocalTime();
         DateTime eventEnd = theEvent.EventEnd.ToLocalTime();
 
+        //calculate the time between points depending on length of event
         double diffInSeconds = (eventEnd - eventStart).TotalSeconds;
 
         int secsBetweenPoints;
-        double numOfPoints = 50.0;
+        double numOfPoints = 50.0;      //maximum 50 points on chart
 
+        //minimum 1 point a second
         if ((int)(diffInSeconds / numOfPoints) > 1)
             secsBetweenPoints = (int)(diffInSeconds / numOfPoints);
         else
@@ -268,21 +228,28 @@ public class CSSChart
 
         List<int> ratings;
 
+        //calculate at each interval on chart
         for (DateTime i = eventStart; i < eventEnd; i = i.AddSeconds(secsBetweenPoints))
         {
             ratings = new List<int>();
+
+            //get the most current rating for each evaluator at timestamp
             ratings = getRatingsAtTimestamp(i.ToUniversalTime(), theEvent);
 
+            //if there are any ratings at time i, put them on the chart
             if (ratings.Count > 0)
             {
+                //time since event start
                 double timestamp = (i - eventStart).TotalMilliseconds;
 
+                //calc mean
                 meanPoints.Add(new
                 {
                     X = timestamp,
                     Y = ratings.Average(x => x)
                 });
 
+                //calc mode
                 modePoints.Add(new
                 {
                     X = timestamp,
@@ -292,6 +259,7 @@ public class CSSChart
                             .Key
                 });
 
+                //calc median
                 medianPoints.Add(new
                 {
                     X = timestamp,
@@ -300,10 +268,12 @@ public class CSSChart
             }
         }
 
+        //add points to series
         serMean.Data = new Data(meanPoints.ToArray());
         serMode.Data = new Data(modePoints.ToArray());
         serMedian.Data = new Data(medianPoints.ToArray());
 
+        //set series colour
         serMean.Color = System.Drawing.Color.
                 FromArgb(150, rand.Next(150, 256), rand.Next(25), rand.Next(25));
         serMode.Color = System.Drawing.Color.
@@ -315,10 +285,7 @@ public class CSSChart
         liOfSeries.Add(serMode);
         liOfSeries.Add(serMedian);
 
-
-
-
-        //-----------------------------------------------------------------------------
+        //add data to chart
         Highcharts chart = new Highcharts("mChart").InitChart(new Chart
         {
             Type = ChartTypes.Spline,
@@ -398,6 +365,8 @@ public class CSSChart
         });
         return chart;
     }
+
+    //return the most recent rating for each evaluator at certain timestamp
     public List<int> getRatingsAtTimestamp(DateTime Timestamp, Event theEvent)
     {
         List<int> ratings = new List<int>();
@@ -405,9 +374,13 @@ public class CSSChart
 
         foreach (Evaluator e in theEvent.Evaluators)
         {
+
             count = 0;
+
+            //if the first rating was before the timestamp don' add anything to list
             if (e.EvaluatorEvaluations[count].TimeStamp < Timestamp)
             {
+                //find the last rating before the timestamp, add to list
                 while (count < e.EvaluatorEvaluations.Count - 1)
                 {
                     if (e.EvaluatorEvaluations[count + 1].TimeStamp < Timestamp)
@@ -425,12 +398,14 @@ public class CSSChart
 
         return ratings;
     }
+    //calculate the median of a list of ints
     public double GetMedian(List<int> ints)
     {
         double median;
 
         ints.Sort();
 
+        //calculate depending on even or odd number of ints
         if (ints.Count % 2 != 0)
             median = ints[ints.Count / 2];
         else

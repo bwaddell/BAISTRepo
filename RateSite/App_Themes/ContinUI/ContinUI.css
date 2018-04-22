@@ -39,7 +39,12 @@ body {
 }
 
 .btnClass {
-    display: inline-block;
+    margin: 0px;
+    float:none;
+    vertical-align:middle;
+    padding:0;
+    /*display: inline-block;*/
+    align-content:center;
     height: 37vh;
     /*opacity: 1;*/
 }
