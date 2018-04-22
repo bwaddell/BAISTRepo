@@ -98,6 +98,11 @@
                             Text="0" Font-Size="XX-Large"></asp:Label>
                     </div>
                     <div class="form-group row">
+                        <asp:Label ID="lbTotalEvals" CssClass="col-md-5 col-form-label" Font-Bold="true" runat="server" Text="Number of Evaluators:"></asp:Label>
+                        <asp:Label ID="lbTotalEvalsNum" CssClass="col-md-7 col-form-label" runat="server"
+                            Text="0" Font-Size="X-Large"></asp:Label>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-md-5 col-form-label">Page Update Time:</label>
                         <asp:Label ID="lbUpdateTime" CssClass="col-md-7 col-form-label"
                             runat="server" Text="Time"></asp:Label>
@@ -108,17 +113,23 @@
 
                 <div class="col-md-8">
                     <div class="">
-                        <asp:Table ID="Table1" runat="server" CssClass="table table-responsive">
-                            <asp:TableHeaderRow>
-                                <asp:TableHeaderCell CssClass="">Evaluator ID</asp:TableHeaderCell>
-                                <asp:TableHeaderCell CssClass="">Last Rating</asp:TableHeaderCell>
-                                <asp:TableHeaderCell CssClass="">Avg Rating</asp:TableHeaderCell>
-                                <asp:TableHeaderCell CssClass="">Time Stamp</asp:TableHeaderCell>
-                            </asp:TableHeaderRow>
-                            <asp:TableRow>
-                                <%--Dynamic table Data will be inserted here--%>
-                            </asp:TableRow>
-                        </asp:Table>
+                        <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Height="29em" 
+                            CssClass="">
+
+                            <asp:Table ID="Table1" runat="server" CssClass="table table-responsive">
+                                <asp:TableHeaderRow CssClass="position-sticky">
+                                    <asp:TableHeaderCell CssClass="">Evaluator ID</asp:TableHeaderCell>
+                                    <asp:TableHeaderCell CssClass="">Last Rating</asp:TableHeaderCell>
+                                    <asp:TableHeaderCell CssClass="">Avg Rating</asp:TableHeaderCell>
+                                    <asp:TableHeaderCell CssClass="">Time Stamp</asp:TableHeaderCell>
+                                </asp:TableHeaderRow>
+                                <asp:TableRow>
+                                    <%--Dynamic table Data will be inserted here--%>
+                                </asp:TableRow>
+
+                            </asp:Table>
+                        </asp:Panel>
+
                     </div>
                 </div>
             </div>
@@ -128,19 +139,19 @@
 
 
             <%-- Charts --%>
-            <div class="form-group row">
-                <div class="col-lg border">
+            <div class="row">
+                <div class="col-lg">
 
                     <%--<h3>Graphs</h3>--%>
-                    <div class="row">
-                        <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
+                    <div class="">
+                        <asp:Literal ID="ltrChart" runat="server"  ></asp:Literal>
                         <%--High chart literal, this is where the chart will be placed--%>
                     </div>
 
                 </div>
-                <div class="col-lg border">
+                <div class="col-lg">
 
-                    <div class="row">
+                    <div class="">
                         <asp:Literal ID="mathChart" runat="server"></asp:Literal>
                     </div>
 

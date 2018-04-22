@@ -104,3 +104,11 @@ body {
 .startEnd{
 
 }
+
+#mChart_container{
+    margin-bottom: 50px;
+}
+
+#chart_container{
+    margin-bottom: 50px;    
+}
