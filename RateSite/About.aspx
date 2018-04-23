@@ -29,7 +29,7 @@
      <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <p>To join an event, obtain the event key from the event facilitator and input it into the text box on the home page. 
+                <p>To join an event, obtain the event key from the event facilitator and enter it into the text box on the homepage. 
                    Click the join event button, and if the event key is correct, you will enter the event room. If you entered the
                    event key incorrectly, an error message will appear.  
                 </p>
@@ -46,9 +46,9 @@
                    screen, your current rating. Tapping the blue arrow will increase your rating by one, and tapping the red arrow will
                    decrease it by one. If the event has not begun or has ended, tapping one of the arrows will display a message to
                    inform you of the events status.</p>
-                <p>Currently, if you close the event page you will be unable to continue where you left off, and rejoining will create 
+             <%--   <p>Currently, if you close the event page you will be unable to continue where you left off, and rejoining will create 
                    a new audience member with a new set of ratings. Be sure to only close the page if you are done evaluating the event.
-                </p>
+                </p>--%>
             </div>
         </div>
     </div>
@@ -58,14 +58,14 @@
      <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <p>If you wish to host your own events and gain live feedback for them, you must create a facilitator account. This can 
+                <p>If you wish to host your own events and gain live feedback, you must create a facilitator account. This can 
                    be done by clicking Register in the top right corner of the page, beside the Login button. You will be redirected
                    to the Create Account page, where you will need to fill in the required fields, such as your email and a password. If
-                   your account was made successfully, you will be redirected to the home page, with two new options in the top left of
+                   your account was made successfully, you will be redirected to the homepage, with two new options in the top left of
                    the page, View Account and Events.
                 </p>
-                <p>If there were any errors during account creation, the page will notify you.
-                </p>
+<%--                <p>If there were any errors during account creation, the page will notify you.
+                </p>--%>
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <p>If you wish to update your account information or your password, click on My Account on the left side of the navigation 
-                   bar. Here you can modify the contents of your account, or password, as you please. If any errors or empty fields exist 
+                   bar. Here you can modify the contents of your account or password as you please. If any errors or empty fields exist 
                    when you attempt to change your information, the page will notify you and not proceed with the update.
                 </p>
             </div>
