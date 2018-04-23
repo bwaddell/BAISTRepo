@@ -33,7 +33,7 @@
                     ValidationExpression="^[\s\S]{0,20}$" ControlToValidate="LNametxt"></asp:RegularExpressionValidator>
             </div>
             <div class="form-group">
-                <label>Title:</label>
+                <label>Position:</label>
                 <asp:TextBox ID="Titletxt" runat="server" CssClass="form-control"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidatorTitle" runat="server" ValidationGroup="accountInfo"
                     ErrorMessage="Field Required" Display="Dynamic" ControlToValidate="Titletxt"></asp:RequiredFieldValidator>

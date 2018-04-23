@@ -31,14 +31,7 @@
             <asp:RegularExpressionValidator ID="RegularExpressionValidatorLastNamelength" runat="server" ErrorMessage="Maximum 20 characters allowed." Display="Dynamic"
                     ValidationExpression = "^[\s\S]{0,20}$" ControlToValidate="LastNameTxt"></asp:RegularExpressionValidator>
         </div>
-        <div class="form-group">
-            <label>Title:</label>
-            <asp:TextBox ID="TitleTxt" runat="server"
-                CssClass="form-control"></asp:TextBox>
-            <asp:RequiredFieldValidator ID="RequiredFieldValidatorTitle" runat="server" ErrorMessage="Field Required" ControlToValidate="TitleTxt" Display="Dynamic"></asp:RequiredFieldValidator>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidatorTitlelength" runat="server" ErrorMessage="Maximum 20 characters allowed." Display="Dynamic"
-                    ValidationExpression = "^[\s\S]{0,20}$" ControlToValidate="TitleTxt"></asp:RegularExpressionValidator>
-        </div>
+        
         <div class="form-group">
             <label>Password:</label>
             <asp:TextBox ID="PasswordTxt" runat="server"
@@ -50,6 +43,14 @@
             <asp:TextBox ID="PasswordTxt2" runat="server"
                 CssClass="form-control" TextMode="Password"></asp:TextBox>
             <asp:CompareValidator ID="CompareValidatorPassword" runat="server" ErrorMessage="Your Passwords do not match" ControlToValidate="PasswordTxt2" ControlToCompare="PasswordTxt" Display="Dynamic" Operator="Equal"></asp:CompareValidator>
+        </div>
+        <div class="form-group">
+            <label>Position:</label>
+            <asp:TextBox ID="TitleTxt" runat="server"
+                CssClass="form-control"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidatorTitle" runat="server" ErrorMessage="Field Required" ControlToValidate="TitleTxt" Display="Dynamic"></asp:RequiredFieldValidator>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidatorTitlelength" runat="server" ErrorMessage="Maximum 20 characters allowed." Display="Dynamic"
+                    ValidationExpression = "^[\s\S]{0,20}$" ControlToValidate="TitleTxt"></asp:RegularExpressionValidator>
         </div>
         <div class="form-group">
             <label>Organization:</label>

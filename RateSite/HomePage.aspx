@@ -33,6 +33,9 @@
                     Text=""></asp:Label>
             </div>
         </div>
+        <div class="row">
+            <a href="About.aspx">New to ContinUI?</a>
+        </div>
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
