@@ -8,6 +8,14 @@
 
     }
 
+
+    void Application_BeginRequest(object sender, EventArgs e)
+    {
+        if (Request.AppRelativeCurrentExecutionFilePath == "~/")
+            HttpContext.Current.RewritePath("Default.aspx");
+    }
+
+
     void Application_AuthenticateRequest(Object sender, EventArgs e)
     {
         // Extract the forms authentication cookie
