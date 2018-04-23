@@ -7,9 +7,6 @@
     <title>ContinUI</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%--<script src="Scripts/jquery-3.3.1.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
-    <link href="Content/bootstrap.css" rel="stylesheet" />--%>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -94,7 +91,7 @@
 
 
         <footer id="siteFooter" class="footer">
-            <p>Created by NAIT BAIST students in partnership with CPS</p>
+            <p>Created by NAIT students</p>
         </footer>
 
     </form>

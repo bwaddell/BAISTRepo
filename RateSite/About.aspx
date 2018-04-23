@@ -58,14 +58,14 @@
      <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <p>If you wish to host your own events and gain live feedback for them, you must create a facilitator account. This can 
+                <p>If you wish to host your own events and gain live feedback, you must create a facilitator account. This can 
                    be done by clicking Register in the top right corner of the page, beside the Login button. You will be redirected
                    to the Create Account page, where you will need to fill in the required fields, such as your email and a password. If
                    your account was made successfully, you will be redirected to the homepage, with two new options in the top left of
                    the page, View Account and Events.
                 </p>
-                <p>If there were any errors during account creation, the page will notify you.
-                </p>
+<%--                <p>If there were any errors during account creation, the page will notify you.
+                </p>--%>
             </div>
         </div>
     </div>

@@ -43,10 +43,8 @@ body {
     float:none;
     vertical-align:middle;
     padding:0;
-    /*display: inline-block;*/
     align-content:center;
     height: 37vh;
-    /*opacity: 1;*/
 }
 
 .btnImage {
@@ -100,16 +98,13 @@ body {
 }
 
 .footer{
+    padding-top:10px;
     text-align: center;
-    vertical-align: middle;
     background-color: #022554;
     width: 100%;
     color: #fff;
     font-family: "Open Sans";
     font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
-}
-.startEnd{
-
 }
 
 #mChart_container{
