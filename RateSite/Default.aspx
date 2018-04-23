@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master"
-    AutoEventWireup="true" CodeFile="HomePage.aspx.cs" Inherits="HomePage" Theme="ContinUI" %>
+    AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Default" Theme="ContinUI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
@@ -28,8 +28,8 @@
                 OnClick="CreateButton_Click" />
         </div>
         <div class="row">
-            <div class="homepageText">
-                <asp:Label ID="statuslbl" class="homepageText" runat="server"
+            <div class="defaultText">
+                <asp:Label ID="statuslbl" class="defaultText" runat="server"
                     Text=""></asp:Label>
             </div>
         </div>

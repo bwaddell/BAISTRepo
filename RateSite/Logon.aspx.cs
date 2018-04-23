@@ -39,7 +39,7 @@ public partial class Logon : System.Web.UI.Page
             string Redirect;
             Redirect = Request["ReturnUrl"];
             if (Redirect == null)
-                Redirect = "HomePage.aspx";
+                Redirect = "Default.aspx";
             Response.Redirect(Redirect, true);
         }
         else
