@@ -44,7 +44,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
     protected void ButtonSignOut_Click(object sender, EventArgs e)
     {
         FormsAuthentication.SignOut();
-        Response.Redirect("HomePage.aspx", true);
+        Response.Redirect("Default.aspx", true);
     }
 
     protected void ButtonCreateAccount_Click(object sender, EventArgs e)

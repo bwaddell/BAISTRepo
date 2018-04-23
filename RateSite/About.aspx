@@ -29,7 +29,7 @@
      <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <p>To join an event, obtain the event key from the event facilitator and input it into the text box on the homepage. 
+                <p>To join an event, obtain the event key from the event facilitator and input it into the text box on the home page. 
                    Click the join event button, and if the event key is correct, you will enter the event room. If you entered the
                    event key incorrectly, an error message will appear.  
                 </p>
@@ -61,7 +61,7 @@
                 <p>If you wish to host your own events and gain live feedback for them, you must create a facilitator account. This can 
                    be done by clicking Register in the top right corner of the page, beside the Login button. You will be redirected
                    to the Create Account page, where you will need to fill in the required fields, such as your email and a password. If
-                   your account was made successfully, you will be redirected to the homepage, with two new options in the top left of
+                   your account was made successfully, you will be redirected to the home page, with two new options in the top left of
                    the page, View Account and Events.
                 </p>
                 <p>If there were any errors during account creation, the page will notify you.

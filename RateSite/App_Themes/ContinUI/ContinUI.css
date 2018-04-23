@@ -59,7 +59,7 @@ body {
     text-transform: uppercase;
 }
 
-.homepageBtn {
+.defaultBtn {
     width: 100%;
     text-align: center;
     display: inline-block;
@@ -68,7 +68,7 @@ body {
     font: bold 4vh verdana;
 }
 
-.homepageText {
+.defaultText {
 
     max-width:100%;
     width: 100%;
