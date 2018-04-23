@@ -23,7 +23,7 @@
         </ContentTemplate>
 
         <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="ButtonUp"/>
+            <asp:AsyncPostBackTrigger ControlID="ButtonUp" />
             <asp:AsyncPostBackTrigger ControlID="ButtonDown" />
             <%--<asp:AsyncPostBackTrigger ControlID="TimerForNumRefresh" EventName="Tick" />--%>
         </Triggers>
@@ -37,7 +37,16 @@
         </div>
     </div>
 
-
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <asp:Label ID="Issue" runat="server" Text="Error" CssClass="text-center"></asp:Label>
+            </div>
+            <div class="modal-body">
+                 <asp:Label ID="Status" runat="server" Text="Event is currently not running." CssClass="center-block"></asp:Label>
+            </div>
+        </div>
+    </div>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="Server">
