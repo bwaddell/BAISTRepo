@@ -224,7 +224,7 @@ public partial class ViewEvent : System.Web.UI.Page
     //build table with evaluator info
     public void BuildTable()
     {
-        lbUpdateTime.Text = "Update Time: " + DateTime.Now.ToLocalTime().ToString();
+        lbUpdateTime.Text = DateTime.Now.ToLocalTime().ToString();
         //DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
         CSS RequestDirector = new CSS();
 

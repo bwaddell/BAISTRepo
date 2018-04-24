@@ -105,7 +105,7 @@
                     <div class="form-group row">
                         <label class="col-md-5 col-form-label">Page Update Time:</label>
                         <asp:Label ID="lbUpdateTime" CssClass="col-md-7 col-form-label"
-                            runat="server" Text="Time"></asp:Label>
+                            runat="server" Text=""></asp:Label>
                     </div>
 
                 </div>

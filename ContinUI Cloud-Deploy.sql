@@ -5,10 +5,10 @@
 
 
 
-IF(db_id(N'ContinUIDB') IS NULL)	-- create a new database
-	CREATE DATABASE ContinUIDB
-go
-use ContinUIDB		--use the database created
+--IF(db_id(N'Continui') IS NULL)	-- create a new database
+--	Select 'yes'--CREATE DATABASE Continui
+--go
+use Continui		--use the database created
 go
 
 
@@ -393,7 +393,7 @@ as
 	return @ReturnCode
 GO
 
-exec GetFacilitatorEvents 1
+--exec GetFacilitatorEvents 1
 
 
 --**************************************--
@@ -795,4 +795,4 @@ select * from Evaluator
 select * from EventDetails
 select * from Facilitator
 
-delete from EventDetails where EventKey = 'C2PK'
+--delete from EventDetails where EventKey = 'C2PK'
