@@ -35,6 +35,7 @@ alter table Facilitator
 	add constraint PK_Facilitator primary key (FacilitatorID)
 Go
 
+
 --drop table EventDetails
 create table EventDetails
 (
@@ -689,6 +690,36 @@ as
 			end
 		return @ReturnCode	
 go
+
+
+
+sp_helpdb Continui
+sp_helpuser Continui02
+go
+
+grant execute on AddEvaluationDataPoint to Continui02
+grant execute on AddEvaluator to Continui02
+grant execute on CreateEvaluator to Continui02
+grant execute on CreateEvent to Continui02
+grant execute on CreateFacilitator to Continui02
+grant execute on GetAllEventData to Continui02
+grant execute on GetEvaluator to Continui02
+grant execute on GetEvaluatorEventData to Continui02
+grant execute on GetEvent to Continui02
+grant execute on GetEventEvaluators to Continui02
+grant execute on GetFacilitator to Continui02
+grant execute on GetFacilitatorEvents to Continui02
+grant execute on GetHistoricalEvaluationData to Continui02
+grant execute on GetMostRecentEvaluativeData to Continui02
+grant execute on UpdateEventStatus to Continui02
+grant execute on UpdateFacilitatorInfo to Continui02
+grant execute on GetFacilitatorInfo to Continui02
+
+
+--CHECK THIS SHIT!!!!
+
+sp_help
+
 
 
 --**************************************--

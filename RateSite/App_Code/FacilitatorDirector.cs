@@ -24,11 +24,14 @@ public class FacilitatorDirector
     {
         Facilitator pullFacilitator = new Facilitator();
 
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection ClubBAISTData = new SqlConnection();
+        ClubBAISTData.ConnectionString = webSettings.ConnectionString;
+        SqlDataReader facilitatorDataReader = null;
+
         try
         {
-            ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
-            SqlConnection ClubBAISTData = new SqlConnection();
-            ClubBAISTData.ConnectionString = webSettings.ConnectionString;
+
             ClubBAISTData.Open();
 
             SqlCommand CommandGet = new SqlCommand
@@ -47,7 +50,7 @@ public class FacilitatorDirector
             };
             CommandGet.Parameters.Add(AddParamater);
 
-            SqlDataReader facilitatorDataReader = CommandGet.ExecuteReader();
+            facilitatorDataReader = CommandGet.ExecuteReader();
 
             if (facilitatorDataReader.HasRows)
             {
@@ -68,7 +71,13 @@ public class FacilitatorDirector
             facilitatorDataReader.Close();
             ClubBAISTData.Close();
         }
-        catch (Exception) { }
+        catch (Exception e) { }
+        finally
+        {
+            if ( facilitatorDataReader != null) 
+                facilitatorDataReader.Close();
+            ClubBAISTData.Close();
+        }
 
         return pullFacilitator;
     }
