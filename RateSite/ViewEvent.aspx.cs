@@ -138,7 +138,7 @@ public partial class ViewEvent : System.Web.UI.Page
         //Clear the response and re package it as a downloadable CSV file
         Response.Clear();
         Response.ContentType = "text/csv";
-        Response.AddHeader("Content-Disposition", "attachment;filename=myfilename.csv");
+        Response.AddHeader("Content-Disposition", "attachment;filename=EventData.csv");
         Response.Write(csvcontent.ToString());
         Response.End();
     }

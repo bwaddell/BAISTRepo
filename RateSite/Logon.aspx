@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master"
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" Trace="true"
     AutoEventWireup="true" CodeFile="Logon.aspx.cs" Inherits="Logon" Theme="ContinUI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
