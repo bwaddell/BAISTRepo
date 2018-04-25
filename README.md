@@ -5,7 +5,7 @@
 This website has been designed and implemented by Benjamin Waddell, Cody Jacob, and Martin Sawicki as part of the 
 [Bachelor of Applied Information Systems Technology](http://www.nait.ca/program_home_78547.htm) capstone 
 program at the <a href="http://www.nait.ca/">Northern Alberta Institute of Technology</a>, on behalf of the 
-<a href="http://performancescience.ac.uk/">Center for Performance Science</a>. Its purpose is to allow an audience 
+<a href="http://performancescience.ac.uk/">Centre for Performance Science</a>. Its purpose is to allow an audience 
 to provide live feedback during an event, which can range from dramatic acting to product demonstrations.
 
 Below you will find guides demonstrating the operation of the various services this website provides. If you would 
@@ -17,7 +17,7 @@ Click the join event button, and if the event key is correct, you will enter the
 event key incorrectly, an error message will appear.  
 
 ## Evaluating an Event
-In the event room you will see two large arrows, one blue, the other red, as well as a number in the center of the
+In the event room you will see two large arrows, one blue, the other red, as well as a number in the centre of the
 screen, your current rating. Tapping the blue arrow will increase your rating by one, and tapping the red arrow will
 decrease it by one. If the event has not begun or has ended, tapping one of the arrows will display a message to
 inform you of the events status.
