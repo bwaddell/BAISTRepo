@@ -6,13 +6,18 @@ using System.Security.Cryptography;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
-
+using System.Globalization;
 
 /// <summary>
 /// Summary description for EventDirector
 /// </summary>
 public class EventDirector
 {
+
+    CultureInfo culture = new CultureInfo("fr-FR");  // , culture
+
+
+
     public EventDirector()
     {
         //
@@ -254,9 +259,11 @@ public class EventDirector
         if (eventReader.HasRows)
         {
             eventReader.Read();
-            
+
+
+
             foundEvent.EventID = eventID;
-            foundEvent.Date = Convert.ToDateTime(eventReader["EventDate"]);
+            foundEvent.Date = Convert.ToDateTime(eventReader["EventDate"], culture);
             foundEvent.Description = eventReader["NatureOfEvent"].ToString();
             foundEvent.FacilitatorID = Convert.ToInt32(eventReader["FacilitatorID"]);
             foundEvent.Performer = eventReader["Performer"].ToString();
@@ -264,14 +271,14 @@ public class EventDirector
 
 
             if (eventReader["EventBegin"].ToString() == "1/1/1800 12:00:00 PM")
-                foundEvent.EventStart = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+                foundEvent.EventStart = Convert.ToDateTime("1/1/1800 12:00:00 PM", culture);
             else
-                foundEvent.EventStart = Convert.ToDateTime(eventReader["EventBegin"]).ToLocalTime();
+                foundEvent.EventStart = Convert.ToDateTime(eventReader["EventBegin"], culture).ToLocalTime();
 
             if (eventReader["EventEnd"].ToString() == "1/1/1800 12:00:00 PM")
-                foundEvent.EventEnd = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+                foundEvent.EventEnd = Convert.ToDateTime("1/1/1800 12:00:00 PM", culture);
             else
-                foundEvent.EventEnd = Convert.ToDateTime(eventReader["EventEnd"]).ToLocalTime();
+                foundEvent.EventEnd = Convert.ToDateTime(eventReader["EventEnd"], culture).ToLocalTime();
 
            
 

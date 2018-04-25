@@ -11,7 +11,7 @@
 use Continui		--use the database created
 go
 
-
+SET DATEFORMAT dmy
 
 --******************************************--
 --					Tables					--
@@ -733,10 +733,10 @@ execute AddEvaluator @evalID output, 'Cody Jacob','08-12-2001','M','NAIT','Edmon
 execute AddEvaluator @evalID output, 'Ben Waddell','05-10-2001','M','NAIT','Edmonton','Vote criteria?'
 execute AddEvaluator @evalID output, 'Martin Sawicki','04-09-2001','M','NAIT','Edmonton','Vote criteria?'
 go
-execute CreateEvent 'AAAA',1,'Edmonton, AB, Canada','NAIT Baist Students','Building a website','4/20/2018'
+execute CreateEvent 'AAAA',1,'Edmonton, AB, Canada','NAIT Baist Students','Building a website','20/04/2018'
 go
 --update start time of event to NOW
-exec UpdateEventStatus 'AAAA', '4/20/2018 7:00:00 AM', '4/20/2018 8:00:00 AM'
+exec UpdateEventStatus 'AAAA', '20/04/2018 7:00:00 AM', '20/04/2018 8:00:00 AM'
 go
 --add evaluative data to table
 exec AddEvaluationDataPoint 'AAAA',1,10,'4/20/2018 7:00:00 AM'
@@ -826,4 +826,5 @@ select * from Evaluator
 select * from EventDetails
 select * from Facilitator
 
---delete from EventDetails where EventKey = 'C2PK'
+delete from EvaluativeData where EventKey = 'U0ZP'
+delete from EventDetails where EventKey = 'U0ZP'

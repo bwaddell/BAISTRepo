@@ -6,6 +6,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Globalization;
 
 
 /// <summary>
@@ -13,6 +14,10 @@ using System.Configuration;
 /// </summary>
 public class FacilitatorDirector
 {
+
+    CultureInfo culture = new CultureInfo("fr-FR");  // , culture
+
+
     public FacilitatorDirector()
     {
         //
@@ -266,15 +271,15 @@ public class FacilitatorDirector
                 while (facilitatorDataReader.Read())
                 {
                     facEvent = new Event();
-
+                    
                     facEvent.EventID = facilitatorDataReader["EventKey"].ToString();
                     facEvent.FacilitatorID = id;
                     facEvent.Location = facilitatorDataReader["Location"].ToString();
                     facEvent.Performer = facilitatorDataReader["Performer"].ToString();
                     facEvent.Description = facilitatorDataReader["NatureOfEvent"].ToString();
-                    facEvent.Date =Convert.ToDateTime(facilitatorDataReader["EventDate"]);                  
-                    facEvent.EventStart = Convert.ToDateTime(facilitatorDataReader["EventBegin"]);
-                    facEvent.EventEnd = Convert.ToDateTime(facilitatorDataReader["EventEnd"]);
+                    facEvent.Date = Convert.ToDateTime(facilitatorDataReader["EventDate"], culture );
+                    facEvent.EventStart = Convert.ToDateTime(facilitatorDataReader["EventBegin"], culture);
+                    facEvent.EventEnd = Convert.ToDateTime(facilitatorDataReader["EventEnd"], culture);
 
                     FacEvents.Add(facEvent);
                 }
@@ -283,7 +288,10 @@ public class FacilitatorDirector
             facilitatorDataReader.Close();
             ClubBAISTData.Close();
         }
-        catch (Exception) { }
+        catch (Exception e)
+        {
+            
+        }
 
         return FacEvents;
     }
