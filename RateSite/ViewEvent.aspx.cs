@@ -84,14 +84,16 @@ public partial class ViewEvent : System.Web.UI.Page
     {
         //Initialize instances of all neccessary classes and director
         CSS Director = new CSS();
-        Event Event = new Event();
+        Event theEvent = new Event();
         Facilitator Facilitator = new Facilitator();
-        List<Evaluation> Evaluations = new List<Evaluation>();
+        //List<Evaluation> Evaluations = new List<Evaluation>();
         StringBuilder csvcontent = new StringBuilder();
+        string insert;
+        DateTime addEval;
 
         //Set the Event.ID of our empty event, and use said event to pull event information from DB
-        Event.EventID = ((Event)Session["Event"]).EventID;
-        Event = Director.GetEvent(Event);
+        theEvent.EventID = ((Event)Session["Event"]).EventID;
+        theEvent = Director.GetEvent(theEvent);
         Facilitator = Director.GetFacilitator(1);
 
         //Creates the first section of data in the CSV, regarding the Facilitators info. Data is formatted in two lines, the first line being the data description, the second line being the respective data.
@@ -100,39 +102,77 @@ public partial class ViewEvent : System.Web.UI.Page
         csvcontent.AppendLine("\n");
 
         //Creates the second line of data in the CSV, regarding the Events info. Formatted as above.
-        csvcontent.AppendLine("Event,Performer,Location,Date of Event,Event Start Date,Event End Date");
-        csvcontent.AppendLine(Event.Description + "," + Event.Performer + "," + Event.Location + "," + Event.Date.ToShortDateString() + "," + Event.EventStart.ToLongTimeString() + "," + Event.EventEnd.ToLongTimeString());
+        csvcontent.AppendLine("Event,Performer,Location,Date of Event,Start Time,End Time");
+        csvcontent.AppendLine(theEvent.Description + "," + theEvent.Performer + "," + theEvent.Location + "," + theEvent.Date.ToShortDateString() + "," + theEvent.EventStart.ToLongTimeString() + "," + theEvent.EventEnd.ToLongTimeString());
         csvcontent.AppendLine("\n");
 
-        //Creates a section of data for each evaluator, formatted with each data point underneath its respective timestamp
-        foreach (Evaluator User in Event.Evaluators)
+        //get start and end times for table.  Convert to local time
+        DateTime eventStart = theEvent.EventStart.ToLocalTime();
+        DateTime eventEnd = theEvent.EventEnd.ToLocalTime();
+        double secsBetweenPoints = 0.5; //iterate every 0.5 second
+
+        //display timestamp for every 0.5 s
+        List<string> timestamps = new List<string>();
+
+        for (DateTime i = eventStart; i <= eventEnd; i = i.AddSeconds(secsBetweenPoints))
         {
-            Evaluations = Director.GetEvaluatorEvaluations(Event.EventID, User.EvaluatorID);
+            timestamps.Add(String.Format("{0}", (i - eventStart).ToString(@"hh\:mm\:ss\:fff")));
+        }
+        string tsLine = "TimeStamp (HH:MM:SS.mmm):,";
 
-            string insert = " ,";
+        for (int k = 0; k < timestamps.Count; k++)
+        {
+            if (k == timestamps.Count - 1)
+                tsLine += timestamps[k];
+            else
+                tsLine += (timestamps[k] + ",");
+        }
 
-            for (int i = 0; i < Evaluations.Count; i++)
+        csvcontent.AppendLine(tsLine);
+
+
+        //Add all evaluator evaluations
+        Evaluator _evaluator = new Evaluator();
+        Evaluation _evaluation = new Evaluation();
+        int evalCount = 0;
+
+        foreach (Evaluator eval in theEvent.Evaluators)
+        {
+            insert = "ID: " + eval.EvaluatorID.ToString() + ",";
+
+
+            for (DateTime i = eventStart; i <= eventEnd; i = i.AddSeconds(secsBetweenPoints))
             {
-                if (i == Evaluations.Count - 1)
-                    insert += Evaluations[i].TimeStamp.ToLongTimeString();
-                else
-                    insert += Evaluations[i].TimeStamp.ToLongTimeString() + ",";
-            }
+                if (eval.EvaluatorEvaluations[0].TimeStamp.ToLocalTime() <= i)
+                {
+                    evalCount = 0;
+                    while (evalCount < eval.EvaluatorEvaluations.Count - 1)
+                    {
+                        //get the last evaluation before time i
+                        if (eval.EvaluatorEvaluations[evalCount].TimeStamp.ToLocalTime() <= i)
+                        {
+                            //ev = e.EvaluatorEvaluations[evalCount];
+                            evalCount++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    //get time from the start of the event
+                    //double timestamp = (i - eventStart).TotalMilliseconds;
 
+                    insert += eval.EvaluatorEvaluations[evalCount].Rating.ToString() + " ,";
+                }
+                else
+                {
+                    insert += " ,";
+                }
+
+
+            }
             csvcontent.AppendLine(insert);
 
-            insert = "ID: " + User.EvaluatorID.ToString() + ",";
-
-            for (int i = 0; i < Evaluations.Count; i++)
-            {
-                if (i == Evaluations.Count - 1)
-                    insert += Evaluations[i].Rating.ToString();
-                else
-                    insert += Evaluations[i].Rating.ToString() + ",";
-            }
-
-            csvcontent.AppendLine(insert);
-            csvcontent.AppendLine("\n");
         }
 
         //Clear the response and re package it as a downloadable CSV file
@@ -294,7 +334,7 @@ public partial class ViewEvent : System.Web.UI.Page
             }
         }
 
-        
+
     }
 
     protected void TimerForTableRefresh_Tick(object sender, EventArgs e)
