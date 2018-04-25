@@ -17,7 +17,7 @@
                     This website has been designed and implemented by Benjamin Waddell, Cody Jacob, and Martin Sawicki as part of the 
                    <a href="http://www.nait.ca/program_home_78547.htm">Bachelor of Applied Information Systems Technology</a> capstone 
                    program at the <a href="http://www.nait.ca/">Northern Alberta Institute of Technology</a>, on behalf of the 
-                   <a href="http://performancescience.ac.uk/">Center for Performance Science</a>. Its purpose is to allow an audience 
+                   <a href="http://performancescience.ac.uk/">Centre for Performance Science</a>. Its purpose is to allow an audience 
                    to provide live feedback during an event, which can range from dramatic acting to product demonstrations.
                 </p>
                 <p>
@@ -48,7 +48,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <p>
-                    In the event room you will see two large arrows, one blue, the other red, as well as a number in the center of the
+                    In the event room you will see two large arrows, one blue, the other red, as well as a number in the centre of the
                    screen, your current rating. Tapping the blue arrow will increase your rating by one, and tapping the red arrow will
                    decrease it by one. If the event has not begun or has ended, tapping one of the arrows will display a message to
                    inform you of the events status.
