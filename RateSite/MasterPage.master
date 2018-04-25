@@ -37,17 +37,20 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
-                            <li><a href="Default.aspx">Home</a></li>
+                            <li><a href="Default.aspx"> <span class="glyphicon glyphicon-home"></span> Home</a></li>
                                                   
                             <li>
                                 <asp:LinkButton ID="ButtonViewAccount" runat="server"
-                                    Text="My Account" OnClick="ButtonViewAccount_Click" Visible="false"
-                                    CausesValidation="false" />
+                                    OnClick="ButtonViewAccount_Click" Visible="false"
+                                    CausesValidation="false">
+                                     <span class="glyphicon glyphicon-user"></span> My Account
+                                </asp:LinkButton>
                             </li>
                             <li>
                                 <asp:LinkButton ID="ButtonEventList" runat="server"
-                                    Text="My Events" OnClick="ButtonEventList_Click" Visible="false"
-                                    CausesValidation="false" />                                
+                                    OnClick="ButtonEventList_Click" Visible="false"
+                                    CausesValidation="false">
+                                    <span class="glyphicon glyphicon-list"></span> My Events</asp:LinkButton>                                
                             </li>
                         </ul>
 
