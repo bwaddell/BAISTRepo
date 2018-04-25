@@ -76,10 +76,13 @@ public class FacilitatorDirector
             facilitatorDataReader.Close();
             ClubBAISTData.Close();
         }
-        catch (Exception e) { }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
         finally
         {
-            if ( facilitatorDataReader != null) 
+            if (facilitatorDataReader != null)
                 facilitatorDataReader.Close();
             ClubBAISTData.Close();
         }
