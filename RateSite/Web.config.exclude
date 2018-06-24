@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  For more information on how to configure your ASP.NET application, please visit
+  http://go.microsoft.com/fwlink/?LinkId=169433
+  -->
+<configuration>
+  <system.web>    
+    
+    <customErrors mode="Off" defaultRedirect="~/Errorpage.aspx"> <!--Change this to "On" when deployed to server-->    
+      <error statusCode="404" redirect="~/Errorpage.aspx"></error>
+    </customErrors>  
+    
+    <compilation debug="true" targetFramework="4.5.2">
+      <assemblies>
+        <add assembly="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+        <add assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+      </assemblies>
+    </compilation>
+    <httpRuntime targetFramework="4.5.2" />
+    <authentication mode="Forms">
+      <forms name=".CONTINUIFORMS" loginUrl="Logon.aspx" timeout="720"/>
+    </authentication>
+    <authorization>
+      <deny users="?" />
+    </authorization>
+
+<!--Added specific for Continui.uk*****************-->
+    <!--<sessionState
+     customProvider="System.Data.SqlClient"
+     mode="SQLServer"
+     allowCustomSqlDatabase="true"
+     sqlConnectionString="
+       Database=Continui;
+       data source=213.171.218.227;
+       user id=Continui02;
+       password=Continui02"
+  />-->
+    <!--<customErrors mode="Off"/>-->
+    <!--<machineKey
+       validation="SHA1"
+      decryption="Auto"
+      validationKey="yourgeneratedvalidationKey,IsolateApps"
+      decryptionKey="yourgenerateddecryptionKey,IsolateApps"
+    />-->
+    
+  </system.web>
+  <system.webServer>
+    <httpErrors errorMode="Detailed"/>
+  </system.webServer>
+
+  <!--<location path="test.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*" />
+      </authorization>
+    </system.web>
+  </location>-->
+  
+  <!--Added specific for Continui.uk*****************-->
+
+
+  <connectionStrings>
+    <!--Following line added specific for Continui.uk*****************-->
+    <add name="localdb" connectionString="Data Source=213.171.218.227;Initial Catalog=Continui;User ID=Continui02;Password=Continui02;Asynchronous Processing=True" providerName="System.Data.SqlClient"/>
+    <!--<add name="localdb" connectionString="Data Source=baistcontinuidb.comsyfwutm0i.us-west-2.rds.amazonaws.com;Initial Catalog=ContinUIDB;User ID=continuidbadmin;Password=bencodymartin;Asynchronous Processing=True" providerName="System.Data.SqlClient"/>-->
+    <!--<add name="localdb" connectionString="Persist Security Info=False;Integrated Security=True;Database=ContinUIDB;server=(localdb)\v11.0;" providerName="System.Data.SqlClient"/>-->
+
+  </connectionStrings>
+  
+  <location path="Default.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*" />
+      </authorization>
+    </system.web>
+  </location>
+
+  <location path="EvaluateEvent.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*" />
+      </authorization>
+    </system.web>
+  </location>
+
+  <location path="CreateAccount.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*" />
+      </authorization>
+    </system.web>
+  </location>
+
+  <location path="Errorpage.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*" />
+      </authorization>
+    </system.web>
+  </location>
+
+  <location path="About.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*" />
+      </authorization>
+    </system.web>
+  </location>
+
+  <location path="Privacy.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*" />
+      </authorization>
+    </system.web>
+  </location>
+  
+
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-3.1.0.0" newVersion="3.1.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-10.0.0.0" newVersion="10.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Owin" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-3.1.0.0" newVersion="3.1.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+
+</configuration>

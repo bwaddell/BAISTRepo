@@ -2,6 +2,15 @@
     AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Default" Theme="ContinUI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <%--replace 'GA_TRACKING_ID' with your tracking ID code--%>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());       
+        gtag('config', 'GA_TRACKING_ID');
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
     <div class="jumbotron">
@@ -12,7 +21,7 @@
 
     <div class="col-md-8 col-md-offset-2 text-center">
 
-<%--    <p>If you want to join an exsiting event enter the Event key below.</p>
+        <%--    <p>If you want to join an exsiting event enter the Event key below.</p>
     <p>If you want to create a new event click the Create New Event button below.</p>--%>
 
         <div class="form-group row">

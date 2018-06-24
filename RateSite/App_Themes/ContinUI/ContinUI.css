@@ -114,3 +114,82 @@ body {
 #chart_container{
     margin-bottom: 50px;    
 }
+
+#cookieBanner {
+    position: fixed !important;
+    bottom: 0px !important;
+    border-top: solid 1px #022554;
+}
+
+#cookieBanner {
+    width: 100%;
+    background-color: #F7F7F7;
+    position: relative;
+    font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    -mox-border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    box-sizing: content-box;
+    line-height: 1;
+    letter-spacing: 0;
+    z-index: 1000;
+}
+
+#cookieBanner #cookieBannerContainer {
+    width: 1000px;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 12px;
+    padding-bottom: 11px;
+}
+
+#cookieBanner #cookieBannerContainer .right {
+    display: inline-block;
+}
+
+#cookieBanner #cookieBannerContainer .right .accept {
+    background-color: #022554 !important;
+    border: 1px solid #022554 !important;
+}
+
+    #cookieBanner #cookieBannerContainer .right .accept {
+        border: 0;
+        font-size: 14px;
+        margin-right: 12px;
+        font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+        font-weight: 700;
+        padding: 8px 10px;
+        background-color: #4D90FE;
+        color: #fff;
+        border: 1px solid #3D81EF;
+        display: inline-block;
+        -mox-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        background-image: none;
+    }
+
+.right {
+    float: right;
+}
+
+#cookieBanner #cookieBannerContainer .left {
+    margin-top: 9px !important;
+}
+
+#cookieBanner #cookieBannerContainer .left {
+    display: inline-block;
+    color: #404040;
+    vertical-align: middle;
+    margin-right: 15px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+    letter-spacing: 0;
+}
+
+

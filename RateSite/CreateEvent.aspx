@@ -2,6 +2,15 @@
     CodeFile="CreateEvent.aspx.cs" Inherits="CreateEvent" Theme="ContinUI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <%--replace 'GA_TRACKING_ID' with your tracking ID code--%>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());       
+        gtag('config', 'GA_TRACKING_ID');
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
 

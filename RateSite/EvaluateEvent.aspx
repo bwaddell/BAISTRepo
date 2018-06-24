@@ -2,6 +2,16 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <%--replace 'GA_TRACKING_ID' with your tracking ID code--%>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());       
+        gtag('config', 'GA_TRACKING_ID');
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
     <asp:ScriptManager ID="ConScriptManager" runat="server"></asp:ScriptManager>

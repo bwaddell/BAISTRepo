@@ -28,7 +28,7 @@ public partial class Logon : System.Web.UI.Page
             string roles = pullFacilitator.Roles;
 
             FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, RequestManager.GetFacilitatorByEmail(EmailTxt.Text).FacilitatorID.ToString(), DateTime.Now,
-                            DateTime.Now.AddMinutes(60), RememberChk.Checked, roles);
+                            DateTime.Now.AddHours(24), RememberChk.Checked, roles);
 
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
 

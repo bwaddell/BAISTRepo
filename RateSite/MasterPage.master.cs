@@ -10,6 +10,21 @@ public partial class MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        var consentCookie = Request.Cookies["ConsentCookie"];
+
+        //if cookie doesn't exist, user has not accepted cookies
+        if (consentCookie == null)
+        {
+            cookieBanner.Visible = true;
+        }
+        else
+        {
+            if (consentCookie.Value == "true")
+            {
+                cookieBanner.Visible = false;
+            }
+        }
+
 
         //CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
 
@@ -56,5 +71,20 @@ public partial class MasterPage : System.Web.UI.MasterPage
     {
         Response.Redirect("Events.aspx");
 
+    }
+
+    protected void acceptCookie_Click(object sender, EventArgs e)
+    {
+        CSS requestManager = new CSS();
+
+        //create cookie stating that user has accepted cookie use
+        HttpCookie consentCookie = new HttpCookie("ConsentCookie", "true");
+
+        //set cookie to expire in 100 days
+        consentCookie.Expires = DateTime.UtcNow.AddDays(100);
+
+        Response.Cookies.Add(consentCookie);
+
+        Page.Response.Redirect(Page.Request.Url.ToString(), true);
     }
 }

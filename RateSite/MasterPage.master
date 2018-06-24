@@ -88,6 +88,19 @@
             </nav>
         </div>
 
+        <div id="cookieBanner" style="display: block;" runat="server">
+            <div id="cookieBannerContainer">
+                <div class="left">
+                    This website uses cookies to ensure you get the best experience during your visit.  <a href="http://www.continui.uk/Privacy.aspx">Read our Privacy Notice</a>
+                </div>
+                <div class="right">
+                    <asp:Button ID="acceptCookie" class="accept" runat="server" Text="ACCEPT and CLOSE" 
+                        CausesValidation="false" OnClick="acceptCookie_Click" />
+                    <a class="more-info" href="http://" target="blank"></a>
+                </div>
+            </div>
+        </div>
+
         <div class="content container">
             <asp:ContentPlaceHolder ID="MainBody" runat="server">
 
