@@ -42,21 +42,33 @@
                     Remember Me?:
                 </label>
                 <div class="col-md-6">
-                    <label class="btn btn-default">
-                        <asp:CheckBox ID="RememberChk" runat="server" Text="Yes / No" />
-                    </label>
+                    <asp:CheckBox ID="RememberChk" runat="server" Text="Yes / No" />
                 </div>
             </div>
+
+            <div class="form-group row">
+
+                <p class="col-md-6">
+                    By logging in to your account, you consent to the use of Cookies to ensure you get the best experience during your visit.
+                       <a href="http://www.continui.uk/Privacy.aspx">Read our Privacy Notice</a>
+                </p>
+                <div class="col-md-6">
+                    <asp:CheckBox ID="consentCheck" Checked="false" runat="server" Text="I agree (you must agree to log in)"/>
+                </div>
+            </div>
+
 
             <div class="for-group row">
                 <div class="col-md-6">
                     <asp:Label ID="MsgLbl" runat="server" Text=""></asp:Label>
                 </div>
                 <div class="col-md-6">
-                    <asp:Button ID="ButtonLogin" runat="server" Text="Log In"
+                    <asp:Button ID="ButtonLogin" runat="server" Text="Log In" Enabled="false"
                         OnClick="ButtonLogin_Click" CssClass="btn btn-block btn-default" />
                 </div>
             </div>
+
+
 
         </div>
     </div>

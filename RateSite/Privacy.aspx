@@ -34,6 +34,19 @@
     ----------------------------
     --%>
 
+    <h2>Delete Site Cookies</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <p>
+                    Use this if you wish to revoke consent for the use of cookies by this website.
+                    All cookies will be deleted and you will be logged off of your account.
+                </p>
+            </div>
+        </div>
+    </div>
+    <asp:Button ID="delCook" runat="server" Text="Delete Cookies" OnClick="delCook_Click" />
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" Runat="Server">
 </asp:Content>

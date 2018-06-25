@@ -11,40 +11,73 @@ public partial class Logon : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            ButtonLogin.Enabled = true;
+            consentCheck.Checked = false;
+        }
     }
 
     protected void ButtonLogin_Click(object sender, EventArgs e)
     {
-
-        CSS RequestManager = new CSS();
-
-        //validate user login info
-        if (RequestManager.IsAuthenticated(EmailTxt.Text, PasswordTxt.Text))
+        //only validate if user has agreed to terms
+        if (consentCheck.Checked)
         {
-            //get info for email input
-            Facilitator pullFacilitator = RequestManager.GetFacilitatorByEmail(EmailTxt.Text);
+            CSS RequestManager = new CSS();
 
-            string roles = pullFacilitator.Roles;
+            //validate user login info
+            if (RequestManager.IsAuthenticated(EmailTxt.Text, PasswordTxt.Text))
+            {
+                //if
 
-            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, RequestManager.GetFacilitatorByEmail(EmailTxt.Text).FacilitatorID.ToString(), DateTime.Now,
-                            DateTime.Now.AddHours(24), RememberChk.Checked, roles);
 
-            string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                //get info for email input
+                Facilitator pullFacilitator = RequestManager.GetFacilitatorByEmail(EmailTxt.Text);
 
-            HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                string roles = pullFacilitator.Roles;
 
-            Response.Cookies.Add(authCookie);
+                //create authentication cookie
+                FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, RequestManager.GetFacilitatorByEmail(EmailTxt.Text).FacilitatorID.ToString(), DateTime.Now,
+                                DateTime.Now.AddHours(24), RememberChk.Checked, roles);
 
-            string Redirect;
-            Redirect = Request["ReturnUrl"];
-            if (Redirect == null)
-                Redirect = "Default.aspx";
-            Response.Redirect(Redirect, true);
+                string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+
+                HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+
+                Response.Cookies.Add(authCookie);
+
+                //create consent cookie if there isn't one
+                var consentCookie = Request.Cookies["ConsentCookie"];
+
+                if (consentCookie == null)
+                {
+                    HttpCookie newConsent = new HttpCookie("ConsentCookie", "true");
+
+                    //set cookie to expire in 100 days
+                    newConsent.Expires = DateTime.UtcNow.AddDays(100);
+
+                    Response.Cookies.Add(newConsent);
+                }
+
+
+                string Redirect;
+                Redirect = Request["ReturnUrl"];
+                if (Redirect == null)
+                    Redirect = "Default.aspx";
+                Response.Redirect(Redirect, true);
+            }
+            else
+            {
+                MsgLbl.Text = "Your email or password is incorrect";
+            }
         }
         else
         {
-            MsgLbl.Text = "Your email or password is incorrect";
+            consentCheck.ForeColor = System.Drawing.Color.Red;
         }
+
+
+        
     }
+
 }
