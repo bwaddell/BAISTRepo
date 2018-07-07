@@ -275,7 +275,7 @@ public class FacilitatorDirector
                 {
                     facEvent = new Event();
                     
-                    facEvent.EventID = facilitatorDataReader["EventKey"].ToString();
+                    facEvent.EventID = Convert.ToInt32(facilitatorDataReader["EventID"]);
                     facEvent.FacilitatorID = id;
                     facEvent.Location = facilitatorDataReader["Location"].ToString();
                     facEvent.Performer = facilitatorDataReader["Performer"].ToString();

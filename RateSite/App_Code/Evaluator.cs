@@ -10,11 +10,6 @@ public class Evaluator
 {
     private int EvaluatorIDValue;
     private string NameValue;
-    private DateTime DateOfBirthValue;
-    private string SexValue;
-    private string SchoolValue;
-    private string CityValue;
-    private string CountryValue;
     private string CriteriaValue;
     private List<Evaluation> EvaluatorDataValue;
 
@@ -28,31 +23,7 @@ public class Evaluator
         get { return NameValue; }
         set { NameValue = value; }
     }
-    public DateTime DateOfBirth
-    {
-        get { return DateOfBirthValue; }
-        set { DateOfBirthValue = value; }
-    }
-    public string Sex
-    {
-        get { return SexValue; }
-        set { SexValue = value; }
-    }
-    public string School
-    {
-        get { return SchoolValue; }
-        set { SchoolValue = value; }
-    }
-    public string City
-    {
-        get { return CityValue; }
-        set { CityValue = value; }
-    }
-    public string Country
-    {
-        get { return CountryValue; }
-        set { CountryValue = value; }
-    }
+
     public string Criteria
     {
         get { return CriteriaValue; }

@@ -61,9 +61,10 @@
 
   <connectionStrings>
     <!--Following line added specific for Continui.uk*****************-->
-    <add name="localdb" connectionString="Data Source=213.171.218.227;Initial Catalog=Continui;User ID=Continui02;Password=Continui02;Asynchronous Processing=True" providerName="System.Data.SqlClient"/>
+    <!--<add name="localdb" connectionString="Data Source=213.171.218.227;Initial Catalog=Continui;User ID=Continui02;Password=Continui02;Asynchronous Processing=True" providerName="System.Data.SqlClient"/>-->
     <!--<add name="localdb" connectionString="Data Source=baistcontinuidb.comsyfwutm0i.us-west-2.rds.amazonaws.com;Initial Catalog=ContinUIDB;User ID=continuidbadmin;Password=bencodymartin;Asynchronous Processing=True" providerName="System.Data.SqlClient"/>-->
     <!--<add name="localdb" connectionString="Persist Security Info=False;Integrated Security=True;Database=ContinUIDB;server=(localdb)\v11.0;" providerName="System.Data.SqlClient"/>-->
+    <add name="localdb" connectionString="Persist Security Info= False;Integrated Security=True;Database=Continui;Server=DESKTOP-0AUFOF5;" providerName="System.Data.SqlClient"/>
 
   </connectionStrings>
   

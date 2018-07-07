@@ -39,7 +39,7 @@ public class EvaluationDirector
 
         SqlParameter AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@Event";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.SqlDbType = SqlDbType.Int;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = eval.EventID;
         CommandAdd.Parameters.Add(AddParameter);
@@ -105,8 +105,8 @@ public class EvaluationDirector
         CommandGet.CommandText = "GetMostRecentEvaluativeData";
 
         SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EventKey";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.ParameterName = "@EventID";
+        AddParameter.SqlDbType = SqlDbType.Int;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = currentEvent.EventID;
         CommandGet.Parameters.Add(AddParameter);
@@ -136,7 +136,7 @@ public class EvaluationDirector
         return evals;
     }
 
-    public List<Evaluation> GetAllEventData(string EventID)
+    public List<Evaluation> GetAllEventData(int EventID)
     {
         List<Evaluation> eventData = new List<Evaluation>();
 
@@ -149,8 +149,8 @@ public class EvaluationDirector
         CommandGet.CommandText = "GetAllEventData";
 
         SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EventKey";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.ParameterName = "@EventID";
+        AddParameter.SqlDbType = SqlDbType.Int;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = EventID;
         CommandGet.Parameters.Add(AddParameter);
@@ -181,7 +181,7 @@ public class EvaluationDirector
     }
 
 
-    public List<Evaluation> GetEvaluationsForEventEvaluator(string EventID, int EvaluatorID)
+    public List<Evaluation> GetEvaluationsForEventEvaluator(int EventID, int EvaluatorID)
     {
         //Evaluator EvaluData = new Evaluator();
 
@@ -198,8 +198,8 @@ public class EvaluationDirector
         CommandGet.CommandText = "GetEvaluatorEventData";
 
         SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EventKey";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.ParameterName = "@EventID";
+        AddParameter.SqlDbType = SqlDbType.Int;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = EventID;
         CommandGet.Parameters.Add(AddParameter);
@@ -231,7 +231,7 @@ public class EvaluationDirector
         {
             Evaluation evaluation = new Evaluation();
 
-            evaluation.EventID = dataRow["EventKey"].ToString();
+            evaluation.EventID = Convert.ToInt32(dataRow["EventID"]);
             evaluation.EvaluatorID = Convert.ToInt32(dataRow["EvaluatorID"]);
             evaluation.TimeStamp = DateTime.Parse(dataRow["TimeOfData"].ToString());
             evaluation.Rating = Convert.ToInt32(dataRow["Rating"]);

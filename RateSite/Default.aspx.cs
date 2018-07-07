@@ -39,10 +39,13 @@ public partial class Default : System.Web.UI.Page
             DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
         
             CSS RequestDirector = new CSS();
+           
+            //check all open events to match event Key
+            //return Event ID
 
             //get event info for key input
             Event currentEvent = new Event();
-            currentEvent.EventID = tbEventKey.Text.ToUpper();
+            currentEvent.EventKey = tbEventKey.Text.ToUpper();
             currentEvent = RequestDirector.GetEvent(currentEvent);
 
             //check if event key exists

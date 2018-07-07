@@ -64,12 +64,12 @@ public class CSS
         return fEvent;
     }
 
-    public Evaluator CreateEvaluator()
+    public Evaluator CreateEvaluator(Evaluator eval)
     { 
         Evaluator newEvaluator = new Evaluator();
         EventDirector Controller = new EventDirector();
 
-        newEvaluator = Controller.CreateEvaluator();
+        newEvaluator = Controller.CreateEvaluator(eval);
 
         return newEvaluator;
     }
@@ -82,13 +82,13 @@ public class CSS
         return evals;
     }
 
-    public List<Evaluation> GetEventData(string EventKey)
+    public List<Evaluation> GetEventData(int EventID)
     {
         //List<Evaluator> evaluators = new List<Evaluator>();
         List<Evaluation> evaluations = new List<Evaluation>();
         EvaluationDirector Controller = new EvaluationDirector();
 
-        evaluations = Controller.GetAllEventData(EventKey);          
+        evaluations = Controller.GetAllEventData(EventID);          
 
         return evaluations;
     }
@@ -173,7 +173,7 @@ public class CSS
         return facEvents;
     }
 
-    public List<Evaluation> GetEvaluatorEvaluations(string EventID, int EvaluatorID)
+    public List<Evaluation> GetEvaluatorEvaluations(int EventID, int EvaluatorID)
     {
         List<Evaluation> EvaluatorEvents = new List<Evaluation>();
         EvaluationDirector Controller = new EvaluationDirector();

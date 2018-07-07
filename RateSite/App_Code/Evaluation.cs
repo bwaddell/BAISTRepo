@@ -14,13 +14,13 @@ public class Evaluation
     private DateTime TimeStampValue;
     private int RatingValue;
     private int EvaluatorIDValue;
-    private string EventIDValue;
+    private int EventIDValue;
 
     public Evaluation()
     {
     }
 
-    public Evaluation(int rating, int evaluatorID, string eventID)
+    public Evaluation(int rating, int evaluatorID, int eventID)
     {
         //  method sets the timestamp to NOW and all other 
         //  variables are supplied
@@ -45,7 +45,7 @@ public class Evaluation
         get { return EvaluatorIDValue; }
         set { EvaluatorIDValue = value; }
     }
-    public string EventID
+    public int EventID
     {
         get { return EventIDValue; }
         set { EventIDValue = value; }

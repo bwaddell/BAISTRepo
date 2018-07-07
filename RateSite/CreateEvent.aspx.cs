@@ -41,7 +41,7 @@ public partial class CreateEvent : System.Web.UI.Page
 
         //get facilitator info and event info input
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
-        cEvent.EventID = EventKey;
+        cEvent.EventKey = EventKey;
         cEvent.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
         cEvent.Performer = tbPerformer.Text;
         cEvent.Location = tbLocation.Text;

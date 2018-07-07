@@ -137,46 +137,12 @@ public class EventDirector
         CommandAdd.CommandText = "UpdateEventStatus";
 
         SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EventKey";
-        AddParameter.SqlDbType = SqlDbType.VarChar;
+        AddParameter.ParameterName = "@EventID";
+        AddParameter.SqlDbType = SqlDbType.Int;
         AddParameter.Direction = ParameterDirection.Input;
         AddParameter.Value = updatedEvent.EventID;
         CommandAdd.Parameters.Add(AddParameter);
 
-        //AddParameter = new SqlParameter();
-        //AddParameter.ParameterName = "@FacilitatorID";
-        //AddParameter.SqlDbType = SqlDbType.Int;
-        //AddParameter.Direction = ParameterDirection.Input;
-        //AddParameter.Value = updatedEvent.FacilitatorID;
-        //CommandAdd.Parameters.Add(AddParameter);
-
-        //AddParameter = new SqlParameter();
-        //AddParameter.ParameterName = "@Location";
-        //AddParameter.SqlDbType = SqlDbType.VarChar;
-        //AddParameter.Direction = ParameterDirection.Input;
-        //AddParameter.Value = updatedEvent.Location;
-        //CommandAdd.Parameters.Add(AddParameter);
-
-        //AddParameter = new SqlParameter();
-        //AddParameter.ParameterName = "@Performer";
-        //AddParameter.SqlDbType = SqlDbType.VarChar;
-        //AddParameter.Direction = ParameterDirection.Input;
-        //AddParameter.Value = updatedEvent.Performer;
-        //CommandAdd.Parameters.Add(AddParameter);
-
-        //AddParameter = new SqlParameter();
-        //AddParameter.ParameterName = "@NatureOfPerformance";
-        //AddParameter.SqlDbType = SqlDbType.VarChar;
-        //AddParameter.Direction = ParameterDirection.Input;
-        //AddParameter.Value = updatedEvent.Description;
-        //CommandAdd.Parameters.Add(AddParameter);
-
-        //AddParameter = new SqlParameter();
-        //AddParameter.ParameterName = "@EventDate";
-        //AddParameter.SqlDbType = SqlDbType.Date;
-        //AddParameter.Direction = ParameterDirection.Input;
-        //AddParameter.Value = DateTime.Today;           //help
-        //CommandAdd.Parameters.Add(AddParameter);
 
         AddParameter = new SqlParameter();
         AddParameter.ParameterName = "@EventStart";
@@ -229,7 +195,7 @@ public class EventDirector
     }
 
 
-    public Event GetEvent(string eventID)
+    public Event GetEvent(int eventID)
     {
         Event foundEvent;
         foundEvent = new Event();
@@ -244,8 +210,8 @@ public class EventDirector
         CommandGet.CommandText = "GetEvent";
 
         SqlParameter GetParameter = new SqlParameter();
-        GetParameter.ParameterName = "@EventKey";
-        GetParameter.SqlDbType = SqlDbType.NVarChar;
+        GetParameter.ParameterName = "@EventID";
+        GetParameter.SqlDbType = SqlDbType.Int;
         GetParameter.Direction = ParameterDirection.Input;
         GetParameter.Value = eventID;
         CommandGet.Parameters.Add(GetParameter);
@@ -263,6 +229,7 @@ public class EventDirector
 
 
             foundEvent.EventID = eventID;
+            foundEvent.EventKey = eventReader["EventKey"].ToString();
             foundEvent.Date = Convert.ToDateTime(eventReader["EventDate"], culture);
             foundEvent.Description = eventReader["NatureOfEvent"].ToString();
             foundEvent.FacilitatorID = Convert.ToInt32(eventReader["FacilitatorID"]);
@@ -316,7 +283,7 @@ public class EventDirector
     }
 
 
-    public List<Evaluator> GetEvaluatorsForEvent(string eventID)              //Evaluator Director???
+    public List<Evaluator> GetEvaluatorsForEvent(int eventID)              //Evaluator Director???
     {
         List<Evaluator> listOfEvaluators = new List<Evaluator>();
         //foundEvent.EventID = eventID;
@@ -333,8 +300,8 @@ public class EventDirector
         CommandGet.CommandText = "GetEventEvaluators";
 
         SqlParameter GetParameter = new SqlParameter();
-        GetParameter.ParameterName = "@EventKey";
-        GetParameter.SqlDbType = SqlDbType.NVarChar;
+        GetParameter.ParameterName = "@EventID";
+        GetParameter.SqlDbType = SqlDbType.Int;
         GetParameter.Direction = ParameterDirection.Input;
         GetParameter.Value = eventID;
         CommandGet.Parameters.Add(GetParameter);
@@ -368,22 +335,6 @@ public class EventDirector
             {
                 evaluator.Name = dataRow["Name"].ToString();
             }
-            if (dataRow["DateOfBirth"] != DBNull.Value)
-            {
-                evaluator.DateOfBirth = DateTime.Parse(dataRow["DateOfBirth"].ToString());
-            }
-            if (dataRow["Sex"] != DBNull.Value)
-            {
-                evaluator.Sex = dataRow["Sex"].ToString();
-            }
-            if (dataRow["SchoolOrOrganization"] != DBNull.Value)
-            {
-                evaluator.School = dataRow["SchoolOrOrganization"].ToString();
-            }
-            if (dataRow["City"] != DBNull.Value)
-            {
-                evaluator.City = dataRow["City"].ToString();
-            }
             if (dataRow["VotingCriteria"] != DBNull.Value)
             {
                 evaluator.Criteria = dataRow["VotingCriteria"].ToString();
@@ -405,7 +356,7 @@ public class EventDirector
 
     
 
-    public Evaluator CreateEvaluator()
+    public Evaluator CreateEvaluator(Evaluator eval)
     {
         Evaluator newEvaluator = new Evaluator();
 
@@ -421,6 +372,20 @@ public class EventDirector
         AddParameter.ParameterName = "@EvaluatorID";
         AddParameter.SqlDbType = SqlDbType.Int;
         AddParameter.Direction = ParameterDirection.Output;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Name";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = eval.Name;
+        CommandAdd.Parameters.Add(AddParameter);
+
+        AddParameter = new SqlParameter();
+        AddParameter.ParameterName = "@Criteria";
+        AddParameter.SqlDbType = SqlDbType.NVarChar;
+        AddParameter.Direction = ParameterDirection.Input;
+        AddParameter.Value = eval.Criteria;
         CommandAdd.Parameters.Add(AddParameter);
 
         //try
