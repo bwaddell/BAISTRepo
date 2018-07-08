@@ -91,7 +91,7 @@ public partial class Events : System.Web.UI.Page
             tCell.CssClass = "btn-group";
             Button btn = new Button();
             btn.Text = "View Event";
-            btn.ID = String.Format("EventView{0}", eve.EventID);
+            btn.ID = String.Format("EventView{0}", eve.EventID.ToString());
             btn.Click += new EventHandler(ViewEvent_Click);
             btn.CssClass = "btn btn-default";
             tCell.Controls.Add(btn);
@@ -99,9 +99,9 @@ public partial class Events : System.Web.UI.Page
 
             btn = new Button();
             btn.Text = "Delete";
-            btn.ID = String.Format("EventDelete{0}", eve.EventID);
+            btn.ID = String.Format("EventDelete{0}", eve.EventID.ToString());
             btn.Click += new EventHandler(DeleteEvent_Click);
-            btn.OnClientClick = "return confirm('Are you sure you want to delete this event and all of it's data?');";
+            btn.OnClientClick = "return confirm('Are you sure you want to delete this event and all associated data?');";
             btn.CssClass = "btn btn-light";
             tCell.Controls.Add(btn);
             tRow.Cells.Add(tCell);
@@ -140,7 +140,7 @@ public partial class Events : System.Web.UI.Page
         CSS RequestDirector = new CSS();
         string EventID = ((Button)sender).ID;
 
-        EventID = EventID.Replace("EventView", "");
+        EventID = EventID.Replace("EventDelete", "");
 
         Event selectedEvent = new Event();
         selectedEvent.EventID = Convert.ToInt32(EventID);

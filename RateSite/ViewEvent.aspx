@@ -118,10 +118,10 @@
 
                             <asp:Table ID="Table1" runat="server" CssClass="table table-responsive">
                                 <asp:TableHeaderRow CssClass="position-sticky">
-                                    <asp:TableHeaderCell CssClass="">Evaluator ID</asp:TableHeaderCell>
-                                    <asp:TableHeaderCell CssClass="">Last Rating</asp:TableHeaderCell>
+                                    <asp:TableHeaderCell CssClass="">Evaluator</asp:TableHeaderCell>
+                                    <asp:TableHeaderCell CssClass="">Time of First Rating</asp:TableHeaderCell>
+                                    <asp:TableHeaderCell CssClass="">Time of Final Rating</asp:TableHeaderCell>
                                     <asp:TableHeaderCell CssClass="">Avg Rating</asp:TableHeaderCell>
-                                    <asp:TableHeaderCell CssClass="">Time Stamp</asp:TableHeaderCell>
                                 </asp:TableHeaderRow>
                                 <asp:TableRow>
                                     <%--Dynamic table Data will be inserted here--%>

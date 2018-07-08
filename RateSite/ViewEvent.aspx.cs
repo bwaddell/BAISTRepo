@@ -278,26 +278,46 @@ public partial class ViewEvent : System.Web.UI.Page
         //get most recent evaluation from each evaluator
         currentEvals = RequestDirector.GetCurrentEventData(activeEvent);
 
+        Button btn;
 
         foreach (Evaluator ev in activeEvent.Evaluators)
         {
             TableRow tRow = new TableRow();
             TableCell tCell = new TableCell();
 
-            tCell.Text = ev.EvaluatorID.ToString();
+            //name
+            if (ev.EvaluatorID.ToString().Equals("voter"))
+                tCell.Text = ev.EvaluatorID.ToString();
+            else
+                tCell.Text = ev.Name;
+   
             tRow.Cells.Add(tCell);
 
+            //first Rating
             tCell = new TableCell();
-            tCell.Text = ev.EvaluatorEvaluations.Last().Rating.ToString();
+            tCell.Text = (ev.EvaluatorEvaluations.First().TimeStamp - activeEvent.EventStart).ToString();
             tRow.Cells.Add(tCell);
-
-            tCell = new TableCell();            //add the avg rating of the eval
-            tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");
-            tRow.Cells.Add(tCell);
-
+            
+            //last rating
             tCell = new TableCell();
-            tCell.Text = ev.EvaluatorEvaluations.Last().TimeStamp.ToString();
+            tCell.Text = (ev.EvaluatorEvaluations.Last().TimeStamp - activeEvent.EventStart).ToString();
             tRow.Cells.Add(tCell);
+
+            //avg rating
+            tCell = new TableCell();
+            tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");     
+            tRow.Cells.Add(tCell);
+
+            //delete button
+            tCell = new TableCell();
+            btn = new Button();
+            btn.Text = "Remove";
+            btn.ID = String.Format("Remove{0}", ev.EvaluatorID.ToString());
+            btn.Click += new EventHandler(RemoveEvaluator_Click);
+            btn.OnClientClick = "return confirm('Are you sure you want to remove this evaluator?');";
+            btn.CssClass = "btn btn-light";
+            tCell.Controls.Add(btn);
+           
 
             Table1.Rows.Add(tRow);
         }
@@ -340,5 +360,18 @@ public partial class ViewEvent : System.Web.UI.Page
     protected void TimerForTableRefresh_Tick(object sender, EventArgs e)
     {
         BuildTable();
+    }
+
+    protected void RemoveEvaluator_Click(object sender, EventArgs e)
+    {
+        CSS RequestDirector = new CSS();
+        string EvaluatorID = ((Button)sender).ID;
+
+        EvaluatorID = EvaluatorID.Replace("Remove", "");
+
+        Evaluator ev = new Evaluator();
+        ev.EvaluatorID = Convert.ToInt32(EvaluatorID);
+
+        bool confirmation = RequestDirector.DeleteEvaluatorEventData(((Event)Session["Event"]), ev);
     }
 }
