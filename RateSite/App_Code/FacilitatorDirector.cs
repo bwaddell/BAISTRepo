@@ -48,7 +48,7 @@ public class FacilitatorDirector
 
             SqlParameter AddParamater = new SqlParameter
             {
-                ParameterName = "@email",
+                ParameterName = "@Email",
                 SqlDbType = SqlDbType.NVarChar,
                 Direction = ParameterDirection.Input,
                 Value = email
@@ -218,7 +218,7 @@ public class FacilitatorDirector
             {
                 facilitatorDataReader.Read();
 
-                pullFacilitator.Email = facilitatorDataReader["EMail"].ToString();
+                pullFacilitator.Email = facilitatorDataReader["Email"].ToString();
                 pullFacilitator.FacilitatorID = id;
                 pullFacilitator.Password = facilitatorDataReader["Password"].ToString();
                 pullFacilitator.Salt = facilitatorDataReader["Salt"].ToString();
@@ -399,5 +399,45 @@ public class FacilitatorDirector
 
 
         return Success;
+    }
+
+    public bool DeleteFacilitator (Facilitator fac)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        bool success;
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "DeleteFacilitator";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@FacID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = fac.FacilitatorID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            CommandAdd.ExecuteNonQuery();
+
+
+            success = true;
+        }
+        catch (Exception)
+        {
+            success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return success;
+
     }
 }

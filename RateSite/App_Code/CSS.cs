@@ -217,6 +217,42 @@ public class CSS
         return chart;
     }
 
+    public bool DeleteFacilitator(Facilitator fac)
+    {
+        bool Confirmation;
+        FacilitatorDirector Controller = new FacilitatorDirector();
+
+        Confirmation = Controller.DeleteFacilitator(fac);
+        return Confirmation;
+    }
+
+    public bool DeleteEvent(Event ev)
+    {
+        bool Confirmation;
+        EventDirector Controller = new EventDirector();
+
+        Confirmation = Controller.DeleteEvent(ev);
+        return Confirmation;
+    }
+
+    public bool DeleteEvaluatorEventData(Event eve, Evaluator eva)
+    {
+        bool Confirmation;
+        EvaluationDirector Controller = new EvaluationDirector();
+
+        Confirmation = Controller.DeleteEvaluatorEventData(eve, eva);
+        return Confirmation;
+    }
+
+    public bool DeleteEventData(Event eve)
+    {
+        bool Confirmation;
+        EvaluationDirector Controller = new EvaluationDirector();
+
+        Confirmation = Controller.DeleteEventData(eve);
+        return Confirmation;
+    }
+
     //public List<Series> ConvertEventToSeriesList(Event theEvent)
     //{
     //    CSSChart chartmaker = new CSSChart();

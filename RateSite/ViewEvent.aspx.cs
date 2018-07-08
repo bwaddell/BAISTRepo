@@ -192,7 +192,7 @@ public partial class ViewEvent : System.Web.UI.Page
         Event updateMe = new Event();
 
         //get event info
-        updateMe.EventID = tbEventID.Text;
+        updateMe.EventID = Convert.ToInt32(tbEventID.Text);
         updateMe = Manager.GetEvent(updateMe);
 
         //update event with start time
@@ -220,7 +220,7 @@ public partial class ViewEvent : System.Web.UI.Page
 
         //get event info
         Event updateMe = new Event();
-        updateMe.EventID = tbEventID.Text;
+        updateMe.EventID = Convert.ToInt32(tbEventID.Text);
         updateMe = Manager.GetEvent(updateMe);
 
         //update event with end time

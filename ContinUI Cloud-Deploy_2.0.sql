@@ -210,8 +210,8 @@ as
 	return @ReturnCode
 GO
 
-EXEC CreateFacilitator 'ben@gmail.com','asdkjahskdjhaksjhd','asdasd','eval','ben','waddell','student','NAIT','Edmonton'
-SELECT * FROM Facilitator
+--EXEC CreateFacilitator 'ben@gmail.com','asdkjahskdjhaksjhd','asdasd','eval','ben','waddell','student','NAIT','Edmonton'
+--SELECT * FROM Facilitator
 
 IF (OBJECT_ID('DeleteFacilitator') IS NOT NULL)
   DROP PROCEDURE DeleteFacilitator
@@ -287,8 +287,8 @@ as
 GO
 
 
-EXEC CreateEvent 'asdf',2,'edmonton','me','coding','today'
-select * FROM EventDetails
+--EXEC CreateEvent 'asdf',2,'edmonton','me','coding','today'
+--select * FROM EventDetails
 
 
 IF (OBJECT_ID('DeleteEvent') IS NOT NULL)
@@ -330,20 +330,20 @@ IF (OBJECT_ID('UpdateEventStatus') IS NOT NULL)
 go
 create procedure UpdateEventStatus
 (
-	@EventKey nvarchar(5) = null,
-	@EventStart nvarchar(25) = null,
-	@EventFinish nvarchar(25) = null
+	@EventID int = null,
+	@EventStart nvarchar(25) = '1/1/1800 12:00:00 PM',
+	@EventFinish nvarchar(25) = '1/1/1800 12:00:00 PM'
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
-	if(@EventKey is null)
+	if(@EventID is null)
 		raiserror('UpdateEventStatus - Required Parameter: @EventKey',16,1)
 	else
 		begin
 			update EventDetails
 			set EventBegin = @EventStart, EventEnd = @EventFinish
-			where @EventKey = EventKey
+			where EventID = @EventID
 			if @@ERROR = 0
 				set @ReturnCode = 0
 			else
@@ -352,6 +352,9 @@ as
 	return @ReturnCode
 GO
 
+--EXEC CreateEvent 'asdf',2,'edmonton','me','coding','today'
+--EXEC UpdateEventStatus 6
+--SELECT * FROM EventDetails
 
 
 --**************************************--
@@ -428,7 +431,7 @@ as
 		raiserror('GetFacilitatorEvents - Required Parameter: @FaciltatorID',16,1)
 	else
 		begin
-			select EventKey,FacilitatorID, Location, Performer, NatureOfEvent,EventDate,EventBegin,EventEnd from EventDetails
+			select EventID,EventKey,FacilitatorID,Location,Performer,NatureOfEvent,EventDate,EventBegin,EventEnd from EventDetails
 			where FacilitatorID = @FacilitatorID
 			order by EventDate desc, EventBegin desc
 
@@ -440,8 +443,6 @@ as
 	return @ReturnCode
 GO
 
---exec GetFacilitatorEvents 1
-
 
 --**************************************--
 IF (OBJECT_ID('CreateEvaluator') IS NOT NULL)
@@ -449,7 +450,9 @@ IF (OBJECT_ID('CreateEvaluator') IS NOT NULL)
 go
 create procedure CreateEvaluator
 (
-	@EvaluatorID INT = null output
+	@EvaluatorID INT = null output,
+	@Name NVARCHAR(64) = 'Voter',
+	@Criteria NVARCHAR(64) = 'Overall Quality'
 )
 as
 	declare @ReturnCode as int
@@ -457,7 +460,7 @@ as
 
 	begin
 		insert into Evaluator(Name,VotingCriteria)
-		values('TempName','QualityOfPerformance')
+		values(@Name, @Criteria)
 
 		if @@ERROR = 0
 			begin
@@ -470,7 +473,11 @@ as
 	return @ReturnCode	
 go
 
+--Declare @ID int
+--EXEC  CreateEvaluator @ID out,'George'
 
+--SELECT @ID
+--SELECT * FROM Evaluator
 
 --**************************************--
 IF (OBJECT_ID('GetEvaluator') IS NOT NULL)
@@ -488,7 +495,7 @@ as
 		 raiserror('GetEvaluator - Required Parameter: @EvaluatorID',16,1)
 	else
 		begin
-			select EvaluatorID,Name,DateOfBirth,Sex,SchoolOrOrganization,City,VotingCriteria from Evaluator
+			select EvaluatorID,Name,VotingCriteria from Evaluator
 			where EvaluatorID = @EvaluatorID 
 
 			if @@ERROR = 0
@@ -499,6 +506,8 @@ as
 	return @ReturnCode				
 GO
 
+--EXEC GetEvaluator 3
+
 
 
 --**************************************--
@@ -507,20 +516,20 @@ IF (OBJECT_ID('GetEventEvaluators') IS NOT NULL)
 go
 create procedure GetEventEvaluators --for event
 (
-	@EventKey nvarchar(5)
-)
+	@EventID INT = null
+) 
 as
 	declare @returnCode as int
 	set @ReturnCode = 1
 	
-	if(@EventKey is null)
-		 raiserror('GetEventEvaluators - Required Parameter: @EventKey',16,1)
+	if(@EventID is null)
+		 raiserror('GetEventEvaluators - Required Parameter: @EventID',16,1)
 	else
 		begin
-			select distinct Evaluator.EvaluatorID,Name, DateOfBirth,Sex,SchoolOrOrganization,City,VotingCriteria from Evaluator
+			select distinct Evaluator.EvaluatorID,Name,VotingCriteria from Evaluator
 			inner join EvaluativeData ed on 
 			Evaluator.EvaluatorID = ed.EvaluatorID
-			where ed.EventKey = @EventKey
+			where ed.EventID = @EventID
 			
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -538,19 +547,19 @@ IF (OBJECT_ID('GetHistoricalEvaluationData') IS NOT NULL)
 go
 create procedure GetHistoricalEvaluationData
 (
-	@EventKey nvarchar(5) = null
+	@EventID INT = null
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 	
-	if(@EventKey is null)
-		raiserror('GetHistoricalEvaluationData - Required Parameter: @EventKey',16,1)
+	if(@EventID is null)
+		raiserror('GetHistoricalEvaluationData - Required Parameter: @EventID',16,1)
 	else
 		begin
 			select EvaluatorID, Rating, TimeOfData 
 			from EvaluativeData
-			where @EventKey = EventKey
+			where EventID = @EventID
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -568,21 +577,21 @@ IF (OBJECT_ID('GetMostRecentEvaluativeData') IS NOT NULL)
 go
 create procedure GetMostRecentEvaluativeData
 (
-	@EventKey nvarchar(5) = null
+	@EventID INT = null
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 	
-	if(@EventKey is null)
-		raiserror('GetMostRecentEvaluativeData - Required Parameter: @EventKey',16,1)
+	if(@EventID is null)
+		raiserror('GetMostRecentEvaluativeData - Required Parameter: @EventID',16,1)
 	else
 		begin
 			select ed.EvaluatorID, ed.Rating, ed.TimeOfData
 			from EvaluativeData ed
 			left join EvaluativeData ev
 			on ed.EvaluatorID = ev.EvaluatorID and ed.TimeOfData < ev.TimeOfData
-			where ed.EventKey = @EventKey and ev.EvaluatorID is null
+			where ed.EventID = @EventID and ev.EvaluatorID is null
 
 
 			if @@ERROR = 0
@@ -601,21 +610,21 @@ IF (OBJECT_ID('GetEvaluatorEventData') IS NOT NULL)
 go
 create procedure GetEvaluatorEventData
 (
-	@EventKey nvarchar(5) = null,
+	@EventID INT = null,
 	@EvaluatorID int = null
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 	
-	if(@EventKey is null)
-		raiserror('GetEvaluatorEventData - Required Parameter: @EventKey',16,1)
+	if(@EventID is null)
+		raiserror('GetEvaluatorEventData - Required Parameter: @@EventID',16,1)
 	if(@EvaluatorID is null)
 		raiserror('GetEvaluatorEventData - Required Parameter: @EvaluatorID',16,1)
 	else
 		begin
-			select EventKey,EvaluatorID,TimeOfData,Rating from EvaluativeData
-			where @EventKey = EventKey and @EvaluatorID = EvaluatorID
+			select @EventID,EvaluatorID,TimeOfData,Rating from EvaluativeData
+			where EventID = @EventID and @EvaluatorID = EvaluatorID
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -626,6 +635,60 @@ as
 GO
 
 
+IF (OBJECT_ID('DeleteEvaluatorEventData') IS NOT NULL)
+  DROP PROCEDURE DeleteEvaluatorEventData
+go
+create procedure DeleteEvaluatorEventData
+(
+	@EventID INT = null,
+	@EvaluatorID int = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@EventID is null)
+		raiserror('DeleteEvaluatorEventData - Required Parameter: @@EventID',16,1)
+	if(@EvaluatorID is null)
+		raiserror('DeleteEvaluatorEventData - Required Parameter: @EvaluatorID',16,1)
+	else
+		begin
+			DELETE FROM EvaluativeData
+			where EventID = @EventID and @EvaluatorID = EvaluatorID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('DeleteEvaluatorEventData - Delete Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
+GO
+
+IF (OBJECT_ID('DeleteEventData') IS NOT NULL)
+  DROP PROCEDURE DeleteEventData
+go
+create procedure DeleteEventData
+(
+	@EventID INT = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+	
+	if(@EventID is null)
+		raiserror('DeleteEventData - Required Parameter: @@EventID',16,1)
+	else
+		begin
+			DELETE FROM EvaluativeData
+			where EventID = @EventID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			ELSE
+				RAISERROR('DeleteEventData - Delete Error: Query Failed',16,1)
+		end
+	return @ReturnCode				
+GO
 
 
 --**************************************--
@@ -634,18 +697,18 @@ IF (OBJECT_ID('GetAllEventData') IS NOT NULL)
 go
 create procedure GetAllEventData
 (
-	@EventKey nvarchar(5) = null
+	@EventID INT = null
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 
-	if(@EventKey is null)
-		raiserror('GetAllEventData - Required Parameter: @EventKey',16,1)
+	if(@EventID is null)
+		raiserror('GetAllEventData - Required Parameter: @@EventID',16,1)
 	else
 		begin
-			select EventKey,EvaluatorID,TimeOfData,Rating from EvaluativeData
-			where EventKey = @EventKey-- and EvaluatorID = '11'						--temp added
+			select EventID,EvaluatorID,TimeOfData,Rating from EvaluativeData
+			where EventID = @EventID-- and EvaluatorID = '11'						--temp added
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -663,18 +726,18 @@ IF (OBJECT_ID('GetEvent') IS NOT NULL)
 go
 create procedure GetEvent
 (
-	@EventKey nvarchar(5) = null
+	@EventID INT = null
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 
-	if(@EventKey is null)
-		raiserror('GetEvent - Required Parameter: @EventKey',16,1)
+	if(@EventID is null)
+		raiserror('GetEvent - Required Parameter: @@EventID',16,1)
 	else
 		begin
-			select EventKey, FacilitatorID, Location, Performer,NatureOfEvent, EventDate, EventBegin, EventEnd from EventDetails
-			where EventKey = @EventKey
+			select EventID,EventKey, FacilitatorID, Location, Performer,NatureOfEvent, EventDate, EventBegin, EventEnd from EventDetails
+			where EventID = @EventID
 
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -738,125 +801,128 @@ as
 go
 
 
+--sp_helpdb Continui
+--sp_helpuser Continui02
+--go
 
-sp_helpdb Continui
-sp_helpuser Continui02
-go
 
-grant execute on AddEvaluationDataPoint to Continui02
-grant execute on AddEvaluator to Continui02
-grant execute on CreateEvaluator to Continui02
-grant execute on CreateEvent to Continui02
-grant execute on CreateFacilitator to Continui02
-grant execute on GetAllEventData to Continui02
-grant execute on GetEvaluator to Continui02
-grant execute on GetEvaluatorEventData to Continui02
-grant execute on GetEvent to Continui02
-grant execute on GetEventEvaluators to Continui02
-grant execute on GetFacilitator to Continui02
-grant execute on GetFacilitatorEvents to Continui02
-grant execute on GetHistoricalEvaluationData to Continui02
-grant execute on GetMostRecentEvaluativeData to Continui02
-grant execute on UpdateEventStatus to Continui02
-grant execute on UpdateFacilitatorInfo to Continui02
-grant execute on GetFacilitatorInfo to Continui02
-
+GRANT EXECUTE ON AddEvaluationDataPoint to Continui02
+GRANT EXECUTE ON AddEvaluator to Continui02
+GRANT EXECUTE ON CreateEvaluator to Continui02
+GRANT EXECUTE ON CreateEvent to Continui02
+GRANT EXECUTE ON CreateFacilitator to Continui02
+GRANT EXECUTE ON GetAllEventData to Continui02
+GRANT EXECUTE ON GetEvaluator to Continui02
+GRANT EXECUTE ON GetEvaluatorEventData to Continui02
+GRANT EXECUTE ON GetEvent to Continui02
+GRANT EXECUTE ON GetEventEvaluators to Continui02
+GRANT EXECUTE ON GetFacilitator to Continui02
+GRANT EXECUTE ON GetFacilitatorEvents to Continui02
+GRANT EXECUTE ON GetHistoricalEvaluationData to Continui02
+GRANT EXECUTE ON GetMostRecentEvaluativeData to Continui02
+GRANT EXECUTE ON UpdateEventStatus to Continui02
+GRANT EXECUTE ON UpdateFacilitatorInfo to Continui02
+GRANT EXECUTE ON GetFacilitatorInfo TO Continui02
+GRANT EXECUTE ON DeleteFacilitator TO Continui02
+GRANT EXECUTE ON DeleteEvent TO Continui02
+GRANT EXECUTE ON DeleteEvaluatorEventData TO Continui02
+GRANT EXECUTE ON DeleteEventData TO Continui02
 
 --CHECK THIS SHIT!!!!
 
-sp_help
+--sp_help
 
 
 
---**************************************--
---			Creating test Data			--
---**************************************--
-execute CreateFacilitator 'admin','account','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','Mr','NAIT BAIST','Edmonton, AB'
-execute CreateFacilitator 'BAIST','Students','baist@gmail.com','admin','ac81acfd35332d177ace4dfd997236d666b54bff5ba4420c7cae6a5237b9174c','D/ydVF8=','Mr','NAIT BAIST','Edmonton, AB'
-go
-declare @evalID int
-execute AddEvaluator @evalID output, 'Cody Jacob','08-12-2001','M','NAIT','Edmonton','Vote criteria?'
-execute AddEvaluator @evalID output, 'Ben Waddell','05-10-2001','M','NAIT','Edmonton','Vote criteria?'
-execute AddEvaluator @evalID output, 'Martin Sawicki','04-09-2001','M','NAIT','Edmonton','Vote criteria?'
-go
-execute CreateEvent 'AAAA',1,'Edmonton, AB, Canada','NAIT Baist Students','Building a website','20/04/2018'
-go
---update start time of event to NOW
-exec UpdateEventStatus 'AAAA', '20/04/2018 7:00:00 AM', '20/04/2018 8:00:00 AM'
-go
---add evaluative data to table
-exec AddEvaluationDataPoint 'AAAA',1,10,'4/20/2018 7:00:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,9,'4/20/2018 7:00:30 AM'
-exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:01:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:01:30 AM'
-exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:02:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:03:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,6,'4/20/2018 7:05:10 AM'
-exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:05:20 AM'
-exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:06:30 AM'
-exec AddEvaluationDataPoint 'AAAA',1,3,'4/20/2018 7:06:50 AM'
-exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:06:55 AM'
-exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:10:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,6,'4/20/2018 7:10:10 AM'
-exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:11:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:12:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:13:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:14:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:16:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,3,'4/20/2018 7:15:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:30:00 AM'
-exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:39:50 AM'
+----**************************************--
+----			Creating test Data			--
+----**************************************--
+--execute CreateFacilitator 'admin','account','admin@gmail.com','admin','3dfd5cbdd931df72ff375bf1e7bda19feb2cb8975eac67e654b66d656f8c52c4','D/ydVF8=','Mr','NAIT BAIST','Edmonton, AB'
+--execute CreateFacilitator 'BAIST','Students','baist@gmail.com','admin','ac81acfd35332d177ace4dfd997236d666b54bff5ba4420c7cae6a5237b9174c','D/ydVF8=','Mr','NAIT BAIST','Edmonton, AB'
+--go
+--declare @evalID int
+--execute AddEvaluator @evalID output, 'Cody Jacob','Vote criteria?'
+--execute AddEvaluator @evalID output, 'Ben Waddell','Vote criteria?'
+--execute AddEvaluator @evalID output, 'Martin Sawicki','Vote criteria?'
+--go
+--execute CreateEvent 'AAAA',1,'Edmonton, AB, Canada','NAIT Baist Students','Building a website','20/04/2018'
+--go
+----update start time of event to NOW
+--exec UpdateEventStatus 'AAAA', '20/04/2018 7:00:00 AM', '20/04/2018 8:00:00 AM'
+--go
+----add evaluative data to table
+--exec AddEvaluationDataPoint 'AAAA',1,10,'4/20/2018 7:00:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,9,'4/20/2018 7:00:30 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:01:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:01:30 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:02:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:03:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,6,'4/20/2018 7:05:10 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:05:20 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:06:30 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,3,'4/20/2018 7:06:50 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:06:55 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:10:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,6,'4/20/2018 7:10:10 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:11:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:12:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,7,'4/20/2018 7:13:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,8,'4/20/2018 7:14:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:16:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,3,'4/20/2018 7:15:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,4,'4/20/2018 7:30:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',1,5,'4/20/2018 7:39:50 AM'
 
-exec AddEvaluationDataPoint 'AAAA',2,9,'4/20/2018 7:10:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,8,'4/20/2018 7:11:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,9,'4/20/2018 7:12:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,8,'4/20/2018 7:13:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,7,'4/20/2018 7:16:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:16:30 AM'
-exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:18:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:19:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:20:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,1,'4/20/2018 7:25:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:30:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,3,'4/20/2018 7:35:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:36:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:37:10 AM'
-exec AddEvaluationDataPoint 'AAAA',2,7,'4/20/2018 7:37:11 AM'
-exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:37:12 AM'
-exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:15 AM'
-exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:30 AM'
-exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:38:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:38:20 AM'
-exec AddEvaluationDataPoint 'AAAA',2,1,'4/20/2018 7:39:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:40:00 AM'
-exec AddEvaluationDataPoint 'AAAA',2,3,'4/20/2018 7:50:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,9,'4/20/2018 7:10:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,8,'4/20/2018 7:11:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,9,'4/20/2018 7:12:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,8,'4/20/2018 7:13:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,7,'4/20/2018 7:16:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:16:30 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:18:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:19:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:20:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,1,'4/20/2018 7:25:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:30:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,3,'4/20/2018 7:35:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:36:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:37:10 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,7,'4/20/2018 7:37:11 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,6,'4/20/2018 7:37:12 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:15 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,5,'4/20/2018 7:37:30 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,4,'4/20/2018 7:38:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:38:20 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,1,'4/20/2018 7:39:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,2,'4/20/2018 7:40:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',2,3,'4/20/2018 7:50:00 AM'
 
-exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:5:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:10:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:10:20 AM'
-exec AddEvaluationDataPoint 'AAAA',3,1,'4/20/2018 7:15:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:16:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:17:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:18:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:19:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:20:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:22:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:33:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,7,'4/20/2018 7:35:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:36:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:37:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:38:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:39:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:40:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:41:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:45:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:50:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:51:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:52:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:55:00 AM'
-exec AddEvaluationDataPoint 'AAAA',3,7,'4/20/2018 7:56:00 AM'
-go
+--exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:5:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:10:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:10:20 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,1,'4/20/2018 7:15:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:16:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:17:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:18:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:19:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:20:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:22:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:33:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,7,'4/20/2018 7:35:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:36:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:37:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:38:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:39:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,2,'4/20/2018 7:40:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,3,'4/20/2018 7:41:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:45:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:50:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,4,'4/20/2018 7:51:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,5,'4/20/2018 7:52:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,6,'4/20/2018 7:55:00 AM'
+--exec AddEvaluationDataPoint 'AAAA',3,7,'4/20/2018 7:56:00 AM'
+--go
 
 
 
@@ -867,10 +933,10 @@ go
 --			Select Statements			--
 --**************************************--
 
-select * from EvaluativeData
-select * from Evaluator
-select * from EventDetails
-select * from Facilitator
+--select * from EvaluativeData
+--select * from Evaluator
+--select * from EventDetails
+--select * from Facilitator
 
-delete from EvaluativeData where EventKey = 'U0ZP'
-delete from EventDetails where EventKey = 'U0ZP'
+--delete from EvaluativeData where EventID = 'U0ZP'
+--delete from EventDetails where EventKey = 'U0ZP'

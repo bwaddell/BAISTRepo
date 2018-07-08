@@ -49,39 +49,39 @@ public partial class Default : System.Web.UI.Page
             currentEvent = RequestDirector.GetEvent(currentEvent);
 
             //check if event key exists
-            if (currentEvent.EventID != default(string))
-            {
-                //if event end time is not default value, event is over.  Can not join
-                if (currentEvent.EventEnd == defaultTime)
-                {
-                    //create new evaluator
-                    Evaluator activeEvaluator = new Evaluator();                 
-                    activeEvaluator = RequestDirector.CreateEvaluator();
+            //if (currentEvent.EventID != default(string))
+            //{
+            //    //if event end time is not default value, event is over.  Can not join
+            //    if (currentEvent.EventEnd == defaultTime)
+            //    {
+            //        //create new evaluator
+            //        Evaluator activeEvaluator = new Evaluator();                 
+            //        activeEvaluator = RequestDirector.CreateEvaluator();
 
-                    //redirect to evaluate page if evaluator is created
-                    if (activeEvaluator.EvaluatorID != default(int))
-                    {
-                        Session["Event"] = currentEvent;
-                        Session["Evaluator"] = activeEvaluator;
-                        Response.Redirect("EvaluateEvent.aspx");
-                    }
-                    else
-                    {
-                        tbEventKey.Text = "";
-                        statuslbl.Text = "Error Joining Event";
-                    }                             
-                }
-                else
-                {
-                    tbEventKey.Text = "";
-                    statuslbl.Text = "Event has ended";
-                }
-            }
-            else
-            {
-                tbEventKey.Text = "";
-                statuslbl.Text = "Event Key Does Not Exist";
-            }
+            //        //redirect to evaluate page if evaluator is created
+            //        if (activeEvaluator.EvaluatorID != default(int))
+            //        {
+            //            Session["Event"] = currentEvent;
+            //            Session["Evaluator"] = activeEvaluator;
+            //            Response.Redirect("EvaluateEvent.aspx");
+            //        }
+            //        else
+            //        {
+            //            tbEventKey.Text = "";
+            //            statuslbl.Text = "Error Joining Event";
+            //        }                             
+            //    }
+            //    else
+            //    {
+            //        tbEventKey.Text = "";
+            //        statuslbl.Text = "Event has ended";
+            //    }
+            //}
+            //else
+            //{
+            //    tbEventKey.Text = "";
+            //    statuslbl.Text = "Event Key Does Not Exist";
+            //}
         }
         else
         {

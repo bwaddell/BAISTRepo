@@ -49,7 +49,7 @@
             <div class="form-group">
                 <label>Event Date:</label>
                 <asp:TextBox ID="tbEventDate" runat="server"
-                    CssClass="form-control" TextMode="Date"></asp:TextBox>
+                    CssClass="form-control"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidatorDate" runat="server" ErrorMessage="Date is Required" Display="Dynamic" ControlToValidate="tbEventDate"></asp:RequiredFieldValidator>
             </div>
 

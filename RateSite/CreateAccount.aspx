@@ -10,7 +10,7 @@
     <div class="row">
         <div class="form-group">
             <label>Email:</label>
-            <asp:TextBox ID="EmailTxt" runat="server" TextMode="Email"
+            <asp:TextBox ID="EmailTxt" runat="server"
                 CssClass="form-control"></asp:TextBox>
             <asp:RequiredFieldValidator ID="RequiredFieldValidatorEmail" runat="server" ErrorMessage="Field Required" ControlToValidate="EmailTxt" Display="Dynamic"></asp:RequiredFieldValidator>
             <asp:RegularExpressionValidator ID="RegularExpressionValidatorEmailLength" runat="server" ErrorMessage="Maximum 40 characters allowed." Display="Dynamic"

@@ -35,7 +35,7 @@ public partial class Events : System.Web.UI.Page
 
 
             tCell = new TableCell();
-            tCell.Text = eve.EventID;
+            tCell.Text = eve.EventID.ToString();
             tRow.Cells.Add(tCell);
 
 
@@ -97,16 +97,16 @@ public partial class Events : System.Web.UI.Page
             tCell.Controls.Add(btn);
             tRow.Cells.Add(tCell);
 
-            //Future delete event button
-            //btn = new Button();
-            //btn.Text = "Delete";
-            //btn.ID = String.Format("EventDelete{0}", eve.EventID);
-            //btn.Click += new EventHandler(DeleteEvent_Click);
-            //btn.CssClass = "btn btn-light";
-            //tCell.Controls.Add(btn);
-            //tRow.Cells.Add(tCell);
+            btn = new Button();
+            btn.Text = "Delete";
+            btn.ID = String.Format("EventDelete{0}", eve.EventID);
+            btn.Click += new EventHandler(DeleteEvent_Click);
+            btn.OnClientClick = "return confirm('Are you sure you want to delete this event and all of it's data?');";
+            btn.CssClass = "btn btn-light";
+            tCell.Controls.Add(btn);
+            tRow.Cells.Add(tCell);
 
-            //tRow.Cells.Add(tCell);
+            tRow.Cells.Add(tCell);
 
             tblEventList.Rows.Add(tRow);
 
@@ -120,9 +120,11 @@ public partial class Events : System.Web.UI.Page
 
         EventID = EventID.Replace("EventView", "");
 
+        int intID = Convert.ToInt32(EventID);
+
         //get selected event info
         Event selectedEvent = new Event();
-        selectedEvent.EventID = EventID;
+        selectedEvent.EventID = intID;
         selectedEvent = RequestDirector.GetEvent(selectedEvent);
 
         //save event to session, redirect to view event page
@@ -135,6 +137,22 @@ public partial class Events : System.Web.UI.Page
 
     protected void DeleteEvent_Click(object sender, EventArgs e)
     {
+        CSS RequestDirector = new CSS();
+        string EventID = ((Button)sender).ID;
 
+        EventID = EventID.Replace("EventView", "");
+
+        Event selectedEvent = new Event();
+        selectedEvent.EventID = Convert.ToInt32(EventID);
+
+        //Delete event data
+        bool confirmation;
+        confirmation = RequestDirector.DeleteEventData(selectedEvent);
+
+        //Delete event
+        confirmation = RequestDirector.DeleteEvent(selectedEvent);
+
+        //refresh to remove from list
+        Response.Redirect("Events.aspx");
     }
 }

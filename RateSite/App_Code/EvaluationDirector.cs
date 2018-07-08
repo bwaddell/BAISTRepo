@@ -241,4 +241,87 @@ public class EvaluationDirector
 
         return liOfEvaluations;
     }
+
+    public bool DeleteEvaluatorEventData(Event eve, Evaluator eva)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        bool success;
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "DeleteEvaluatorEventData";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@EventID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = eve.EventID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@EvaluatorID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = eva.EvaluatorID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            CommandAdd.ExecuteNonQuery();
+
+            success = true;
+        }
+        catch (Exception)
+        {
+            success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return success;
+    }
+
+    public bool DeleteEventData(Event eve)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        bool success;
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "DeleteEventData";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@EventID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = eve.EventID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            CommandAdd.ExecuteNonQuery();
+
+            success = true;
+        }
+        catch (Exception)
+        {
+            success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return success;
+    }
 }

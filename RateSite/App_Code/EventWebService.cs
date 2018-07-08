@@ -40,7 +40,7 @@ public class EventWebService : System.Web.Services.WebService
         CSS Director = new CSS();
         Event ActiveEvent = new Event();
 
-        ActiveEvent.EventID = eventID;
+        ActiveEvent.EventID = Convert.ToInt32(eventID);
 
         ActiveEvent = Director.GetEvent(ActiveEvent);
 

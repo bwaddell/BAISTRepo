@@ -61,7 +61,7 @@
             </div>
             <div class="form-group">
                 <label>Email:</label>
-                <asp:TextBox ID="Emailtxt" runat="server" CssClass="form-control" TextMode="Email"></asp:TextBox>
+                <asp:TextBox ID="Emailtxt" runat="server" CssClass="form-control" ></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidatoremail" runat="server" ValidationGroup="accountInfo"
                     ErrorMessage="Field Required" Display="Dynamic" ControlToValidate="Emailtxt"></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator ID="RegularExpressionValidatoremailLength" runat="server"
@@ -105,6 +105,12 @@
                 <asp:Button ID="UpdatePasswordBtn" runat="server" Text="Change Password" OnClick="UpdatePasswordBtn_Click"
                     ValidationGroup="updatePassword" CssClass="btn" />
                 <asp:Label ID="Pswdlbl" runat="server" Text=""></asp:Label>
+            </div>
+
+            <div class="form-group">
+                <asp:Button ID="DeleteBtn" runat="server" Text="Delete Account" OnClick="DeleteBtn_Click" OnClientClick="return confirm('Are you sure you want to delete your account?  All of your event data will be deleted along with your account data');"
+                    CssClass="btn" CausesValidation="false"  />
+                <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
             </div>
         </div>
     </div>

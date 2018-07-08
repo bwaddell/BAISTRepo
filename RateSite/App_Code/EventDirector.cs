@@ -411,6 +411,45 @@ public class EventDirector
         return newEvaluator;
     }
 
+    public bool DeleteEvent(Event ev)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        bool success;
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "DeleteEvent";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@EventID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = ev.EventID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            CommandAdd.ExecuteNonQuery();
+
+
+            success = true;
+        }
+        catch (Exception)
+        {
+            success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return success;
+    }
+
 
 
 }
