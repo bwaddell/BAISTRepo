@@ -18,77 +18,71 @@ public class EvaluationDirector
         //
     }
 
-    /// <summary>
-    /// Function is called by the Director to store
-    /// data to SQL Server
-    /// </summary>
     public bool CreateEvaluation(Evaluation eval)
     {
         bool Success = false;
-        int numRows = 0;
+        int numRows = 0;   
+
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
-        //add code for sql stored proc for adding eval data to sql server
-
-
-        SqlCommand CommandAdd = new SqlCommand();
-        CommandAdd.Connection = DataBaseCon;
-        CommandAdd.CommandType = CommandType.StoredProcedure;
-        CommandAdd.CommandText = "AddEvaluationDataPoint";
-
-        SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Event";
-        AddParameter.SqlDbType = SqlDbType.Int;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = eval.EventID;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Evaluator";
-        AddParameter.SqlDbType = SqlDbType.Int;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = eval.EvaluatorID;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@TimeOfData";
-        AddParameter.SqlDbType = SqlDbType.DateTime;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = eval.TimeStamp;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Rating";
-        AddParameter.SqlDbType = SqlDbType.Int;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = eval.Rating;
-        CommandAdd.Parameters.Add(AddParameter);
-
-
-        //try
-        //{
-        DataBaseCon.Open();
-        numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
-
-        if (numRows == 1)
+        try
         {
-            Success = true;//if 1, all is good
-        }
-        else
-        {
-            Success = false; //otherwise, not good
-        }
-        //}
-        //catch (Exception ex)
-        //{
-        //    Success = false;
-        //}
-        //finally
-        //{
-        DataBaseCon.Close();
-        //}
+            DataBaseCon.Open();
 
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "AddEvaluationDataPoint";
+
+            SqlParameter AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Event";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = eval.EventID;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Evaluator";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = eval.EvaluatorID;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@TimeOfData";
+            AddParameter.SqlDbType = SqlDbType.DateTime;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = eval.TimeStamp;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Rating";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = eval.Rating;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
+
+            if (numRows == 1)
+            {
+                Success = true;//if 1, all is good
+            }
+            else
+            {
+                Success = false; //otherwise, not good
+            }
+        }
+        catch (Exception)
+        {
+            Success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
         return Success;
     }
 
@@ -98,84 +92,108 @@ public class EvaluationDirector
 
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
-        SqlCommand CommandGet = new SqlCommand();
-        CommandGet.Connection = DataBaseCon;
-        CommandGet.CommandType = CommandType.StoredProcedure;
-        CommandGet.CommandText = "GetMostRecentEvaluativeData";
-
-        SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EventID";
-        AddParameter.SqlDbType = SqlDbType.Int;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = currentEvent.EventID;
-        CommandGet.Parameters.Add(AddParameter);
-
-        DataBaseCon.Open();
-        SqlDataReader eventReader = CommandGet.ExecuteReader();
-
-        if (eventReader.HasRows)
+        try
         {
-            Evaluation eval;
+            DataBaseCon.Open();
 
-            while (eventReader.Read())
+            SqlCommand CommandGet = new SqlCommand();
+            CommandGet.Connection = DataBaseCon;
+            CommandGet.CommandType = CommandType.StoredProcedure;
+            CommandGet.CommandText = "GetMostRecentEvaluativeData";
+
+            SqlParameter AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EventID";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = currentEvent.EventID;
+            CommandGet.Parameters.Add(AddParameter);
+
+            SqlDataReader eventReader = CommandGet.ExecuteReader();
+
+            if (eventReader.HasRows)
             {
-                eval = new Evaluation();
+                Evaluation eval;
 
-                eval.EvaluatorID = (int)eventReader["EvaluatorID"];
-                eval.EventID = currentEvent.EventID;
-                eval.Rating = (int)eventReader["Rating"];
-                eval.TimeStamp = (DateTime)eventReader["TimeOfData"];
+                while (eventReader.Read())
+                {
+                    eval = new Evaluation();
 
-                evals.Add(eval);
+                    eval.EvaluatorID = (int)eventReader["EvaluatorID"];
+                    eval.EventID = currentEvent.EventID;
+                    eval.Rating = (int)eventReader["Rating"];
+                    eval.TimeStamp = (DateTime)eventReader["TimeOfData"];
+
+                    evals.Add(eval);
+                }
             }
+            eventReader.Close();
         }
-        eventReader.Close();
-        DataBaseCon.Close();
-
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
         return evals;
+
+
     }
 
     public List<Evaluation> GetAllEventData(int EventID)
     {
-        List<Evaluation> eventData = new List<Evaluation>();
+        List<Evaluation> eventData = new List<Evaluation>(); 
 
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
-        SqlCommand CommandGet = new SqlCommand();
-        CommandGet.Connection = DataBaseCon;
-        CommandGet.CommandType = CommandType.StoredProcedure;
-        CommandGet.CommandText = "GetAllEventData";
-
-        SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EventID";
-        AddParameter.SqlDbType = SqlDbType.Int;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = EventID;
-        CommandGet.Parameters.Add(AddParameter);
-
-        DataBaseCon.Open();
-        SqlDataReader eventReader = CommandGet.ExecuteReader();
-
-        if (eventReader.HasRows)
+        try
         {
-            Evaluation eval;
+            DataBaseCon.Open();
 
-            while (eventReader.Read())
+            SqlCommand CommandGet = new SqlCommand();
+            CommandGet.Connection = DataBaseCon;
+            CommandGet.CommandType = CommandType.StoredProcedure;
+            CommandGet.CommandText = "GetAllEventData";
+
+            SqlParameter AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EventID";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = EventID;
+            CommandGet.Parameters.Add(AddParameter);
+
+            SqlDataReader eventReader = CommandGet.ExecuteReader();
+
+            if (eventReader.HasRows)
             {
-                eval = new Evaluation();
+                Evaluation eval;
 
-                eval.EvaluatorID = (int)eventReader["EvaluatorID"];
-                eval.EventID = EventID;
-                eval.Rating = (int)eventReader["Rating"];
-                eval.TimeStamp = (DateTime)eventReader["TimeOfData"];
+                while (eventReader.Read())
+                {
+                    eval = new Evaluation();
 
-                eventData.Add(eval);
+                    eval.EvaluatorID = (int)eventReader["EvaluatorID"];
+                    eval.EventID = EventID;
+                    eval.Rating = (int)eventReader["Rating"];
+                    eval.TimeStamp = (DateTime)eventReader["TimeOfData"];
+
+                    eventData.Add(eval);
+                }
             }
+            eventReader.Close();
+
         }
-        eventReader.Close();
-        DataBaseCon.Close();
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
 
         return eventData;
     }
@@ -183,60 +201,64 @@ public class EvaluationDirector
 
     public List<Evaluation> GetEvaluationsForEventEvaluator(int EventID, int EvaluatorID)
     {
-        //Evaluator EvaluData = new Evaluator();
-
-        //list of Evaluations
         List<Evaluation> liOfEvaluations = new List<Evaluation>();
-
 
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
-        SqlCommand CommandGet = new SqlCommand();
-        CommandGet.Connection = DataBaseCon;
-        CommandGet.CommandType = CommandType.StoredProcedure;
-        CommandGet.CommandText = "GetEvaluatorEventData";
-
-        SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EventID";
-        AddParameter.SqlDbType = SqlDbType.Int;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = EventID;
-        CommandGet.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EvaluatorID";
-        AddParameter.SqlDbType = SqlDbType.Int;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = EvaluatorID;
-        CommandGet.Parameters.Add(AddParameter);
-
-        DataBaseCon.Open();
-
-        DataSet myDataSet = new DataSet();
-        myDataSet.DataSetName = "GetEvaluations";
-        myDataSet.Tables.Add("Evaluations");
-
-        SqlDataAdapter myDataAdapter = new SqlDataAdapter();
-        myDataAdapter.SelectCommand = CommandGet;
-        myDataAdapter.Fill(myDataSet, "Evaluations");
-
-        DataBaseCon.Close();
-
-        DataTable myDataTable = new DataTable();
-        myDataTable = myDataSet.Tables["Evaluations"];
-
-
-        foreach (DataRow dataRow in myDataTable.Rows)
+        try
         {
-            Evaluation evaluation = new Evaluation();
+            DataBaseCon.Open();
 
-            evaluation.EventID = Convert.ToInt32(dataRow["EventID"]);
-            evaluation.EvaluatorID = Convert.ToInt32(dataRow["EvaluatorID"]);
-            evaluation.TimeStamp = DateTime.Parse(dataRow["TimeOfData"].ToString());
-            evaluation.Rating = Convert.ToInt32(dataRow["Rating"]);
-            liOfEvaluations.Add(evaluation);
+            SqlCommand CommandGet = new SqlCommand();
+            CommandGet.Connection = DataBaseCon;
+            CommandGet.CommandType = CommandType.StoredProcedure;
+            CommandGet.CommandText = "GetEvaluatorEventData";
 
+            SqlParameter AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EventID";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = EventID;
+            CommandGet.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EvaluatorID";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = EvaluatorID;
+            CommandGet.Parameters.Add(AddParameter);
+
+            DataSet myDataSet = new DataSet();
+            myDataSet.DataSetName = "GetEvaluations";
+            myDataSet.Tables.Add("Evaluations");
+
+            SqlDataAdapter myDataAdapter = new SqlDataAdapter();
+            myDataAdapter.SelectCommand = CommandGet;
+            myDataAdapter.Fill(myDataSet, "Evaluations");
+
+            DataTable myDataTable = new DataTable();
+            myDataTable = myDataSet.Tables["Evaluations"];
+
+
+            foreach (DataRow dataRow in myDataTable.Rows)
+            {
+                Evaluation evaluation = new Evaluation();
+
+                evaluation.EventID = Convert.ToInt32(dataRow["EventID"]);
+                evaluation.EvaluatorID = Convert.ToInt32(dataRow["EvaluatorID"]);
+                evaluation.TimeStamp = DateTime.Parse(dataRow["TimeOfData"].ToString());
+                evaluation.Rating = Convert.ToInt32(dataRow["Rating"]);
+                liOfEvaluations.Add(evaluation);
+            }
+        }
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            DataBaseCon.Close();
         }
 
         return liOfEvaluations;
@@ -325,3 +347,4 @@ public class EvaluationDirector
         return success;
     }
 }
+

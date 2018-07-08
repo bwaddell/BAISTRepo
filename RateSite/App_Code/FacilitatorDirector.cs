@@ -30,18 +30,18 @@ public class FacilitatorDirector
         Facilitator pullFacilitator = new Facilitator();
 
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
-        SqlConnection ClubBAISTData = new SqlConnection();
-        ClubBAISTData.ConnectionString = webSettings.ConnectionString;
+        SqlConnection DataBaseCon = new SqlConnection();
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
         SqlDataReader facilitatorDataReader = null;
 
         try
         {
 
-            ClubBAISTData.Open();
+            DataBaseCon.Open();
 
             SqlCommand CommandGet = new SqlCommand
             {
-                Connection = ClubBAISTData,
+                Connection = DataBaseCon,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetFacilitatorInfo"
             };
@@ -74,7 +74,7 @@ public class FacilitatorDirector
             }
 
             facilitatorDataReader.Close();
-            ClubBAISTData.Close();
+            DataBaseCon.Close();
         }
         catch (Exception e)
         {
@@ -84,7 +84,7 @@ public class FacilitatorDirector
         {
             if (facilitatorDataReader != null)
                 facilitatorDataReader.Close();
-            ClubBAISTData.Close();
+            DataBaseCon.Close();
         }
 
         return pullFacilitator;
@@ -94,94 +94,102 @@ public class FacilitatorDirector
     {
         bool Success = false;
         int numRows = 0;
+
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
-        SqlCommand CommandAdd = new SqlCommand();
-        CommandAdd.Connection = DataBaseCon;
-        CommandAdd.CommandType = CommandType.StoredProcedure;
-        CommandAdd.CommandText = "CreateFacilitator";
-
-        SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@FirstName";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.FirstName;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@LastName";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.LastName;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@EMail";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Email;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Role";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Roles;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Password";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Password;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Salt";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Salt;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Title";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Title;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Organization";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Organization;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@City";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Location;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        //try
-        //{
-        DataBaseCon.Open();
-        numRows = CommandAdd.ExecuteNonQuery();
-
-        if (numRows == 1)
+        try
         {
-            Success = true;
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "CreateFacilitator";
+
+            SqlParameter AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@FirstName";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.FirstName;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@LastName";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.LastName;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EMail";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Email;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Role";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Roles;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Password";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Password;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Salt";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Salt;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Title";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Title;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Organization";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Organization;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@City";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Location;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            numRows = CommandAdd.ExecuteNonQuery();
+
+            if (numRows == 1)
+            {
+                Success = true;
+            }
+            else
+            {
+                Success = false;
+            }
         }
-        else
+        catch (Exception)
         {
-            Success = false; 
+            Success = false;
         }
-
-        DataBaseCon.Close();
-
-
+        finally
+        {
+            DataBaseCon.Close();
+        }
         return Success;
     }
 
@@ -189,16 +197,17 @@ public class FacilitatorDirector
     {
         Facilitator pullFacilitator = new Facilitator();
 
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
         try
         {
-            ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
-            SqlConnection ClubBAISTData = new SqlConnection();
-            ClubBAISTData.ConnectionString = webSettings.ConnectionString;
-            ClubBAISTData.Open();
+            DataBaseCon.Open();
 
             SqlCommand CommandGet = new SqlCommand
             {
-                Connection = ClubBAISTData,
+                Connection = DataBaseCon,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetFacilitator"
             };
@@ -231,9 +240,14 @@ public class FacilitatorDirector
             }
 
             facilitatorDataReader.Close();
-            ClubBAISTData.Close();
         }
-        catch (Exception) { }
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
 
         return pullFacilitator;
     }
@@ -242,16 +256,17 @@ public class FacilitatorDirector
     {
         List<Event> FacEvents = new List<Event>();
 
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
         try
         {
-            ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
-            SqlConnection ClubBAISTData = new SqlConnection();
-            ClubBAISTData.ConnectionString = webSettings.ConnectionString;
-            ClubBAISTData.Open();
+            DataBaseCon.Open();
 
             SqlCommand CommandGet = new SqlCommand
             {
-                Connection = ClubBAISTData,
+                Connection = DataBaseCon,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetFacilitatorEvents"
             };
@@ -274,13 +289,13 @@ public class FacilitatorDirector
                 while (facilitatorDataReader.Read())
                 {
                     facEvent = new Event();
-                    
+
                     facEvent.EventID = Convert.ToInt32(facilitatorDataReader["EventID"]);
                     facEvent.FacilitatorID = id;
                     facEvent.Location = facilitatorDataReader["Location"].ToString();
                     facEvent.Performer = facilitatorDataReader["Performer"].ToString();
                     facEvent.Description = facilitatorDataReader["NatureOfEvent"].ToString();
-                    facEvent.Date = Convert.ToDateTime(facilitatorDataReader["EventDate"], culture );
+                    facEvent.Date = Convert.ToDateTime(facilitatorDataReader["EventDate"], culture);
                     facEvent.EventStart = Convert.ToDateTime(facilitatorDataReader["EventBegin"], culture);
                     facEvent.EventEnd = Convert.ToDateTime(facilitatorDataReader["EventEnd"], culture);
 
@@ -289,11 +304,13 @@ public class FacilitatorDirector
             }
 
             facilitatorDataReader.Close();
-            ClubBAISTData.Close();
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            
+        }
+        finally
+        {
+            DataBaseCon.Close();
         }
 
         return FacEvents;
@@ -303,105 +320,113 @@ public class FacilitatorDirector
     {
         bool Success = false;
         int numRows = 0;
+
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
-        SqlCommand CommandAdd = new SqlCommand();
-        CommandAdd.Connection = DataBaseCon;
-        CommandAdd.CommandType = CommandType.StoredProcedure;
-        CommandAdd.CommandText = "UpdateFacilitatorInfo";
-
-        SqlParameter AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@FirstName";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.FirstName;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@ID";
-        AddParameter.SqlDbType = SqlDbType.Int;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.FacilitatorID;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@LastName";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.LastName;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Email";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Email;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Roles";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Roles;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Password";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Password;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Salt";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Salt;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Title";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Title;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@Organization";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Organization;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        AddParameter = new SqlParameter();
-        AddParameter.ParameterName = "@City";
-        AddParameter.SqlDbType = SqlDbType.NVarChar;
-        AddParameter.Direction = ParameterDirection.Input;
-        AddParameter.Value = newFacilitator.Location;
-        CommandAdd.Parameters.Add(AddParameter);
-
-        //try
-        //{
-        DataBaseCon.Open();
-        numRows = CommandAdd.ExecuteNonQuery();
-
-        if (numRows == 1)
+        try
         {
-            Success = true;
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "UpdateFacilitatorInfo";
+
+            SqlParameter AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@FirstName";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.FirstName;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@ID";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.FacilitatorID;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@LastName";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.LastName;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Email";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Email;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Roles";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Roles;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Password";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Password;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Salt";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Salt;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Title";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Title;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Organization";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Organization;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@City";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = newFacilitator.Location;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            numRows = CommandAdd.ExecuteNonQuery();
+
+            if (numRows == 1)
+            {
+                Success = true;
+            }
+            else
+            {
+                Success = false;
+            }
         }
-        else
+        catch (Exception)
         {
             Success = false;
         }
-
-        DataBaseCon.Close();
-
-
+        finally
+        {
+            DataBaseCon.Close();
+        }
         return Success;
     }
 
-    public bool DeleteFacilitator (Facilitator fac)
+    public bool DeleteFacilitator(Facilitator fac)
     {
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
@@ -441,3 +466,24 @@ public class FacilitatorDirector
 
     }
 }
+
+ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+try
+{
+    DataBaseCon.Open();   
+
+
+    Success = true;
+}
+catch (Exception)
+{
+    Success = false;
+}
+finally
+{
+    DataBaseCon.Close();
+}
+return Success;
