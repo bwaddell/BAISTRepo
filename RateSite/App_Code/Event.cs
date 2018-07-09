@@ -18,6 +18,10 @@ public class Event
     private DateTime DateValue;
     private DateTime EventStartValue;
     private DateTime EventEndValue;
+    private string OpenMsgValue;
+    private string CloseMsgValue;
+    private string VotingCritValue;
+    private List<Question> CustomQuestionsList;
 
     public int EventID
     {
@@ -67,14 +71,52 @@ public class Event
 
     public string EventKey
     {
+        get{ return EventKeyValue; }
+        set{ EventKeyValue = value; }
+    }
+
+    public string OpenMsg
+    {
+        get{ return OpenMsgValue; }
+        set { OpenMsgValue = value; }
+    }
+
+    public string CloseMsg
+    {
         get
         {
-            return EventKeyValue;
+            return CloseMsgValue;
         }
 
         set
         {
-            EventKeyValue = value;
+            CloseMsgValue = value;
+        }
+    }
+
+    public List<Question> CustomQuestions
+    {
+        get
+        {
+            return CustomQuestionsList;
+        }
+
+        set
+        {
+            CustomQuestionsList = value;
+        }
+    }
+
+    public string VotingCrit
+    {
+        get
+        {
+            return VotingCritValue;
+        }
+
+        set
+        {
+            VotingCritValue = value;
         }
     }
 }

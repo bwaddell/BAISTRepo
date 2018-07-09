@@ -253,6 +253,42 @@ public class CSS
         return Confirmation;
     }
 
+    public bool AddQuestion(Question q)
+    {
+        bool Confirmation;
+        EventDirector Controller = new EventDirector();
+
+        Confirmation = Controller.AddQuestion(q);
+        return Confirmation;
+    }
+
+    public List<Question> GetQuestions(int eventID)
+    {
+        List<Question> questions = new List<Question>();
+        EventDirector Controller = new EventDirector();
+
+        questions = Controller.GetQuestions(eventID);
+        return questions;
+    }
+
+    public bool AddResponse(Question r)
+    {
+        bool Confirmation;
+        EventDirector Controller = new EventDirector();
+
+        Confirmation = Controller.AddResponse(r);
+        return Confirmation;
+    }
+
+    public Question GetResponse(Question q)
+    {
+        Question qr;
+        EventDirector Controller = new EventDirector();
+
+        qr = Controller.GetResponse(q);
+        return qr;
+    }
+
     //public List<Series> ConvertEventToSeriesList(Event theEvent)
     //{
     //    CSSChart chartmaker = new CSSChart();

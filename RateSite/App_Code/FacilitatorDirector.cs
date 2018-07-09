@@ -467,23 +467,3 @@ public class FacilitatorDirector
     }
 }
 
-ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
-SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
-DataBaseCon.ConnectionString = webSettings.ConnectionString;
-
-try
-{
-    DataBaseCon.Open();   
-
-
-    Success = true;
-}
-catch (Exception)
-{
-    Success = false;
-}
-finally
-{
-    DataBaseCon.Close();
-}
-return Success;

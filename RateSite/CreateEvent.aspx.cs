@@ -28,13 +28,14 @@ public partial class CreateEvent : System.Web.UI.Page
 
     protected void btnCreateEvent_Click(object sender, EventArgs e)
     {
-        CSS requester = new CSS();
+        CSS RequestDirector = new CSS();
         Event cEvent = new Event();
         bool success;
 
         //create key for event
         string EventKey;
-        EventKey = requester.CreateEventKey(3);
+        EventKey = RequestDirector.CreateEventKey(3);
+
 
         //default value for event start and end times
         DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
@@ -47,9 +48,12 @@ public partial class CreateEvent : System.Web.UI.Page
         cEvent.Location = tbLocation.Text;
         cEvent.Description = tbNatureOfPerformance.Text;
         cEvent.Date = Convert.ToDateTime(tbEventDate.Text);
+        cEvent.OpenMsg = OpenTxt.Text;
+        cEvent.CloseMsg = CloseTxt.Text;
+        cEvent.VotingCrit = critTxt.Text;
 
         //attept event creation
-        success = requester.CreateEvent(cEvent);
+        success = RequestDirector.CreateEvent(cEvent);
 
         //if successful, add event to session and redirect to view event
         if (success)

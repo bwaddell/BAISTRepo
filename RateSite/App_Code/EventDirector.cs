@@ -60,7 +60,7 @@ public class EventDirector
             AddParameter.ParameterName = "@EventKey";
             AddParameter.SqlDbType = SqlDbType.NVarChar;
             AddParameter.Direction = ParameterDirection.Input;
-            AddParameter.Value = Created.EventID;
+            AddParameter.Value = Created.EventKey;
             CommandAdd.Parameters.Add(AddParameter);
 
             AddParameter = new SqlParameter();
@@ -96,6 +96,27 @@ public class EventDirector
             AddParameter.SqlDbType = SqlDbType.NVarChar;
             AddParameter.Direction = ParameterDirection.Input;
             AddParameter.Value = Created.Date.ToShortDateString();
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@OpenMsg";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = Created.OpenMsg;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@CloseMsg";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = Created.CloseMsg;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@VotingCrit";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = Created.VotingCrit;
             CommandAdd.Parameters.Add(AddParameter);
 
             numRows = CommandAdd.ExecuteNonQuery(); //Number of rows affected
@@ -434,6 +455,207 @@ public class EventDirector
         return success;
     }
 
+    public bool AddQuestion(Question q)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
+        bool Success;
 
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "CreateQuestion";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@EventID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = q.EventID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@Question";
+            AddParamater.SqlDbType = SqlDbType.NVarChar;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = q.QuestionText;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            CommandAdd.ExecuteNonQuery();
+
+            Success = true;
+        }
+        catch (Exception)
+        {
+            Success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return Success;
+    }
+
+    public List<Question> GetQuestions(int eventID)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        List<Question> questions = new List<Question>();
+
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandGet = new SqlCommand();
+            CommandGet.Connection = DataBaseCon;
+            CommandGet.CommandType = CommandType.StoredProcedure;
+            CommandGet.CommandText = "GetQuestions";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@EventID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = eventID;
+            CommandGet.Parameters.Add(AddParamater);
+
+            SqlDataReader qReader = CommandGet.ExecuteReader();
+
+            if (qReader.HasRows)
+            {
+                Question q;
+
+                while (qReader.Read())
+                {
+                    q = new Question();
+
+                    q.EventID = eventID;
+                    q.QID = Convert.ToInt32(qReader["QID"]);
+                    q.QuestionText = qReader["Question"].ToString();
+
+                    questions.Add(q);
+                }
+            }
+        }
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return questions;
+    }
+
+    public bool AddResponse(Question r)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        bool Success;
+
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "AnswerQuestion";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@QID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = r.QID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@EvaluatorID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value =  r.EvaluatorID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@Response";
+            AddParamater.SqlDbType = SqlDbType.NVarChar;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = r.ResponseText;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            CommandAdd.ExecuteNonQuery();
+
+            Success = true;
+        }
+        catch (Exception)
+        {
+            Success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return Success;
+    }
+
+    public Question GetResponse(Question q)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        Question question = new Question();
+
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandGet = new SqlCommand();
+            CommandGet.Connection = DataBaseCon;
+            CommandGet.CommandType = CommandType.StoredProcedure;
+            CommandGet.CommandText = "GetResponse";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@QID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = q.QID;
+            CommandGet.Parameters.Add(AddParamater);
+
+            AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@EvaluatorID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = q.EvaluatorID;
+            CommandGet.Parameters.Add(AddParamater);
+
+            SqlDataReader qReader = CommandGet.ExecuteReader();
+
+            if (qReader.HasRows)
+            {
+                qReader.Read();
+
+                question.QID = q.QID;
+                question.EvaluatorID = q.EvaluatorID;
+                question.ResponseText = qReader["Response"].ToString();
+
+            }
+        }
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return question;
+    }
 }
