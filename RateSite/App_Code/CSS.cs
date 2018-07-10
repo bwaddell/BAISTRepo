@@ -35,6 +35,15 @@ public class CSS
         return Confirmation;
     }
 
+    public string GenKey(int size)
+    {
+        string EventKey = "";
+        EventDirector Controller = new EventDirector();
+
+        EventKey = Controller.GenKey(size);
+        return EventKey;
+    }
+
     public string CreateEventKey(int size)
     {
         string EventKey = "";
@@ -44,15 +53,14 @@ public class CSS
         return EventKey;
     }
 
-    public bool CreateEvent(Event CEvent)
+    public Event CreateEvent(Event CEvent)
     {
-        bool Confirmation = false;
+        Event newEvent = new Event();
         EventDirector Controller = new EventDirector();
 
-        Confirmation = Controller.CreateEvent(CEvent);
+        newEvent = Controller.CreateEvent(CEvent);
 
-        return Confirmation;
-
+        return newEvent;
     }
     public Event GetEvent(Event currentEvent)               //this one
     {
@@ -287,6 +295,16 @@ public class CSS
 
         qr = Controller.GetResponse(q);
         return qr;
+    }
+
+    public List<string> GetEventKeys()
+    {
+        List<string> keys = new List<string>();
+        EventDirector Controller = new EventDirector();
+
+        keys = Controller.GetEventKeys();
+
+        return keys;
     }
 
     //public List<Series> ConvertEventToSeriesList(Event theEvent)

@@ -15,7 +15,7 @@ using System.Globalization;
 public class FacilitatorDirector
 {
 
-    CultureInfo culture = new CultureInfo("fr-FR");  // , culture
+    //CultureInfo culture = new CultureInfo("fr-FR");  // , culture
 
 
     public FacilitatorDirector()
@@ -200,7 +200,7 @@ public class FacilitatorDirector
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
-
+        SqlDataReader facilitatorDataReader = null;
         try
         {
             DataBaseCon.Open();
@@ -221,7 +221,7 @@ public class FacilitatorDirector
             };
             CommandGet.Parameters.Add(AddParamater);
 
-            SqlDataReader facilitatorDataReader = CommandGet.ExecuteReader();
+            facilitatorDataReader = CommandGet.ExecuteReader();
 
             if (facilitatorDataReader.HasRows)
             {
@@ -246,6 +246,8 @@ public class FacilitatorDirector
         }
         finally
         {
+            if (facilitatorDataReader != null)
+                facilitatorDataReader.Close();
             DataBaseCon.Close();
         }
 
@@ -259,7 +261,7 @@ public class FacilitatorDirector
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
-
+        SqlDataReader facilitatorDataReader = null;
         try
         {
             DataBaseCon.Open();
@@ -280,7 +282,7 @@ public class FacilitatorDirector
             };
             CommandGet.Parameters.Add(AddParamater);
 
-            SqlDataReader facilitatorDataReader = CommandGet.ExecuteReader();
+            facilitatorDataReader = CommandGet.ExecuteReader();
 
             if (facilitatorDataReader.HasRows)
             {
@@ -295,21 +297,23 @@ public class FacilitatorDirector
                     facEvent.Location = facilitatorDataReader["Location"].ToString();
                     facEvent.Performer = facilitatorDataReader["Performer"].ToString();
                     facEvent.Description = facilitatorDataReader["NatureOfEvent"].ToString();
-                    facEvent.Date = Convert.ToDateTime(facilitatorDataReader["EventDate"], culture);
-                    facEvent.EventStart = Convert.ToDateTime(facilitatorDataReader["EventBegin"], culture);
-                    facEvent.EventEnd = Convert.ToDateTime(facilitatorDataReader["EventEnd"], culture);
+                    facEvent.Date = Convert.ToDateTime(facilitatorDataReader["EventDate"].ToString());
+                    facEvent.EventStart = Convert.ToDateTime(facilitatorDataReader["EventBegin"].ToString());
+                    facEvent.EventEnd = Convert.ToDateTime(facilitatorDataReader["EventEnd"].ToString());
 
                     FacEvents.Add(facEvent);
                 }
             }
 
-            facilitatorDataReader.Close();
+           
         }
         catch (Exception)
         {
         }
         finally
         {
+            if (facilitatorDataReader != null)
+                facilitatorDataReader.Close();
             DataBaseCon.Close();
         }
 

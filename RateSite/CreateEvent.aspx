@@ -74,18 +74,32 @@
 
             <div class="form-group">
                 <label>Voting Criteria:</label>
-                <p>If you wish to give voter the choice of what the criteria they will be evaluating, enter each option here.</p>
+                <p>(Optional) If you wish to give voter the choice of what the criteria they will be evaluating, enter each option here.</p>
                 <asp:TextBox ID="critTxt" runat="server" MaxLength="256"
                     CssClass="form-control"></asp:TextBox>
+                <asp:ListBox ID="allCritLB" runat="server" CssClass="form-control"></asp:ListBox>
+                <asp:Button ID="AddCritBTN" CausesValidation="false" runat="server" Text="Add" CssClass="btn btn-dark" OnClick="AddCritBTN_Click" />
+                <asp:Button ID="RemoveCritBRN" CausesValidation="false" runat="server" Text="Remove" CssClass="btn btn-dark" OnClick="RemoveCritBRN_Click" />
             </div>
 
             <div class="form-group">
                 <label>Custom Questions:</label>
-                <p>Add questions that you wish all evaluators to answer before they can join the event.</p>
-                <asp:TextBox ID="TextBox2" runat="server" MaxLength="1024" TextMode="MultiLine"
+                <p>(Optional) Add questions that you wish all evaluators to answer before they can join the event.</p>
+                <asp:TextBox ID="newQTB" runat="server" MaxLength="1024"
                     CssClass="form-control"></asp:TextBox>
+                <asp:ListBox ID="allQsLB" runat="server" CssClass="form-control"></asp:ListBox>
+                <asp:Button ID="AddQBTN" CausesValidation="false" runat="server" Text="Add" CssClass="btn btn-dark"  OnClick="AddQBTN_Click" />
+                <asp:Button ID="RemoveQBTN" CausesValidation="false" runat="server" Text="Remove" CssClass="btn btn-dark"  OnClick="RemoveQBTN_Click" />
             </div>
 
+            <div class="form-group">
+                <label>Voting Method:</label>
+                <p>Choose which voting method you would like your evaluator to use.</p>
+                <asp:RadioButtonList ID="RadioButtonList1" runat="server">
+                    <asp:ListItem Value="Arrows" Selected="True">Up/Downvote Arrows</asp:ListItem>
+                    <asp:ListItem Value="Slider" Enabled="false">Sliding Scale (coming soon)</asp:ListItem>
+                </asp:RadioButtonList>
+            </div>
 
 
             <div class="form-group">

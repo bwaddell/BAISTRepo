@@ -23,6 +23,22 @@ public class EventDirector
         //
     }
 
+    public string GenKey(int size)
+    {
+        List<string> usedKeys = GetEventKeys();
+        string key;
+
+        //regenerate key if it matches any currently used keys
+        //ZZZZ is default for closed events
+        do
+        {
+            key = CreateEventKey(size);
+        }
+        while (usedKeys.Contains(key) || key == "ZZZZ");
+
+        return key;
+    }
+
     public string CreateEventKey(int size)
     {
         byte[] KeyArr = new Byte[size];
@@ -38,9 +54,9 @@ public class EventDirector
         return key;
     }
 
-    public bool CreateEvent(Event Created)
+    public Event CreateEvent(Event Created)
     {
-        bool Success = false;
+        Event newEvent = new Event();
         int numRows = 0;
 
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
@@ -57,6 +73,12 @@ public class EventDirector
             CommandAdd.CommandText = "CreateEvent";
 
             SqlParameter AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EventID";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Output;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
             AddParameter.ParameterName = "@EventKey";
             AddParameter.SqlDbType = SqlDbType.NVarChar;
             AddParameter.Direction = ParameterDirection.Input;
@@ -123,22 +145,23 @@ public class EventDirector
 
             if (numRows == 1)
             {
-                Success = true;//if 1, all is good
+                newEvent.EventID = Convert.ToInt32(CommandAdd.Parameters["@EventID"].Value);
             }
             else
             {
-                Success = false; //otherwise, not good
+                newEvent.EventID = -1;
             }
         }
         catch (Exception)
         {
-            Success = false;
+            newEvent.EventID = -1;
         }
         finally
         {
             DataBaseCon.Close();
         }
-        return Success;
+
+        return newEvent;
     }
 
     public bool UpdateEvent(Event updatedEvent)
@@ -216,7 +239,7 @@ public class EventDirector
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
-
+        SqlDataReader eventReader = null;
         try
         {
             DataBaseCon.Open();
@@ -233,7 +256,7 @@ public class EventDirector
             GetParameter.Value = eventID;
             CommandGet.Parameters.Add(GetParameter);
 
-            SqlDataReader eventReader = CommandGet.ExecuteReader();
+            eventReader = CommandGet.ExecuteReader();
 
             if (eventReader.HasRows)
             {
@@ -260,6 +283,10 @@ public class EventDirector
 
                 //call get evaluators for event
 
+                foundEvent.OpenMsg = eventReader["OpeningMessage"].ToString();
+                foundEvent.CloseMsg = eventReader["ClosingMessage"].ToString();
+                foundEvent.VotingCrit = eventReader["VotingCrit"].ToString();
+
                 foundEvent.Evaluators = GetEvaluatorsForEvent(foundEvent.EventID);
 
 
@@ -276,6 +303,8 @@ public class EventDirector
         }
         finally
         {
+            if (eventReader != null)
+                eventReader.Close();
             DataBaseCon.Close();
         }
 
@@ -364,9 +393,10 @@ public class EventDirector
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
-        bool success;
         try
         {
+            DataBaseCon.Open();
+
             SqlCommand CommandAdd = new SqlCommand();
             CommandAdd.Connection = DataBaseCon;
             CommandAdd.CommandType = CommandType.StoredProcedure;
@@ -390,16 +420,12 @@ public class EventDirector
             AddParameter.SqlDbType = SqlDbType.NVarChar;
             AddParameter.Direction = ParameterDirection.Input;
             AddParameter.Value = eval.Criteria;
-            CommandAdd.Parameters.Add(AddParameter);
-
-            DataBaseCon.Open();
+            CommandAdd.Parameters.Add(AddParameter);          
        
             int numRows = CommandAdd.ExecuteNonQuery();
 
             if (numRows >= 1)
                 newEvaluator.EvaluatorID = Convert.ToInt32(CommandAdd.Parameters["@EvaluatorID"].Value);
-
-            success = true;
         }
         catch (Exception)
         {
@@ -410,9 +436,6 @@ public class EventDirector
             DataBaseCon.Close();
         }
         return newEvaluator;
-
-
-
 
     }
 
@@ -506,7 +529,7 @@ public class EventDirector
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
-
+        SqlDataReader qReader = null;
         List<Question> questions = new List<Question>();
 
         try
@@ -525,7 +548,7 @@ public class EventDirector
             AddParamater.Value = eventID;
             CommandGet.Parameters.Add(AddParamater);
 
-            SqlDataReader qReader = CommandGet.ExecuteReader();
+            qReader = CommandGet.ExecuteReader();
 
             if (qReader.HasRows)
             {
@@ -548,6 +571,8 @@ public class EventDirector
         }
         finally
         {
+            if (qReader != null)
+                qReader.Close();
             DataBaseCon.Close();
         }
         return questions;
@@ -611,7 +636,7 @@ public class EventDirector
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
-
+        SqlDataReader qReader = null;
         Question question = new Question();
 
         try
@@ -637,7 +662,7 @@ public class EventDirector
             AddParamater.Value = q.EvaluatorID;
             CommandGet.Parameters.Add(AddParamater);
 
-            SqlDataReader qReader = CommandGet.ExecuteReader();
+            qReader = CommandGet.ExecuteReader();
 
             if (qReader.HasRows)
             {
@@ -654,8 +679,55 @@ public class EventDirector
         }
         finally
         {
+            if (qReader != null)
+                qReader.Close();
             DataBaseCon.Close();
         }
         return question;
+    }
+
+    public List<string> GetEventKeys()
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        SqlDataReader qReader = null;
+
+        List<string> keys = new List<string>();
+
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandGet = new SqlCommand();
+            CommandGet.Connection = DataBaseCon;
+            CommandGet.CommandType = CommandType.StoredProcedure;
+            CommandGet.CommandText = "GetEventKeys";
+
+            qReader = CommandGet.ExecuteReader();
+
+            if (qReader.HasRows)
+            {
+                string k;
+
+                while (qReader.Read())
+                {
+                    k = qReader["EventKey"].ToString();
+
+                    keys.Add(k);
+                }
+            }
+        }
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            if (qReader != null)
+                qReader.Close();
+            DataBaseCon.Close();
+        }
+        return keys;
     }
 }

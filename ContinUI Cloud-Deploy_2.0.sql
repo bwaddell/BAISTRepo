@@ -16,6 +16,8 @@ SET DATEFORMAT dmy
 --******************************************--
 --					Tables					--
 --******************************************--
+drop table QuestionResponse
+drop table CustomQuestion
 drop table EvaluativeData
 drop table Evaluator
 drop table EventDetails
@@ -50,8 +52,8 @@ create table EventDetails
 	EventDate nvarchar(25) not null,
 	EventBegin nvarchar(25) default '1/1/1800 12:00:00 PM',				
 	EventEnd nvarchar(25) default '1/1/1800 12:00:00 PM',
-	OpeningMessage nvarchar(1024) default '',
-	ClosingMessage nvarchar(1024) default '',
+	OpeningMessage nvarchar(4000) default '',
+	ClosingMessage nvarchar(4000) default '',
 	VotingCrit nvarchar(256) default 'Overall'
 )
 alter table EventDetails
@@ -87,7 +89,7 @@ CREATE TABLE CustomQuestion
 (
 	QID INT UNIQUE IDENTITY (1,1) NOT NULL,
 	EventID INT NOT NULL,
-	Question NVARCHAR(256) NOT NULL
+	Question NVARCHAR(1024) NOT NULL
 )
 ALTER TABLE CustomQuestion
 	ADD CONSTRAINT PK_CustomQuestion PRIMARY KEY (QID),
@@ -97,12 +99,12 @@ CREATE TABLE QuestionResponse
 (
 	QID INT NOT NULL,
 	EvaluatorID INT NOT NULL,
-	Response NVARCHAR(256) NOT NULL
+	Response NVARCHAR(1024) NOT NULL
 )
 ALTER TABLE QuestionResponse
 	ADD CONSTRAINT PK_Response PRIMARY KEY (QID, EvaluatorID),
-		CONSTRAINT FK_QID FOREIGN KEY (QID) REFERENCES CustomQuestions(QID),
-		CONSTRAIN FK_Response_Evaluator FOREIGN KEY (EvaluatorID) REFERENCES Evaluator(EvaluatorID)
+		CONSTRAINT FK_QID FOREIGN KEY (QID) REFERENCES CustomQuestion(QID),
+		CONSTRAINT FK_Response_Evaluator FOREIGN KEY (EvaluatorID) REFERENCES Evaluator(EvaluatorID)
 
 
 
@@ -232,6 +234,7 @@ GO
 
 --EXEC CreateFacilitator 'ben@gmail.com','asdkjahskdjhaksjhd','asdasd','eval','ben','waddell','student','NAIT','Edmonton'
 --SELECT * FROM Facilitator
+--SELECT * FROM EventDetails
 
 IF (OBJECT_ID('DeleteFacilitator') IS NOT NULL)
   DROP PROCEDURE DeleteFacilitator
@@ -263,19 +266,26 @@ GO
 --SELECT * FROM Facilitator
 
 --**************************************--
+Declare @E AS INT
+EXEC CreateEvent @E output,'XXXX',1,'here','ben','style','01/01/1999 12:00:00','hi','bye','quality'
+SELECT @E
+SELECT * FROM EventDetails
+EXEC GetEventKeys
+
 IF (OBJECT_ID('CreateEvent') IS NOT NULL)
   DROP PROCEDURE CreateEvent
 go
 create procedure CreateEvent
 (
+	@EventID INT = NULL OUTPUT,
 	@EventKey nvarchar(5) = null,
 	@Facilitator int = null,
 	@Location nvarchar(100) = null,
 	@Performer nvarchar(100) = null,
 	@NatureOfEvent nvarchar(100) = null,
 	@EventDate nvarchar(25) = null,
-	@OpenMsg NVARCHAR(1024) = '',
-	@CloseMsg NVARCHAR(1024) = '',
+	@OpenMsg NVARCHAR(4000) = '',
+	@CloseMsg NVARCHAR(4000) = '',
 	@VotingCrit NVARCHAR(256) = 'Overall'
 )
 as
@@ -308,7 +318,10 @@ as
 			values (@EventKey, @Facilitator, @Location, @Performer, @NatureOfEvent, @EventDate, @OpenMsg, @CloseMsg, @VotingCrit)
 
 			if @@ERROR = 0
-				set @ReturnCode = 0
+				begin
+					set @ReturnCode = 0
+					select @EventID = @@IDENTITY
+				end
 			else
 				raiserror('CreateEvent - Insert Error: Query Failed',16,1)
 			end
@@ -321,13 +334,11 @@ go
 create procedure CreateQuestion
 (
 	@EventID int = null,
-	@Question NVARCHAR(256) = NULL
+	@Question NVARCHAR(1024) = NULL
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
-
-	SET DATEFORMAT mdy;
 
 	if(@EventID is null)
 		raiserror('CreateQuestion - Required Parameter: @EventKey',16,1)
@@ -357,8 +368,6 @@ as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 
-	SET DATEFORMAT mdy;
-
 	if(@EventID is null)
 		raiserror('GetQuestions - Required Parameter: @EventKey',16,1)
 	else
@@ -382,13 +391,11 @@ create procedure AnswerQuestion
 (
 	@QID int = null,
 	@EvaluatorID INT = NULL,
-	@Response NVARCHAR(256) = NULL
+	@Response NVARCHAR(1024) = NULL
 )
 as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
-
-	SET DATEFORMAT mdy;
 
 	if(@QID is null)
 		raiserror('AnswerQuestion - Required Parameter: @QID',16,1)
@@ -421,15 +428,13 @@ as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 
-	SET DATEFORMAT mdy;
-
 	if(@QID is null)
 		raiserror('GetResponse - Required Parameter: @QID',16,1)
 	if(@EvaluatorID is null)
 		raiserror('GetResponse - Required Parameter: @EvaluatorID',16,1)
 	else
 		begin
-			SELECT * FROM  QuestionResponse
+			SELECT QID, EvaluatorID, Response FROM  QuestionResponse
 			WHERE QID = @QID AND EvaluatorID = @EvaluatorID
 
 			if @@ERROR = 0
@@ -596,6 +601,7 @@ as
 	return @ReturnCode
 GO
 
+EXEC GetFacilitatorEvents 1
 
 --**************************************--
 IF (OBJECT_ID('CreateEvaluator') IS NOT NULL)
@@ -889,7 +895,7 @@ as
 		raiserror('GetEvent - Required Parameter: @@EventID',16,1)
 	else
 		begin
-			select EventID,EventKey, FacilitatorID, Location, Performer,NatureOfEvent, EventDate, EventBegin, EventEnd from EventDetails
+			select EventID,EventKey, FacilitatorID, Location, Performer,NatureOfEvent, EventDate, EventBegin, EventEnd, OpeningMessage, ClosingMessage, VotingCrit from EventDetails
 			where EventID = @EventID
 
 			if @@ERROR = 0
@@ -900,6 +906,27 @@ as
 		return @ReturnCode	
 go
 
+--EXEC GetEvent 6
+
+IF (OBJECT_ID('GetEventKeys') IS NOT NULL)
+  DROP PROCEDURE GetEventKeys
+go
+create procedure GetEventKeys
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	begin
+		select EventKey FROM EventDetails
+		WHERE EventKey NOT IN ('ZZZZ')
+
+		if @@ERROR = 0
+			set @ReturnCode = 0
+		else
+			raiserror('GetEvent - Select Error: Query Failed',16,1)
+		end
+	return @ReturnCode	
+go
 
 
 --**************************************--
@@ -985,6 +1012,7 @@ GRANT EXECUTE ON CreateQuestion TO Continui02
 GRANT EXECUTE ON GetQuestions TO Continui02
 GRANT EXECUTE ON AnswerQuestion TO Continui02
 GRANT EXECUTE ON GetResponse TO Continui02
+GRANT EXECUTE ON GetEventKeys TO Continui02
 
 --CHECK THIS SHIT!!!!
 

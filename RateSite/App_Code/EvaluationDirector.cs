@@ -94,6 +94,8 @@ public class EvaluationDirector
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
 
+        SqlDataReader eventReader = null;
+
         try
         {
             DataBaseCon.Open();
@@ -110,7 +112,7 @@ public class EvaluationDirector
             AddParameter.Value = currentEvent.EventID;
             CommandGet.Parameters.Add(AddParameter);
 
-            SqlDataReader eventReader = CommandGet.ExecuteReader();
+            eventReader = CommandGet.ExecuteReader();
 
             if (eventReader.HasRows)
             {
@@ -128,13 +130,15 @@ public class EvaluationDirector
                     evals.Add(eval);
                 }
             }
-            eventReader.Close();
+
         }
         catch (Exception)
         {
         }
         finally
         {
+            if (eventReader != null)
+                eventReader.Close();
             DataBaseCon.Close();
         }
         return evals;
@@ -149,6 +153,8 @@ public class EvaluationDirector
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        SqlDataReader eventReader = null;
 
         try
         {
@@ -166,7 +172,7 @@ public class EvaluationDirector
             AddParameter.Value = EventID;
             CommandGet.Parameters.Add(AddParameter);
 
-            SqlDataReader eventReader = CommandGet.ExecuteReader();
+            eventReader = CommandGet.ExecuteReader();
 
             if (eventReader.HasRows)
             {
@@ -184,20 +190,19 @@ public class EvaluationDirector
                     eventData.Add(eval);
                 }
             }
-            eventReader.Close();
-
         }
         catch (Exception)
         {
         }
         finally
         {
+            if (eventReader != null)
+                eventReader.Close();
             DataBaseCon.Close();
         }
 
         return eventData;
     }
-
 
     public List<Evaluation> GetEvaluationsForEventEvaluator(int EventID, int EvaluatorID)
     {

@@ -34,7 +34,7 @@ public partial class CreateEvent : System.Web.UI.Page
 
         //create key for event
         string EventKey;
-        EventKey = RequestDirector.CreateEventKey(3);
+        EventKey = RequestDirector.GenKey(3);
 
 
         //default value for event start and end times
@@ -50,16 +50,83 @@ public partial class CreateEvent : System.Web.UI.Page
         cEvent.Date = Convert.ToDateTime(tbEventDate.Text);
         cEvent.OpenMsg = OpenTxt.Text;
         cEvent.CloseMsg = CloseTxt.Text;
-        cEvent.VotingCrit = critTxt.Text;
+        
+        string crit = "";
+
+        if (allCritLB.Items.Count > 0)
+        {
+            foreach (ListItem i in allCritLB.Items)
+            {
+                crit += (i.Text + '|');
+            }
+            crit.TrimEnd('|');
+        }
+        else
+        {
+            crit = "Overall Quality";
+        }
+
+        cEvent.VotingCrit = crit;
 
         //attept event creation
-        success = RequestDirector.CreateEvent(cEvent);
+        Event newEvent = RequestDirector.CreateEvent(cEvent);
 
         //if successful, add event to session and redirect to view event
-        if (success)
+        if (newEvent.EventID != -1)
         {
+            Question q;
+
+            foreach (ListItem li in allQsLB.Items)
+            {
+                q = new Question();
+                q.EventID = newEvent.EventID;
+                q.QuestionText = li.Text;
+
+                RequestDirector.AddQuestion(q);
+            }
+
+            
+
             Session["Event"] = cEvent;
             Response.Redirect("ViewEvent.aspx");
         }
+        else
+        {
+            lbstatus.Text = "There was an Error creating your event";
+        }
+    }
+
+    protected void RemoveQBTN_Click(object sender, EventArgs e)
+    {
+        allQsLB.Items.Remove(allQsLB.SelectedItem);
+    }
+
+    protected void AddQBTN_Click(object sender, EventArgs e)
+    {
+        ListItem li = new ListItem();
+
+        li.Text = newQTB.Text;
+        li.Value = (allQsLB.Items.Count + 1).ToString();
+
+        allQsLB.Items.Add(li);
+
+        newQTB.Text = "";
+    }
+
+    protected void AddCritBTN_Click(object sender, EventArgs e)
+    {
+        ListItem li = new ListItem();
+
+        li.Text = critTxt.Text;
+        li.Value = (allCritLB.Items.Count + 1).ToString();
+
+        allCritLB.Items.Add(li);
+
+        critTxt.Text = "";
+    }
+
+    protected void RemoveCritBRN_Click(object sender, EventArgs e)
+    {
+        allCritLB.Items.Remove(allCritLB.SelectedItem);
     }
 }
