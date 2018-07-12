@@ -383,6 +383,39 @@ as
 		return @ReturnCode
 GO
 
+IF (OBJECT_ID('DeleteQuestion') IS NOT NULL)
+  DROP PROCEDURE DeleteQuestion
+go
+create procedure DeleteQuestion
+(
+	@QID int = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	if(@QID is null)
+		raiserror('DeleteQuestions - Required Parameter: @QID',16,1)
+	else
+		begin
+			DELETE FROM QuestionResponse
+			WHERE QID = @QID
+
+			DELETE FROM CustomQuestion
+			WHERE QID = @QID
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('DeleteQuestion - DELETE Error: Query Failed',16,1)
+			end
+		return @ReturnCode
+GO
+
+SELECT * FROM CustomQuestion
+SELECT * FROM QuestionResponse
+SELECT * FROM Evaluator
+EXEC DeleteQuestion 1
 
 IF (OBJECT_ID('AnswerQuestion') IS NOT NULL)
   DROP PROCEDURE AnswerQuestion
@@ -448,7 +481,6 @@ GO
 --EXEC CreateEvent 'asdf',2,'edmonton','me','coding','today'
 --select * FROM EventDetails
 
-
 IF (OBJECT_ID('DeleteEvent') IS NOT NULL)
   DROP PROCEDURE DeleteEvent
 go
@@ -479,7 +511,8 @@ GO
 
 SELECT * FROM EventDetails
 
-EXEC DeleteEvent 4
+EXEC DeleteEvent 1
+
 
 
 --**************************************--
@@ -823,6 +856,7 @@ as
 	return @ReturnCode				
 GO
 
+
 IF (OBJECT_ID('DeleteEventData') IS NOT NULL)
   DROP PROCEDURE DeleteEventData
 go
@@ -848,6 +882,8 @@ as
 		end
 	return @ReturnCode				
 GO
+
+--EXEC DeleteEventData 1
 
 
 --**************************************--
@@ -907,6 +943,35 @@ as
 go
 
 --EXEC GetEvent 6
+
+IF (OBJECT_ID('GetEventFromKey') IS NOT NULL)
+  DROP PROCEDURE GetEventFromKey
+go
+create procedure GetEventFromKey
+(
+	@EventKey NVARCHAR(4) = null
+)
+as
+	declare @ReturnCode as int
+	set @ReturnCode = 1
+
+	if(@EventKey is null)
+		raiserror('GetEventFromKey - Required Parameter: @EventKey',16,1)
+	else
+		begin
+			select EventID,EventKey, FacilitatorID, Location, Performer,NatureOfEvent, EventDate, EventBegin, EventEnd, OpeningMessage, ClosingMessage, VotingCrit from EventDetails
+			where EventKey = @EventKey
+
+			if @@ERROR = 0
+				set @ReturnCode = 0
+			else
+				raiserror('GetEventFromKey - Select Error: Query Failed',16,1)
+			end
+		return @ReturnCode	
+go
+
+--EXEC GetEventFromKey 'PH6A'
+
 
 IF (OBJECT_ID('GetEventKeys') IS NOT NULL)
   DROP PROCEDURE GetEventKeys
@@ -981,6 +1046,7 @@ as
 go
 
 
+
 --sp_helpdb Continui
 --sp_helpuser Continui02
 --go
@@ -1013,6 +1079,8 @@ GRANT EXECUTE ON GetQuestions TO Continui02
 GRANT EXECUTE ON AnswerQuestion TO Continui02
 GRANT EXECUTE ON GetResponse TO Continui02
 GRANT EXECUTE ON GetEventKeys TO Continui02
+GRANT EXECUTE ON GetEventFromKey TO Continui02
+GRANT EXECUTE ON DeleteQuestion TO Continui02
 
 --CHECK THIS SHIT!!!!
 

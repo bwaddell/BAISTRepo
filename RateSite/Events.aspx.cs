@@ -35,11 +35,6 @@ public partial class Events : System.Web.UI.Page
 
 
             tCell = new TableCell();
-            tCell.Text = eve.EventID.ToString();
-            tRow.Cells.Add(tCell);
-
-
-            tCell = new TableCell();
             tCell.Text = eve.Location;
             tRow.Cells.Add(tCell);
 
@@ -58,7 +53,7 @@ public partial class Events : System.Web.UI.Page
             if (eve.EventStart != defaultTime)
             {
                 if (eve.EventEnd != defaultTime)
-                    tCell.Text = (eve.EventEnd - eve.EventStart).ToString(); //TotalMinutes.ToString("#.##");
+                    tCell.Text = "Completed";
                 else tCell.Text = "Running";
             }
             else
@@ -68,23 +63,7 @@ public partial class Events : System.Web.UI.Page
 
             tCell = new TableCell();
             tCell.Text = eve.Evaluators.Count.ToString();
-            tRow.Cells.Add(tCell);
-
-
-            double totalAverage;
-            List<Evaluation> allEvaluations = new List<Evaluation>();
-            foreach (Evaluator ev in eve.Evaluators)
-            {
-                allEvaluations.AddRange(ev.EvaluatorEvaluations);
-            }
-            if (allEvaluations.Count != 0)
-                totalAverage = allEvaluations.Average(o => o.Rating);
-            else
-                totalAverage = 0;
-            tCell = new TableCell();
-            tCell.Text = totalAverage.ToString("#.##");
-            tRow.Cells.Add(tCell);
-            
+            tRow.Cells.Add(tCell);            
 
 
             tCell = new TableCell();
@@ -102,7 +81,7 @@ public partial class Events : System.Web.UI.Page
             btn.ID = String.Format("EventDelete{0}", eve.EventID.ToString());
             btn.Click += new EventHandler(DeleteEvent_Click);
             btn.OnClientClick = "return confirm('Are you sure you want to delete this event and all associated data?');";
-            btn.CssClass = "btn btn-light";
+            btn.CssClass = "btn btn-default";
             tCell.Controls.Add(btn);
             tRow.Cells.Add(tCell);
 
@@ -147,6 +126,15 @@ public partial class Events : System.Web.UI.Page
 
         //Delete event data
         bool confirmation;
+
+        List<Question> qs = new List<Question>();
+        qs = RequestDirector.GetQuestions(selectedEvent.EventID);
+
+        foreach (Question q in qs)
+        {
+            confirmation = RequestDirector.DeleteQuestion(q);
+        }    
+        
         confirmation = RequestDirector.DeleteEventData(selectedEvent);
 
         //Delete event

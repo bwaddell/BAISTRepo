@@ -130,17 +130,23 @@ public partial class FacilitatorAccount : System.Web.UI.Page
         //delete event data
         List<Event> events = RequestDirector.GetFacilitatorEvents(activeFac.FacilitatorID);
 
+        List<Question> eventQs;
+
         foreach (Event ev in events)
         {
+            eventQs = new List<Question>();
+
+            eventQs = RequestDirector.GetQuestions(ev.EventID);
+
+            foreach (Question q in eventQs)
+            {
+                confirmation = RequestDirector.DeleteQuestion(q);
+            }
+
             confirmation = RequestDirector.DeleteEventData(ev);
-        }
 
-        //delete events
-        foreach (Event eve in events)
-        {
-            confirmation = RequestDirector.DeleteEvent(eve);
+            confirmation = RequestDirector.DeleteEvent(ev);
         }
-
 
         //delete account
         confirmation = RequestDirector.DeleteFacilitator(activeFac);

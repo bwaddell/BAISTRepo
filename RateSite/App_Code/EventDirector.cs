@@ -311,6 +311,76 @@ public class EventDirector
         return foundEvent;
     }
 
+    public Event GetEventFromKey(string key)
+    {
+        Event foundEvent;
+        foundEvent = new Event();
+
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+        SqlDataReader eventReader = null;
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandGet = new SqlCommand();
+            CommandGet.Connection = DataBaseCon;
+            CommandGet.CommandType = CommandType.StoredProcedure;
+            CommandGet.CommandText = "GetEventFromKey";
+
+            SqlParameter GetParameter = new SqlParameter();
+            GetParameter.ParameterName = "@EventKey";
+            GetParameter.SqlDbType = SqlDbType.NVarChar;
+            GetParameter.Direction = ParameterDirection.Input;
+            GetParameter.Value = key;
+            CommandGet.Parameters.Add(GetParameter);
+
+            eventReader = CommandGet.ExecuteReader();
+
+            if (eventReader.HasRows)
+            {
+                eventReader.Read();
+
+                foundEvent.EventID = Convert.ToInt32(eventReader["EventID"]);
+                foundEvent.EventKey = key;
+                foundEvent.Date = Convert.ToDateTime(eventReader["EventDate"], culture);
+                foundEvent.Description = eventReader["NatureOfEvent"].ToString();
+                foundEvent.FacilitatorID = Convert.ToInt32(eventReader["FacilitatorID"]);
+                foundEvent.Performer = eventReader["Performer"].ToString();
+                foundEvent.Location = eventReader["Location"].ToString();
+
+
+                if (eventReader["EventBegin"].ToString() == "1/1/1800 12:00:00 PM")
+                    foundEvent.EventStart = Convert.ToDateTime("1/1/1800 12:00:00 PM", culture);
+                else
+                    foundEvent.EventStart = Convert.ToDateTime(eventReader["EventBegin"], culture).ToLocalTime();
+
+                if (eventReader["EventEnd"].ToString() == "1/1/1800 12:00:00 PM")
+                    foundEvent.EventEnd = Convert.ToDateTime("1/1/1800 12:00:00 PM", culture);
+                else
+                    foundEvent.EventEnd = Convert.ToDateTime(eventReader["EventEnd"], culture).ToLocalTime();
+
+                //call get evaluators for event
+
+                foundEvent.OpenMsg = eventReader["OpeningMessage"].ToString();
+                foundEvent.CloseMsg = eventReader["ClosingMessage"].ToString();
+                foundEvent.VotingCrit = eventReader["VotingCrit"].ToString();
+            }
+        }
+        catch (Exception)
+        {
+        }
+        finally
+        {
+            if (eventReader != null)
+                eventReader.Close();
+            DataBaseCon.Close();
+        }
+
+        return foundEvent;
+    }
+
     public List<Evaluator> GetEvaluatorsForEvent(int eventID)         
     {
         List<Evaluator> listOfEvaluators = new List<Evaluator>();
@@ -729,5 +799,44 @@ public class EventDirector
             DataBaseCon.Close();
         }
         return keys;
+    }
+
+    public bool DeleteQuestion(Question q)
+    {
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        bool success;
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "DeleteQuestion";
+
+            SqlParameter AddParamater = new SqlParameter();
+            AddParamater.ParameterName = "@QID";
+            AddParamater.SqlDbType = SqlDbType.Int;
+            AddParamater.Direction = ParameterDirection.Input;
+            AddParamater.Value = q.QID;
+            CommandAdd.Parameters.Add(AddParamater);
+
+            CommandAdd.ExecuteNonQuery();
+
+
+            success = true;
+        }
+        catch (Exception)
+        {
+            success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+        return success;
     }
 }

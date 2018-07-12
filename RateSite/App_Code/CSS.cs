@@ -72,6 +72,15 @@ public class CSS
         return fEvent;
     }
 
+    public Event GetEventFromKey(string key)
+    {
+        Event fEvent = new Event();
+        EventDirector Controller = new EventDirector();
+
+        fEvent = Controller.GetEventFromKey(key);
+        return fEvent;
+    }
+
     public Evaluator CreateEvaluator(Evaluator eval)
     { 
         Evaluator newEvaluator = new Evaluator();
@@ -305,6 +314,15 @@ public class CSS
         keys = Controller.GetEventKeys();
 
         return keys;
+    }
+
+    public bool DeleteQuestion(Question q)
+    {
+        bool Success;
+        EventDirector Controller = new EventDirector();
+
+        Success = Controller.DeleteQuestion(q);
+        return Success;
     }
 
     //public List<Series> ConvertEventToSeriesList(Event theEvent)

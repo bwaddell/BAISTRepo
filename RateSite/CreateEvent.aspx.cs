@@ -70,6 +70,7 @@ public partial class CreateEvent : System.Web.UI.Page
 
         //attept event creation
         Event newEvent = RequestDirector.CreateEvent(cEvent);
+        newEvent.Evaluators = new List<Evaluator>();
 
         //if successful, add event to session and redirect to view event
         if (newEvent.EventID != -1)
@@ -87,7 +88,7 @@ public partial class CreateEvent : System.Web.UI.Page
 
             
 
-            Session["Event"] = cEvent;
+            Session["Event"] = newEvent;
             Response.Redirect("ViewEvent.aspx");
         }
         else

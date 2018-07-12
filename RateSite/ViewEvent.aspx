@@ -6,18 +6,10 @@
     <%--highchart scripts--%>
     <script src="Scripts/jquery-3.3.1.min.js"></script>
     <script src="Scripts/Highcharts-4.0.1/js/highcharts-all.js"></script>
-    <%--<script src="Scripts/Highcharts-4.0.1/js/highcharts.js"></script>--%>
-    <%--<script src="Scripts/Highcharts-4.0.1/js/modules/exporting.js"></script>--%>
-    <%--    <script src="Scripts/Highcharts-4.0.1/js/modules/data.js"></script>
-    <script src="Scripts/Highcharts-4.0.1/js/modules/canvas-tools.js"></script>--%>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
-    <%--    <div id="content" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-            </div>
-        </div>
-    </div>--%>
+
     <asp:ScriptManager ID="ConScriptManager" runat="server"></asp:ScriptManager>
     <h2>View Event</h2>
 
@@ -90,6 +82,10 @@
                         <div class="col-md-6">
                             <asp:Button ID="Export" runat="server" CssClass="btn btn-default btn-block"
                                 Text="Export Event Data" OnClick="Export_Click" />
+                        </div>
+                        <div class="col-md-6">
+                            <asp:Button ID="RepeatBtn" runat="server" CssClass="btn btn-default btn-block"
+                                Text="Repeat this Event" OnClick="RepeatBtn_Click" />
                         </div>
                     </div>
                     <div class="form-group row">

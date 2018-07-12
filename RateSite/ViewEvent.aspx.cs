@@ -33,10 +33,15 @@ public partial class ViewEvent : System.Web.UI.Page
 
             theEvent = Director.GetEvent(theEvent);
 
-            tbEventID.Text = theEvent.EventID.ToString();
+
+            if (theEvent.EventKey.ToString() == "ZZZZ")
+                tbEventID.Text = "Key Expired";
+            else
+                tbEventID.Text = theEvent.EventKey.ToString();
+
             tbPerformer.Text = theEvent.Performer;
             tbLocation.Text = theEvent.Location;
-            tbDate.Text = theEvent.Date.ToShortDateString();
+            tbDate.Text = theEvent.Date.ToLongDateString();
             tbDesc.Text = theEvent.Description;
             //int numOfEvaluators = theEvent.Evaluators.Count;
 
@@ -49,6 +54,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 ButtonEnd.Enabled = false;
                 Export.Enabled = true;
                 TimerForTableRefresh.Enabled = false;
+                RepeatBtn.Enabled = true;
                 BuildTable();
                 BuildCharts();
             }
@@ -62,6 +68,7 @@ public partial class ViewEvent : System.Web.UI.Page
                     ButtonStart.Enabled = true;
                     ButtonEnd.Enabled = true;
                     Export.Enabled = false;
+                    RepeatBtn.Enabled = false;
                     TimerForTableRefresh.Enabled = false;
                 }
                 //if event is still active
@@ -73,6 +80,7 @@ public partial class ViewEvent : System.Web.UI.Page
                     TimerForTableRefresh.Enabled = true;
                     Export.Enabled = false;
                     ButtonEnd.Enabled = true;
+                    RepeatBtn.Enabled = false;
                 }
             }
         }
@@ -192,7 +200,7 @@ public partial class ViewEvent : System.Web.UI.Page
         Event updateMe = new Event();
 
         //get event info
-        updateMe.EventID = Convert.ToInt32(tbEventID.Text);
+        updateMe.EventID = Convert.ToInt32(((Event)Session["Event"]).EventID);
         updateMe = Manager.GetEvent(updateMe);
 
         //update event with start time
@@ -220,7 +228,7 @@ public partial class ViewEvent : System.Web.UI.Page
 
         //get event info
         Event updateMe = new Event();
-        updateMe.EventID = Convert.ToInt32(tbEventID.Text);
+        updateMe.EventID = Convert.ToInt32(((Event)Session["Event"]).EventID);
         updateMe = Manager.GetEvent(updateMe);
 
         //update event with end time
@@ -373,5 +381,57 @@ public partial class ViewEvent : System.Web.UI.Page
         ev.EvaluatorID = Convert.ToInt32(EvaluatorID);
 
         bool confirmation = RequestDirector.DeleteEvaluatorEventData(((Event)Session["Event"]), ev);
+    }
+
+    protected void RepeatBtn_Click(object sender, EventArgs e)
+    {
+        CSS RequestDirector = new CSS();
+        Event currentEvent = new Event();
+        currentEvent.EventID = ((Event)Session["Event"]).EventID;
+
+        currentEvent = RequestDirector.GetEvent(currentEvent);
+        currentEvent.CustomQuestions = RequestDirector.GetQuestions(currentEvent.EventID);
+
+        Event repeatEvent = new Event();
+
+        //create key for event
+        string EventKey;
+        EventKey = RequestDirector.GenKey(3);
+
+        //default value for event start and end times
+        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+
+        //get facilitator info and event info input
+        CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
+        repeatEvent.EventKey = EventKey;
+        repeatEvent.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
+        repeatEvent.Performer = currentEvent.Performer;
+        repeatEvent.Location = currentEvent.Location;
+        repeatEvent.Description = currentEvent.Description;
+        repeatEvent.Date = DateTime.Today;
+        repeatEvent.OpenMsg = currentEvent.OpenMsg;
+        repeatEvent.CloseMsg = currentEvent.CloseMsg;
+        repeatEvent.VotingCrit = currentEvent.VotingCrit;
+
+        //attept event creation
+        Event newEvent = RequestDirector.CreateEvent(repeatEvent);
+
+        //if successful, add event to session and redirect to view event
+        if (newEvent.EventID != -1)
+        {
+            Question q;
+
+            foreach (Question que in currentEvent.CustomQuestions)
+            {
+                q = new Question();
+                q.EventID = newEvent.EventID;
+                q.QuestionText = que.QuestionText;
+
+                RequestDirector.AddQuestion(q);
+            }
+
+            Session["Event"] = newEvent;
+            Response.Redirect("ViewEvent.aspx");
+        }
     }
 }
