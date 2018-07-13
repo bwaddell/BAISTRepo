@@ -14,7 +14,7 @@
     <h2>View Event</h2>
 
     <div class="form-group row">
-        <label class="col-md-2 col-form-label">Event ID:</label>
+        <label class="col-md-2 col-form-label">Event Key:</label>
         <div class="col-md-4">
             <asp:TextBox ID="tbEventID" runat="server" CssClass="form-control"
                 ReadOnly="true"></asp:TextBox>
@@ -31,7 +31,7 @@
         <label class="col-md-2 col-form-label">Nature of Event:</label>
         <div class="col-md-10">
             <asp:TextBox ID="tbDesc" runat="server" CssClass="form-control"
-                ReadOnly="true" TextMode="MultiLine"></asp:TextBox>
+                ReadOnly="true"></asp:TextBox>
         </div>
     </div>
 
@@ -39,7 +39,7 @@
         <label class="col-md-2 col-form-label">Location:</label>
         <div class="col-md-10">
             <asp:TextBox ID="tbLocation" runat="server" CssClass="form-control"
-                ReadOnly="true" TextMode="MultiLine"></asp:TextBox>
+                ReadOnly="true"></asp:TextBox>
         </div>
     </div>
     <asp:UpdatePanel ID="upTable" runat="server" UpdateMode="Conditional">
@@ -145,6 +145,16 @@
                     </div>
 
                 </div>
+                <div class="col-lg">
+                     <asp:Panel ID="PanelChartRadio" runat="server" Visible="false">
+                         <asp:RadioButtonList ID="RBLmath" runat="server" AutoPostBack="true" OnSelectedIndexChanged="RBLmath_SelectedIndexChanged">
+                             <asp:ListItem Value="Mean" Selected="True">Mean</asp:ListItem>
+                             <asp:ListItem Value="Median">Median</asp:ListItem>
+                             <asp:ListItem Value="Mode">Mode</asp:ListItem>
+                         </asp:RadioButtonList>
+                     </asp:Panel>
+                </div>
+
                 <div class="col-lg">
 
                     <div class="">

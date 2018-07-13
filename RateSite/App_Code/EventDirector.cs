@@ -235,7 +235,7 @@ public class EventDirector
     {
         Event foundEvent;
         foundEvent = new Event();
-
+        EvaluationDirector evalD = new EvaluationDirector();
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
@@ -288,14 +288,6 @@ public class EventDirector
                 foundEvent.VotingCrit = eventReader["VotingCrit"].ToString();
 
                 foundEvent.Evaluators = GetEvaluatorsForEvent(foundEvent.EventID);
-
-
-
-                //foreach evaluator in Event -> get Evaluation data
-                foreach (Evaluator evaluators in foundEvent.Evaluators)
-                {
-                    //GetEvaluationForEventEvaluator(EventID,EvaluatorID);
-                }
             }
         }
         catch (Exception)

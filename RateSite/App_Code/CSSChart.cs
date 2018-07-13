@@ -184,24 +184,35 @@ public class CSSChart
     }
 
     //make chart was calculations for mode, median, mean
-    public Highcharts MakeMathChart(Event theEvent)
+    public Highcharts MakeMathChart(Event theEvent, string mathType)
     {
         //make a series and points for each calculation type
         List<Series> liOfSeries = new List<Series>();
         List<object> points = new List<object>();
         Random rand = new Random();
 
-        Series serMean = new Series();
-        serMean.Name = "Mean";
-        List<object> meanPoints = new List<object>();
+        //if (mathType == "Mean")
+        //{
+        //    Series serMean = new Series();
+        //    serMean.Name = "Mean";
+        //    List<object> meanPoints = new List<object>();
+        //}
+        //else if (mathType == "Median")
+        //{
+        //    Series serMode = new Series();
+        //    serMode.Name = "Mode";
+        //    List<object> modePoints = new List<object>();
+        //}
+        //else if (mathType == "Mode")
+        //{
+        //    Series serMedian = new Series();
+        //    serMedian.Name = "Median";
+        //    List<object> medianPoints = new List<object>();
+        //}
 
-        Series serMode = new Series();
-        serMode.Name = "Mode";
-        List<object> modePoints = new List<object>();
-
-        Series serMedian = new Series();
-        serMedian.Name = "Median";
-        List<object> medianPoints = new List<object>();
+        Series serMath = new Series();
+        serMath.Name = mathType;
+        List<object> mathPoints = new List<object>();
 
         //make a list of every evaluation for the event
         List<Evaluation> allEvaluations = new List<Evaluation>();
@@ -242,48 +253,56 @@ public class CSSChart
                 //time since event start
                 double timestamp = (i - eventStart).TotalMilliseconds;
 
-                //calc mean
-                meanPoints.Add(new
-                {
-                    X = timestamp,
-                    Y = ratings.Average(x => x)
-                });
 
-                //calc mode
-                modePoints.Add(new
+                if (mathType == "Mean")
                 {
-                    X = timestamp,
-                    Y = ratings.GroupBy(v => v)
-                            .OrderByDescending(g => g.Count())
-                            .First()
-                            .Key
-                });
-
-                //calc median
-                medianPoints.Add(new
+                    //calc mean
+                    mathPoints.Add(new
+                    {
+                        X = timestamp,
+                        Y = ratings.Average(x => x)
+                    });
+                }
+                else if (mathType == "Median")
                 {
-                    X = timestamp,
-                    Y = GetMedian(ratings)
-                });
+                    //calc mode
+                    mathPoints.Add(new
+                    {
+                        X = timestamp,
+                        Y = ratings.GroupBy(v => v)
+                                .OrderByDescending(g => g.Count())
+                                .First()
+                                .Key
+                    });
+                }
+                else if (mathType == "Mode")
+                {
+                    //calc median
+                    mathPoints.Add(new
+                    {
+                        X = timestamp,
+                        Y = GetMedian(ratings)
+                    });
+                }             
             }
         }
 
         //add points to series
-        serMean.Data = new Data(meanPoints.ToArray());
-        serMode.Data = new Data(modePoints.ToArray());
-        serMedian.Data = new Data(medianPoints.ToArray());
+        serMath.Data = new Data(mathPoints.ToArray());
+        //serMode.Data = new Data(modePoints.ToArray());
+        //serMedian.Data = new Data(medianPoints.ToArray());
 
         //set series colour
-        serMean.Color = System.Drawing.Color.
+        serMath.Color = System.Drawing.Color.
                 FromArgb(150, rand.Next(150, 256), rand.Next(25), rand.Next(25));
-        serMode.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(25), rand.Next(150, 256), rand.Next(25));
-        serMedian.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(25), rand.Next(25), rand.Next(150, 256));
+        //serMode.Color = System.Drawing.Color.
+        //        FromArgb(150, rand.Next(25), rand.Next(150, 256), rand.Next(25));
+        //serMedian.Color = System.Drawing.Color.
+        //        FromArgb(150, rand.Next(25), rand.Next(25), rand.Next(150, 256));
 
-        liOfSeries.Add(serMean);
-        liOfSeries.Add(serMode);
-        liOfSeries.Add(serMedian);
+        liOfSeries.Add(serMath);
+        //liOfSeries.Add(serMode);
+        //liOfSeries.Add(serMedian);
 
         //add data to chart
         Highcharts chart = new Highcharts("mChart").InitChart(new Chart

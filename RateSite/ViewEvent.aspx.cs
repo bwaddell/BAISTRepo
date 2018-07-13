@@ -57,8 +57,10 @@ public partial class ViewEvent : System.Web.UI.Page
                 Export.Enabled = true;
                 TimerForTableRefresh.Enabled = false;
                 RepeatBtn.Enabled = true;
+                PanelChartRadio.Visible = true;
                 BuildTable();
-                BuildCharts();
+                BuildCharts(RBLmath.SelectedValue);
+
             }
             else
             {
@@ -85,6 +87,11 @@ public partial class ViewEvent : System.Web.UI.Page
                     RepeatBtn.Enabled = false;
                 }
             }
+        }
+        else
+        {
+            BuildTable();
+            BuildCharts(RBLmath.SelectedValue);
         }
 
     }
@@ -246,7 +253,7 @@ public partial class ViewEvent : System.Web.UI.Page
     }
 
 
-    public void BuildCharts()
+    public void BuildCharts(string mathType)
     {
         CSS Director = new CSS();
 
@@ -265,8 +272,9 @@ public partial class ViewEvent : System.Web.UI.Page
             //the rest is automatic
             ltrChart.Text = chart.ToHtmlString();
 
+
             //generate chart with mean/mode/median
-            Highcharts mChart = Director.MakeMathChart(theEvent);
+            Highcharts mChart = Director.MakeMathChart(theEvent, mathType);
             mathChart.Text = mChart.ToHtmlString();
         }
     }
@@ -306,20 +314,17 @@ public partial class ViewEvent : System.Web.UI.Page
 
             //first Rating
             tCell = new TableCell();
-
-            //tCell.Text = (ev.EvaluatorEvaluations.First().TimeStamp - activeEvent.EventStart).ToString();
+            tCell.Text = (ev.EvaluatorEvaluations.First().TimeStamp.ToLocalTime() - activeEvent.EventStart).ToString();
             tRow.Cells.Add(tCell);
             
             //last rating
             tCell = new TableCell();
-
-            //tCell.Text = (ev.EvaluatorEvaluations.Last().TimeStamp - activeEvent.EventStart).ToString();
+            tCell.Text = (ev.EvaluatorEvaluations.Last().TimeStamp.ToLocalTime() - activeEvent.EventStart).ToString();
             tRow.Cells.Add(tCell);
 
             //avg rating
             tCell = new TableCell();
-
-            //tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");     
+            tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");     
             tRow.Cells.Add(tCell);
 
             //delete button
@@ -437,5 +442,11 @@ public partial class ViewEvent : System.Web.UI.Page
             Session["Event"] = newEvent;
             Response.Redirect("ViewEvent.aspx");
         }
+    }
+
+    protected void RBLmath_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BuildTable();
+        BuildCharts(RBLmath.SelectedValue);
     }
 }
