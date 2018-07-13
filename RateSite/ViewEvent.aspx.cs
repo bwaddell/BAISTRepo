@@ -13,13 +13,15 @@ using DotNet.Highcharts.Enums;
 
 public partial class ViewEvent : System.Web.UI.Page
 {
-    DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+   
 
 
     protected void Page_Load(object sender, EventArgs e)
     {
         ScriptManager scriptManager = ScriptManager.GetCurrent(this.Page);
         scriptManager.RegisterPostBackControl(this.Export);
+
+        DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
         if (!IsPostBack)
         {
@@ -66,7 +68,7 @@ public partial class ViewEvent : System.Web.UI.Page
                     tbStart.Text = "The Event has not begun.";
                     tbEnd.Text = "The Event has not begun.";
                     ButtonStart.Enabled = true;
-                    ButtonEnd.Enabled = true;
+                    ButtonEnd.Enabled = false;
                     Export.Enabled = false;
                     RepeatBtn.Enabled = false;
                     TimerForTableRefresh.Enabled = false;
@@ -271,9 +273,10 @@ public partial class ViewEvent : System.Web.UI.Page
 
     //build table with evaluator info
     public void BuildTable()
-    {
+    { 
+        DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
+
         lbUpdateTime.Text = DateTime.Now.ToLocalTime().ToString();
-        //DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
         CSS RequestDirector = new CSS();
 
         //get event evaluation data
@@ -303,17 +306,20 @@ public partial class ViewEvent : System.Web.UI.Page
 
             //first Rating
             tCell = new TableCell();
-            tCell.Text = (ev.EvaluatorEvaluations.First().TimeStamp - activeEvent.EventStart).ToString();
+
+            //tCell.Text = (ev.EvaluatorEvaluations.First().TimeStamp - activeEvent.EventStart).ToString();
             tRow.Cells.Add(tCell);
             
             //last rating
             tCell = new TableCell();
-            tCell.Text = (ev.EvaluatorEvaluations.Last().TimeStamp - activeEvent.EventStart).ToString();
+
+            //tCell.Text = (ev.EvaluatorEvaluations.Last().TimeStamp - activeEvent.EventStart).ToString();
             tRow.Cells.Add(tCell);
 
             //avg rating
             tCell = new TableCell();
-            tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");     
+
+            //tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");     
             tRow.Cells.Add(tCell);
 
             //delete button
@@ -361,8 +367,6 @@ public partial class ViewEvent : System.Web.UI.Page
                 lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
             }
         }
-
-
     }
 
     protected void TimerForTableRefresh_Tick(object sender, EventArgs e)
@@ -399,7 +403,7 @@ public partial class ViewEvent : System.Web.UI.Page
         EventKey = RequestDirector.GenKey(3);
 
         //default value for event start and end times
-        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+        DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
         //get facilitator info and event info input
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;

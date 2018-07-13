@@ -9,10 +9,10 @@ public partial class PreEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
+        //if (!IsPostBack)
+        //{
             CSS RequestDirector = new CSS();
-            DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+            DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
             Event ActiveEvent = new Event();
             ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
@@ -71,7 +71,7 @@ public partial class PreEvent : System.Web.UI.Page
 
                 }
             }
-        }
+        
     }
 
     protected void JoinBTN_Click(object sender, EventArgs e)
@@ -125,7 +125,7 @@ public partial class PreEvent : System.Web.UI.Page
 
                         string responseTBID = string.Format("tb{0}", q.QID);
 
-                        TextBox tb = (TextBox)(this.FindControl(responseTBID));
+                        TextBox tb = (TextBox)(PanelQuestions.FindControl(responseTBID));
 
                         q.ResponseText = tb.Text;
 

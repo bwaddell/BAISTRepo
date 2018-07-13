@@ -38,7 +38,7 @@ public partial class CreateEvent : System.Web.UI.Page
 
 
         //default value for event start and end times
-        DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+        DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
         //get facilitator info and event info input
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;

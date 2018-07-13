@@ -201,8 +201,8 @@ public class EventDirector
             AddParameter.ParameterName = "@EventFinish";
             AddParameter.SqlDbType = SqlDbType.NVarChar;
             AddParameter.Direction = ParameterDirection.Input;
-            if (updatedEvent.EventEnd == Convert.ToDateTime("1/1/1800 12:00:00 PM"))
-                AddParameter.Value = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+            if (updatedEvent.EventEnd == Convert.ToDateTime("1800-01-01 12:00:00 PM"))
+                AddParameter.Value = Convert.ToDateTime("1800-01-01 12:00:00 PM");
             else
                 AddParameter.Value = updatedEvent.EventEnd.ToUniversalTime().ToString();         
             CommandAdd.Parameters.Add(AddParameter);
@@ -271,13 +271,13 @@ public class EventDirector
                 foundEvent.Location = eventReader["Location"].ToString();
 
 
-                if (eventReader["EventBegin"].ToString() == "1/1/1800 12:00:00 PM")
-                    foundEvent.EventStart = Convert.ToDateTime("1/1/1800 12:00:00 PM", culture);
+                if (eventReader["EventBegin"].ToString() == "1800-01-01 12:00:00 PM")
+                    foundEvent.EventStart = Convert.ToDateTime("1800-01-01 12:00:00 PM", culture);
                 else
                     foundEvent.EventStart = Convert.ToDateTime(eventReader["EventBegin"], culture).ToLocalTime();
 
-                if (eventReader["EventEnd"].ToString() == "1/1/1800 12:00:00 PM")
-                    foundEvent.EventEnd = Convert.ToDateTime("1/1/1800 12:00:00 PM", culture);
+                if (eventReader["EventEnd"].ToString() == "1800-01-01 12:00:00 PM")
+                    foundEvent.EventEnd = Convert.ToDateTime("1800-01-01 12:00:00 PM", culture);
                 else
                     foundEvent.EventEnd = Convert.ToDateTime(eventReader["EventEnd"], culture).ToLocalTime();
 
@@ -351,13 +351,13 @@ public class EventDirector
                 foundEvent.Location = eventReader["Location"].ToString();
 
 
-                if (eventReader["EventBegin"].ToString() == "1/1/1800 12:00:00 PM")
-                    foundEvent.EventStart = Convert.ToDateTime("1/1/1800 12:00:00 PM", culture);
+                if (eventReader["EventBegin"].ToString() == "1800-01-01 12:00:00 PM")
+                    foundEvent.EventStart = Convert.ToDateTime("1800-01-01 12:00:00 PM", culture);
                 else
                     foundEvent.EventStart = Convert.ToDateTime(eventReader["EventBegin"], culture).ToLocalTime();
 
-                if (eventReader["EventEnd"].ToString() == "1/1/1800 12:00:00 PM")
-                    foundEvent.EventEnd = Convert.ToDateTime("1/1/1800 12:00:00 PM", culture);
+                if (eventReader["EventEnd"].ToString() == "1800-01-01 12:00:00 PM")
+                    foundEvent.EventEnd = Convert.ToDateTime("1800-01-01 12:00:00 PM", culture);
                 else
                     foundEvent.EventEnd = Convert.ToDateTime(eventReader["EventEnd"], culture).ToLocalTime();
 

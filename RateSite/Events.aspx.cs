@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 public partial class Events : System.Web.UI.Page
 {
-    DateTime defaultTime = Convert.ToDateTime("1/1/1800 12:00:00 PM");
+    DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
 
 
