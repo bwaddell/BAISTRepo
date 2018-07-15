@@ -50,8 +50,8 @@ create table EventDetails
 	Performer nvarchar(100) not null,											
 	NatureOfEvent nvarchar(100) not null,										
 	EventDate nvarchar(25) not null,
-	EventBegin nvarchar(25) default '1/1/1800 12:00:00 PM',				
-	EventEnd nvarchar(25) default '1/1/1800 12:00:00 PM',
+	EventBegin nvarchar(25) default '1800-01-01 12:00:00 PM',				
+	EventEnd nvarchar(25) default '1800-01-01 12:00:00 PM',
 	OpeningMessage nvarchar(4000) default '',
 	ClosingMessage nvarchar(4000) default '',
 	VotingCrit nvarchar(256) default 'Overall'
@@ -235,6 +235,9 @@ GO
 --EXEC CreateFacilitator 'ben@gmail.com','asdkjahskdjhaksjhd','asdasd','eval','ben','waddell','student','NAIT','Edmonton'
 --SELECT * FROM Facilitator
 --SELECT * FROM EventDetails
+SELECT * FROM CustomQuestion
+SELECT * FROM QuestionResponse
+SELECT * FROM EvaluativeData
 
 IF (OBJECT_ID('DeleteFacilitator') IS NOT NULL)
   DROP PROCEDURE DeleteFacilitator
@@ -412,6 +415,7 @@ as
 		return @ReturnCode
 GO
 
+SELECT * FROM EventDetails
 SELECT * FROM CustomQuestion
 SELECT * FROM QuestionResponse
 SELECT * FROM Evaluator
@@ -522,8 +526,8 @@ go
 create procedure UpdateEventStatus
 (
 	@EventID int = null,
-	@EventStart nvarchar(25) = '1/1/1800 12:00:00 PM',
-	@EventFinish nvarchar(25) = '1/1/1800 12:00:00 PM'
+	@EventStart nvarchar(25) = '1800-01-01 12:00:00 PM',
+	@EventFinish nvarchar(25) = '1800-01-01 12:00:00 PM'
 )
 as
 	declare @ReturnCode as int
@@ -815,7 +819,7 @@ as
 		raiserror('GetEvaluatorEventData - Required Parameter: @EvaluatorID',16,1)
 	else
 		begin
-			select @EventID,EvaluatorID,TimeOfData,Rating from EvaluativeData
+			select EventID,EvaluatorID,TimeOfData,Rating from EvaluativeData
 			where EventID = @EventID and @EvaluatorID = EvaluatorID
 
 			if @@ERROR = 0
@@ -826,6 +830,7 @@ as
 	return @ReturnCode				
 GO
 
+EXEC GetEvaluatorEventData 4,7
 
 IF (OBJECT_ID('DeleteEvaluatorEventData') IS NOT NULL)
   DROP PROCEDURE DeleteEvaluatorEventData

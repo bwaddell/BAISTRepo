@@ -98,5 +98,22 @@ public partial class EvaluateEvent : System.Web.UI.Page
         }
     }
 
+    public void FinishEvent(Event currentEvent, Evaluator activeEvaluator)
+    {
+        DateTime defaultTime = Convert.ToDateTime("01-01-1800 12:00:00");
+
+        CSS RequestDirector = new CSS();
+
+        //check all open events to match event Key
+        //return Event ID
+
+        //get event info for key input
+
+        Session["Event"] = currentEvent;
+        Session["Evaluator"] = activeEvaluator;
+        Response.Redirect("PostEvent.aspx");
+
+    }
+
 
 }

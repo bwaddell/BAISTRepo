@@ -105,17 +105,37 @@ public partial class ViewEvent : System.Web.UI.Page
         Facilitator Facilitator = new Facilitator();
         //List<Evaluation> Evaluations = new List<Evaluation>();
         StringBuilder csvcontent = new StringBuilder();
-        string insert;
         DateTime addEval;
 
         //Set the Event.ID of our empty event, and use said event to pull event information from DB
         theEvent.EventID = ((Event)Session["Event"]).EventID;
         theEvent = Director.GetEvent(theEvent);
+
+        List<Question> questions = new List<Question>();
+        questions = Director.GetQuestions(theEvent.EventID);
+
+        List<Question> answers = new List<Question>();
+        Question que;
+
+        foreach (Question q in questions)
+        {
+            foreach (Evaluator ev in theEvent.Evaluators)
+            {
+                que = new Question();
+
+                que.QID = q.QID;
+                que.EvaluatorID = ev.EvaluatorID;
+                que = Director.GetResponse(que);
+
+                ev.Responses.Add(que);
+            }
+        }
+
         Facilitator = Director.GetFacilitator(1);
 
         //Creates the first section of data in the CSV, regarding the Facilitators info. Data is formatted in two lines, the first line being the data description, the second line being the respective data.
-        csvcontent.AppendLine("First Name,Last Name,Title,Organization,Location,Email");
-        csvcontent.AppendLine(Facilitator.FirstName + "," + Facilitator.LastName + "," + Facilitator.Title + "," + Facilitator.Organization + "," + Facilitator.Location + "," + Facilitator.Email);
+        csvcontent.AppendLine("Event Creator,Organization");
+        csvcontent.AppendLine(Facilitator.FirstName + " " + Facilitator.LastName + "," + Facilitator.Organization);
         csvcontent.AppendLine("\n");
 
         //Creates the second line of data in the CSV, regarding the Events info. Formatted as above.
@@ -135,7 +155,14 @@ public partial class ViewEvent : System.Web.UI.Page
         {
             timestamps.Add(String.Format("{0}", (i - eventStart).ToString(@"hh\:mm\:ss\:fff")));
         }
-        string tsLine = "TimeStamp (HH:MM:SS.mmm):,";
+        string tsLine = "ID #,Name,";
+
+        foreach (Question q in questions)
+        {
+            tsLine += q.QuestionText + ",";
+        }
+
+        tsLine += "TimeStamp (HH:MM:SS.mmm):,";
 
         for (int k = 0; k < timestamps.Count; k++)
         {
@@ -152,11 +179,19 @@ public partial class ViewEvent : System.Web.UI.Page
         Evaluator _evaluator = new Evaluator();
         Evaluation _evaluation = new Evaluation();
         int evalCount = 0;
+        string insert;
 
         foreach (Evaluator eval in theEvent.Evaluators)
         {
-            insert = "ID: " + eval.EvaluatorID.ToString() + ",";
+            insert = eval.EvaluatorID.ToString() + "," + eval.Name + "," ;
 
+            //add q answers
+            foreach (Question r in eval.Responses)
+            {
+                insert += r.ResponseText + ",";
+            }
+
+            insert += ",";
 
             for (DateTime i = eventStart; i <= eventEnd; i = i.AddSeconds(secsBetweenPoints))
             {

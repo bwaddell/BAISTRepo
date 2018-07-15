@@ -11,7 +11,8 @@ public class Evaluator
     private int EvaluatorIDValue;
     private string NameValue;
     private string CriteriaValue;
-    private List<Evaluation> EvaluatorDataValue;
+    private List<Evaluation> EvaluatorDataValue = new List<Evaluation>();
+    private List<Question> ResponsesList = new List<Question>();
 
     public int EvaluatorID
     {
@@ -43,5 +44,16 @@ public class Evaluator
         }
     }
 
+    public List<Question> Responses
+    {
+        get
+        {
+            return ResponsesList;
+        }
 
+        set
+        {
+            ResponsesList = value;
+        }
+    }
 }
