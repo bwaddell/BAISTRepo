@@ -164,6 +164,111 @@ public class EventDirector
         return newEvent;
     }
 
+    public bool UpdateEventInfo(Event updated)
+    {
+        bool success;
+        int numRows = 0;
+
+        ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
+        SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
+        DataBaseCon.ConnectionString = webSettings.ConnectionString;
+
+        try
+        {
+            DataBaseCon.Open();
+
+            SqlCommand CommandAdd = new SqlCommand();
+            CommandAdd.Connection = DataBaseCon;
+            CommandAdd.CommandType = CommandType.StoredProcedure;
+            CommandAdd.CommandText = "UpdateEvent";
+
+            SqlParameter AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EventID";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.EventID;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EventKey";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.EventKey;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Facilitator";
+            AddParameter.SqlDbType = SqlDbType.Int;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.FacilitatorID;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Location";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.Location;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@Performer";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.Performer;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@NatureOfEvent";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.Description;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EventDate";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.Date.ToShortDateString();
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@OpenMsg";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.OpenMsg;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@CloseMsg";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.CloseMsg;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@VotingCrit";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updated.VotingCrit;
+            CommandAdd.Parameters.Add(AddParameter);
+
+            CommandAdd.ExecuteNonQuery(); //Number of rows affected
+
+            success = true;
+
+        }
+        catch (Exception)
+        {
+            success = false;
+        }
+        finally
+        {
+            DataBaseCon.Close();
+        }
+
+        return success;
+    }
+
     public bool UpdateEvent(Event updatedEvent)
     {
         bool Success = false;

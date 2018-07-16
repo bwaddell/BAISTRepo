@@ -15,6 +15,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
     <asp:ScriptManager ID="ConScriptManager" runat="server"></asp:ScriptManager>
+    <div class="row form-group">
+        <div class="col-lg">
+            <asp:Button ID="LeaveBtn" runat="server" Text="Leave Event" CssClass="btn btn-default form-control" OnClick="LeaveBtn_Click" OnClientClick="return confirm('Are you sure you want to leave?');" />
+        </div>
+    </div>
     <div class="row">
         <div class="btnClass">
             <asp:ImageButton ID="ButtonUp" class="btn btn-block img-responsive btnImage" ImageUrl="Images/arrowup.png" runat="server" OnClick="ButtonUp_Click" />

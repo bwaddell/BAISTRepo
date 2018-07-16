@@ -46,12 +46,12 @@
                 <asp:RegularExpressionValidator ID="RegularExpressionValidatorDescLength" runat="server" ErrorMessage="Maximum 100 characters allowed." Display="Dynamic"
                     ValidationExpression = "^[\s\S]{0,100}$" ControlToValidate="tbNatureOfPerformance"></asp:RegularExpressionValidator>
             </div>
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label>Event Date:</label>
                 <asp:TextBox ID="tbEventDate" runat="server"
                     CssClass="form-control"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidatorDate" runat="server" ErrorMessage="Date is Required" Display="Dynamic" ControlToValidate="tbEventDate"></asp:RequiredFieldValidator>
-            </div>
+            </div>--%>
 
             <div class="form-group">
                 <label>Opening Message:</label>

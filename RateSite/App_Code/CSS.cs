@@ -62,6 +62,15 @@ public class CSS
 
         return newEvent;
     }
+    public bool UpdateEventInfo(Event updated)
+    {
+        bool updatedEvent;
+        EventDirector Controller = new EventDirector();
+
+        updatedEvent = Controller.UpdateEventInfo(updated);
+        return updatedEvent;
+    }
+
     public Event GetEvent(Event currentEvent)               //this one
     {
         //redo this method to return the WHOLE Event
@@ -226,10 +235,10 @@ public class CSS
         return chart;
 
     }
-    public Highcharts MakeMathChart(Event theEvent, string mathType)
+    public Highcharts MakeMathChart(Event theEvent)
     {
         CSSChart chartmaker = new CSSChart();
-        Highcharts chart = chartmaker.MakeMathChart(theEvent, mathType);
+        Highcharts chart = chartmaker.MakeMathChart(theEvent);
 
         return chart;
     }

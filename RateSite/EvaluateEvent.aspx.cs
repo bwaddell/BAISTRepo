@@ -116,4 +116,31 @@ public partial class EvaluateEvent : System.Web.UI.Page
     }
 
 
+
+    protected void LeaveBtn_Click(object sender, EventArgs e)
+    {
+        CSS RequestDirector = new CSS();
+        Evaluator eval = new Evaluator();
+        eval.EvaluatorID = ((Evaluator)Session["Evaluator"]).EvaluatorID;
+        DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
+        Event eve = new Event();
+        eve.EventID = ((Event)Session["Event"]).EventID;
+        eve = RequestDirector.GetEvent(eve);
+
+        if (eve.EventEnd == defaultTime)
+        {
+            bool success = RequestDirector.DeleteEvaluatorEventData(eve, eval);
+
+            if (success)
+            {
+                
+            }
+        }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
+
+
+    }
 }

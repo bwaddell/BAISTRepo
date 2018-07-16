@@ -20,7 +20,7 @@ public partial class CreateEvent : System.Web.UI.Page
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 fac = requester.GetFacilitator(Convert.ToInt32(cp.Identity.Name));
-                tbEventDate.Text = DateTime.Today.ToString();
+                //tbEventDate.Text = DateTime.Today.ToString();
             }
 
         }       
@@ -33,8 +33,8 @@ public partial class CreateEvent : System.Web.UI.Page
         bool success;
 
         //create key for event
-        string EventKey;
-        EventKey = RequestDirector.GenKey(3);
+        //string EventKey;
+        //EventKey = RequestDirector.GenKey(3);
 
 
         //default value for event start and end times
@@ -42,12 +42,12 @@ public partial class CreateEvent : System.Web.UI.Page
 
         //get facilitator info and event info input
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
-        cEvent.EventKey = EventKey;
+        cEvent.EventKey = "AAAA";
         cEvent.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
         cEvent.Performer = tbPerformer.Text;
         cEvent.Location = tbLocation.Text;
         cEvent.Description = tbNatureOfPerformance.Text;
-        cEvent.Date = Convert.ToDateTime(tbEventDate.Text);
+        cEvent.Date = DateTime.Today;
         cEvent.OpenMsg = OpenTxt.Text;
         cEvent.CloseMsg = CloseTxt.Text;
         

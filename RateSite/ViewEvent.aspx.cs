@@ -35,17 +35,93 @@ public partial class ViewEvent : System.Web.UI.Page
 
             theEvent = Director.GetEvent(theEvent);
 
+            theEvent.CustomQuestions = Director.GetQuestions(theEvent.EventID);
 
-            if (theEvent.EventKey.ToString() == "ZZZZ")
-                tbEventID.Text = "Key Expired";
-            else
-                tbEventID.Text = theEvent.EventKey.ToString();
+            if (theEvent.EventKey == "AAAA")
+            {
+                upTable.Visible = false;
+                PanelButtons.Visible = false;
+                PanelPreLabel.Visible = true;
+                PanelPostLabel.Visible = false;
+                tbEventID.Text = "Generate Key";
+                tbPerformer.ReadOnly = false;
+                tbDesc.ReadOnly = false;
+                tbLocation.ReadOnly = false;
+                tbOpen.ReadOnly = false;
+                tbClose.ReadOnly = false;
+                allCritLB.Enabled = true;
+                allQsLB.Enabled = true;
+                newQTB.Visible = true;
+                critTxt.Visible = true;
+                AddCritBTN.Enabled = true;
+                AddCritBTN.Visible = true;
+                RemoveCritBRN.Enabled = true;
+                RemoveCritBRN.Visible = true;
+                AddQBTN.Enabled = true;
+                AddQBTN.Visible = true;
+                RemoveQBTN.Enabled = true;
+                RemoveQBTN.Visible = true;
+            }
+            else 
+            {
+                if (theEvent.EventKey == "ZZZZ")
+                {
+                    tbEventID.Text = "Key Expired";
+                }
+                else
+                {
+                    tbEventID.Text = theEvent.EventKey;
+                }
+                upTable.Visible = true;
+                PanelButtons.Visible = true;
+                PanelPreLabel.Visible = false;
+                PanelPostLabel.Visible = true;
+                tbPerformer.ReadOnly = true;
+                tbDesc.ReadOnly = true;
+                tbLocation.ReadOnly = true;
+                tbOpen.ReadOnly = true;
+                tbClose.ReadOnly = true;
+                allCritLB.Enabled = false;
+                allQsLB.Enabled = false;
+                newQTB.Visible = false;
+                critTxt.Visible = false;
+                AddCritBTN.Enabled = false;
+                AddCritBTN.Visible = false;
+                RemoveCritBRN.Enabled = false;
+                RemoveCritBRN.Visible = false;
+                AddQBTN.Enabled = false;
+                AddQBTN.Visible = false;
+                RemoveQBTN.Enabled = false;
+                RemoveQBTN.Visible = false;
+                GenKeyBtn.Enabled = false;
+                GenKeyBtn.Visible = false;
+                UpdateBtn.Enabled = false;
+                UpdateBtn.Visible = false;
+            }
+
+            
 
             tbPerformer.Text = theEvent.Performer;
             tbLocation.Text = theEvent.Location;
             tbDate.Text = theEvent.Date.ToLongDateString();
             tbDesc.Text = theEvent.Description;
-            //int numOfEvaluators = theEvent.Evaluators.Count;
+            tbOpen.Text = theEvent.OpenMsg;
+            tbClose.Text = theEvent.CloseMsg;
+            
+            foreach (Question q in theEvent.CustomQuestions)
+            {
+                allQsLB.Items.Add(new ListItem(q.QuestionText,q.QuestionText));
+            }
+
+            string[] crits = theEvent.VotingCrit.Split('|');
+
+            foreach (string s in crits)
+            {
+                if (s.Length > 0)
+                {
+                    allCritLB.Items.Add(new ListItem(s, s));
+                }
+            }
 
             //if the event has ended disable start/end buttons and generate charts and table
             if (theEvent.EventEnd != defaultTime)
@@ -57,9 +133,9 @@ public partial class ViewEvent : System.Web.UI.Page
                 Export.Enabled = true;
                 TimerForTableRefresh.Enabled = false;
                 RepeatBtn.Enabled = true;
-                PanelChartRadio.Visible = true;
+                //PanelChartRadio.Visible = true;
                 BuildTable();
-                BuildCharts(RBLmath.SelectedValue);
+                BuildCharts();
 
             }
             else
@@ -67,8 +143,8 @@ public partial class ViewEvent : System.Web.UI.Page
                 //if event has not begun
                 if (theEvent.EventStart == defaultTime)
                 {
-                    tbStart.Text = "The Event has not begun.";
-                    tbEnd.Text = "The Event has not begun.";
+                    tbStart.Text = "--:--:--";
+                    tbEnd.Text = "--:--:--";
                     ButtonStart.Enabled = true;
                     ButtonEnd.Enabled = false;
                     Export.Enabled = false;
@@ -79,7 +155,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 else
                 {
                     tbStart.Text = theEvent.EventStart.ToLocalTime().ToLongTimeString();
-                    tbEnd.Text = "The Event is active.";
+                    tbEnd.Text = "--:--:--";
                     ButtonStart.Enabled = false;
                     TimerForTableRefresh.Enabled = true;
                     Export.Enabled = false;
@@ -90,8 +166,8 @@ public partial class ViewEvent : System.Web.UI.Page
         }
         else
         {
-            BuildTable();
-            BuildCharts(RBLmath.SelectedValue);
+            //BuildTable();
+            //BuildCharts();
         }
 
     }
@@ -162,7 +238,7 @@ public partial class ViewEvent : System.Web.UI.Page
             tsLine += q.QuestionText + ",";
         }
 
-        tsLine += "TimeStamp (HH:MM:SS.mmm):,";
+        tsLine += "Voting Criteria,TimeStamp (HH:MM:SS.mmm):,";
 
         for (int k = 0; k < timestamps.Count; k++)
         {
@@ -191,7 +267,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 insert += r.ResponseText + ",";
             }
 
-            insert += ",";
+            insert += eval.Criteria + ",,";
 
             for (DateTime i = eventStart; i <= eventEnd; i = i.AddSeconds(secsBetweenPoints))
             {
@@ -288,7 +364,7 @@ public partial class ViewEvent : System.Web.UI.Page
     }
 
 
-    public void BuildCharts(string mathType)
+    public void BuildCharts()
     {
         CSS Director = new CSS();
 
@@ -302,15 +378,12 @@ public partial class ViewEvent : System.Web.UI.Page
         if (theEvent.Evaluators.Count > 0)
         {
             Highcharts chart = Director.CreateChart(theEvent);
-
-            //write the chart to the div(literal) on web page
-            //the rest is automatic
             ltrChart.Text = chart.ToHtmlString();
 
-
             //generate chart with mean/mode/median
-            Highcharts mChart = Director.MakeMathChart(theEvent, mathType);
-            mathChart.Text = mChart.ToHtmlString();
+            Highcharts mathChart = Director.MakeMathChart(theEvent);
+            meanChart.Text = mathChart.ToHtmlString();
+
         }
     }
 
@@ -319,7 +392,7 @@ public partial class ViewEvent : System.Web.UI.Page
     { 
         DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
-        lbUpdateTime.Text = DateTime.Now.ToLocalTime().ToString();
+        //lbUpdateTime.Text = DateTime.Now.ToLocalTime().ToString();
         CSS RequestDirector = new CSS();
 
         //get event evaluation data
@@ -341,25 +414,30 @@ public partial class ViewEvent : System.Web.UI.Page
 
             //name
             if (ev.EvaluatorID.ToString().Equals("voter"))
-                tCell.Text = ev.EvaluatorID.ToString();
+                tCell.Text = "ID:" + ev.EvaluatorID.ToString();
             else
                 tCell.Text = ev.Name;
    
             tRow.Cells.Add(tCell);
 
-            //first Rating
+            //what criteria user is rating on
+            tCell = new TableCell();
+            tCell.Text = ev.Criteria;
+            tRow.Cells.Add(tCell);
+
+            //first Rating time
             tCell = new TableCell();
             tCell.Text = (ev.EvaluatorEvaluations.First().TimeStamp.ToLocalTime() - activeEvent.EventStart).ToString();
             tRow.Cells.Add(tCell);
             
-            //last rating
+            //last rating time
             tCell = new TableCell();
             tCell.Text = (ev.EvaluatorEvaluations.Last().TimeStamp.ToLocalTime() - activeEvent.EventStart).ToString();
             tRow.Cells.Add(tCell);
 
-            //avg rating
+            //last rating
             tCell = new TableCell();
-            tCell.Text = (ev.EvaluatorEvaluations.Average(x => x.Rating)).ToString("#.##");     
+            tCell.Text = ev.EvaluatorEvaluations.Last().Rating.ToString();
             tRow.Cells.Add(tCell);
 
             //delete button
@@ -371,7 +449,7 @@ public partial class ViewEvent : System.Web.UI.Page
             btn.OnClientClick = "return confirm('Are you sure you want to remove this evaluator?');";
             btn.CssClass = "btn btn-light";
             tCell.Controls.Add(btn);
-           
+            tRow.Cells.Add(tCell);
 
             Table1.Rows.Add(tRow);
         }
@@ -425,6 +503,8 @@ public partial class ViewEvent : System.Web.UI.Page
         ev.EvaluatorID = Convert.ToInt32(EvaluatorID);
 
         bool confirmation = RequestDirector.DeleteEvaluatorEventData(((Event)Session["Event"]), ev);
+
+        BuildTable();
     }
 
     protected void RepeatBtn_Click(object sender, EventArgs e)
@@ -438,16 +518,12 @@ public partial class ViewEvent : System.Web.UI.Page
 
         Event repeatEvent = new Event();
 
-        //create key for event
-        string EventKey;
-        EventKey = RequestDirector.GenKey(3);
-
         //default value for event start and end times
         DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
         //get facilitator info and event info input
         CustomPrincipal cp = HttpContext.Current.User as CustomPrincipal;
-        repeatEvent.EventKey = EventKey;
+        repeatEvent.EventKey = "AAAA";
         repeatEvent.FacilitatorID = Convert.ToInt32(cp.Identity.Name);
         repeatEvent.Performer = currentEvent.Performer;
         repeatEvent.Location = currentEvent.Location;
@@ -479,9 +555,145 @@ public partial class ViewEvent : System.Web.UI.Page
         }
     }
 
-    protected void RBLmath_SelectedIndexChanged(object sender, EventArgs e)
+    protected void RemoveQBTN_Click(object sender, EventArgs e)
     {
-        BuildTable();
-        BuildCharts(RBLmath.SelectedValue);
+        allQsLB.Items.Remove(allQsLB.SelectedItem);
+    }
+
+    protected void AddQBTN_Click(object sender, EventArgs e)
+    {
+        ListItem li = new ListItem();
+
+        li.Text = newQTB.Text;
+        li.Value = (allQsLB.Items.Count + 1).ToString();
+
+        allQsLB.Items.Add(li);
+
+        newQTB.Text = "";
+    }
+
+    protected void AddCritBTN_Click(object sender, EventArgs e)
+    {
+        ListItem li = new ListItem();
+
+        li.Text = critTxt.Text;
+        li.Value = (allCritLB.Items.Count + 1).ToString();
+
+        allCritLB.Items.Add(li);
+
+        critTxt.Text = "";
+    }
+
+    protected void RemoveCritBRN_Click(object sender, EventArgs e)
+    {
+        allCritLB.Items.Remove(allCritLB.SelectedItem);
+    }
+
+    protected void GenKeyBtn_Click(object sender, EventArgs e)
+    {
+        CSS RequestDirector = new CSS();
+        Event currentEvent = new Event();
+        currentEvent.EventID = ((Event)Session["Event"]).EventID;
+        bool success;
+
+        currentEvent = RequestDirector.GetEvent(currentEvent);
+
+        currentEvent.EventKey = RequestDirector.GenKey(3);
+        currentEvent.Date = DateTime.Today;
+
+        success = RequestDirector.UpdateEventInfo(currentEvent);
+
+        if (success)
+        {
+            upTable.Visible = true;
+            PanelButtons.Visible = true;
+            PanelPreLabel.Visible = false;
+            PanelPostLabel.Visible = true;
+            tbEventID.Text = currentEvent.EventKey;
+            tbPerformer.ReadOnly = true;
+            tbDesc.ReadOnly = true;
+            tbLocation.ReadOnly = true;
+            tbOpen.ReadOnly = true;
+            tbClose.ReadOnly = true;
+            allCritLB.Enabled = false;
+            allQsLB.Enabled = false;
+            newQTB.Visible = false;
+            critTxt.Visible = false;
+            AddCritBTN.Enabled = false;
+            AddCritBTN.Visible = false;
+            RemoveCritBRN.Enabled = false;
+            RemoveCritBRN.Visible = false;
+            AddQBTN.Enabled = false;
+            AddQBTN.Visible = false;
+            RemoveQBTN.Enabled = false;
+            RemoveQBTN.Visible = false;
+            GenKeyBtn.Enabled = false;
+            GenKeyBtn.Visible = false;
+            UpdateBtn.Enabled = false;
+            UpdateBtn.Visible = false;
+        }
+        else
+        {
+            tbEventID.Text = "Error Generating Key";
+        }
+    }
+
+    protected void UpdateBtn_Click(object sender, EventArgs e)
+    {
+        CSS RequestDirector = new CSS();
+        Event currentEvent = new Event();
+        currentEvent.EventID = ((Event)Session["Event"]).EventID;
+        bool success;
+
+        currentEvent = RequestDirector.GetEvent(currentEvent);
+
+        currentEvent.Performer = tbPerformer.Text;
+        currentEvent.Description = tbDesc.Text;
+        currentEvent.Location = tbLocation.Text;
+        currentEvent.OpenMsg = tbOpen.Text;
+        currentEvent.CloseMsg = tbClose.Text;
+        currentEvent.Date = DateTime.Today;
+
+        string crit = "";
+
+        if (allCritLB.Items.Count > 0)
+        {
+            foreach (ListItem i in allCritLB.Items)
+            {
+                crit += (i.Text + '|');
+            }
+            crit.TrimEnd('|');
+        }
+        else
+        {
+            crit = "Overall Quality";
+        }
+
+        currentEvent.VotingCrit = crit;
+
+        success = RequestDirector.UpdateEventInfo(currentEvent);
+
+        if (success)
+        {
+            List<Question> questions = new List<Question>();
+            questions = RequestDirector.GetQuestions(currentEvent.EventID);
+
+            foreach (Question q in questions)
+            {
+                RequestDirector.DeleteQuestion(q);
+            }
+
+            Question qu;
+
+            foreach (ListItem li in allQsLB.Items)
+            {
+                qu = new Question();
+                qu.EventID = currentEvent.EventID;
+                qu.QuestionText = li.Text;
+
+                RequestDirector.AddQuestion(qu);
+            }
+
+        }
     }
 }
