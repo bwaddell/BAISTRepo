@@ -186,6 +186,7 @@ public partial class ViewEvent : System.Web.UI.Page
         //Set the Event.ID of our empty event, and use said event to pull event information from DB
         theEvent.EventID = ((Event)Session["Event"]).EventID;
         theEvent = Director.GetEvent(theEvent);
+        theEvent.Evaluators = Director.GetEvaluatorsForEvent(theEvent.EventID);
 
         List<Question> questions = new List<Question>();
         questions = Director.GetQuestions(theEvent.EventID);
@@ -318,7 +319,7 @@ public partial class ViewEvent : System.Web.UI.Page
         CSS Manager = new CSS();
         bool confirmation = false;
         Event updateMe = new Event();
-
+        //Event updateMe = (Event)Session["Event"];
         //get event info
         updateMe.EventID = Convert.ToInt32(((Event)Session["Event"]).EventID);
         updateMe = Manager.GetEvent(updateMe);
@@ -373,6 +374,7 @@ public partial class ViewEvent : System.Web.UI.Page
         Event theEvent = new Event();
         theEvent.EventID = ((Event)Session["Event"]).EventID;
         theEvent = Director.GetEvent(theEvent);
+        theEvent.Evaluators = Director.GetEvaluatorsForEvent(theEvent.EventID);
 
         //if event has evaluator data, construct the chart
         if (theEvent.Evaluators.Count > 0)
@@ -401,6 +403,7 @@ public partial class ViewEvent : System.Web.UI.Page
         activeEvent.EventID = ((Event)Session["Event"]).EventID;
 
         activeEvent = RequestDirector.GetEvent(activeEvent);
+        activeEvent.Evaluators = RequestDirector.GetEvaluatorsForEvent(activeEvent.EventID);
 
         //get most recent evaluation from each evaluator
         currentEvals = RequestDirector.GetCurrentEventData(activeEvent);

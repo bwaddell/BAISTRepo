@@ -9,7 +9,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-     
+
         if (!IsPostBack)
         {
             CSS RequestDirector = new CSS();
@@ -45,7 +45,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
                 LabelRating.Text = Rating.ToString();
 
                 //create evaluation object and send to DB
-                Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);  
+                Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);
 
                 bool Success = RequestDirector.AddEvaluation(eval);
             }
@@ -58,7 +58,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
         {
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('The Event has not yet begun')", true);
         }
-       
+
     }
 
     protected void ButtonDown_Click(object sender, EventArgs e)
@@ -89,7 +89,10 @@ public partial class EvaluateEvent : System.Web.UI.Page
             }
             else
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('The Event has Ended')", true);
+                Evaluator eval = new Evaluator();
+                eval.EvaluatorID = ((Evaluator)Session["Evaluator"]).EvaluatorID;
+
+                FinishEvent(ActiveEvent, eval);
             }
         }
         else
@@ -133,7 +136,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
             if (success)
             {
-                
+
             }
         }
         else
@@ -142,5 +145,24 @@ public partial class EvaluateEvent : System.Web.UI.Page
         }
 
 
+    }
+
+    protected void timerEnd_Tick(object sender, EventArgs e)
+    {
+        CSS RequestDirector = new CSS();
+
+
+        DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
+        Event eve = new Event();
+        eve.EventID = ((Event)Session["Event"]).EventID;
+        eve = RequestDirector.GetEvent(eve);
+
+        if (eve.EventEnd != defaultTime)
+        {
+            Evaluator eval = new Evaluator();
+            eval.EvaluatorID = ((Evaluator)Session["Evaluator"]).EvaluatorID;
+
+            FinishEvent(eve, eval);
+        }
     }
 }

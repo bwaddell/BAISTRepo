@@ -197,26 +197,12 @@
                 </div>
 
                 <div class="col-lg">
-                    <label>Mean</label>
                     <div class="">
                         <asp:Literal ID="meanChart" runat="server"></asp:Literal>
                     </div>
 
                 </div>
-<%--                <div class="col-lg">
-                    <label>Median</label>
-                    <div class="">
-                        <asp:Literal ID="medianChart" runat="server"></asp:Literal>
-                    </div>
 
-                </div>
-                <div class="col-lg">
-                    <label>Mode</label>
-                    <div class="">
-                        <asp:Literal ID="modeChart" runat="server"></asp:Literal>
-                    </div>
-
-                </div>--%>
             </div>
 
         </ContentTemplate>

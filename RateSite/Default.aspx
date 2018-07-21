@@ -7,9 +7,20 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-8088578-2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());       
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
         gtag('config', 'UA-8088578-2');
+    </script>
+
+    <%-- https://developers.google.com/search/docs/guides/intro-structured-data
+       Google seach  --%>
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Rating",
+        "url": "http://www.continui.uk",
+        "name": "ContinUI Continuous Rating Tool"
+    }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">

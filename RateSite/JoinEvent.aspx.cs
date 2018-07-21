@@ -130,16 +130,6 @@ public partial class PreEvent : System.Web.UI.Page
                         q.ResponseText = tb.Text;
 
                         RequestDirector.AddResponse(q);
-
-                        //foreach (Control c in PanelQuestions.Controls)
-                        //{
-                        //    if (c.ID == responseTBID && c is TextBox)
-                        //    {
-                        //        q.ResponseText = ((TextBox)c).Text;
-
-                        //        RequestDirector.AddResponse(q);
-                        //    }
-                        //}
                     }
 
                     //redirect to evaluate page if evaluator is created
@@ -164,7 +154,8 @@ public partial class PreEvent : System.Web.UI.Page
                     }
                     else
                     {
-
+                        //error creating evaluator
+                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('There was an error joining this event.')", true);
                     }
                 }
                 else

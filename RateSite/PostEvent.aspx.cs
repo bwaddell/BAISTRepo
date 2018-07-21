@@ -12,15 +12,15 @@ public partial class PostEvent : System.Web.UI.Page
         CSS RequestDirector = new CSS();
         DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
-        //Event ActiveEvent = new Event();
-        //ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
-        //ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
-
         Event ActiveEvent = new Event();
-        ActiveEvent.EventID = 4;
+        ActiveEvent.EventID = ((Event)Session["Event"]).EventID;
         ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
 
-        if (ActiveEvent.CloseMsg.Length > 0)
+        //Event ActiveEvent = new Event();
+        //ActiveEvent.EventID = 4;
+        //ActiveEvent = RequestDirector.GetEvent(ActiveEvent);
+
+        if (ActiveEvent.CloseMsg != null && ActiveEvent.CloseMsg.Length > 0)
         {
             PanelMSG.Visible = true;
             tbCloseMessage.Text = ActiveEvent.CloseMsg;

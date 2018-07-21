@@ -81,6 +81,15 @@ public class CSS
         return fEvent;
     }
 
+    public List<Evaluator> GetEvaluatorsForEvent(int eventID)
+    {
+        List<Evaluator> evals = new List<Evaluator>();
+        EventDirector Controller = new EventDirector();
+
+        evals = Controller.GetEvaluatorsForEvent(eventID);
+        return evals;
+    }
+
     public Event GetEventFromKey(string key)
     {
         Event fEvent = new Event();

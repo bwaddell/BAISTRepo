@@ -5,7 +5,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainBody" runat="Server">
     <h3 class="mt-5 text-center">Login</h3>
-    <p class=" text-center">Please login below</p>
 
 
     <div class="row">

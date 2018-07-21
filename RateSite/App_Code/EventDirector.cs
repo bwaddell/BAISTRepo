@@ -340,7 +340,7 @@ public class EventDirector
     {
         Event foundEvent;
         foundEvent = new Event();
-        EvaluationDirector evalD = new EvaluationDirector();
+        //EvaluationDirector evalD = new EvaluationDirector();
         ConnectionStringSettings webSettings = ConfigurationManager.ConnectionStrings["localdb"];
         SqlConnection DataBaseCon = new SqlConnection(webSettings.ConnectionString);
         DataBaseCon.ConnectionString = webSettings.ConnectionString;
@@ -392,7 +392,7 @@ public class EventDirector
                 foundEvent.CloseMsg = eventReader["ClosingMessage"].ToString();
                 foundEvent.VotingCrit = eventReader["VotingCrit"].ToString();
 
-                foundEvent.Evaluators = GetEvaluatorsForEvent(foundEvent.EventID);
+                //foundEvent.Evaluators = GetEvaluatorsForEvent(foundEvent.EventID);
             }
         }
         catch (Exception)

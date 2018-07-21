@@ -14,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+
 </head>
 <body runat="server" id="masterBody">
     <form id="form1" runat="server">
