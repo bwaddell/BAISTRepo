@@ -1,14 +1,4 @@
 
---Azure database-----
---DataBase: ContinUIDB
---adminName: cody
---password: Jacob$17
-
---WEBBAIST server
---database: ContinUI-DB
---login is windows auth
-
-
 
 -- create login for the web server to access data base server
 use ContinUIDB
