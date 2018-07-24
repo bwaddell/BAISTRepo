@@ -50,7 +50,7 @@ public partial class Default : System.Web.UI.Page
             if (findEvent.EventKey != default(string))
             {
                 //if event end time is not default value, event is over.  Can not join
-                if (findEvent.EventEnd == defaultTime && findEvent.EventStart == defaultTime)
+                if (findEvent.EventEnd == defaultTime)
                 {
                     Session["Event"] = findEvent;
                     Response.Redirect("JoinEvent.aspx");

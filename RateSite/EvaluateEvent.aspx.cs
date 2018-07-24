@@ -136,7 +136,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
 
             if (success)
             {
-
+                Response.Redirect("Default.aspx");
             }
         }
         else

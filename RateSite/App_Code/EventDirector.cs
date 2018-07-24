@@ -294,6 +294,12 @@ public class EventDirector
             AddParameter.Value = updatedEvent.EventID;
             CommandAdd.Parameters.Add(AddParameter);
 
+            AddParameter = new SqlParameter();
+            AddParameter.ParameterName = "@EventKey";
+            AddParameter.SqlDbType = SqlDbType.NVarChar;
+            AddParameter.Direction = ParameterDirection.Input;
+            AddParameter.Value = updatedEvent.EventKey;
+            CommandAdd.Parameters.Add(AddParameter);
 
             AddParameter = new SqlParameter();
             AddParameter.ParameterName = "@EventStart";

@@ -354,6 +354,7 @@ public partial class ViewEvent : System.Web.UI.Page
 
         //update event with end time
         updateMe.EventEnd = DateTime.Now.ToUniversalTime();
+        updateMe.EventKey = "ZZZZ";
         confirmation = Manager.UpdateEventStatus(updateMe);
 
         //generate table and charts 
