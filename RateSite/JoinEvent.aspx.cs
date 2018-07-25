@@ -148,6 +148,11 @@ public partial class PreEvent : System.Web.UI.Page
                             Response.Cookies.Add(newConsent);
                         }
 
+                        //Evaluation eval = new Evaluation(defaultTime, 999, activeEvaluator.EvaluatorID, currentEvent.EventID);
+                        Evaluation eval = new Evaluation(DateTime.Now.ToUniversalTime(), 999, activeEvaluator.EvaluatorID, currentEvent.EventID);
+
+                        RequestDirector.AddEvaluation(eval);
+
                         Session["Event"] = currentEvent;
                         Session["Evaluator"] = activeEvaluator;
                         Response.Redirect("EvaluateEvent.aspx");

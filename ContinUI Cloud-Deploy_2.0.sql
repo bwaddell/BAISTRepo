@@ -148,6 +148,10 @@ as
 	return @ReturnCode
 GO
 
+SELECT * FROM EventDetails
+SELECT * FROM Evaluator
+
+EXEC AddEvaluationDataPoint 1013,1010,0,'1800-01-01 12:00:00 PM'
 
 --**************************************--
 IF (OBJECT_ID('AddEvaluator') IS NOT NULL)
@@ -562,6 +566,7 @@ go
 create procedure UpdateEventStatus
 (
 	@EventID int = null,
+	@EventKey NVARCHAR(5) = NULL,
 	@EventStart nvarchar(25) = '1800-01-01 12:00:00 PM',
 	@EventFinish nvarchar(25) = '1800-01-01 12:00:00 PM'
 )
@@ -569,11 +574,13 @@ as
 	declare @ReturnCode as int
 	set @ReturnCode = 1
 	if(@EventID is null)
+		raiserror('UpdateEventStatus - Required Parameter: @EventID',16,1)
+	if(@EventKey is null)
 		raiserror('UpdateEventStatus - Required Parameter: @EventKey',16,1)
 	else
 		begin
 			update EventDetails
-			set EventBegin = @EventStart, EventEnd = @EventFinish, EventKey = 'ZZZZ'
+			set EventBegin = @EventStart, EventEnd = @EventFinish, EventKey = @EventKey
 			where EventID = @EventID
 			if @@ERROR = 0
 				set @ReturnCode = 0
@@ -583,6 +590,8 @@ as
 	return @ReturnCode
 GO
 
+--SELECT * FROM EventDetails
+--EXEC UpdateEventStatus 12, 'AV9E'
 
 --**************************************--
 IF (OBJECT_ID('GetFacilitatorInfo') IS NOT NULL)
@@ -610,8 +619,6 @@ as
 		end
 	return @ReturnCode
 GO
-
-
 
 --**************************************--
 IF (OBJECT_ID('GetFacilitator') IS NOT NULL)

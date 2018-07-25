@@ -20,11 +20,11 @@ public class Evaluation
     {
     }
 
-    public Evaluation(int rating, int evaluatorID, int eventID)
+    public Evaluation(DateTime dt, int rating, int evaluatorID, int eventID)
     {
         //  method sets the timestamp to NOW and all other 
         //  variables are supplied
-        TimeStampValue = DateTime.Now.ToUniversalTime();
+        TimeStampValue = dt;
         RatingValue = rating;
         EvaluatorIDValue = evaluatorID;
         EventIDValue = eventID;

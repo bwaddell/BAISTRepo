@@ -61,6 +61,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 AddQBTN.Visible = true;
                 RemoveQBTN.Enabled = true;
                 RemoveQBTN.Visible = true;
+                TimerForTableRefresh.Enabled = false;
             }
             else 
             {
@@ -140,6 +141,7 @@ public partial class ViewEvent : System.Web.UI.Page
             }
             else
             {
+                TimerForTableRefresh.Enabled = true;
                 //if event has not begun
                 if (theEvent.EventStart == defaultTime)
                 {
@@ -149,7 +151,7 @@ public partial class ViewEvent : System.Web.UI.Page
                     ButtonEnd.Enabled = false;
                     Export.Enabled = false;
                     RepeatBtn.Enabled = false;
-                    TimerForTableRefresh.Enabled = false;
+                    //TimerForTableRefresh.Enabled = true;
                 }
                 //if event is still active
                 else
@@ -157,7 +159,7 @@ public partial class ViewEvent : System.Web.UI.Page
                     tbStart.Text = theEvent.EventStart.ToLocalTime().ToLongTimeString();
                     tbEnd.Text = "--:--:--";
                     ButtonStart.Enabled = false;
-                    TimerForTableRefresh.Enabled = true;
+                    //TimerForTableRefresh.Enabled = true;
                     Export.Enabled = false;
                     ButtonEnd.Enabled = true;
                     RepeatBtn.Enabled = false;
@@ -182,11 +184,17 @@ public partial class ViewEvent : System.Web.UI.Page
         //List<Evaluation> Evaluations = new List<Evaluation>();
         StringBuilder csvcontent = new StringBuilder();
         DateTime addEval;
+        DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
 
         //Set the Event.ID of our empty event, and use said event to pull event information from DB
         theEvent.EventID = ((Event)Session["Event"]).EventID;
         theEvent = Director.GetEvent(theEvent);
         theEvent.Evaluators = Director.GetEvaluatorsForEvent(theEvent.EventID);
+
+        foreach (Evaluator eva in theEvent.Evaluators)
+        {
+            eva.EvaluatorEvaluations.RemoveAll(x => x.Rating == 999);
+        }
 
         List<Question> questions = new List<Question>();
         questions = Director.GetQuestions(theEvent.EventID);
@@ -239,7 +247,7 @@ public partial class ViewEvent : System.Web.UI.Page
             tsLine += q.QuestionText + ",";
         }
 
-        tsLine += "Voting Criteria,TimeStamp (HH:MM:SS.mmm):,";
+        tsLine += "Voting Criteria,Time of First Rating, Time of Last Rating, TimeStamp (HH:MM:SS.mmm):,";
 
         for (int k = 0; k < timestamps.Count; k++)
         {
@@ -268,37 +276,50 @@ public partial class ViewEvent : System.Web.UI.Page
                 insert += r.ResponseText + ",";
             }
 
-            insert += eval.Criteria + ",,";
+            insert += eval.Criteria + ",";
+
+            if (eval.EvaluatorEvaluations.Count > 0)
+            {
+                insert += (eval.EvaluatorEvaluations.First().TimeStamp.ToLocalTime() - theEvent.EventStart).ToString() + ",";
+                insert += (eval.EvaluatorEvaluations.Last().TimeStamp.ToLocalTime() - theEvent.EventStart).ToString() + ",";
+            }
+            else
+            {
+                insert += "--:--:--,--:--:--,,";
+            }
+
+            
 
             for (DateTime i = eventStart; i <= eventEnd; i = i.AddSeconds(secsBetweenPoints))
             {
-                if (eval.EvaluatorEvaluations[0].TimeStamp.ToLocalTime() <= i)
+                if (eval.EvaluatorEvaluations.Count > 0)
                 {
-                    evalCount = 0;
-                    while (evalCount < eval.EvaluatorEvaluations.Count - 1)
+                    if (eval.EvaluatorEvaluations[0].TimeStamp.ToLocalTime() <= i)
                     {
-                        //get the last evaluation before time i
-                        if (eval.EvaluatorEvaluations[evalCount].TimeStamp.ToLocalTime() <= i)
+                        evalCount = 0;
+                        while (evalCount < eval.EvaluatorEvaluations.Count - 1)
                         {
-                            //ev = e.EvaluatorEvaluations[evalCount];
-                            evalCount++;
+                            //get the last evaluation before time i
+                            if (eval.EvaluatorEvaluations[evalCount].TimeStamp.ToLocalTime() <= i)
+                            {
+                                //ev = e.EvaluatorEvaluations[evalCount];
+                                evalCount++;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
-                        else
-                        {
-                            break;
-                        }
+                        //get time from the start of the event
+                        //double timestamp = (i - eventStart).TotalMilliseconds;
+
+                        insert += eval.EvaluatorEvaluations[evalCount].Rating.ToString() + " ,";
                     }
-                    //get time from the start of the event
-                    //double timestamp = (i - eventStart).TotalMilliseconds;
-
-                    insert += eval.EvaluatorEvaluations[evalCount].Rating.ToString() + " ,";
-                }
-                else
-                {
-                    insert += " ,";
-                }
-
-
+                    else
+                    {
+                        insert += " ,";
+                    }
+                }              
             }
             csvcontent.AppendLine(insert);
 
@@ -376,6 +397,12 @@ public partial class ViewEvent : System.Web.UI.Page
         theEvent.EventID = ((Event)Session["Event"]).EventID;
         theEvent = Director.GetEvent(theEvent);
         theEvent.Evaluators = Director.GetEvaluatorsForEvent(theEvent.EventID);
+        DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
+
+        foreach (Evaluator ev in theEvent.Evaluators)
+        {
+            ev.EvaluatorEvaluations.RemoveAll(x => x.Rating == 999);
+        }
 
         //if event has evaluator data, construct the chart
         if (theEvent.Evaluators.Count > 0)
@@ -413,11 +440,13 @@ public partial class ViewEvent : System.Web.UI.Page
 
         foreach (Evaluator ev in activeEvent.Evaluators)
         {
+            
+
             TableRow tRow = new TableRow();
             TableCell tCell = new TableCell();
 
             //name
-            if (ev.EvaluatorID.ToString().Equals("voter"))
+            if (ev.Name.ToString().Equals("Default"))
                 tCell.Text = "ID:" + ev.EvaluatorID.ToString();
             else
                 tCell.Text = ev.Name;
@@ -429,20 +458,44 @@ public partial class ViewEvent : System.Web.UI.Page
             tCell.Text = ev.Criteria;
             tRow.Cells.Add(tCell);
 
-            //first Rating time
-            tCell = new TableCell();
-            tCell.Text = (ev.EvaluatorEvaluations.First().TimeStamp.ToLocalTime() - activeEvent.EventStart).ToString();
-            tRow.Cells.Add(tCell);
-            
-            //last rating time
-            tCell = new TableCell();
-            tCell.Text = (ev.EvaluatorEvaluations.Last().TimeStamp.ToLocalTime() - activeEvent.EventStart).ToString();
-            tRow.Cells.Add(tCell);
+            if (ev.EvaluatorEvaluations.Last().Rating == 999)
+            {
+                //first Rating time
+                tCell = new TableCell();
+                tCell.Text = "--:--:--";
+                tRow.Cells.Add(tCell);
 
-            //last rating
-            tCell = new TableCell();
-            tCell.Text = ev.EvaluatorEvaluations.Last().Rating.ToString();
-            tRow.Cells.Add(tCell);
+                //last rating time
+                tCell = new TableCell();
+                tCell.Text = "--:--:--";
+                tRow.Cells.Add(tCell);
+
+                //last rating
+                tCell = new TableCell();
+                tCell.Text = "-";
+                tRow.Cells.Add(tCell);
+            }
+            else
+            {
+                ev.EvaluatorEvaluations.RemoveAll(x => x.Rating == 999);
+
+                //first Rating time
+                tCell = new TableCell();
+                tCell.Text = (ev.EvaluatorEvaluations.First().TimeStamp.ToLocalTime() - activeEvent.EventStart).ToString();
+                tRow.Cells.Add(tCell);
+
+                //last rating time
+                tCell = new TableCell();
+                tCell.Text = (ev.EvaluatorEvaluations.Last().TimeStamp.ToLocalTime() - activeEvent.EventStart).ToString();
+                tRow.Cells.Add(tCell);
+
+                //last rating
+                tCell = new TableCell();
+                tCell.Text = ev.EvaluatorEvaluations.Last().Rating.ToString();
+                tRow.Cells.Add(tCell);
+            }
+
+            
 
             //delete button
             tCell = new TableCell();
@@ -473,6 +526,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 //create list of all evals for event then average
                 foreach (Evaluator ev in activeEvent.Evaluators)
                 {
+                    ev.EvaluatorEvaluations.RemoveAll(x => x.Rating == 999);
                     allEvaluations.AddRange(ev.EvaluatorEvaluations);
                 }
                 totalAverage = allEvaluations.Average(o => o.Rating);
@@ -483,10 +537,16 @@ public partial class ViewEvent : System.Web.UI.Page
         }
         else
         {
-            if (currentEvals.Count != 0)
+            if (currentEvals.Count > 0)
             {
-                Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
-                lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
+                currentEvals.RemoveAll(x => x.Rating == 999);
+
+                if (currentEvals.Count > 0)
+                {
+                    Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
+                    lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
+                }
+
             }
         }
     }
@@ -635,6 +695,7 @@ public partial class ViewEvent : System.Web.UI.Page
             GenKeyBtn.Visible = false;
             UpdateBtn.Enabled = false;
             UpdateBtn.Visible = false;
+            TimerForTableRefresh.Enabled = true;
         }
         else
         {

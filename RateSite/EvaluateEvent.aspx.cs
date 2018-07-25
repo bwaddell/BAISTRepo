@@ -45,7 +45,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
                 LabelRating.Text = Rating.ToString();
 
                 //create evaluation object and send to DB
-                Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);
+                Evaluation eval = new Evaluation(DateTime.Now.ToUniversalTime(), Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);
 
                 bool Success = RequestDirector.AddEvaluation(eval);
             }
@@ -83,7 +83,7 @@ public partial class EvaluateEvent : System.Web.UI.Page
                 LabelRating.Text = Rating.ToString();
 
                 //create evaluation and send to DB
-                Evaluation eval = new Evaluation(Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);
+                Evaluation eval = new Evaluation(DateTime.Now.ToUniversalTime(),Rating, ((Evaluator)Session["Evaluator"]).EvaluatorID, ((Event)Session["Event"]).EventID);
 
                 bool Success = RequestDirector.AddEvaluation(eval);
             }

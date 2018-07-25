@@ -66,34 +66,37 @@ public class CSSChart
             {
                 e = theEvent.Evaluators[j];
 
-                //don't make a point if he evaluator hasn't changed his rating yet
-                if (e.EvaluatorEvaluations[0].TimeStamp.ToLocalTime() <= i)
+                if (e.EvaluatorEvaluations.Count > 0)
                 {
-                    int evalCount = 0;
-                    while (evalCount < e.EvaluatorEvaluations.Count)
+                    //don't make a point if he evaluator hasn't changed his rating yet
+                    if (e.EvaluatorEvaluations[0].TimeStamp.ToLocalTime() <= i)
                     {
-                        //get the last evaluation before time i
-                        if (e.EvaluatorEvaluations[evalCount].TimeStamp.ToLocalTime() <= i)
+                        int evalCount = 0;
+                        while (evalCount < e.EvaluatorEvaluations.Count)
                         {
-                            ev = e.EvaluatorEvaluations[evalCount];
-                            evalCount++;
+                            //get the last evaluation before time i
+                            if (e.EvaluatorEvaluations[evalCount].TimeStamp.ToLocalTime() <= i)
+                            {
+                                ev = e.EvaluatorEvaluations[evalCount];
+                                evalCount++;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
-                        else
+                        //get time from the start of the event
+                        double timestamp = (i - eventStart).TotalMilliseconds;
+
+                        points[j].Add(new
                         {
-                            break;
-                        }
+                            X = timestamp,
+                            Y = ev.Rating
+                        });
                     }
-                    //get time from the start of the event
-                    double timestamp = (i - eventStart).TotalMilliseconds;
-
-                    points[j].Add(new
-                    {
-                        X = timestamp,
-                        Y = ev.Rating
-                    });
                 }
+                
             }
-
         }
         //give data to each series
         for (int k = 0; k < liOfSeries.Count; k++)
@@ -103,7 +106,7 @@ public class CSSChart
                      FromArgb(255, rand.Next(50, 200), rand.Next(50, 200), rand.Next(50, 200));
             //liOfSeries[k].Name = String.Format("{1} ({0})", theEvent.Evaluators[k].EvaluatorID, theEvent.Evaluators[k].Name);
 
-            if (theEvent.Evaluators[k].Name.Length > 0)
+            if (theEvent.Evaluators[k].Name != "Default")
                 liOfSeries[k].Name = String.Format("{0}", theEvent.Evaluators[k].Name);
             else
                 liOfSeries[k].Name = String.Format("ID:{0}", theEvent.Evaluators[k].EvaluatorID);
@@ -383,22 +386,25 @@ public class CSSChart
 
             count = 0;
 
-            //if the first rating was before the timestamp don' add anything to list
-            if (e.EvaluatorEvaluations[count].TimeStamp < Timestamp)
+            if (e.EvaluatorEvaluations.Count > 0)
             {
-                //find the last rating before the timestamp, add to list
-                while (count < e.EvaluatorEvaluations.Count - 1)
+                //if the first rating was before the timestamp don' add anything to list
+                if (e.EvaluatorEvaluations[count].TimeStamp < Timestamp)
                 {
-                    if (e.EvaluatorEvaluations[count + 1].TimeStamp < Timestamp)
+                    //find the last rating before the timestamp, add to list
+                    while (count < e.EvaluatorEvaluations.Count - 1)
                     {
-                        count++;
+                        if (e.EvaluatorEvaluations[count + 1].TimeStamp < Timestamp)
+                        {
+                            count++;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    else
-                    {
-                        break;
-                    }
+                    ratings.Add(e.EvaluatorEvaluations[count].Rating);
                 }
-                ratings.Add(e.EvaluatorEvaluations[count].Rating);
             }
         }
 
