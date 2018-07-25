@@ -191,7 +191,7 @@ public class CSSChart
     }
 
     //make chart was calculations for mode, median, mean
-    public Highcharts MakeMathChart(Event theEvent)
+    public Highcharts MakeMathChart(Event theEvent, string math)
     {
         //make a series and points for each calculation type
         List<Series> liOfSeries = new List<Series>();
@@ -199,16 +199,23 @@ public class CSSChart
         Random rand = new Random();
 
         Series serMean = new Series();
-        serMean.Name = "Mean";
         List<object> meanPoints = new List<object>();
 
-        Series serMode = new Series();
-        serMode.Name = "Mode";
-        List<object> modePoints = new List<object>();
+        switch (math)
+        {
+            case "Mean":
+                serMean.Name = "Mean";
+                break;
+            case "Median":
+                serMean.Name = "Median";
+                break;            
+            case "Mode":
+                serMean.Name = "Mode";
+                break;
+            default:
+                break;
+        }
 
-        Series serMedian = new Series();
-        serMedian.Name = "Median";
-        List<object> medianPoints = new List<object>();
 
         //make a list of every evaluation for the event
         List<Evaluation> allEvaluations = new List<Evaluation>();
@@ -249,50 +256,90 @@ public class CSSChart
                 //time since event start
                 double timestamp = (i - eventStart).TotalMilliseconds;
 
-                //calc mean
-                meanPoints.Add(new
+                switch (math)
                 {
-                    X = timestamp,
-                    Y = ratings.Average(x => x)
-                });
-
-                //calc mode
-                modePoints.Add(new
-                {
-                    X = timestamp,
-                    Y = ratings.GroupBy(v => v)
-                            .OrderByDescending(g => g.Count())
-                            .First()
-                            .Key
-                });
-
-                //calc median
-                medianPoints.Add(new
-                {
-                    X = timestamp,
-                    Y = GetMedian(ratings)
-                });
+                    case "Mean":
+                        //calc mean
+                        meanPoints.Add(new
+                        {
+                            X = timestamp,
+                            Y = ratings.Average(x => x)
+                        });
+                        break;
+                    case "Median":
+                        //calc median
+                        meanPoints.Add(new
+                        {
+                            X = timestamp,
+                            Y = GetMedian(ratings)
+                        });
+                        break;
+                    case "Mode":
+                        //calc mode
+                        meanPoints.Add(new
+                        {
+                            X = timestamp,
+                            Y = ratings.GroupBy(v => v)
+                                    .OrderByDescending(g => g.Count())
+                                    .First()
+                                    .Key
+                        });
+                        break;
+                    default:
+                        break;
+                }           
             }
         }
 
+        switch (math)
+        {
+            case "Mean":
+                serMean.Data = new Data(meanPoints.ToArray());
+                break;
+            case "Median":
+                serMean.Data = new Data(meanPoints.ToArray());
+                break;
+            case "Mode":
+                serMean.Data = new Data(meanPoints.ToArray());
+                break;
+            default:
+                break;
+        }
+
         //add points to series
-        serMean.Data = new Data(meanPoints.ToArray());
-        serMode.Data = new Data(modePoints.ToArray());
-        serMedian.Data = new Data(medianPoints.ToArray());
+        
+        
+        
+
+        switch (math)
+        {
+            case "Mean":
+                serMean.Name = "Mean";
+                serMean.Color = System.Drawing.Color.
+                FromArgb(150, rand.Next(150, 256), rand.Next(25), rand.Next(25));
+                break;
+            case "Median":
+                serMean.Name = "Median";
+                serMean.Color = System.Drawing.Color.
+               FromArgb(150, rand.Next(25), rand.Next(25), rand.Next(150, 256));
+                break;
+            case "Mode":
+                serMean.Name = "Mode";
+                serMean.Color = System.Drawing.Color.
+                FromArgb(150, rand.Next(25), rand.Next(150, 256), rand.Next(25));
+                break;
+            default:
+                break;
+        }
 
         //set series colour
-        serMean.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(150, 256), rand.Next(25), rand.Next(25));
-        serMode.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(25), rand.Next(150, 256), rand.Next(25));
-        serMedian.Color = System.Drawing.Color.
-                FromArgb(150, rand.Next(25), rand.Next(25), rand.Next(150, 256));
+        
+        
+       
 
         
 
         liOfSeries.Add(serMean);
-        liOfSeries.Add(serMode);
-        liOfSeries.Add(serMedian);
 
         
 

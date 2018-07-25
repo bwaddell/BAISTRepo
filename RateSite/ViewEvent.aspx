@@ -162,7 +162,7 @@
                             Text="0" Font-Size="X-Large"></asp:Label>
                     </div>
                     <div class="">
-                        <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" 
+                        <asp:Panel ID="Panel1" runat="server" ScrollBars="Auto" Height="22em"
                             CssClass="">
 
                             <asp:Table ID="Table1" runat="server" CssClass="table table-responsive">
@@ -185,25 +185,7 @@
                 </div>
             </div>
 
-            <%-- Charts --%>
-            <div class="row">
-                <div class="col-lg">
 
-                    <%--<h3>Graphs</h3>--%>
-                    <div class="">
-                        <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
-                        <%--High chart literal, this is where the chart will be placed--%>
-                    </div>
-                </div>
-
-                <div class="col-lg">
-                    <div class="">
-                        <asp:Literal ID="meanChart" runat="server"></asp:Literal>
-                    </div>
-
-                </div>
-
-            </div>
 
         </ContentTemplate>
         <Triggers>
@@ -212,6 +194,47 @@
                 EventName="Tick" />
         </Triggers>
     </asp:UpdatePanel>
+    <%-- Charts --%>
+    <asp:Panel ID="PanelCharts" Visible="false" runat="server">
+        <div class="row">
+            <div class="col-lg">
+                <asp:UpdatePanel ID="UpdatePanelChart" runat="server">
+                    <ContentTemplate>
+                        <div class="row text-center">
+                            <label>Select Rating Criteria</label>
+                            <asp:DropDownList ID="DropDownListCrit" runat="server"></asp:DropDownList>
+                            <asp:Button ID="ChartCritBtn" runat="server" Text="Go" OnClick="ChartCritBtn_Click" />
+                        </div>
+                        <div class="">
+                            <asp:Literal ID="ltrChart" runat="server"></asp:Literal>
+                        </div>
+
+                        <div class="row text-center">
+                            <label>Select Mean, Median, or Mode</label>
+                            <asp:DropDownList ID="DropDownListMath" runat="server">
+                                <asp:ListItem Value="Mean">Mean</asp:ListItem>
+                                <asp:ListItem Value="Median">Median</asp:ListItem>
+                                <asp:ListItem Value="Mode">Mode</asp:ListItem>
+                            </asp:DropDownList>
+                            <asp:Button ID="ChartMathBtn" runat="server" Text="Go" OnClick="ChartMathBtn_Click" />
+                        </div>
+                        <div class="col-lg">
+                            <div class="">
+                                <asp:Literal ID="meanChart" runat="server"></asp:Literal>
+                            </div>
+
+                        </div>
+
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ChartCritBtn" />
+                        <asp:AsyncPostBackTrigger ControlID="ChartMathBtn" />
+                    </Triggers>
+                </asp:UpdatePanel>
+
+            </div>
+        </div>
+    </asp:Panel>
     <asp:Timer ID="TimerForTableRefresh" runat="server"
         Interval="1000" OnTick="TimerForTableRefresh_Tick" Enabled="false">
     </asp:Timer>

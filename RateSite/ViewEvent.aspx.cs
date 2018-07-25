@@ -62,6 +62,7 @@ public partial class ViewEvent : System.Web.UI.Page
                 RemoveQBTN.Enabled = true;
                 RemoveQBTN.Visible = true;
                 TimerForTableRefresh.Enabled = false;
+                PanelCharts.Visible = false;
             }
             else 
             {
@@ -116,11 +117,14 @@ public partial class ViewEvent : System.Web.UI.Page
 
             string[] crits = theEvent.VotingCrit.Split('|');
 
+            DropDownListCrit.Items.Add(new ListItem("All Evaluations", "All Evaluations"));
+
             foreach (string s in crits)
-            {
+            {             
                 if (s.Length > 0)
                 {
                     allCritLB.Items.Add(new ListItem(s, s));
+                    DropDownListCrit.Items.Add(new ListItem(s, s));
                 }
             }
 
@@ -134,9 +138,30 @@ public partial class ViewEvent : System.Web.UI.Page
                 Export.Enabled = true;
                 TimerForTableRefresh.Enabled = false;
                 RepeatBtn.Enabled = true;
-                //PanelChartRadio.Visible = true;
                 BuildTable();
-                BuildCharts();
+                PanelCharts.Visible = true;
+
+                string chartCrit;
+                string chartMath;
+
+                if (Session["criteria"] == null)
+                    chartCrit = "All Evaluations";
+                else
+                {
+                    chartCrit = Session["criteria"].ToString();
+                    DropDownListCrit.SelectedValue = chartCrit;
+                }
+
+                if (Session["math"] == null)
+                    chartMath = "Mean";
+                else
+                {
+                    chartMath = Session["math"].ToString();
+                    DropDownListMath.SelectedValue = chartMath;
+                }
+
+
+                BuildCharts(chartCrit, chartMath);
 
             }
             else
@@ -382,12 +407,14 @@ public partial class ViewEvent : System.Web.UI.Page
         if (confirmation)
         {
             //Reload page
+            Session["criteria"] = "All Evaluations";
+            Session["math"] = "Mean";
             Response.Redirect("ViewEvent.aspx", true);
         }
     }
 
 
-    public void BuildCharts()
+    public void BuildCharts(string criteria, string math)
     {
         CSS Director = new CSS();
 
@@ -398,6 +425,10 @@ public partial class ViewEvent : System.Web.UI.Page
         theEvent = Director.GetEvent(theEvent);
         theEvent.Evaluators = Director.GetEvaluatorsForEvent(theEvent.EventID);
         DateTime defaultTime = Convert.ToDateTime("1800-01-01 12:00:00 PM");
+
+
+        if (criteria != "All Evaluations")
+            theEvent.Evaluators.RemoveAll(o => o.Criteria != criteria);
 
         foreach (Evaluator ev in theEvent.Evaluators)
         {
@@ -411,7 +442,7 @@ public partial class ViewEvent : System.Web.UI.Page
             ltrChart.Text = chart.ToHtmlString();
 
             //generate chart with mean/mode/median
-            Highcharts mathChart = Director.MakeMathChart(theEvent);
+            Highcharts mathChart = Director.MakeMathChart(theEvent, math);
             meanChart.Text = mathChart.ToHtmlString();
 
         }
@@ -523,28 +554,36 @@ public partial class ViewEvent : System.Web.UI.Page
                 //change the label
                 RatingTitle.Text = "Total Average Rating:";
 
+                lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
+
                 //create list of all evals for event then average
                 foreach (Evaluator ev in activeEvent.Evaluators)
                 {
                     ev.EvaluatorEvaluations.RemoveAll(x => x.Rating == 999);
                     allEvaluations.AddRange(ev.EvaluatorEvaluations);
                 }
-                totalAverage = allEvaluations.Average(o => o.Rating);
-                Ratinglbl.Text = totalAverage.ToString("#.##");
 
-                lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
+                if (allEvaluations.Count > 0)
+                {
+                    totalAverage = allEvaluations.Average(o => o.Rating);
+                    Ratinglbl.Text = totalAverage.ToString("#.##");
+                }
+
+
+                
             }
         }
         else
         {
             if (currentEvals.Count > 0)
             {
+                lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
                 currentEvals.RemoveAll(x => x.Rating == 999);
 
                 if (currentEvals.Count > 0)
                 {
                     Ratinglbl.Text = currentEvals.Average(x => (double)x.Rating).ToString("#.##");
-                    lbTotalEvalsNum.Text = activeEvent.Evaluators.Count.ToString();
+                    
                 }
 
             }
@@ -760,5 +799,23 @@ public partial class ViewEvent : System.Web.UI.Page
             }
 
         }
+    }
+
+    protected void ChartCritBtn_Click(object sender, EventArgs e)
+    {
+        string criteria = DropDownListCrit.SelectedValue;
+
+        Session["criteria"] = criteria;
+
+        Response.Redirect("ViewEvent.aspx");
+    }
+
+    protected void ChartMathBtn_Click(object sender, EventArgs e)
+    {
+        string math = DropDownListMath.SelectedValue;
+
+        Session["math"] = math;
+
+        Response.Redirect("ViewEvent.aspx");
     }
 }

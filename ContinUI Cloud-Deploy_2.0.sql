@@ -12,7 +12,8 @@ use Continui		--use the database created
 go
 
 SET DATEFORMAT dmy
-
+select * from EvaluativeData
+select * from EventDetails
 --******************************************--
 --					Tables					--
 --******************************************--
@@ -367,7 +368,7 @@ as
 			UPDATE EventDetails
 			SET EventKey = @EventKey, FacilitatorID = @Facilitator, Location = @Location,
 				Performer = @Performer, NatureOfEvent = @NatureOfEvent, EventDate = @EventDate,
-				OpeningMessage = @OpenMsg, ClosingMessage = @CloseMsg
+				OpeningMessage = @OpenMsg, ClosingMessage = @CloseMsg, VotingCrit = @VotingCrit
 			WHERE EventID = @EventID
 
 			if @@ERROR = 0
@@ -1079,6 +1080,8 @@ go
 --sp_helpuser Continui02
 --go
 
+SELECT * FROM EvaluativeData
+SELECT * FROM EventDetails
 
 GRANT EXECUTE ON AddEvaluationDataPoint to Continui02
 GRANT EXECUTE ON AddEvaluator to Continui02

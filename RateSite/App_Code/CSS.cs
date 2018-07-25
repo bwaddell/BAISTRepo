@@ -244,10 +244,10 @@ public class CSS
         return chart;
 
     }
-    public Highcharts MakeMathChart(Event theEvent)
+    public Highcharts MakeMathChart(Event theEvent, string math)
     {
         CSSChart chartmaker = new CSSChart();
-        Highcharts chart = chartmaker.MakeMathChart(theEvent);
+        Highcharts chart = chartmaker.MakeMathChart(theEvent, math);
 
         return chart;
     }

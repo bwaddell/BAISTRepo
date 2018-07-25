@@ -110,6 +110,8 @@ public partial class Events : System.Web.UI.Page
         if (selectedEvent.Date != default(DateTime))
         {
             Session["Event"] = selectedEvent;
+            Session["criteria"] = "All Evaluations";
+            Session["math"] = "Mean";
             Response.Redirect("ViewEvent.aspx");
         }
     }
